@@ -1,6 +1,6 @@
-# Sample Hardhat Project
+# Hardhat Project
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+This project generates static smart contracts analysis report  which are compliance under erc-3643 standards uding Hardhat.
 
 Try running some of the following tasks:
 
