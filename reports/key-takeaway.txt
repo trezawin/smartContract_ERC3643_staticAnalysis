@@ -1,0 +1,48 @@
+🔴 Medium Impact Findings
+	1.	Reentrancy vulnerabilities (no-ETH) in Token.sol
+	•	Functions: setCompliance, recoveryAddress, forcedTransfer
+	•	Root cause: external calls before state updates (_tokenCompliance.unbindToken, _tokenIdentityRegistry.registerIdentity, _tokenCompliance.transferred, etc.).
+	•	Risk: attacker could exploit reentrancy to manipulate balances or bypass compliance.
+	2.	Tautology in Token.init
+	•	Code enforces 0 <= _decimals && _decimals <= 18, which is always true.
+	•	Harmless, but signals redundant logic and potential misunderstanding of constraints.
+	3.	Unused return in IdentityRegistry.isVerified
+	•	The getClaim return values are ignored.
+	•	Risk: security checks may not be enforced as intended, leading to weak identity verification.
+
+⸻
+
+🟡 Low Impact Findings
+	4.	Missing zero-address checks in Token.sol
+	•	Several assignments to _tokenOnchainID skip validation.
+	•	Risk: could allow misconfiguration with address(0).
+	5.	Local variable shadowing
+	•	_owner variable shadows OwnableUpgradeable._owner.
+	•	Risk: maintainability and potential logic confusion.
+	6.	External calls inside loops
+	•	Multiple places in Token, IdentityRegistry, and related modules.
+	•	Risk: gas inefficiency + potential DoS (large arrays), combined with reentrancy risk.
+
+⸻
+
+📝 Informational but Worth Noting
+	7.	Reentrancy (benign/events)
+	•	Many functions (e.g., recoveryAddress, registerIdentity) emit events or perform state changes after external calls.
+	•	Not directly exploitable, but increases attack surface.
+	8.	Low-level calls in AddressUpgradeable
+	•	Use of .call, .delegatecall, .staticcall.
+	•	Expected in OpenZeppelin libraries, but flagged as risks in custom code.
+	9.	Multiple pragma versions (0.8.0 – 0.8.17)
+	•	Risk: inconsistent compiler settings across files; increases audit complexity.
+	10.	Naming convention issues
+
+	•	Many variables (_userAddress, _claimTopic, etc.) don’t follow Solidity style guides.
+	•	Doesn’t affect security, but hurts readability and maintainability.
+
+⸻
+
+✅ Key Takeaway for Next Steps:
+	•	Prioritize reentrancy issues (Token.sol in compliance and recovery logic).
+	•	Review identity verification logic (IdentityRegistry.isVerified) — could be critical for regulatory compliance.
+	•	Standardize pragma versions and naming conventions to reduce future audit friction.
+	•	Consider adding zero-address checks for contract references and critical state variables.
