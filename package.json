@@ -8,7 +8,10 @@
     "phase1:slither": "node --require ts-node/register scripts/run-slither.ts",
     "phase1:summary": "node --require ts-node/register scripts/summarize-slither.ts",
     "phase1:report:html": "node --require ts-node/register scripts/phase1-report-html.ts",
-    "phase1": "npm run build && npm run phase1:slither && npm run phase1:summary"
+    "phase1": "npm run build && npm run phase1:slither && npm run phase1:summary",
+    "phase2:run": "node scripts/phase2-check.js",
+    "phase2:render": "node scripts/phase2-render.js",
+    "phase2:open": "open reports/phase2-report.html"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +27,7 @@
   "dependencies": {
     "@onchain-id/solidity": "^2.2.1",
     "@openzeppelin/contracts-upgradeable": "^4.9.3",
-    "@tokenysolutions/t-rex": "^4.1.6"
+    "@tokenysolutions/t-rex": "^4.1.6",
+    "ethers": "^5.8.0"
   }
 }

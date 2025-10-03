@@ -1,0 +1,26 @@
+[
+    {
+      "id": "E3643-01",
+      "title": "Token.identityRegistry points to IdentityRegistry",
+      "desc": "Token must reference the IdentityRegistry used by ERC-3643 flow",
+      "severity": "FAIL"
+    },
+    {
+      "id": "E3643-02",
+      "title": "IdentityRegistry wired with ClaimTopicsRegistry",
+      "desc": "IdentityRegistry has a non-zero ClaimTopicsRegistry",
+      "severity": "FAIL"
+    },
+    {
+      "id": "E3643-03",
+      "title": "Token transfers are KYC-gated (sanity)",
+      "desc": "If IdentityRegistry is zero or missing getter, flag",
+      "severity": "WARN"
+    },
+    {
+      "id": "E3643-04",
+      "title": "Claim topics exist",
+      "desc": "ClaimTopicsRegistry has at least one topic",
+      "severity": "WARN"
+    }
+  ]

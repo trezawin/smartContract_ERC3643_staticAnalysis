@@ -1,0 +1,56 @@
+{
+  "generatedAt": "2025-10-02T14:00:21.934Z",
+  "addresses": {
+    "networkRpc": "http://127.0.0.1:8545",
+    "token": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+    "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+    "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  },
+  "data": {
+    "tokenIdentity": "0x0000000000000000000000000000000000000000",
+    "tokenCompliance": "0x0000000000000000000000000000000000000000",
+    "tokenOwner": "0x0000000000000000000000000000000000000000",
+    "idrClaimTopicsAddr": "0x0000000000000000000000000000000000000000",
+    "idrTrustedIssuersAddr": "0x0000000000000000000000000000000000000000",
+    "topicsCount": 0
+  },
+  "items": [
+    {
+      "id": "E3643-01",
+      "title": "Token.identityRegistry points to IdentityRegistry",
+      "desc": "Token must reference the IdentityRegistry used by ERC-3643 flow",
+      "severity": "FAIL",
+      "pass": false,
+      "note": "token.identityRegistry=0x0000000000000000000000000000000000000000"
+    },
+    {
+      "id": "E3643-02",
+      "title": "IdentityRegistry wired with ClaimTopicsRegistry",
+      "desc": "IdentityRegistry has a non-zero ClaimTopicsRegistry",
+      "severity": "FAIL",
+      "pass": false,
+      "note": "idr.claimTopicsRegistry=0x0000000000000000000000000000000000000000"
+    },
+    {
+      "id": "E3643-03",
+      "title": "Token transfers are KYC-gated (sanity)",
+      "desc": "If IdentityRegistry is zero or missing getter, flag",
+      "severity": "WARN",
+      "pass": false,
+      "note": "token.identityRegistry=0x0000000000000000000000000000000000000000"
+    },
+    {
+      "id": "E3643-04",
+      "title": "Claim topics exist",
+      "desc": "ClaimTopicsRegistry has at least one topic",
+      "severity": "WARN",
+      "pass": false,
+      "note": "topics.length=0"
+    }
+  ],
+  "summary": {
+    "pass": 0,
+    "fail": 2,
+    "warn": 2
+  }
+}
