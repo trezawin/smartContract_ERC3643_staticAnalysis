@@ -1,18 +1,22 @@
 {
-  "generatedAt": "2025-10-02T14:00:21.934Z",
+  "generatedAt": "2025-10-07T12:28:46.886Z",
   "addresses": {
     "networkRpc": "http://127.0.0.1:8545",
-    "token": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+    "token": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
     "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
-    "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+    "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
   },
   "data": {
-    "tokenIdentity": "0x0000000000000000000000000000000000000000",
-    "tokenCompliance": "0x0000000000000000000000000000000000000000",
-    "tokenOwner": "0x0000000000000000000000000000000000000000",
-    "idrClaimTopicsAddr": "0x0000000000000000000000000000000000000000",
-    "idrTrustedIssuersAddr": "0x0000000000000000000000000000000000000000",
-    "topicsCount": 0
+    "tokenIdentity": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+    "tokenCompliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+    "tokenOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "idrClaimTopicsAddr": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "idrTrustedIssuersAddr": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    "topicsCount": 1,
+    "complianceBoundToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+    "executionMode": "hardhat"
   },
   "items": [
     {
@@ -20,37 +24,53 @@
       "title": "Token.identityRegistry points to IdentityRegistry",
       "desc": "Token must reference the IdentityRegistry used by ERC-3643 flow",
       "severity": "FAIL",
-      "pass": false,
-      "note": "token.identityRegistry=0x0000000000000000000000000000000000000000"
+      "pass": true,
+      "note": "token.identityRegistry=0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
     },
     {
       "id": "E3643-02",
       "title": "IdentityRegistry wired with ClaimTopicsRegistry",
-      "desc": "IdentityRegistry has a non-zero ClaimTopicsRegistry",
+      "desc": "IdentityRegistry must point to the expected ClaimTopicsRegistry",
       "severity": "FAIL",
-      "pass": false,
-      "note": "idr.claimTopicsRegistry=0x0000000000000000000000000000000000000000"
+      "pass": true,
+      "note": "idr.claimTopicsRegistry=0x5FbDB2315678afecb367f032d93F642f64180aa3"
     },
     {
       "id": "E3643-03",
       "title": "Token transfers are KYC-gated (sanity)",
       "desc": "If IdentityRegistry is zero or missing getter, flag",
       "severity": "WARN",
-      "pass": false,
-      "note": "token.identityRegistry=0x0000000000000000000000000000000000000000"
+      "pass": true,
+      "note": "token.identityRegistry=0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
     },
     {
       "id": "E3643-04",
       "title": "Claim topics exist",
       "desc": "ClaimTopicsRegistry has at least one topic",
       "severity": "WARN",
-      "pass": false,
-      "note": "topics.length=0"
+      "pass": true,
+      "note": "topics.length=1"
+    },
+    {
+      "id": "E3643-05",
+      "title": "IdentityRegistry wired with TrustedIssuersRegistry",
+      "desc": "IdentityRegistry must point to the expected TrustedIssuersRegistry",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "idr.trustedIssuersRegistry=0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
+    },
+    {
+      "id": "E3643-06",
+      "title": "Compliance module bound to token",
+      "desc": "Token.compliance() must return the deployed compliance contract and it must be bound to the token",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "token.compliance=0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9, boundToken=0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
     }
   ],
   "summary": {
-    "pass": 0,
-    "fail": 2,
-    "warn": 2
+    "pass": 6,
+    "fail": 0,
+    "warn": 0
   }
 }

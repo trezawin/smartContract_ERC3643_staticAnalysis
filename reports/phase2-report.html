@@ -6,19 +6,21 @@
 </head>
 <body style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:960px;margin:24px auto;padding:0 16px">
   <h1>Phase-2 Compliance Report</h1>
-  <p><strong>Generated:</strong> 2025-10-02T14:00:21.934Z</p>
+  <p><strong>Generated:</strong> 2025-10-07T12:28:46.886Z</p>
   <h3>Addresses</h3>
   <pre style="background:#f6f6f6;padding:12px;border-radius:6px">{
   &quot;networkRpc&quot;: &quot;http://127.0.0.1:8545&quot;,
-  &quot;token&quot;: &quot;0x610178dA211FEF7D417bC0e6FeD39F05609AD788&quot;,
+  &quot;token&quot;: &quot;0x5FC8d32690cc91D4c39d9d3abcBD16989F875707&quot;,
   &quot;identityRegistry&quot;: &quot;0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9&quot;,
-  &quot;claimTopicsRegistry&quot;: &quot;0x5FbDB2315678afecb367f032d93F642f64180aa3&quot;
+  &quot;claimTopicsRegistry&quot;: &quot;0x5FbDB2315678afecb367f032d93F642f64180aa3&quot;,
+  &quot;trustedIssuersRegistry&quot;: &quot;0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512&quot;,
+  &quot;compliance&quot;: &quot;0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9&quot;
 }</pre>
   <h3>Summary</h3>
   <div style="display:flex; gap:12px; margin:12px 0;">
-    <div>✅ Pass: <strong>0</strong></div>
-    <div>⚠️ Warn: <strong>2</strong></div>
-    <div>❌ Fail: <strong>2</strong></div>
+    <div>✅ Pass: <strong>6</strong></div>
+    <div>⚠️ Warn: <strong>0</strong></div>
+    <div>❌ Fail: <strong>0</strong></div>
   </div>
   <table style="width:100%; border-collapse:collapse">
     <thead>
@@ -33,40 +35,56 @@
     <tr>
       <td style="padding:8px;border-top:1px solid #eee">E3643-01</td>
       <td style="padding:8px;border-top:1px solid #eee">Token.identityRegistry points to IdentityRegistry</td>
-      <td style="padding:8px;border-top:1px solid #eee"><span style="background:#DC2626;color:#fff;border-radius:4px;padding:2px 6px;font-weight:600">FAIL</span></td>
-      <td style="padding:8px;border-top:1px solid #eee">token.identityRegistry=0x0000000000000000000000000000000000000000</td>
+      <td style="padding:8px;border-top:1px solid #eee"><span style="background:#059669;color:#fff;border-radius:4px;padding:2px 6px;font-weight:600">PASS</span></td>
+      <td style="padding:8px;border-top:1px solid #eee">token.identityRegistry=0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9</td>
     </tr>
   
     <tr>
       <td style="padding:8px;border-top:1px solid #eee">E3643-02</td>
       <td style="padding:8px;border-top:1px solid #eee">IdentityRegistry wired with ClaimTopicsRegistry</td>
-      <td style="padding:8px;border-top:1px solid #eee"><span style="background:#DC2626;color:#fff;border-radius:4px;padding:2px 6px;font-weight:600">FAIL</span></td>
-      <td style="padding:8px;border-top:1px solid #eee">idr.claimTopicsRegistry=0x0000000000000000000000000000000000000000</td>
+      <td style="padding:8px;border-top:1px solid #eee"><span style="background:#059669;color:#fff;border-radius:4px;padding:2px 6px;font-weight:600">PASS</span></td>
+      <td style="padding:8px;border-top:1px solid #eee">idr.claimTopicsRegistry=0x5FbDB2315678afecb367f032d93F642f64180aa3</td>
     </tr>
   
     <tr>
       <td style="padding:8px;border-top:1px solid #eee">E3643-03</td>
       <td style="padding:8px;border-top:1px solid #eee">Token transfers are KYC-gated (sanity)</td>
-      <td style="padding:8px;border-top:1px solid #eee"><span style="background:#D97706;color:#fff;border-radius:4px;padding:2px 6px;font-weight:600">WARN</span></td>
-      <td style="padding:8px;border-top:1px solid #eee">token.identityRegistry=0x0000000000000000000000000000000000000000</td>
+      <td style="padding:8px;border-top:1px solid #eee"><span style="background:#059669;color:#fff;border-radius:4px;padding:2px 6px;font-weight:600">PASS</span></td>
+      <td style="padding:8px;border-top:1px solid #eee">token.identityRegistry=0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9</td>
     </tr>
   
     <tr>
       <td style="padding:8px;border-top:1px solid #eee">E3643-04</td>
       <td style="padding:8px;border-top:1px solid #eee">Claim topics exist</td>
-      <td style="padding:8px;border-top:1px solid #eee"><span style="background:#D97706;color:#fff;border-radius:4px;padding:2px 6px;font-weight:600">WARN</span></td>
-      <td style="padding:8px;border-top:1px solid #eee">topics.length=0</td>
+      <td style="padding:8px;border-top:1px solid #eee"><span style="background:#059669;color:#fff;border-radius:4px;padding:2px 6px;font-weight:600">PASS</span></td>
+      <td style="padding:8px;border-top:1px solid #eee">topics.length=1</td>
+    </tr>
+  
+    <tr>
+      <td style="padding:8px;border-top:1px solid #eee">E3643-05</td>
+      <td style="padding:8px;border-top:1px solid #eee">IdentityRegistry wired with TrustedIssuersRegistry</td>
+      <td style="padding:8px;border-top:1px solid #eee"><span style="background:#059669;color:#fff;border-radius:4px;padding:2px 6px;font-weight:600">PASS</span></td>
+      <td style="padding:8px;border-top:1px solid #eee">idr.trustedIssuersRegistry=0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512</td>
+    </tr>
+  
+    <tr>
+      <td style="padding:8px;border-top:1px solid #eee">E3643-06</td>
+      <td style="padding:8px;border-top:1px solid #eee">Compliance module bound to token</td>
+      <td style="padding:8px;border-top:1px solid #eee"><span style="background:#059669;color:#fff;border-radius:4px;padding:2px 6px;font-weight:600">PASS</span></td>
+      <td style="padding:8px;border-top:1px solid #eee">token.compliance=0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9, boundToken=0x5FC8d32690cc91D4c39d9d3abcBD16989F875707</td>
     </tr>
   </tbody>
   </table>
   <h3>Raw Data</h3>
   <pre style="background:#f6f6f6;padding:12px;border-radius:6px">{
-  &quot;tokenIdentity&quot;: &quot;0x0000000000000000000000000000000000000000&quot;,
-  &quot;tokenCompliance&quot;: &quot;0x0000000000000000000000000000000000000000&quot;,
-  &quot;tokenOwner&quot;: &quot;0x0000000000000000000000000000000000000000&quot;,
-  &quot;idrClaimTopicsAddr&quot;: &quot;0x0000000000000000000000000000000000000000&quot;,
-  &quot;idrTrustedIssuersAddr&quot;: &quot;0x0000000000000000000000000000000000000000&quot;,
-  &quot;topicsCount&quot;: 0
+  &quot;tokenIdentity&quot;: &quot;0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9&quot;,
+  &quot;tokenCompliance&quot;: &quot;0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9&quot;,
+  &quot;tokenOwner&quot;: &quot;0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266&quot;,
+  &quot;idrClaimTopicsAddr&quot;: &quot;0x5FbDB2315678afecb367f032d93F642f64180aa3&quot;,
+  &quot;idrTrustedIssuersAddr&quot;: &quot;0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512&quot;,
+  &quot;topicsCount&quot;: 1,
+  &quot;complianceBoundToken&quot;: &quot;0x5FC8d32690cc91D4c39d9d3abcBD16989F875707&quot;,
+  &quot;executionMode&quot;: &quot;hardhat&quot;
 }</pre>
 </body>
 </html>

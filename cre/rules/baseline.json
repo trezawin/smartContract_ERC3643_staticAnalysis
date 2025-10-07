@@ -8,7 +8,7 @@
     {
       "id": "E3643-02",
       "title": "IdentityRegistry wired with ClaimTopicsRegistry",
-      "desc": "IdentityRegistry has a non-zero ClaimTopicsRegistry",
+      "desc": "IdentityRegistry must point to the expected ClaimTopicsRegistry",
       "severity": "FAIL"
     },
     {
@@ -22,5 +22,17 @@
       "title": "Claim topics exist",
       "desc": "ClaimTopicsRegistry has at least one topic",
       "severity": "WARN"
+    },
+    {
+      "id": "E3643-05",
+      "title": "IdentityRegistry wired with TrustedIssuersRegistry",
+      "desc": "IdentityRegistry must point to the expected TrustedIssuersRegistry",
+      "severity": "FAIL"
+    },
+    {
+      "id": "E3643-06",
+      "title": "Compliance module bound to token",
+      "desc": "Token.compliance() must return the deployed compliance contract and it must be bound to the token",
+      "severity": "FAIL"
     }
   ]
