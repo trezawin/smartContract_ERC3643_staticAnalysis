@@ -1,0 +1,47 @@
+{
+  "generatedAt": "2025-10-14T10:28:13.926Z",
+  "model": "gpt-4o-mini",
+  "totals": {
+    "items": 40
+  },
+  "position": {
+    "support": 22,
+    "challenge": 14,
+    "extend": 4
+  },
+  "verdicts": {
+    "pass": 20,
+    "warn": 20,
+    "fail": 0
+  },
+  "agreementRate": 0.55,
+  "extensionRate": 0.1,
+  "challengeRate": 0.35,
+  "policyMappingRate": 1,
+  "avgExplanationScore": 0.9,
+  "groundTruthUsed": false,
+  "phase2": {
+    "precision": 0,
+    "recall": 0,
+    "confusion": {
+      "tp": 0,
+      "fp": 0,
+      "tn": 0,
+      "fn": 0
+    }
+  },
+  "phase3": {
+    "precision": 0,
+    "recall": 0,
+    "confusion": {
+      "tp": 0,
+      "fp": 0,
+      "tn": 0,
+      "fn": 0
+    }
+  },
+  "deltas": {
+    "precisionGain": 0,
+    "coverageExpansion": 0.1
+  }
+}

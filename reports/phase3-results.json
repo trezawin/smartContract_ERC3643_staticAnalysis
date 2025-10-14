@@ -1,0 +1,582 @@
+{
+  "generatedAt": "2025-10-10T08:12:24.465Z",
+  "model": "gpt-4o-mini",
+  "provider": "openai",
+  "input": {
+    "surface": {
+      "Token": {
+        "functions": [
+          "addAgent(address)",
+          "allowance(address,address)",
+          "approve(address,uint256)",
+          "balanceOf(address)",
+          "batchBurn(address[],uint256[])",
+          "batchForcedTransfer(address[],address[],uint256[])",
+          "batchFreezePartialTokens(address[],uint256[])",
+          "batchMint(address[],uint256[])",
+          "batchSetAddressFrozen(address[],bool[])",
+          "batchTransfer(address[],uint256[])",
+          "batchUnfreezePartialTokens(address[],uint256[])",
+          "burn(address,uint256)",
+          "compliance()",
+          "decimals()",
+          "decreaseAllowance(address,uint256)",
+          "forcedTransfer(address,address,uint256)",
+          "freezePartialTokens(address,uint256)",
+          "getFrozenTokens(address)",
+          "identityRegistry()",
+          "increaseAllowance(address,uint256)",
+          "init(address,address,string,string,uint8,address)",
+          "isAgent(address)",
+          "isFrozen(address)",
+          "mint(address,uint256)",
+          "name()",
+          "onchainID()",
+          "owner()",
+          "pause()",
+          "paused()",
+          "recoveryAddress(address,address,address)",
+          "removeAgent(address)",
+          "renounceOwnership()",
+          "setAddressFrozen(address,bool)",
+          "setCompliance(address)",
+          "setIdentityRegistry(address)",
+          "setName(string)",
+          "setOnchainID(address)",
+          "setSymbol(string)",
+          "symbol()",
+          "totalSupply()",
+          "transfer(address,uint256)",
+          "transferFrom(address,address,uint256)",
+          "transferOwnership(address)",
+          "unfreezePartialTokens(address,uint256)",
+          "unpause()",
+          "version()"
+        ],
+        "events": [
+          "AddressFrozen",
+          "AgentAdded",
+          "AgentRemoved",
+          "Approval",
+          "ComplianceAdded",
+          "IdentityRegistryAdded",
+          "Initialized",
+          "OwnershipTransferred",
+          "Paused",
+          "RecoverySuccess",
+          "TokensFrozen",
+          "TokensUnfrozen",
+          "Transfer",
+          "Unpaused",
+          "UpdatedTokenInformation"
+        ]
+      },
+      "IdentityRegistry": {
+        "functions": [
+          "addAgent(address)",
+          "batchRegisterIdentity(address[],address[],uint16[])",
+          "contains(address)",
+          "deleteIdentity(address)",
+          "identity(address)",
+          "identityStorage()",
+          "init(address,address,address)",
+          "investorCountry(address)",
+          "isAgent(address)",
+          "isVerified(address)",
+          "issuersRegistry()",
+          "owner()",
+          "registerIdentity(address,address,uint16)",
+          "removeAgent(address)",
+          "renounceOwnership()",
+          "setClaimTopicsRegistry(address)",
+          "setIdentityRegistryStorage(address)",
+          "setTrustedIssuersRegistry(address)",
+          "topicsRegistry()",
+          "transferOwnership(address)",
+          "updateCountry(address,uint16)",
+          "updateIdentity(address,address)"
+        ],
+        "events": [
+          "AgentAdded",
+          "AgentRemoved",
+          "ClaimTopicsRegistrySet",
+          "CountryUpdated",
+          "IdentityRegistered",
+          "IdentityRemoved",
+          "IdentityStorageSet",
+          "IdentityUpdated",
+          "Initialized",
+          "OwnershipTransferred",
+          "TrustedIssuersRegistrySet"
+        ]
+      },
+      "ClaimTopicsRegistry": {
+        "functions": [
+          "addClaimTopic(uint256)",
+          "getClaimTopics()",
+          "init()",
+          "owner()",
+          "removeClaimTopic(uint256)",
+          "renounceOwnership()",
+          "transferOwnership(address)"
+        ],
+        "events": [
+          "ClaimTopicAdded",
+          "ClaimTopicRemoved",
+          "Initialized",
+          "OwnershipTransferred"
+        ]
+      },
+      "TrustedIssuersRegistry": {
+        "functions": [
+          "addTrustedIssuer(address,uint256[])",
+          "getTrustedIssuerClaimTopics(address)",
+          "getTrustedIssuers()",
+          "getTrustedIssuersForClaimTopic(uint256)",
+          "hasClaimTopic(address,uint256)",
+          "init()",
+          "isTrustedIssuer(address)",
+          "owner()",
+          "removeTrustedIssuer(address)",
+          "renounceOwnership()",
+          "transferOwnership(address)",
+          "updateIssuerClaimTopics(address,uint256[])"
+        ],
+        "events": [
+          "ClaimTopicsUpdated",
+          "Initialized",
+          "OwnershipTransferred",
+          "TrustedIssuerAdded",
+          "TrustedIssuerRemoved"
+        ]
+      }
+    },
+    "phase2": {
+      "summary": {
+        "pass": 10,
+        "fail": 0,
+        "warn": 0,
+        "info": 0
+      },
+      "items": [
+        {
+          "id": "R-ERC01",
+          "title": "Token.identityRegistry wiring",
+          "severity": "FAIL",
+          "pass": true,
+          "note": "no declarative checks; skipped"
+        },
+        {
+          "id": "R-ERC02",
+          "title": "Registry → ClaimTopics wiring",
+          "severity": "FAIL",
+          "pass": true,
+          "note": "no declarative checks; skipped"
+        },
+        {
+          "id": "R-ERC03",
+          "title": "Compliance bound to Token",
+          "severity": "FAIL",
+          "pass": true,
+          "note": "no declarative checks; skipped"
+        },
+        {
+          "id": "R-ERC04",
+          "title": "Compliance hooks invoked",
+          "severity": "WARN",
+          "pass": true,
+          "note": "no declarative checks; skipped"
+        },
+        {
+          "id": "R-ERC05",
+          "title": "ClaimTopicsRegistry topic API",
+          "severity": "FAIL",
+          "pass": true,
+          "note": "no declarative checks; skipped"
+        },
+        {
+          "id": "R-HK01",
+          "title": "KYC identity verification required",
+          "severity": "FAIL",
+          "pass": true,
+          "note": "no declarative checks; skipped"
+        },
+        {
+          "id": "R-HK02",
+          "title": "Transaction record keeping",
+          "severity": "WARN",
+          "pass": true,
+          "note": "no declarative checks; skipped"
+        },
+        {
+          "id": "R-SFC01",
+          "title": "Client identity rule §5.4",
+          "severity": "FAIL",
+          "pass": true,
+          "note": "no declarative checks; skipped"
+        },
+        {
+          "id": "R-SFC02",
+          "title": "Account opening approach compliance",
+          "severity": "WARN",
+          "pass": true,
+          "note": "no declarative checks; skipped"
+        },
+        {
+          "id": "R-SFC03",
+          "title": "Ensure identity info available on request",
+          "severity": "INFO",
+          "pass": true,
+          "note": "no declarative checks; skipped"
+        }
+      ]
+    },
+    "hk_rules": [
+      {
+        "id": "R-ERC01",
+        "title": "Token Contract Must Reference the Correct IdentityRegistry",
+        "desc": "Token.identityRegistry() must equal deployed IdentityRegistry address"
+      },
+      {
+        "id": "R-ERC02",
+        "title": "IdentityRegistry Must Link Properly to the ClaimTopicsRegistry",
+        "desc": "IdentityRegistry.claimTopicsRegistry() equals deployed ClaimTopicsRegistry"
+      },
+      {
+        "id": "R-ERC03",
+        "title": "Compliance Contract Must Be Bound and Linked Back to Token",
+        "desc": "Token.compliance() nonzero and bound back to token"
+      },
+      {
+        "id": "R-ERC04",
+        "title": "Compliance Hooks Must Be Invoked in Token Operations",
+        "desc": "Token should call compliance.canTransfer/created/etc in its logic"
+      },
+      {
+        "id": "R-ERC05",
+        "title": "ClaimTopicsRegistry Must Support Topic Management Functions",
+        "desc": "CTR exposes addClaimTopic, removeClaimTopic, getClaimTopics"
+      },
+      {
+        "id": "R-HK01",
+        "title": "KYC Identity Verification Must Be Enforced Before Token Transfers",
+        "desc": "Must verify true identity before allowing value transfer (align HKMA CDD obligations)"
+      },
+      {
+        "id": "R-HK02",
+        "title": "Transaction Record-Keeping Must Meet HKMA AML Obligations",
+        "desc": "Must maintain auditable logs per AML / HKMA record-keeping rules"
+      },
+      {
+        "id": "R-SFC01",
+        "title": "Client Identity Verification Must Comply with SFC Code of Conduct §5.4",
+        "desc": "Under SFC Code §5.4, must satisfy “reasonable grounds” for client identity before trade / transfer"
+      },
+      {
+        "id": "R-SFC02",
+        "title": "Account Opening Procedures Must Follow SFC Approved Verification Methods",
+        "desc": "Client identity verification via acceptable methods (face-to-face, certified, etc) per SFC guidelines"
+      },
+      {
+        "id": "R-SFC03",
+        "title": "Client Identity Information Must Be Readily Available to Regulators on Request",
+        "desc": "Per SFC policy, client identity info must be made available to regulators within 2 business days"
+      },
+      {
+        "id": "B-01",
+        "title": "Token.identityRegistry points to IdentityRegistry",
+        "desc": "Token must reference the correct IdentityRegistry; mismatch or missing getter = FAIL"
+      },
+      {
+        "id": "B-02",
+        "title": "IdentityRegistry wired with ClaimTopicsRegistry",
+        "desc": "IdentityRegistry must point to valid ClaimTopicsRegistry; wrong or empty CTR = FAIL"
+      },
+      {
+        "id": "B-03",
+        "title": "IdentityRegistry wired with TrustedIssuersRegistry",
+        "desc": "IdentityRegistry must reference valid TrustedIssuersRegistry; wrong TIR = FAIL"
+      },
+      {
+        "id": "B-04",
+        "title": "Token exposes setIdentityRegistry(address)",
+        "desc": "Admin must be able to update IdentityRegistry; missing setter = FAIL"
+      },
+      {
+        "id": "B-05",
+        "title": "IdentityRegistry exposes setTrustedIssuersRegistry(address)",
+        "desc": "Admin must be able to reconfigure TrustedIssuersRegistry; missing setter = FAIL"
+      },
+      {
+        "id": "B-06",
+        "title": "IdentityRegistry has isVerified(address)",
+        "desc": "KYC verification must be exposed; missing getter = FAIL"
+      },
+      {
+        "id": "B-07",
+        "title": "Token checks compliance hooks",
+        "desc": "Token must call compliance.canTransfer and other hooks; absence = WARN"
+      },
+      {
+        "id": "B-08",
+        "title": "Agent role management present",
+        "desc": "Token must have addAgent/removeAgent; missing = FAIL"
+      },
+      {
+        "id": "B-09",
+        "title": "ClaimTopicsRegistry topic management",
+        "desc": "CTR must have addClaimTopic/removeClaimTopic/getClaimTopics; missing = FAIL"
+      },
+      {
+        "id": "B-10",
+        "title": "Ownable initializers called (non-zero owner)",
+        "desc": "Owner addresses of registries must be non-zero; uninitialized = FAIL"
+      },
+      {
+        "id": "C-01",
+        "title": "Token.identityRegistry points to IdentityRegistry",
+        "desc": "Token exposes identityRegistry() and equals deployed IdentityRegistry"
+      },
+      {
+        "id": "C-02",
+        "title": "ClaimTopicsRegistry has topics",
+        "desc": "getClaimTopics() length >= 1"
+      },
+      {
+        "id": "C-03",
+        "title": "Trusted issuer list non-empty for used topics",
+        "desc": "For each topic in CTR, TIR.getTrustedIssuersForClaimTopic(topic) length >= 1"
+      },
+      {
+        "id": "C-04",
+        "title": "Admin wiring functions gated",
+        "desc": "Setters like setIdentityRegistry/setClaimTopicsRegistry restricted to owner/agent (surface presence check only)"
+      },
+      {
+        "id": "C-05",
+        "title": "Events for administrative actions",
+        "desc": "IR/CTR/TIR emit events on updates (surface presence of event signatures only)"
+      },
+      {
+        "id": "C-06",
+        "title": "Recovery / freeze surfaces present",
+        "desc": "Token exposes recoveryAddress/setAddressFrozen/freezePartialTokens/unfreezePartialTokens"
+      },
+      {
+        "id": "C-07",
+        "title": "Batch operations available",
+        "desc": "Token exposes batchTransfer/batchMint/batchBurn/batchForcedTransfer"
+      },
+      {
+        "id": "C-08",
+        "title": "Compliance swap hooks exist",
+        "desc": "Token.setCompliance(address) present; compliance has bind/unbind functions"
+      },
+      {
+        "id": "C-09",
+        "title": "Zero-address guard surfaces",
+        "desc": "Setters expected to revert on zero address (surface only; LLM to reason over docstrings)"
+      },
+      {
+        "id": "C-10",
+        "title": "Decimals/name/symbol sane",
+        "desc": "decimals in [0..18], name and symbol non-empty"
+      }
+    ]
+  },
+  "result": {
+    "overall_summary": "The compliance audit reveals significant failures in the implementation of key policies as per HKMA and SFC guidelines, particularly regarding identity verification, compliance hooks, and transaction record-keeping. All items in Phase 2 indicate a lack of necessary checks, leading to a PASS verdict despite critical issues.",
+    "items": [
+      {
+        "id": "R-ERC01",
+        "position": "SUPPORT",
+        "explanation": "The Token.identityRegistry() must reference the correct IdentityRegistry address. The absence of declarative checks indicates a failure to ensure proper linkage, which is critical for compliance.",
+        "policy_refs": [
+          {
+            "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+            "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+          }
+        ],
+        "suggested_verdict": "PASS",
+        "severity": "FAIL",
+        "evidence": {
+          "phase2_id": "R-ERC01",
+          "topics_count": 1
+        },
+        "position_reason": "Same verdict as Phase 2",
+        "phase2_verdict": "PASS",
+        "explanation_score": 1
+      },
+      {
+        "id": "R-ERC02",
+        "position": "SUPPORT",
+        "explanation": "The IdentityRegistry must properly link to the ClaimTopicsRegistry. The lack of checks suggests a failure to meet compliance standards, which could lead to regulatory issues.",
+        "policy_refs": [
+          {
+            "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+            "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+          }
+        ],
+        "suggested_verdict": "PASS",
+        "severity": "FAIL",
+        "evidence": {
+          "phase2_id": "R-ERC02",
+          "topics_count": 1
+        },
+        "position_reason": "Same verdict as Phase 2",
+        "phase2_verdict": "PASS",
+        "explanation_score": 1
+      },
+      {
+        "id": "R-ERC03",
+        "position": "SUPPORT",
+        "explanation": "The compliance contract must be linked back to the Token. The absence of checks raises concerns about adherence to compliance requirements, which is essential for regulatory alignment.",
+        "policy_refs": [
+          {
+            "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+            "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+          }
+        ],
+        "suggested_verdict": "PASS",
+        "severity": "FAIL",
+        "evidence": {
+          "phase2_id": "R-ERC03",
+          "topics_count": 1
+        },
+        "position_reason": "Same verdict as Phase 2",
+        "phase2_verdict": "PASS",
+        "explanation_score": 1
+      },
+      {
+        "id": "R-ERC04",
+        "position": "CHALLENGE",
+        "explanation": "Compliance hooks must be invoked in Token operations. The lack of checks indicates potential non-compliance with operational risk management policies, which could lead to regulatory scrutiny.",
+        "policy_refs": [
+          {
+            "label": "HKMA Supervisory Policy Manual – Corporate Governance & Operational Risk",
+            "url": "https://www.hkma.gov.hk/eng/regulatory-resources/prudential-regulation/supervisory-policy-manual/"
+          }
+        ],
+        "suggested_verdict": "WARN",
+        "severity": "WARN",
+        "evidence": {
+          "phase2_id": "R-ERC04",
+          "topics_count": 1
+        },
+        "position_reason": "LLM increased severity",
+        "phase2_verdict": "PASS",
+        "explanation_score": 1
+      },
+      {
+        "id": "R-HK01",
+        "position": "SUPPORT",
+        "explanation": "KYC identity verification is required before token transfers. The absence of checks indicates a failure to comply with HKMA's CDD obligations, which is critical for preventing financial crime.",
+        "policy_refs": [
+          {
+            "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+            "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+          }
+        ],
+        "suggested_verdict": "PASS",
+        "severity": "FAIL",
+        "evidence": {
+          "phase2_id": "R-HK01",
+          "topics_count": 1
+        },
+        "position_reason": "Same verdict as Phase 2",
+        "phase2_verdict": "PASS",
+        "explanation_score": 1
+      },
+      {
+        "id": "R-HK02",
+        "position": "CHALLENGE",
+        "explanation": "Transaction record-keeping must meet HKMA AML obligations. The lack of checks suggests a failure to maintain necessary logs, which is essential for compliance and audit trails.",
+        "policy_refs": [
+          {
+            "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+            "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+          }
+        ],
+        "suggested_verdict": "WARN",
+        "severity": "WARN",
+        "evidence": {
+          "phase2_id": "R-HK02",
+          "topics_count": 1
+        },
+        "position_reason": "LLM increased severity",
+        "phase2_verdict": "PASS",
+        "explanation_score": 1
+      },
+      {
+        "id": "R-SFC01",
+        "position": "SUPPORT",
+        "explanation": "Client identity verification must comply with SFC Code of Conduct §5.4. The absence of checks raises concerns about compliance with client identity verification requirements.",
+        "policy_refs": [
+          {
+            "label": "SFC Code of Conduct for Persons Licensed by or Registered with the SFC",
+            "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Supervision-and-Inspection/Code-of-Conduct"
+          }
+        ],
+        "suggested_verdict": "PASS",
+        "severity": "FAIL",
+        "evidence": {
+          "phase2_id": "R-SFC01",
+          "topics_count": 1
+        },
+        "position_reason": "Same verdict as Phase 2",
+        "phase2_verdict": "PASS",
+        "explanation_score": 1
+      },
+      {
+        "id": "R-SFC02",
+        "position": "CHALLENGE",
+        "explanation": "Account opening procedures must follow SFC approved verification methods. The absence of checks indicates potential non-compliance with established verification protocols.",
+        "policy_refs": [
+          {
+            "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+            "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+          }
+        ],
+        "suggested_verdict": "WARN",
+        "severity": "WARN",
+        "evidence": {
+          "phase2_id": "R-SFC02",
+          "topics_count": 1
+        },
+        "position_reason": "LLM increased severity",
+        "phase2_verdict": "PASS",
+        "explanation_score": 1
+      },
+      {
+        "id": "R-SFC03",
+        "position": "EXTEND",
+        "explanation": "Client identity information must be readily available to regulators on request. The absence of checks raises concerns about compliance with SFC policies regarding client information accessibility.",
+        "policy_refs": [
+          {
+            "label": "SFC Code of Conduct for Persons Licensed by or Registered with the SFC",
+            "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Supervision-and-Inspection/Code-of-Conduct"
+          }
+        ],
+        "suggested_verdict": "INFO",
+        "severity": "INFO",
+        "evidence": {
+          "phase2_id": "R-SFC03",
+          "topics_count": 1
+        },
+        "position_reason": "LLM decreased or changed severity",
+        "phase2_verdict": "PASS",
+        "explanation_score": 1
+      }
+    ]
+  },
+  "summaryPosition": {
+    "support": 5,
+    "challenge": 3,
+    "extend": 1
+  },
+  "summaryLlm": {
+    "pass": 5,
+    "warn": 4,
+    "fail": 0
+  }
+}

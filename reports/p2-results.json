@@ -1,0 +1,643 @@
+{
+  "generatedAt": "2025-10-14T10:27:13.896Z",
+  "inputs": {
+    "addressesPath": "/Users/treza/Documents/staticAnalysis/.cre.addresses.json",
+    "addresses": {
+      "networkRpc": "http://127.0.0.1:8545",
+      "token": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+    },
+    "ruleFiles": [
+      "cre/rules/baseline.erc3643.json",
+      "cre/rules/baseline.hk.json"
+    ],
+    "abiArtifacts": {
+      "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
+      "IdentityRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
+      "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
+      "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json"
+    }
+  },
+  "runs": [
+    {
+      "label": "baseline.erc3643",
+      "rulesPath": "cre/rules/baseline.erc3643.json",
+      "addressesPath": ".cre.addresses.json",
+      "summary": {
+        "pass": 9,
+        "fail": 0,
+        "warn": 1,
+        "info": 0
+      },
+      "addresses": {
+        "networkRpc": "http://127.0.0.1:8545",
+        "token": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+        "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+      },
+      "data": {
+        "tokenIdentity": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+        "tokenCompliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+        "tokenOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "ctrOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "idrClaimTopicsAddr": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "idrTrustedIssuersAddr": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "topicsCount": 1,
+        "complianceBoundToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "executionMode": "hardhat",
+        "tokenName": "HK Green Bond",
+        "tokenSymbol": "HKGB",
+        "tokenDecimals": 18,
+        "tirOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "irsOwner": "0x0000000000000000000000000000000000000000"
+      },
+      "abiArtifacts": {
+        "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
+        "IdentityRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
+        "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
+        "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json"
+      }
+    },
+    {
+      "label": "baseline.hk",
+      "rulesPath": "cre/rules/baseline.hk.json",
+      "addressesPath": ".cre.addresses.json",
+      "summary": {
+        "pass": 10,
+        "fail": 0,
+        "warn": 0,
+        "info": 0
+      },
+      "addresses": {
+        "networkRpc": "http://127.0.0.1:8545",
+        "token": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+        "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+      },
+      "data": {
+        "tokenIdentity": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+        "tokenCompliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+        "tokenOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "ctrOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "idrClaimTopicsAddr": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "idrTrustedIssuersAddr": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "topicsCount": 1,
+        "complianceBoundToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "executionMode": "hardhat",
+        "tokenName": "HK Green Bond",
+        "tokenSymbol": "HKGB",
+        "tokenDecimals": 18,
+        "tirOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "irsOwner": "0x0000000000000000000000000000000000000000"
+      },
+      "abiArtifacts": {
+        "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
+        "IdentityRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
+        "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
+        "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json"
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "R-ERC3643-01",
+      "title": "Transfer must check identityRegistry.isVerified",
+      "desc": "In `transfer` or `transferFrom`, the token must call `identityRegistry.isVerified` to ensure the recipient is eligible.",
+      "snippet": "require(identityRegistry.isVerified(to), \"ERC-3643: invalid identity\");",
+      "policyRef": "EIP-3643 specification — Token interface / transfer conditions (EIP doc) https://eips.ethereum.org/EIPS/eip-3643",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "data.tokenIdentity is non-zero: 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9; ABI has idr.isVerified(address): true",
+      "details": [
+        {
+          "op": "nonzeroaddress",
+          "field": "data.tokenIdentity",
+          "actual": "0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
+          "expected": "!= ZERO",
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "isVerified(address)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.erc3643"
+    },
+    {
+      "id": "R-ERC3643-02",
+      "title": "Token must call compliance.canTransfer hook",
+      "desc": "Before executing transfers, token should invoke `compliance.canTransfer(from, to, amount)` to enforce additional compliance rules.",
+      "snippet": "if (compliance != address(0)) require(compliance.canTransfer(from, to, amount), \"ERC-3643: compliance failed\");",
+      "policyRef": "EIP-3643 spec — canTransfer in Token interface (EIP-3643) https://eips.ethereum.org/EIPS/eip-3643",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "ABI has token.compliance(): true; data.tokenCompliance is non-zero: 0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "compliance()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "nonzeroaddress",
+          "field": "data.tokenCompliance",
+          "actual": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+          "expected": "!= ZERO",
+          "ok": true
+        }
+      ],
+      "run": "baseline.erc3643"
+    },
+    {
+      "id": "R-ERC3643-03",
+      "title": "ClaimTopicsRegistry must support add/remove and event emission",
+      "desc": "Claim Topics Registry must expose `addClaimTopic`, `removeClaimTopic`, `getClaimTopics`, and emit `ClaimTopicAdded`/`ClaimTopicRemoved` events.",
+      "snippet": "function addClaimTopic(uint256 _claimTopic); event ClaimTopicAdded(uint256 indexed claimTopic); function getClaimTopics() external view returns (uint256[] memory);",
+      "policyRef": "ERC-3643 docs — Claim Topics Registry interface and events https://erc-3643.github.io/documentation/docs/suite/claim-topics-registry/ https://docs.erc3643.org",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "ABI has ctr.addClaimTopic(uint256): true; ABI has ctr.removeClaimTopic(uint256): true; ABI has ctr.getClaimTopics(): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "ctr",
+          "sig": "addClaimTopic(uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "ctr",
+          "sig": "removeClaimTopic(uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "ctr",
+          "sig": "getClaimTopics()",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.erc3643"
+    },
+    {
+      "id": "R-ERC3643-04",
+      "title": "IdentityRegistry must support setter for ClaimTopicsRegistry",
+      "desc": "Identity Registry should allow updating the associated ClaimTopicsRegistry via `setClaimTopicsRegistry(address)`.",
+      "snippet": "function setClaimTopicsRegistry(address _claimTopics);",
+      "policyRef": "ERC-3643 Identity Registry docs — setter methods https://erc-3643.github.io/documentation/docs/suite/identity-registry/ https://docs.erc3643.org",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "ABI has idr.setClaimTopicsRegistry(address): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "setClaimTopicsRegistry(address)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.erc3643"
+    },
+    {
+      "id": "R-ERC3643-05",
+      "title": "IdentityRegistry must support setter for TrustedIssuersRegistry",
+      "desc": "Identity Registry must allow updating the Trusted Issuers Registry via `setTrustedIssuersRegistry(address)`.",
+      "snippet": "function setTrustedIssuersRegistry(address _trustedIssuers);",
+      "policyRef": "ERC-3643 Identity Registry docs — setter for trusted issuers https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "ABI has idr.setTrustedIssuersRegistry(address): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "setTrustedIssuersRegistry(address)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.erc3643"
+    },
+    {
+      "id": "R-ERC3643-06",
+      "title": "Identity Registry must expose isVerified view function",
+      "desc": "Identity Registry should have `isVerified(address)` to allow checking eligibility off-chain or from token.",
+      "snippet": "function isVerified(address userAddress) external view returns (bool);",
+      "policyRef": "ERC-3643 Identity Registry docs — isVerified definition https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "ABI has idr.isVerified(address): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "isVerified(address)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.erc3643"
+    },
+    {
+      "id": "R-ERC3643-07",
+      "title": "Token must emit IdentityRegistryAdded and ComplianceAdded",
+      "desc": "Token should emit `IdentityRegistryAdded(address)` and `ComplianceAdded(address)` events when wiring these contracts.",
+      "snippet": "event IdentityRegistryAdded(address indexed); event ComplianceAdded(address indexed);",
+      "policyRef": "EIP-3643 specification — Token interface events list https://eips.ethereum.org/EIPS/eip-3643",
+      "severity": "WARN",
+      "pass": true,
+      "note": "Event on token:IdentityRegistryAdded present: true; Event on token:ComplianceAdded present: true",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "IdentityRegistryAdded",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "ComplianceAdded",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.erc3643"
+    },
+    {
+      "id": "R-ERC3643-08",
+      "title": "Token must support freezing / unfreezing of address",
+      "desc": "Token should implement `setAddressFrozen(address, bool)` or similar to control freezing of accounts.",
+      "snippet": "function setAddressFrozen(address _who, bool _frozen);",
+      "policyRef": "EIP-3643 standard mentions freeze/unfreeze in Token interface / events section https://eips.ethereum.org/EIPS/eip-3643",
+      "severity": "WARN",
+      "pass": true,
+      "note": "ABI has token.setAddressFrozen(address,bool): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "setAddressFrozen(address,bool)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.erc3643"
+    },
+    {
+      "id": "R-ERC3643-09",
+      "title": "Token must be compatible with ERC-20 interface",
+      "desc": "ERC-3643 tokens must implement standard ERC-20 functions: `transfer`, `approve`, `allowance`, etc.",
+      "snippet": "function transfer(address to, uint256 amount) external returns (bool); function approve(address spender, uint256 amount) external returns (bool);",
+      "policyRef": "EIP-3643 spec (requires ERC-20 compatibility) https://eips.ethereum.org/EIPS/eip-3643",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "ABI has token.totalSupply(): true; ABI has token.balanceOf(address): true; ABI has token.transfer(address,uint256): true; ABI has token.transferFrom(address,address,uint256): true; ABI has token.approve(address,uint256): true; ABI has token.allowance(address,address): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "totalSupply()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "balanceOf(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "transfer(address,uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "transferFrom(address,address,uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "approve(address,uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "allowance(address,address)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.erc3643"
+    },
+    {
+      "id": "R-ERC3643-10",
+      "title": "Token must support recovery functionality",
+      "desc": "Token should implement recovery mechanism in case an investor loses keys, e.g., `recover(address lost, address new)`.",
+      "snippet": "function recover(address _lostWallet, address _newWallet);",
+      "policyRef": "EIP-3643 specification — recovery function discussion in Token interface https://eips.ethereum.org/EIPS/eip-3643",
+      "severity": "WARN",
+      "pass": false,
+      "note": "ABI has token.recover(address,address): false; ABI has token.recoveryAddress(address): false; ABI has token.setRecoveryAddress(address,address): false",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "recover(address,address)",
+          "present": false,
+          "ok": false
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "recoveryAddress(address)",
+          "present": false,
+          "ok": false
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "setRecoveryAddress(address,address)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "run": "baseline.erc3643"
+    },
+    {
+      "id": "R-HKMA-01",
+      "title": "Customer Due Diligence (CDD) before first transaction",
+      "desc": "The system should enforce identity verification (KYC) before any token transfer is executed.",
+      "snippet": "require(identityRegistry.isVerified(to), \"HKMA: CDD not met\");",
+      "policyRef": "HKMA AML/CFT Guideline (2023) §3.4 Customer due diligence and verification https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "data.tokenIdentity is non-zero: 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9; ABI has token.identityRegistry(): true; ABI has idr.isVerified(address): true",
+      "details": [
+        {
+          "op": "nonzeroaddress",
+          "field": "data.tokenIdentity",
+          "actual": "0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
+          "expected": "!= ZERO",
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "identityRegistry()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "isVerified(address)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.hk"
+    },
+    {
+      "id": "R-HKMA-02",
+      "title": "Record keeping retention ≥ 5 years",
+      "desc": "Audit or transaction logs must be kept for at least 5 years, retrievable on demand.",
+      "snippet": "event Transfer(...); // logs stored on chain + offchain retention",
+      "policyRef": "HKMA AML/CFT Guideline (2023) §9 Record keeping requirement https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf",
+      "severity": "WARN",
+      "pass": true,
+      "note": "Event on token:Transfer present: true",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "Transfer",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.hk"
+    },
+    {
+      "id": "R-HKMA-03",
+      "title": "Beneficial ownership identification",
+      "desc": "For entity accounts, beneficial owners must be identified and verified as part of KYC flow.",
+      "snippet": "if (account.isEntity) require(identityRegistry.verifyBeneficialOwner(account, owner), \"HKMA: BO not verified\");",
+      "policyRef": "HKMA AML/CFT Guideline §4.4 Beneficial owner identification https://brdr.hkma.gov.hk/eng/doc-key/guide (derived from general guidelines) https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "ABI has idr.registerIdentity(address,address,uint16): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "registerIdentity(address,address,uint16)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.hk"
+    },
+    {
+      "id": "R-HKMA-04",
+      "title": "Ongoing transaction monitoring / suspicious flags",
+      "desc": "Transfers exceeding thresholds or patterns should trigger flags / review logic.",
+      "snippet": "if (amount > threshold) emit SuspiciousTransfer(from, to, amount);",
+      "policyRef": "HKMA AML/CFT Guideline §7 Transaction monitoring and reporting obligations https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf",
+      "severity": "WARN",
+      "pass": true,
+      "note": "data.tokenCompliance is non-zero: 0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; data.complianceBoundToken equals cfg.token → (0x5fc8d32690cc91d4c39d9d3abcbd16989f875707 vs 0x5fc8d32690cc91d4c39d9d3abcbd16989f875707)",
+      "details": [
+        {
+          "op": "nonzeroaddress",
+          "field": "data.tokenCompliance",
+          "actual": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+          "expected": "!= ZERO",
+          "ok": true
+        },
+        {
+          "op": "equalsaddress",
+          "field": "data.complianceBoundToken",
+          "left": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+          "right": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+          "ok": true
+        }
+      ],
+      "run": "baseline.hk"
+    },
+    {
+      "id": "R-HKMA-05",
+      "title": "Freezing high-risk accounts or sanctions screening",
+      "desc": "System supports freezing or blocking accounts identified as high risk or sanctioned.",
+      "snippet": "function freezeAddress(address who) external onlyOwner;",
+      "policyRef": "HKMA AML/CFT Guideline §5 Risk mitigation / enhanced due diligence https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf",
+      "severity": "WARN",
+      "pass": true,
+      "note": "ABI has token.setAddressFrozen(address,bool): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "setAddressFrozen(address,bool)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.hk"
+    },
+    {
+      "id": "R-SFC-01",
+      "title": "Client identity rule: identity on file prior to transaction",
+      "desc": "Before executing token-related operations, verify that client identity info is on file compliant with SFC §5.4.",
+      "snippet": "require(identityRegistry.isVerified(to), \"SFC: identity not on file\");",
+      "policyRef": "SFC Client Identity Rule Policy — Code of Conduct paragraph 5.4 https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/guidelines/client-identity-rule-policy/Client-Identity-Rule-Policy---2000-07-01-00_00_00.pdf",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "data.tokenIdentity is non-zero: 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9; ABI has token.identityRegistry(): true; ABI has idr.isVerified(address): true",
+      "details": [
+        {
+          "op": "nonzeroaddress",
+          "field": "data.tokenIdentity",
+          "actual": "0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
+          "expected": "!= ZERO",
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "identityRegistry()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "isVerified(address)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.hk"
+    },
+    {
+      "id": "R-SFC-02",
+      "title": "Timely disclosure of client identity to regulators",
+      "desc": "Client identity records must be retrievable and deliverable to regulators within required timeframe.",
+      "snippet": "function exportClientInfo(address who) external view returns (ClientInfo);",
+      "policyRef": "SFC Client Identity Rule Policy — regulators can request identity info within 2 business days https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/guidelines/client-identity-rule-policy/Client-Identity-Rule-Policy---2000-07-01-00_00_00.pdf",
+      "severity": "WARN",
+      "pass": true,
+      "note": "ABI has idr.identity(address): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "identity(address)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.hk"
+    },
+    {
+      "id": "R-SFC-03",
+      "title": "Record changes in identity / KYC data",
+      "desc": "When identity or KYC status changes, the system must emit an event for auditability.",
+      "snippet": "event IdentityUpdated(address indexed who, string reason);",
+      "policyRef": "SFC Code of Conduct §12 (Compliance obligations) — record keeping, control obligations https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/codes/code-of-conduct-for-persons-licensed-by-or-registered-with-the-securities-and-futures-commission/2011-08-31---2011-09-30---Code-of-Conduct-for-Per.pdf",
+      "severity": "INFO",
+      "pass": true,
+      "note": "ABI has idr.updateIdentity(address,address): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "updateIdentity(address,address)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.hk"
+    },
+    {
+      "id": "R-SFC-04",
+      "title": "Internal control & compliance function oversight",
+      "desc": "The token-related operations must respect separation of roles, oversight, and error control.",
+      "snippet": "// administrative actions only via governance or compliance module",
+      "policyRef": "SFC Code of Conduct §12.1 General compliance obligations https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/codes/code-of-conduct-for-persons-licensed-by-or-registered-with-the-securities-and-futures-commission/2011-08-31---2011-09-30---Code-of-Conduct-for-Per.pdf",
+      "severity": "WARN",
+      "pass": true,
+      "note": "ABI has token.addAgent(address): true; ABI has token.removeAgent(address): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "addAgent(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "removeAgent(address)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.hk"
+    },
+    {
+      "id": "R-SFC-05",
+      "title": "Conflicts of interest disclosure & fairness",
+      "desc": "If token logic includes privileged roles, their actions should be transparent via events or logs.",
+      "snippet": "event AdminAction(address indexed who, string action);",
+      "policyRef": "SFC Code of Conduct §5 & §11 (fair treatment, disclosure) https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/codes/code-of-conduct-for-persons-licensed-by-or-registered-with-the-securities-and-futures-commission/2011-08-31---2011-09-30---Code-of-Conduct-for-Per.pdf",
+      "severity": "INFO",
+      "pass": true,
+      "note": "Event on token:ComplianceAdded present: true",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "ComplianceAdded",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "baseline.hk"
+    }
+  ],
+  "summary": {
+    "pass": 19,
+    "fail": 0,
+    "warn": 1,
+    "info": 0
+  },
+  "metrics": null
+}

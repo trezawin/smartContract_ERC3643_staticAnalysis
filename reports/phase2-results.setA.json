@@ -1,0 +1,161 @@
+{
+  "generatedAt": "2025-10-10T08:11:04.398Z",
+  "runs": [
+    {
+      "label": "baseline.setA",
+      "rulesPath": "cre/rules/baseline.setA.json",
+      "addressesPath": ".cre.addresses.json",
+      "summary": {
+        "pass": 10,
+        "fail": 0,
+        "warn": 0,
+        "info": 0
+      },
+      "addresses": {
+        "networkRpc": "http://127.0.0.1:8545",
+        "token": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+        "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+      },
+      "data": {
+        "tokenIdentity": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+        "tokenCompliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+        "tokenOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "ctrOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "idrClaimTopicsAddr": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "idrTrustedIssuersAddr": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "topicsCount": 1,
+        "complianceBoundToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "executionMode": "hardhat",
+        "tokenName": "HK Green Bond",
+        "tokenSymbol": "HKGB",
+        "tokenDecimals": 18,
+        "tirOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "irsOwner": "0x0000000000000000000000000000000000000000"
+      },
+      "metrics": {
+        "compared": 10,
+        "tp": 10,
+        "fp": 0,
+        "tn": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "accuracy": 1
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "R-ERC01",
+      "title": "Token Contract Must Reference the Correct IdentityRegistry",
+      "desc": "Token.identityRegistry() must equal deployed IdentityRegistry address",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "no declarative checks; skipped",
+      "run": "baseline.setA"
+    },
+    {
+      "id": "R-ERC02",
+      "title": "IdentityRegistry Must Link Properly to the ClaimTopicsRegistry",
+      "desc": "IdentityRegistry.claimTopicsRegistry() equals deployed ClaimTopicsRegistry",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "no declarative checks; skipped",
+      "run": "baseline.setA"
+    },
+    {
+      "id": "R-ERC03",
+      "title": "Compliance Contract Must Be Bound and Linked Back to Token",
+      "desc": "Token.compliance() nonzero and bound back to token",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "no declarative checks; skipped",
+      "run": "baseline.setA"
+    },
+    {
+      "id": "R-ERC04",
+      "title": "Compliance Hooks Must Be Invoked in Token Operations",
+      "desc": "Token should call compliance.canTransfer/created/etc in its logic",
+      "severity": "WARN",
+      "pass": true,
+      "note": "no declarative checks; skipped",
+      "run": "baseline.setA"
+    },
+    {
+      "id": "R-ERC05",
+      "title": "ClaimTopicsRegistry Must Support Topic Management Functions",
+      "desc": "CTR exposes addClaimTopic, removeClaimTopic, getClaimTopics",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "no declarative checks; skipped",
+      "run": "baseline.setA"
+    },
+    {
+      "id": "R-HK01",
+      "title": "KYC Identity Verification Must Be Enforced Before Token Transfers",
+      "desc": "Must verify true identity before allowing value transfer (align HKMA CDD obligations)",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "no declarative checks; skipped",
+      "run": "baseline.setA"
+    },
+    {
+      "id": "R-HK02",
+      "title": "Transaction Record-Keeping Must Meet HKMA AML Obligations",
+      "desc": "Must maintain auditable logs per AML / HKMA record-keeping rules",
+      "severity": "WARN",
+      "pass": true,
+      "note": "no declarative checks; skipped",
+      "run": "baseline.setA"
+    },
+    {
+      "id": "R-SFC01",
+      "title": "Client Identity Verification Must Comply with SFC Code of Conduct §5.4",
+      "desc": "Under SFC Code §5.4, must satisfy “reasonable grounds” for client identity before trade / transfer",
+      "severity": "FAIL",
+      "pass": true,
+      "note": "no declarative checks; skipped",
+      "run": "baseline.setA"
+    },
+    {
+      "id": "R-SFC02",
+      "title": "Account Opening Procedures Must Follow SFC Approved Verification Methods",
+      "desc": "Client identity verification via acceptable methods (face-to-face, certified, etc) per SFC guidelines",
+      "severity": "WARN",
+      "pass": true,
+      "note": "no declarative checks; skipped",
+      "run": "baseline.setA"
+    },
+    {
+      "id": "R-SFC03",
+      "title": "Client Identity Information Must Be Readily Available to Regulators on Request",
+      "desc": "Per SFC policy, client identity info must be made available to regulators within 2 business days",
+      "severity": "INFO",
+      "pass": true,
+      "note": "no declarative checks; skipped",
+      "run": "baseline.setA"
+    }
+  ],
+  "summary": {
+    "pass": 10,
+    "fail": 0,
+    "warn": 0,
+    "info": 0
+  },
+  "metrics": {
+    "compared": 10,
+    "tp": 10,
+    "fp": 0,
+    "tn": 0,
+    "fn": 0,
+    "precision": 1,
+    "recall": 1,
+    "f1": 1,
+    "accuracy": 1,
+    "disagreements": []
+  }
+}

@@ -10,17 +10,28 @@ function loadAbiArtifacts(root) {
   try {
     const map = JSON.parse(fs.readFileSync(abipathsPath, "utf8"));
     const loadOne = (p) => {
-      if (!p) return null;
+      if (!p) return { abi: null, path: null };
       const fp = path.isAbsolute(p) ? p : path.join(root, p);
-      if (!fs.existsSync(fp)) return null;
+      if (!fs.existsSync(fp)) return { abi: null, path: null };
       const j = JSON.parse(fs.readFileSync(fp, "utf8"));
-      return Array.isArray(j.abi) ? j.abi : null;
+      if (Array.isArray(j.abi)) return { abi: j.abi, path: fp };
+      return { abi: null, path: null };
     };
+    const token = loadOne(map.Token);
+    const idr = loadOne(map.IdentityRegistry);
+    const ctr = loadOne(map.ClaimTopicsRegistry);
+    const tir = loadOne(map.TrustedIssuersRegistry);
     return {
-      tokenAbi: loadOne(map.Token),
-      idrAbi: loadOne(map.IdentityRegistry),
-      ctrAbi: loadOne(map.ClaimTopicsRegistry),
-      tirAbi: loadOne(map.TrustedIssuersRegistry),
+      tokenAbi: token.abi,
+      idrAbi: idr.abi,
+      ctrAbi: ctr.abi,
+      tirAbi: tir.abi,
+      paths: {
+        Token: token.path,
+        IdentityRegistry: idr.path,
+        ClaimTopicsRegistry: ctr.path,
+        TrustedIssuersRegistry: tir.path
+      }
     };
   } catch {
     return null;
@@ -245,6 +256,206 @@ function shouldFallback(data, cfg) {
 }
 
 // =====================
+// Default declarative maps for ERC‑3643 + HKMA/SFC rule IDs
+// (used when the rule JSON has no explicit 'check'/'allOf'/'anyOf')
+// =====================
+function defaultDeclarativeFor(ruleId) {
+  const id = String(ruleId || "").toUpperCase();
+
+  // Helpers to build common checks
+  const nonZero = (field) => ({ op: "nonzeroaddress", field });
+  const eqAddr  = (field, equals) => ({ op: "equalsaddress", field, equals });
+  const hasFn   = (where, sig) => ({ op: "hasabifn", where, sig });
+  const hasEvt  = (where, name) => ({ op: "hasevent", where, name });
+  const lenGte  = (field, n) => ({ op: "lengthgte", field, value: n });
+
+  switch (id) {
+    // R-ERC3643-01 — Transfer must check identity gating
+    // Heuristic: token wired to a non-zero IdentityRegistry AND IdentityRegistry exposes isVerified(address)
+    case "R-ERC3643-01":
+      return {
+        allOf: [
+          nonZero("data.tokenIdentity"),
+          hasFn("idr", "isVerified(address)")
+        ]
+      };
+
+    // R-ERC3643-02 — Token.identityRegistry equals configured IR
+    case "R-ERC3643-02":
+      return { check: eqAddr("data.tokenIdentity", "cfg.identityRegistry") };
+
+    // R-ERC3643-03 — IdentityRegistry wired with ClaimTopicsRegistry
+    case "R-ERC3643-03":
+      return { check: eqAddr("data.idrTopicsRegistryAddr", "cfg.claimTopicsRegistry") };
+
+    // R-ERC3643-04 — Claim topics exist (>=1)
+    case "R-ERC3643-04":
+      return { check: lenGte("data.topics", 1) };
+
+    // R-ERC3643-05 — IdentityRegistry wired with TrustedIssuersRegistry (if provided)
+    case "R-ERC3643-05":
+      // If cfg.trustedIssuersRegistry is zero/absent, treat as pass (project may not use TIR explicitly)
+      return {
+        anyOf: [
+          { op: "equalsaddress", field: "data.idrTrustedIssuersAddr", equals: "cfg.trustedIssuersRegistry" },
+          // allow empty config: if config TIR is zero, this path will be equal (ZERO == ZERO) after normalization
+          { op: "equalsaddress", field: "data.idrTrustedIssuersAddr", equals: "0x0000000000000000000000000000000000000000" }
+        ]
+      };
+
+    // R-ERC3643-06 — Compliance bound to token
+    case "R-ERC3643-06":
+      return {
+        allOf: [
+          nonZero("data.tokenCompliance"),
+          eqAddr("data.complianceBoundToken", "cfg.token")
+        ]
+      };
+
+    // R-ERC3643-07 — Token exposes setIdentityRegistry(address)
+    case "R-ERC3643-07":
+      return { check: hasFn("token", "setIdentityRegistry(address)") };
+
+    // R-ERC3643-08 — IdentityRegistry exposes setClaimTopicsRegistry(address)
+    case "R-ERC3643-08":
+      return { check: hasFn("idr", "setClaimTopicsRegistry(address)") };
+
+    // R-ERC3643-09 — IdentityRegistry exposes setTrustedIssuersRegistry(address)
+    case "R-ERC3643-09":
+      return { check: hasFn("idr", "setTrustedIssuersRegistry(address)") };
+
+    // R-ERC3643-10 — IdentityRegistry has isVerified(address)
+    case "R-ERC3643-10":
+      return { check: hasFn("idr", "isVerified(address)") };
+    
+    // ---- HKMA rules (R-HKMA-01 ... R-HKMA-05) ----
+    case "R-HKMA-01": {
+      // Enforce identity verification pre-transfer (heuristic):
+      // require token wired to IR, IR exposes isVerified, and token has identityRegistry() getter
+      return {
+        allOf: [
+          { op: "nonzeroaddress", field: "data.tokenIdentity" },
+          { op: "hasabifn", where: "token", sig: "identityRegistry()" },
+          { op: "hasabifn", where: "idr", sig: "isVerified(address)" }
+        ]
+      };
+    }
+    case "R-HKMA-02": {
+      // Record keeping: presence of Transfer event (ERC20) OR transfer fn in ABI
+      return {
+        anyOf: [
+          { op: "hasevent", where: "token", name: "Transfer" },
+          { op: "hasabifn", where: "token", sig: "transfer(address,uint256)" }
+        ]
+      };
+    }
+    case "R-HKMA-03": {
+      // Beneficial ownership identification: IR exposes registration/update APIs (proxy for richer KYC infra)
+      return {
+        anyOf: [
+          { op: "hasabifn", where: "idr", sig: "registerIdentity(address,address,uint16)" },
+          { op: "hasabifn", where: "idr", sig: "updateIdentity(address,address)" },
+          { op: "hasabifn", where: "idr", sig: "deleteIdentity(address)" }
+        ]
+      };
+    }
+    case "R-HKMA-04": {
+      // Ongoing monitoring via compliance module (bound to token)
+      return {
+        allOf: [
+          { op: "nonzeroaddress", field: "data.tokenCompliance" },
+          { op: "equalsaddress", field: "data.complianceBoundToken", equals: "cfg.token" }
+        ]
+      };
+    }
+    case "R-HKMA-05": {
+      // Freezing/high-risk controls present on token
+      return {
+        anyOf: [
+          { op: "hasabifn", where: "token", sig: "setAddressFrozen(address,bool)" },
+          { op: "hasabifn", where: "token", sig: "freezePartialTokens(address,uint256)" },
+          { op: "hasabifn", where: "token", sig: "unfreezePartialTokens(address,uint256)" }
+        ]
+      };
+    }
+
+    // ---- SFC rules (R-SFC-01 ... R-SFC-05) ----
+    case "R-SFC-01": {
+      // Client identity on file (pre-trade): same heuristic as HKMA-01
+      return {
+        allOf: [
+          { op: "nonzeroaddress", field: "data.tokenIdentity" },
+          { op: "hasabifn", where: "token", sig: "identityRegistry()" },
+          { op: "hasabifn", where: "idr", sig: "isVerified(address)" }
+        ]
+      };
+    }
+    case "R-SFC-02": {
+      // Timely disclosure: IR exposes identity accessor(s)
+      return {
+        anyOf: [
+          { op: "hasabifn", where: "idr", sig: "identity(address)" },
+          { op: "hasabifn", where: "idr", sig: "contains(address)" },
+          { op: "hasabifn", where: "idr", sig: "isVerified(address)" }
+        ]
+      };
+    }
+    case "R-SFC-03": {
+      // Record changes in identity/KYC: identity update functions or events present
+      return {
+        anyOf: [
+          { op: "hasabifn", where: "idr", sig: "updateIdentity(address,address)" },
+          { op: "hasevent", where: "idr", name: "IdentityUpdated" },
+          { op: "hasevent", where: "idr", name: "IdentityRegistered" },
+          { op: "hasevent", where: "idr", name: "IdentityRemoved" }
+        ]
+      };
+    }
+    case "R-SFC-04": {
+      // Internal control & oversight: agent role management available on token
+      return {
+        allOf: [
+          { op: "hasabifn", where: "token", sig: "addAgent(address)" },
+          { op: "hasabifn", where: "token", sig: "removeAgent(address)" }
+        ]
+      };
+    }
+    case "R-SFC-05": {
+      // Conflicts of interest transparency: admin/registry events exist
+      return {
+        anyOf: [
+          { op: "hasevent", where: "token", name: "ComplianceAdded" },
+          { op: "hasevent", where: "idr",   name: "IdentityUpdated" },
+          { op: "hasevent", where: "ctr",   name: "ClaimTopicAdded" }
+        ]
+      };
+    }
+    default:
+      return null;
+  }
+}
+// =====================
+// Normalize possible declarative shapes coming from rules JSON
+function normalizeDeclarativeSpec(r) {
+  if (!r || typeof r !== "object") return null;
+  // direct keys
+  if (r.check || r.allOf || r.anyOf) {
+    return { check: r.check || null, allOf: r.allOf || null, anyOf: r.anyOf || null };
+  }
+  // common aliases used in some files
+  if (Array.isArray(r.checks)) {
+    return { allOf: r.checks };
+  }
+  if (Array.isArray(r.conditions)) {
+    return { allOf: r.conditions };
+  }
+  if (r.declarative && (r.declarative.check || r.declarative.allOf || r.declarative.anyOf)) {
+    const d = r.declarative;
+    return { check: d.check || null, allOf: d.allOf || null, anyOf: d.anyOf || null };
+  }
+  return null;
+}
+// =====================
 // Declarative rule engine
 // =====================
 function evalCheck(chk, data, cfg, helpers) {
@@ -293,11 +504,11 @@ function evalDeclarativeRule(r, data, cfg, helpers) {
     const op = (c.op || "").toLowerCase();
     if (op === "nonzeroaddress") {
       const v = asAddr(c.field && c.field.startsWith("data.") ? c.field : `data.${c.field}`, cfg, data);
-      notes.push(`${c.field}=${v}`);
+      notes.push(`${c.field} is non-zero: ${v}`);
     } else if (op === "equalsaddress") {
       const left = asAddr(c.field && c.field.startsWith("data.") ? c.field : `data.${c.field}`, cfg, data);
       const right = asAddr(c.equals ?? c.value, cfg, data);
-      notes.push(`${c.field}==${c.equals || c.value} (${left} vs ${right})`);
+      notes.push(`${c.field} equals ${c.equals || c.value} → (${left} vs ${right})`);
     } else if (op === "lengthgte") {
       const arr = getByPath(data, c.field && c.field.startsWith("data.") ? c.field.slice(5) : c.field);
       notes.push(`${c.field}.length>=${c.value} (actual ${Array.isArray(arr) ? arr.length : "n/a"})`);
@@ -305,9 +516,11 @@ function evalDeclarativeRule(r, data, cfg, helpers) {
       const left = asAddr(c.field && c.field.startsWith("data.") ? c.field : `data.${c.field}`, cfg, data);
       notes.push(`${c.field} in [${(c.values||[]).join(",")}] actual=${left}`);
     } else if (op === "hasabifn") {
-      notes.push(`ABI ${c.where}:${c.sig || c.name}=${helpers && helpers.hasFn ? helpers.hasFn((c.where||"").toLowerCase(), String(c.sig || c.name || "")) : "n/a"}`);
+      const present = helpers && helpers.hasFn ? helpers.hasFn((c.where||"").toLowerCase(), String(c.sig || c.name || "")) : "n/a";
+      notes.push(`ABI has ${c.where}.${c.sig || c.name}: ${present}`);
     } else if (op === "hasevent") {
-      notes.push(`Event ${c.where}:${c.name}=${helpers && helpers.hasEvent ? helpers.hasEvent((c.where||"").toLowerCase(), String(c.name||"")) : "n/a"}`);
+      const present = helpers && helpers.hasEvent ? helpers.hasEvent((c.where||"").toLowerCase(), String(c.name||"")) : "n/a";
+      notes.push(`Event on ${c.where}:${c.name} present: ${present}`);
     }
     return ok;
   };
@@ -361,62 +574,52 @@ async function main() {
 
   const outputPath = outputArg
     ? (path.isAbsolute(outputArg) ? outputArg : path.join(root, outputArg))
-    : path.join(root, "reports", "phase2-results.json");
+    : path.join(root, "reports", "p2-results.json");
 
   const runDefs = [];
-  const resolveRules = (relPath) => path.isAbsolute(relPath) ? relPath : path.join(root, relPath);
-  const resolveAddr = (relPath) => path.isAbsolute(relPath) ? relPath : path.join(root, relPath);
+  const resolveRules = (relPath) => (path.isAbsolute(relPath) ? relPath : path.join(root, relPath));
+  const resolveAddr  = (relPath) => (path.isAbsolute(relPath) ? relPath : path.join(root, relPath));
 
-  if (rulesArg) {
-    const rulesPath = resolveRules(rulesArg);
-    if (!fs.existsSync(rulesPath)) {
-      console.error(`[phase2] Rules file not found: ${rulesPath}`);
-      process.exit(1);
+  // Support multiple rules files:
+  // - If --rules is provided, accept a comma-separated list of paths.
+  // - Otherwise, default to both ERC‑3643 and HK rules when present.
+  const defaultRuleFiles = [
+    "cre/rules/baseline.erc3643.json",
+    "cre/rules/baseline.hk.json"
+  ];
+
+  const rulesPaths = (() => {
+    if (rulesArg) {
+      return rulesArg.split(",").map(s => s.trim()).filter(Boolean).map(resolveRules);
     }
-    const addressesPath = addressesArg
-      ? resolveAddr(addressesArg)
-      : (/setb/i.test(path.basename(rulesPath)) ? path.join(root, ".cre.addresses.setB.json") : path.join(root, ".cre.addresses.json"));
-    if (!fs.existsSync(addressesPath)) {
-      console.error(`[phase2] Addresses file not found: ${addressesPath}`);
-      process.exit(1);
-    }
-    runDefs.push({
-      label: path.basename(rulesPath, ".json"),
-      rulesPath,
-      addressesPath,
-    });
-  } else {
-    const defaults = [
-      { label: "setA", rulesPath: path.join(root, "cre/rules/baseline.setA.json"), addressesPath: path.join(root, ".cre.addresses.json") },
-      { label: "setB", rulesPath: path.join(root, "cre/rules/baseline.setB.json"), addressesPath: path.join(root, ".cre.addresses.setB.json") },
-      { label: "setC", rulesPath: path.join(root, "cre/rules/baseline.setC.json"), addressesPath: path.join(root, ".cre.addresses.json") },
-    ];
-    for (const def of defaults) {
-      if (fs.existsSync(def.rulesPath)) {
-        if (!fs.existsSync(def.addressesPath)) {
-          console.warn(`[phase2] Skipping ${def.label} – addresses file missing at ${def.addressesPath}`);
-          continue;
-        }
-        runDefs.push(def);
-      }
-    }
-    if (runDefs.length === 0) {
-      const fallbackRules = path.join(root, "cre/rules/baseline.json");
-      if (!fs.existsSync(fallbackRules)) {
-        console.error("[phase2] No baseline rule files found.");
-        process.exit(1);
-      }
-      runDefs.push({
-        label: "baseline",
-        rulesPath: fallbackRules,
-        addressesPath: path.join(root, ".cre.addresses.json"),
-      });
-    }
+    return defaultRuleFiles.map(resolveRules).filter(p => fs.existsSync(p));
+  })();
+
+  if (!rulesPaths.length) {
+    console.error("[phase2] No rules file found. Expected at least one of:");
+    for (const f of defaultRuleFiles) console.error("  - " + f);
+    process.exit(1);
   }
 
-  if (runDefs.length === 0) {
-    console.error("[phase2] No runs scheduled; aborting.");
+  // Default to .cre.addresses.json if --addresses is not provided
+  const addressesPath = resolveAddr(addressesArg || ".cre.addresses.json");
+  if (!fs.existsSync(addressesPath)) {
+    console.error(`[phase2] Addresses file not found: ${addressesPath}`);
     process.exit(1);
+  }
+
+  // Used rules files (relative to root)
+  const ruleFilesUsed = rulesPaths.map(p => path.relative(root, p));
+
+  // Build runs: one per rules file. Label derived from filename.
+  for (const rp of rulesPaths) {
+    const label = path.basename(rp).replace(/\.json$/i, "");
+    runDefs.push({
+      label,
+      rulesPath: rp,
+      addressesPath
+    });
+    console.log(`[phase2] Queued rules: ${path.relative(root, rp)} (label=${label})`);
   }
 
   ensureDir(path.join(root, "reports"));
@@ -438,6 +641,21 @@ async function main() {
     }
   }
 
+  // Load ABI artifacts once, to use for inputsMeta
+  const abiArtifacts = loadAbiArtifacts(root);
+
+  // Compose richer inputs metadata
+  const inputsMeta = {
+    addressesPath,
+    addresses: loadJson(addressesPath),
+    ruleFiles: ruleFilesUsed,
+    abiArtifacts: Object.fromEntries(
+      Object.entries(abiArtifacts?.paths || {}).map(
+        ([k,v]) => [k, v ? path.relative(root, v) : null]
+      )
+    )
+  };
+
   const aggregatedItems = [];
   const aggregatedSummary = { pass: 0, fail: 0, warn: 0, info: 0 };
   const runsMeta = [];
@@ -450,7 +668,7 @@ async function main() {
       console.warn(`[phase2] Skipping ${def.label}: rules file empty.`);
       continue;
     }
-    const result = await evaluateRun(root, def, rules);
+    const result = await evaluateRun(root, def, rules, abiArtifacts);
     // Per-run metrics vs ground truth (binary: PASS vs NONPASS)
     let runMetrics = { tp:0, tn:0, fp:0, fn:0, compared:0 };
     if (gtMap) {
@@ -497,6 +715,7 @@ async function main() {
 
   const out = {
     generatedAt: new Date().toISOString(),
+    inputs: inputsMeta,
     runs: runsMeta,
     items: aggregatedItems,
     summary: aggregatedSummary,
@@ -518,21 +737,32 @@ async function main() {
     console.log(`[phase2] No ground truth found at ${groundPath}; metrics skipped.`);
   }
   console.log(`[phase2] JSON written: ${outputPath}`);
+  if (abiArtifacts && abiArtifacts.paths) {
+    console.log('[phase2] ABI artifacts:');
+    for (const [k,v] of Object.entries(abiArtifacts.paths)) {
+      console.log(`  - ${k}: ${v ? path.relative(root, v) : 'not found'}`);
+    }
+  }
 }
 
-async function evaluateRun(root, def, rules) {
+async function evaluateRun(root, def, rules, abiArtifactsArg) {
   const { label, rulesPath, addressesPath } = def;
   console.log(`[phase2] [${label}] Evaluating ${rules.length} rule(s)`);
 
   const cfg = loadJson(addressesPath);
 
-  const abiArtifacts = loadAbiArtifacts(root);
+  // Use abiArtifactsArg if provided, else load
+  const abiArtifacts = abiArtifactsArg || loadAbiArtifacts(root);
   const idx = {
     token: makeAbiIndex(abiArtifacts?.tokenAbi),
     idr: makeAbiIndex(abiArtifacts?.idrAbi),
     ctr: makeAbiIndex(abiArtifacts?.ctrAbi),
     tir: makeAbiIndex(abiArtifacts?.tirAbi),
   };
+  // Guard against missing ABI indices
+  for (const k of ["token","idr","ctr","tir"]) {
+    if (!idx[k]) idx[k] = { bySig: new Set(), byName: new Set(), hasEvent: new Set() };
+  }
   const hasFn = (where, sigOrName) => idx[where] && (idx[where].bySig.has(sigOrName) || idx[where].byName.has(sigOrName));
   const hasEvent = (where, name) => idx[where] && idx[where].hasEvent.has(name);
 
@@ -558,16 +788,36 @@ async function evaluateRun(root, def, rules) {
   const items = [];
 
   for (const r of rules) {
-    // First try declarative checks (so you can scale rules without code changes)
     let pass = false; let note = "";
-    const dec = evalDeclarativeRule(r, data, cfg, { hasFn, hasEvent });
-    if (dec) { pass = dec.pass; note = dec.note; }
-    else {
-      // No declarative section in this rule; by default treat as informational pass
-      pass = true;
-      note = "no declarative checks; skipped";
+    // Prefer explicit declarative checks from the rule object
+    const spec = normalizeDeclarativeSpec(r);
+    let dec = spec ? evalDeclarativeRule(spec, data, cfg, { hasFn, hasEvent })
+                   : evalDeclarativeRule(r, data, cfg, { hasFn, hasEvent });
+
+    // If still nothing, try auto-mapping for well-known IDs
+    if (!dec) {
+      const auto = defaultDeclarativeFor(r.id);
+      if (auto) dec = evalDeclarativeRule(auto, data, cfg, { hasFn, hasEvent });
     }
-    items.push({ id: r.id, title: r.title, desc: r.desc, severity: r.severity, pass, note, run: label });
+
+    if (dec) {
+      pass = dec.pass; note = dec.note;
+    } else {
+      pass = true;
+      note = `no checks: rule '${r.id}' has no declarative section (check/allOf/anyOf) and no default mapping`;
+    }
+
+    items.push({
+      id: r.id,
+      title: r.title,
+      desc: r.desc,
+      snippet: r.snippet || "",
+      policyRef: r.policyRef || "",
+      severity: r.severity,
+      pass,
+      note,
+      run: label
+    });
   }
 
   const summary = {
@@ -599,6 +849,11 @@ async function evaluateRun(root, def, rules) {
       tirOwner: data?.tirOwner ?? null,
       irsOwner: data?.irsOwner ?? null,
     },
+    abiArtifacts: Object.fromEntries(
+      Object.entries(abiArtifacts?.paths || {}).map(
+        ([k,v]) => [k, v ? path.relative(root, v) : null]
+      )
+    ),
   };
 
   return { items, summary, meta };

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "C-01",
+    "title": "Token.identityRegistry points to IdentityRegistry",
+    "desc": "Token exposes identityRegistry() and equals deployed IdentityRegistry",
+    "severity": "FAIL"
+  },
+  {
+    "id": "C-02",
+    "title": "ClaimTopicsRegistry has topics",
+    "desc": "getClaimTopics() length >= 1",
+    "severity": "WARN"
+  },
+  {
+    "id": "C-03",
+    "title": "Trusted issuer list non-empty for used topics",
+    "desc": "For each topic in CTR, TIR.getTrustedIssuersForClaimTopic(topic) length >= 1",
+    "severity": "WARN"
+  },
+  {
+    "id": "C-04",
+    "title": "Admin wiring functions gated",
+    "desc": "Setters like setIdentityRegistry/setClaimTopicsRegistry restricted to owner/agent (surface presence check only)",
+    "severity": "WARN"
+  },
+  {
+    "id": "C-05",
+    "title": "Events for administrative actions",
+    "desc": "IR/CTR/TIR emit events on updates (surface presence of event signatures only)",
+    "severity": "INFO"
+  },
+  {
+    "id": "C-06",
+    "title": "Recovery / freeze surfaces present",
+    "desc": "Token exposes recoveryAddress/setAddressFrozen/freezePartialTokens/unfreezePartialTokens",
+    "severity": "INFO"
+  },
+  {
+    "id": "C-07",
+    "title": "Batch operations available",
+    "desc": "Token exposes batchTransfer/batchMint/batchBurn/batchForcedTransfer",
+    "severity": "INFO"
+  },
+  {
+    "id": "C-08",
+    "title": "Compliance swap hooks exist",
+    "desc": "Token.setCompliance(address) present; compliance has bind/unbind functions",
+    "severity": "WARN"
+  },
+  {
+    "id": "C-09",
+    "title": "Zero-address guard surfaces",
+    "desc": "Setters expected to revert on zero address (surface only; LLM to reason over docstrings)",
+    "severity": "WARN"
+  },
+  {
+    "id": "C-10",
+    "title": "Decimals/name/symbol sane",
+    "desc": "decimals in [0..18], name and symbol non-empty",
+    "severity": "WARN"
+  }
+]

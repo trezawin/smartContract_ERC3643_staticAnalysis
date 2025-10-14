@@ -1,0 +1,66 @@
+{
+    "generatedAt": "2025-10-10T00:00:00Z",
+    "description": "Ground truth for evaluating ERC-3643 + HKMA/SFC compliance performance across Phase 2 and Phase 3.",
+    "items": [
+      {
+        "id": "R-ERC01",
+        "title": "Token Contract Must Reference the Correct IdentityRegistry",
+        "verdict": "PASS",
+        "rationale": "Token.identityRegistry correctly points to the deployed IdentityRegistry contract."
+      },
+      {
+        "id": "R-ERC02",
+        "title": "IdentityRegistry Must Link Properly to the ClaimTopicsRegistry",
+        "verdict": "PASS",
+        "rationale": "IdentityRegistry.claimTopicsRegistry matches the expected ClaimTopicsRegistry instance."
+      },
+      {
+        "id": "R-ERC03",
+        "title": "Compliance Contract Must Be Bound and Linked Back to Token",
+        "verdict": "PASS",
+        "rationale": "Compliance contract is deployed, bound to token, and token.compliance() returns correct address."
+      },
+      {
+        "id": "R-ERC04",
+        "title": "Compliance Hooks Must Be Invoked in Token Operations",
+        "verdict": "PASS",
+        "rationale": "Transfer and mint/burn functions include canTransfer and onTransfer hooks."
+      },
+      {
+        "id": "R-ERC05",
+        "title": "ClaimTopicsRegistry Must Support Topic Management Functions",
+        "verdict": "PASS",
+        "rationale": "CTR exposes addClaimTopic(), removeClaimTopic(), and getClaimTopics() APIs as required by ERC-3643."
+      },
+      {
+        "id": "R-HK01",
+        "title": "KYC Identity Verification Must Be Enforced Before Token Transfers",
+        "verdict": "PASS",
+        "rationale": "Transfers require verification in IdentityRegistry; satisfies HKMA AML/KYC standards."
+      },
+      {
+        "id": "R-HK02",
+        "title": "Transaction Record-Keeping Must Meet HKMA AML Obligations",
+        "verdict": "PASS",
+        "rationale": "All investor identity changes and token transfers emit events for audit trails per HKMA AML Guideline §3.3."
+      },
+      {
+        "id": "R-SFC01",
+        "title": "Client Identity Verification Must Comply with SFC Code of Conduct §5.4",
+        "verdict": "PASS",
+        "rationale": "Registry requires full client identity prior to onboarding; aligns with SFC Code of Conduct §5.4."
+      },
+      {
+        "id": "R-SFC02",
+        "title": "Account Opening Procedures Must Follow SFC Approved Verification Methods",
+        "verdict": "PASS",
+        "rationale": "Investor registration relies on SFC-approved intermediaries or digital certification flows."
+      },
+      {
+        "id": "R-SFC03",
+        "title": "Client Identity Information Must Be Readily Available to Regulators on Request",
+        "verdict": "PASS",
+        "rationale": "RegistryStorage exposes read access for compliance officers; complies with SFC Circular on AML/CTF §3.5."
+      }
+    ]
+  }

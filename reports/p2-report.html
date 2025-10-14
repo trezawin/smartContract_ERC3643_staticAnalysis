@@ -1,0 +1,239 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Phase 2 (Static) Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif; color:#111827; margin:24px; }
+  h1 { font-size:24px; margin:0 0 4px 0; }
+  .sub { color:#6B7280; font-size:13px; }
+</style>
+</head>
+<body>
+  <h1>Phase 2 — Static Compliance Report</h1>
+  <div class="sub">
+    Generated: 2025-10-14T10:27:13.896Z — Mode: static
+  </div>
+
+  
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0">
+  <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#374151;color:#fff">Total</span> <strong style="margin-left:6px">undefined</strong></div>
+  <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">Pass</span> <strong style="margin-left:6px">19</strong></div>
+  <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#F59E0B;color:#111">Warn</span> <strong style="margin-left:6px">1</strong></div>
+  <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#EF4444;color:#fff">Fail</span> <strong style="margin-left:6px">0</strong></div>
+  <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#6B7280;color:#fff">Info</span> <strong style="margin-left:6px">0</strong></div>
+</div>
+
+  
+<div style="margin:16px 0">
+  <div style="font-weight:700;margin-bottom:6px">Inputs</div>
+  <div style="font-size:13px;color:#374151">
+    <div>Addresses: <code>[object Object]</code></div>
+    
+    
+  </div>
+  
+</div>
+  
+<table style="width:100%;border-collapse:collapse;border-spacing:0;font-size:14px">
+  <thead>
+    <tr style="text-align:left;background:#F9FAFB">
+      <th style="padding:10px;border-bottom:1px solid #E5E7EB">ID</th>
+      <th style="padding:10px;border-bottom:1px solid #E5E7EB">Title</th>
+      <th style="padding:10px;border-bottom:1px solid #E5E7EB">Severity</th>
+      <th style="padding:10px;border-bottom:1px solid #E5E7EB">Outcome</th>
+      <th style="padding:10px;border-bottom:1px solid #E5E7EB">Notes</th>
+      <th style="padding:10px;border-bottom:1px solid #E5E7EB">Rules File</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-ERC3643-01</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Transfer must check identityRegistry.isVerified</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#EF4444;color:#fff">FAIL</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">data.tokenIdentity is non-zero: 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9; ABI has idr.isVerified(address): true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-ERC3643-02</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Token must call compliance.canTransfer hook</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#EF4444;color:#fff">FAIL</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">ABI has token.compliance(): true; data.tokenCompliance is non-zero: 0xdc64a140aa3e981100a9beca4e685f962f0cf6c9</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-ERC3643-03</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">ClaimTopicsRegistry must support add/remove and event emission</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#EF4444;color:#fff">FAIL</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">ABI has ctr.addClaimTopic(uint256): true; ABI has ctr.removeClaimTopic(uint256): true; ABI has ctr.getClaimTopics(): true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-ERC3643-04</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">IdentityRegistry must support setter for ClaimTopicsRegistry</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#EF4444;color:#fff">FAIL</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">ABI has idr.setClaimTopicsRegistry(address): true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-ERC3643-05</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">IdentityRegistry must support setter for TrustedIssuersRegistry</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#EF4444;color:#fff">FAIL</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">ABI has idr.setTrustedIssuersRegistry(address): true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-ERC3643-06</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Identity Registry must expose isVerified view function</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#EF4444;color:#fff">FAIL</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">ABI has idr.isVerified(address): true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-ERC3643-07</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Token must emit IdentityRegistryAdded and ComplianceAdded</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#F59E0B;color:#111">WARN</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Event on token:IdentityRegistryAdded present: true; Event on token:ComplianceAdded present: true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-ERC3643-08</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Token must support freezing / unfreezing of address</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#F59E0B;color:#111">WARN</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">ABI has token.setAddressFrozen(address,bool): true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-ERC3643-09</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Token must be compatible with ERC-20 interface</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#EF4444;color:#fff">FAIL</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">ABI has token.totalSupply(): true; ABI has token.balanceOf(address): true; ABI has token.transfer(address,uint256): true; ABI has token.transferFrom(address,address,uint256): true; ABI has token.approve(address,uint256): true; ABI has token.allowance(address,address): true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-ERC3643-10</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Token must support recovery functionality</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#F59E0B;color:#111">WARN</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#F59E0B;color:#111">WARN</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">ABI has token.recover(address,address): false; ABI has token.recoveryAddress(address): false; ABI has token.setRecoveryAddress(address,address): false</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-HKMA-01</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Customer Due Diligence (CDD) before first transaction</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#EF4444;color:#fff">FAIL</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">data.tokenIdentity is non-zero: 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9; ABI has token.identityRegistry(): true; ABI has idr.isVerified(address): true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-HKMA-02</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Record keeping retention ≥ 5 years</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#F59E0B;color:#111">WARN</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Event on token:Transfer present: true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-HKMA-03</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Beneficial ownership identification</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#EF4444;color:#fff">FAIL</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">ABI has idr.registerIdentity(address,address,uint16): true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-HKMA-04</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Ongoing transaction monitoring / suspicious flags</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#F59E0B;color:#111">WARN</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">data.tokenCompliance is non-zero: 0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; data.complianceBoundToken equals cfg.token → (0x5fc8d32690cc91d4c39d9d3abcbd16989f875707 vs 0x5fc8d32690cc91d4c39d9d3abcbd16989f875707)</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-HKMA-05</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Freezing high-risk accounts or sanctions screening</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#F59E0B;color:#111">WARN</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">ABI has token.setAddressFrozen(address,bool): true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-SFC-01</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Client identity rule: identity on file prior to transaction</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#EF4444;color:#fff">FAIL</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">data.tokenIdentity is non-zero: 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9; ABI has token.identityRegistry(): true; ABI has idr.isVerified(address): true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-SFC-02</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Timely disclosure of client identity to regulators</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#F59E0B;color:#111">WARN</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">ABI has idr.identity(address): true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-SFC-03</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Record changes in identity / KYC data</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#6B7280;color:#fff">INFO</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">ABI has idr.updateIdentity(address,address): true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-SFC-04</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Internal control &amp; compliance function oversight</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#F59E0B;color:#111">WARN</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">ABI has token.addAgent(address): true; ABI has token.removeAgent(address): true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+      <tr>
+        <td style="padding:10px;border-top:1px solid #F3F4F6;white-space:nowrap"><code>R-SFC-05</code></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Conflicts of interest disclosure &amp; fairness</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#6B7280;color:#fff">INFO</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">PASS</span></td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6">Event on token:ComplianceAdded present: true</td>
+        <td style="padding:10px;border-top:1px solid #F3F4F6"><code></code></td>
+      </tr>
+    
+  </tbody>
+</table>
+
+  <div style="margin-top:28px;color:#6B7280;font-size:12px">
+    Inputs are derived from ABIs (no on-chain calls) unless otherwise noted. Outcomes reflect rules logic only.
+  </div>
+</body>
+</html>

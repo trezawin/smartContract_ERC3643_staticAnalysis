@@ -1,0 +1,62 @@
+[
+  {
+    "id": "R-ERC01",
+    "title": "Token Contract Must Reference the Correct IdentityRegistry",
+    "desc": "Token.identityRegistry() must equal deployed IdentityRegistry address",
+    "severity": "FAIL"
+  },
+  {
+    "id": "R-ERC02",
+    "title": "IdentityRegistry Must Link Properly to the ClaimTopicsRegistry",
+    "desc": "IdentityRegistry.claimTopicsRegistry() equals deployed ClaimTopicsRegistry",
+    "severity": "FAIL"
+  },
+  {
+    "id": "R-ERC03",
+    "title": "Compliance Contract Must Be Bound and Linked Back to Token",
+    "desc": "Token.compliance() nonzero and bound back to token",
+    "severity": "FAIL"
+  },
+  {
+    "id": "R-ERC04",
+    "title": "Compliance Hooks Must Be Invoked in Token Operations",
+    "desc": "Token should call compliance.canTransfer/created/etc in its logic",
+    "severity": "WARN"
+  },
+  {
+    "id": "R-ERC05",
+    "title": "ClaimTopicsRegistry Must Support Topic Management Functions",
+    "desc": "CTR exposes addClaimTopic, removeClaimTopic, getClaimTopics",
+    "severity": "FAIL"
+  },
+  {
+    "id": "R-HK01",
+    "title": "KYC Identity Verification Must Be Enforced Before Token Transfers",
+    "desc": "Must verify true identity before allowing value transfer (align HKMA CDD obligations)",
+    "severity": "FAIL"
+  },
+  {
+    "id": "R-HK02",
+    "title": "Transaction Record-Keeping Must Meet HKMA AML Obligations",
+    "desc": "Must maintain auditable logs per AML / HKMA record-keeping rules",
+    "severity": "WARN"
+  },
+  {
+    "id": "R-SFC01",
+    "title": "Client Identity Verification Must Comply with SFC Code of Conduct §5.4",
+    "desc": "Under SFC Code §5.4, must satisfy “reasonable grounds” for client identity before trade / transfer",
+    "severity": "FAIL"
+  },
+  {
+    "id": "R-SFC02",
+    "title": "Account Opening Procedures Must Follow SFC Approved Verification Methods",
+    "desc": "Client identity verification via acceptable methods (face-to-face, certified, etc) per SFC guidelines",
+    "severity": "WARN"
+  },
+  {
+    "id": "R-SFC03",
+    "title": "Client Identity Information Must Be Readily Available to Regulators on Request",
+    "desc": "Per SFC policy, client identity info must be made available to regulators within 2 business days",
+    "severity": "INFO"
+  }
+]

@@ -1,0 +1,1329 @@
+{
+  "0300361b81f6901f611ded99ad0baf92d2126f1412de2b1f5dc88bea1c413c38": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The compliance audit indicates that while the majority of checks pass, several critical areas related to identity verification and compliance hooks are flagged for further scrutiny.",
+        "items": [
+          {
+            "id": "R-ERC3643-01",
+            "position": "CHALLENGE",
+            "explanation": "The transfer function must verify recipient identity via identityRegistry.isVerified. Despite passing, the lack of explicit checks could lead to compliance risks.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "phase2_id": "R-ERC3643-01",
+              "abi_fact": "data.tokenIdentity is non-zero: 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
+              "topics_count": 1,
+              "missing_fn": "identityRegistry.isVerified(address)"
+            },
+            "severity": "FAIL"
+          },
+          {
+            "id": "R-HKMA-01",
+            "position": "CHALLENGE",
+            "explanation": "Customer Due Diligence (CDD) is essential before transactions. The system must enforce identity verification to comply with HKMA regulations.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "phase2_id": "R-HKMA-01",
+              "abi_fact": "data.tokenIdentity is non-zero: 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9"
+            },
+            "severity": "FAIL"
+          },
+          {
+            "id": "R-SFC-01",
+            "position": "CHALLENGE",
+            "explanation": "Client identity must be verified before transactions. The current setup lacks sufficient checks to ensure compliance with SFC regulations.",
+            "policy_refs": [
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "phase2_id": "R-SFC-01",
+              "abi_fact": "data.tokenIdentity is non-zero: 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9"
+            },
+            "severity": "FAIL"
+          }
+        ]
+      }
+    }
+  },
+  "0d9398a543d5ab313fb9f09d3b5f6be501c03eea02ad6ed0b4068f8b0afeb76d": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "All rules passed based on the Phase 2 results, indicating compliance with HKMA/SFC policies.",
+        "items": [
+          {
+            "id": "R-ERC3643-01",
+            "position": "SUPPORT",
+            "explanation": "The transfer function correctly checks identityRegistry.isVerified, confirming recipient eligibility.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023)",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-02",
+            "position": "SUPPORT",
+            "explanation": "The token correctly calls compliance.canTransfer, ensuring compliance rules are enforced before transfers.",
+            "policy_refs": [
+              {
+                "label": "SFC Guideline on Anti-Money Laundering",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-03",
+            "position": "SUPPORT",
+            "explanation": "The ClaimTopicsRegistry supports add/remove functions and emits required events, ensuring compliance.",
+            "policy_refs": [
+              {
+                "label": "HKMA Circular: Tokenised Securities and Digital Asset Activities",
+                "url": "https://www.hkma.gov.hk/eng/news-and-media/press-releases/2023/12/20231215-4/"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-04",
+            "position": "SUPPORT",
+            "explanation": "IdentityRegistry supports the setter for ClaimTopicsRegistry, confirming the necessary functionality.",
+            "policy_refs": [
+              {
+                "label": "HKMA Supervisory Policy Manual",
+                "url": "https://www.hkma.gov.hk/eng/regulatory-resources/prudential-regulation/supervisory-policy-manual/"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-05",
+            "position": "SUPPORT",
+            "explanation": "IdentityRegistry allows updating the Trusted Issuers Registry, meeting compliance requirements.",
+            "policy_refs": [
+              {
+                "label": "SFC Code of Conduct",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Supervision-and-Inspection/Code-of-Conduct"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-06",
+            "position": "SUPPORT",
+            "explanation": "The identity registry exposes the isVerified function, enabling eligibility checks as required.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023)",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-07",
+            "position": "SUPPORT",
+            "explanation": "The token emits IdentityRegistryAdded and ComplianceAdded events, ensuring transparency in operations.",
+            "policy_refs": [
+              {
+                "label": "SFC Guideline on Anti-Money Laundering",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-08",
+            "position": "SUPPORT",
+            "explanation": "The token supports freezing/unfreezing addresses, complying with regulatory requirements.",
+            "policy_refs": [
+              {
+                "label": "HKMA Circular: Tokenised Securities and Digital Asset Activities",
+                "url": "https://www.hkma.gov.hk/eng/news-and-media/press-releases/2023/12/20231215-4/"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-09",
+            "position": "SUPPORT",
+            "explanation": "The token is compatible with the ERC-20 interface, fulfilling standard compliance expectations.",
+            "policy_refs": [
+              {
+                "label": "SFC Code of Conduct",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Supervision-and-Inspection/Code-of-Conduct"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-10",
+            "position": "SUPPORT",
+            "explanation": "The token implements recovery functionality, addressing investor security needs.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023)",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-01",
+            "position": "SUPPORT",
+            "explanation": "The system enforces identity verification before transactions, aligning with CDD requirements.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023)",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-02",
+            "position": "WARN",
+            "explanation": "Event logs are present, but further details on retention policies are needed to confirm compliance.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023)",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-03",
+            "position": "SUPPORT",
+            "explanation": "The ABI confirms beneficial ownership identification is supported, aligning with KYC requirements.",
+            "policy_refs": [
+              {
+                "label": "SFC Guideline on Anti-Money Laundering",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-04",
+            "position": "WARN",
+            "explanation": "Ongoing monitoring is indicated, but specific thresholds for flags are not detailed in the evidence.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023)",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-05",
+            "position": "WARN",
+            "explanation": "The ABI indicates freezing functionality exists, but further details on implementation are required.",
+            "policy_refs": [
+              {
+                "label": "SFC Guideline on Anti-Money Laundering",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-01",
+            "position": "SUPPORT",
+            "explanation": "Identity verification is enforced prior to transactions, complying with SFC requirements.",
+            "policy_refs": [
+              {
+                "label": "SFC Guideline on Anti-Money Laundering",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-02",
+            "position": "WARN",
+            "explanation": "Timely disclosure mechanisms are indicated, but specifics on retrieval timelines are not provided.",
+            "policy_refs": [
+              {
+                "label": "SFC Guideline on Anti-Money Laundering",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-03",
+            "position": "SUPPORT",
+            "explanation": "The ABI confirms that changes in identity/KYC data are recorded, ensuring auditability.",
+            "policy_refs": [
+              {
+                "label": "SFC Guideline on Anti-Money Laundering",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "INFO",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-04",
+            "position": "WARN",
+            "explanation": "Internal control mechanisms are indicated, but further details on oversight processes are needed.",
+            "policy_refs": [
+              {
+                "label": "SFC Code of Conduct",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Supervision-and-Inspection/Code-of-Conduct"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-05",
+            "position": "SUPPORT",
+            "explanation": "Conflicts of interest are disclosed through events, ensuring transparency in operations.",
+            "policy_refs": [
+              {
+                "label": "SFC Guideline on Anti-Money Laundering",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "INFO",
+            "rule_set": ""
+          }
+        ]
+      }
+    }
+  },
+  "4ecee0d20e7eb7b1aeb3329b6ee7c541c4c16700899b03516256ed2aefe82875": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "All 20 rules were assessed with 20 passing and no failures. Compliance with HKMA and SFC policies is generally met, though some warnings indicate areas for improvement.",
+        "items": [
+          {
+            "id": "R-ERC3643-01",
+            "position": "SUPPORT",
+            "explanation": "The transfer function correctly checks if the recipient's identity is verified, complying with the requirement.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 specification — Token interface / transfer conditions",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-02",
+            "position": "SUPPORT",
+            "explanation": "The token calls the compliance.canTransfer hook before executing transfers, fulfilling the compliance requirement.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 spec — canTransfer in Token interface",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-03",
+            "position": "SUPPORT",
+            "explanation": "The ClaimTopicsRegistry supports adding/removing topics and emits required events, meeting the specification.",
+            "policy_refs": [
+              {
+                "label": "ERC-3643 docs — Claim Topics Registry interface and events",
+                "url": "https://erc-3643.github.io/documentation/docs/suite/claim-topics-registry/"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-04",
+            "position": "SUPPORT",
+            "explanation": "The IdentityRegistry supports a setter for the ClaimTopicsRegistry, which is compliant with the requirements.",
+            "policy_refs": [
+              {
+                "label": "ERC-3643 Identity Registry docs — setter methods",
+                "url": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-05",
+            "position": "SUPPORT",
+            "explanation": "The IdentityRegistry allows updating the Trusted Issuers Registry, aligning with the specified requirements.",
+            "policy_refs": [
+              {
+                "label": "ERC-3643 Identity Registry docs — setter for trusted issuers",
+                "url": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-06",
+            "position": "SUPPORT",
+            "explanation": "The Identity Registry exposes the isVerified function, enabling eligibility checks as required.",
+            "policy_refs": [
+              {
+                "label": "ERC-3643 Identity Registry docs — isVerified definition",
+                "url": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-07",
+            "position": "SUPPORT",
+            "explanation": "The token emits IdentityRegistryAdded and ComplianceAdded events, fulfilling the requirement for event emissions.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 specification — Token interface events list",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-08",
+            "position": "SUPPORT",
+            "explanation": "The token supports freezing and unfreezing addresses, complying with the specified functionality.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 standard mentions freeze/unfreeze in Token interface / events section",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-09",
+            "position": "CHALLENGE",
+            "explanation": "The token does not fully implement the ERC-20 interface as required, which is a compliance issue.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 spec (requires ERC-20 compatibility)",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "phase2_id": "R-ERC3643-09",
+              "abi_fact": "ABI has idr.setTrustedIssuersRegistry(address): true",
+              "topics_count": 0,
+              "missing_fn": "transfer"
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-10",
+            "position": "SUPPORT",
+            "explanation": "The token implements recovery functionality, which is compliant with the requirements.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 specification — recovery function discussion in Token interface",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-01",
+            "position": "CHALLENGE",
+            "explanation": "The system does not enforce identity verification before transactions, which is a critical compliance failure.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (2023) §3.4 Customer due diligence and verification",
+                "url": "https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "phase2_id": "R-HKMA-01",
+              "abi_fact": "data.tokenIdentity is non-zero: 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
+              "topics_count": 0,
+              "missing_fn": "require(identityRegistry.isVerified(to), \"HKMA: CDD not met\")"
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-02",
+            "position": "WARN",
+            "explanation": "While event logs are present, the retention policy for records needs to be explicitly verified for compliance.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (2023) §9 Record keeping requirement",
+                "url": "https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-03",
+            "position": "CHALLENGE",
+            "explanation": "The system does not adequately identify beneficial ownership, which is a compliance issue.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline §4.4 Beneficial owner identification",
+                "url": "https://brdr.hkma.gov.hk/eng/doc-key/guide (derived from general guidelines)"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "phase2_id": "R-HKMA-03",
+              "abi_fact": "ABI has idr.registerIdentity(address,address,uint16): true",
+              "topics_count": 0,
+              "missing_fn": "require(identityRegistry.verifyBeneficialOwner(account, owner), \"HKMA: BO not verified\")"
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-04",
+            "position": "WARN",
+            "explanation": "The system should implement ongoing transaction monitoring to flag suspicious activities, which is currently lacking.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline §7 Transaction monitoring and reporting obligations",
+                "url": "https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-05",
+            "position": "WARN",
+            "explanation": "The system supports freezing accounts but needs to ensure proper implementation for high-risk accounts.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline §5 Risk mitigation / enhanced due diligence",
+                "url": "https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-01",
+            "position": "CHALLENGE",
+            "explanation": "The system fails to verify client identity before transactions, which is a significant compliance failure.",
+            "policy_refs": [
+              {
+                "label": "SFC Client Identity Rule Policy — Code of Conduct paragraph 5.4",
+                "url": "https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/guidelines/client-identity-rule-policy/Client-Identity-Rule-Policy---2000-07-01-00_00_00.pdf"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "phase2_id": "R-SFC-01",
+              "abi_fact": "data.tokenIdentity is non-zero: 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
+              "topics_count": 0,
+              "missing_fn": "require(identityRegistry.isVerified(to), \"SFC: identity not on file\")"
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-02",
+            "position": "WARN",
+            "explanation": "The system should ensure timely disclosure of client identity to regulators, which needs further verification.",
+            "policy_refs": [
+              {
+                "label": "SFC Client Identity Rule Policy — regulators can request identity info within 2 business days",
+                "url": "https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/guidelines/client-identity-rule-policy/Client-Identity-Rule-Policy---2000-07-01-00_00_00.pdf"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-03",
+            "position": "SUPPORT",
+            "explanation": "The system emits events for changes in identity or KYC data, ensuring auditability.",
+            "policy_refs": [
+              {
+                "label": "SFC Code of Conduct §12 (Compliance obligations) — record keeping, control obligations",
+                "url": "https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/codes/code-of-conduct-for-persons-licensed-by-or-registered-with-the-securities-and-futures-commission/2011-08-31---2011-09-30---Code-of-Conduct-for-Per.pdf"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "INFO",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-04",
+            "position": "WARN",
+            "explanation": "The system needs to ensure proper oversight and separation of roles in compliance functions.",
+            "policy_refs": [
+              {
+                "label": "SFC Code of Conduct §12.1 General compliance obligations",
+                "url": "https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/codes/code-of-conduct-for-persons-licensed-by-or-registered-with-the-securities-and-futures-commission/2011-08-31---2011-09-30---Code-of-Conduct-for-Per.pdf"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-05",
+            "position": "SUPPORT",
+            "explanation": "The system includes events for conflicts of interest, ensuring transparency in privileged actions.",
+            "policy_refs": [
+              {
+                "label": "SFC Code of Conduct §5 & §11 (fair treatment, disclosure)",
+                "url": "https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/codes/code-of-conduct-for-persons-licensed-by-or-registered-with-the-securities-and-futures-commission/2011-08-31---2011-09-30---Code-of-Conduct-for-Per.pdf"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "INFO",
+            "rule_set": ""
+          }
+        ]
+      }
+    }
+  },
+  "f8f759fc32d2d6401a7dc95f1437c456d7237a05c0ab1281a07299a3b523ab7b": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The contract passes all checks but has several warnings and fails related to compliance with HKMA and SFC regulations. Key areas of concern include identity verification, compliance hooks, and event emissions.",
+        "items": [
+          {
+            "id": "R-ERC3643-01",
+            "position": "CHALLENGE",
+            "explanation": "The transfer function does not ensure that the recipient is verified via identityRegistry.isVerified, which is a requirement under EIP-3643.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 specification — Token interface / transfer conditions (EIP doc)",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "Token.sol",
+              "line": 42
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-02",
+            "position": "CHALLENGE",
+            "explanation": "The token does not call the compliance.canTransfer hook before executing transfers, which is necessary to enforce compliance rules.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 spec — canTransfer in Token interface (EIP-3643)",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "Token.sol",
+              "line": 45
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-03",
+            "position": "CHALLENGE",
+            "explanation": "The ClaimTopicsRegistry does not support the required add/remove functions and event emissions, which is a violation of the ERC-3643 standards.",
+            "policy_refs": [
+              {
+                "label": "ERC-3643 docs — Claim Topics Registry interface and events",
+                "url": "https://erc-3643.github.io/documentation/docs/suite/claim-topics-registry/"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "ClaimTopicsRegistry.sol",
+              "line": 30
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-04",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must support a setter for the ClaimTopicsRegistry, which is not implemented in the current code.",
+            "policy_refs": [
+              {
+                "label": "ERC-3643 Identity Registry docs — setter methods",
+                "url": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "IdentityRegistry.sol",
+              "line": 15
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-05",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry does not support a setter for the TrustedIssuersRegistry, which is required for compliance.",
+            "policy_refs": [
+              {
+                "label": "ERC-3643 Identity Registry docs — setter for trusted issuers",
+                "url": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "IdentityRegistry.sol",
+              "line": 20
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-06",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must expose the isVerified view function, which is not present in the current implementation.",
+            "policy_refs": [
+              {
+                "label": "ERC-3643 Identity Registry docs — isVerified definition",
+                "url": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "IdentityRegistry.sol",
+              "line": 25
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-07",
+            "position": "EXTEND",
+            "explanation": "The token should emit IdentityRegistryAdded and ComplianceAdded events when wiring these contracts, which is not currently implemented.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 specification — Token interface events list",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-08",
+            "position": "EXTEND",
+            "explanation": "The token should implement freezing/unfreezing functionality, which is partially supported but needs further implementation.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 standard mentions freeze/unfreeze in Token interface / events section",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-09",
+            "position": "CHALLENGE",
+            "explanation": "The token must be compatible with the ERC-20 interface, which is not fully supported in the current implementation.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 spec (requires ERC-20 compatibility)",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "Token.sol",
+              "line": 50
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-10",
+            "position": "EXTEND",
+            "explanation": "The token should implement a recovery mechanism for lost keys, which is not currently present.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 specification — recovery function discussion in Token interface",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-01",
+            "position": "CHALLENGE",
+            "explanation": "The system does not enforce identity verification (KYC) before any token transfer, which is a requirement under HKMA guidelines.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (2023) §3.4 Customer due diligence and verification",
+                "url": "https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "Token.sol",
+              "line": 42
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-02",
+            "position": "EXTEND",
+            "explanation": "Audit logs must be retained for at least 5 years, and while events are present, off-chain retention needs to be ensured.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (2023) §9 Record keeping requirement",
+                "url": "https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-03",
+            "position": "CHALLENGE",
+            "explanation": "Beneficial ownership must be identified and verified as part of KYC, which is not implemented in the current code.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline §4.4 Beneficial owner identification",
+                "url": "https://brdr.hkma.gov.hk/eng/doc-key/guide (derived from general guidelines)"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "IdentityRegistry.sol",
+              "line": 15
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-04",
+            "position": "EXTEND",
+            "explanation": "Ongoing transaction monitoring is necessary, and while some mechanisms are present, they need to be more robust.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline §7 Transaction monitoring and reporting obligations",
+                "url": "https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-05",
+            "position": "EXTEND",
+            "explanation": "The system supports freezing accounts, but further clarity on implementation and usage is needed.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline §5 Risk mitigation / enhanced due diligence",
+                "url": "https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-01",
+            "position": "CHALLENGE",
+            "explanation": "Client identity must be verified before transactions, which is not enforced in the current implementation.",
+            "policy_refs": [
+              {
+                "label": "SFC Client Identity Rule Policy — Code of Conduct paragraph 5.4",
+                "url": "https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/guidelines/client-identity-rule-policy/Client-Identity-Rule-Policy---2000-07-01-00_00_00.pdf"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "Token.sol",
+              "line": 42
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-02",
+            "position": "EXTEND",
+            "explanation": "Client identity records must be retrievable for regulators, which is partially supported but needs further implementation.",
+            "policy_refs": [
+              {
+                "label": "SFC Client Identity Rule Policy — regulators can request identity info within 2 business days",
+                "url": "https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/guidelines/client-identity-rule-policy/Client-Identity-Rule-Policy---2000-07-01-00_00_00.pdf"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-03",
+            "position": "EXTEND",
+            "explanation": "Changes in identity or KYC data must be recorded, which is supported but needs more robust event handling.",
+            "policy_refs": [
+              {
+                "label": "SFC Code of Conduct §12 (Compliance obligations) — record keeping, control obligations",
+                "url": "https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/codes/code-of-conduct-for-persons-licensed-by-or-registered-with-the-securities-and-futures-commission/2011-08-31---2011-09-30---Code-of-Conduct-for-Per.pdf"
+              }
+            ],
+            "suggested_verdict": "INFO",
+            "severity": "INFO",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-04",
+            "position": "EXTEND",
+            "explanation": "Internal control and compliance oversight is necessary, and while some mechanisms are present, they need to be more clearly defined.",
+            "policy_refs": [
+              {
+                "label": "SFC Code of Conduct §12.1 General compliance obligations",
+                "url": "https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/codes/code-of-conduct-for-persons-licensed-by-or-registered-with-the-securities-and-futures-commission/2011-08-31---2011-09-30---Code-of-Conduct-for-Per.pdf"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-05",
+            "position": "EXTEND",
+            "explanation": "Conflicts of interest must be disclosed, and while some events are emitted, further transparency is needed.",
+            "policy_refs": [
+              {
+                "label": "SFC Code of Conduct §5 & §11 (fair treatment, disclosure)",
+                "url": "https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/codes/code-of-conduct-for-persons-licensed-by-or-registered-with-the-securities-and-futures-commission/2011-08-31---2011-09-30---Code-of-Conduct-for-Per.pdf"
+              }
+            ],
+            "suggested_verdict": "INFO",
+            "severity": "INFO",
+            "rule_set": ""
+          }
+        ]
+      }
+    }
+  },
+  "f36738143d6de7fc369398b74f2bc081129cd54e7b65d5538a5a817fed0e4a6e": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The contract demonstrates compliance with most ERC-3643 and HKMA/SFC regulations, but several critical areas require attention, particularly around identity verification and recovery functionalities.",
+        "items": [
+          {
+            "id": "R-ERC3643-01",
+            "position": "CHALLENGE",
+            "explanation": "The transfer function must verify recipient identity via identityRegistry.isVerified, which is not explicitly shown in the provided code.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 specification — Token interface / transfer conditions (EIP doc)",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "Token.sol",
+              "line": 0
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-02",
+            "position": "CHALLENGE",
+            "explanation": "The compliance.canTransfer hook must be called before transfers, but this is not evident in the provided code.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 spec — canTransfer in Token interface (EIP-3643)",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "Token.sol",
+              "line": 0
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-03",
+            "position": "CHALLENGE",
+            "explanation": "The ClaimTopicsRegistry must support adding/removing topics and emit corresponding events, which is not confirmed in the code.",
+            "policy_refs": [
+              {
+                "label": "ERC-3643 docs — Claim Topics Registry interface and events",
+                "url": "https://erc-3643.github.io/documentation/docs/suite/claim-topics-registry/"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "ClaimTopicsRegistry.sol",
+              "line": 0
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-04",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must allow setting the ClaimTopicsRegistry, which is not demonstrated in the code.",
+            "policy_refs": [
+              {
+                "label": "ERC-3643 Identity Registry docs — setter methods",
+                "url": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "IdentityRegistry.sol",
+              "line": 0
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-05",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must support a setter for the TrustedIssuersRegistry, which is not evident in the provided code.",
+            "policy_refs": [
+              {
+                "label": "ERC-3643 Identity Registry docs — setter for trusted issuers",
+                "url": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "IdentityRegistry.sol",
+              "line": 0
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-06",
+            "position": "CHALLENGE",
+            "explanation": "The Identity Registry must expose the isVerified function, which is not confirmed in the code.",
+            "policy_refs": [
+              {
+                "label": "ERC-3643 Identity Registry docs — isVerified definition",
+                "url": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "IdentityRegistry.sol",
+              "line": 0
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-07",
+            "position": "WARN",
+            "explanation": "The token should emit IdentityRegistryAdded and ComplianceAdded events, which are present but not confirmed in the code.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 specification — Token interface events list",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-08",
+            "position": "WARN",
+            "explanation": "The token must support freezing/unfreezing addresses, which is indicated but not fully confirmed in the code.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 standard mentions freeze/unfreeze in Token interface / events section",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-09",
+            "position": "CHALLENGE",
+            "explanation": "The token must implement standard ERC-20 functions, which are not fully confirmed in the provided code.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 spec (requires ERC-20 compatibility)",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "Token.sol",
+              "line": 0
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-ERC3643-10",
+            "position": "WARN",
+            "explanation": "The token must support recovery functionality, which is not evident in the code.",
+            "policy_refs": [
+              {
+                "label": "EIP-3643 specification — recovery function discussion in Token interface",
+                "url": "https://eips.ethereum.org/EIPS/eip-3643"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-01",
+            "position": "CHALLENGE",
+            "explanation": "Customer Due Diligence (CDD) must be enforced before transactions, which is not explicitly shown in the code.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (2023) §3.4 Customer due diligence and verification",
+                "url": "https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "Token.sol",
+              "line": 0
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-02",
+            "position": "WARN",
+            "explanation": "Record keeping retention must be at least 5 years, which is indicated but not fully confirmed in the code.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (2023) §9 Record keeping requirement",
+                "url": "https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-03",
+            "position": "CHALLENGE",
+            "explanation": "Beneficial ownership must be identified and verified, which is not evident in the provided code.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline §4.4 Beneficial owner identification",
+                "url": "https://brdr.hkma.gov.hk/eng/doc-key/guide (derived from general guidelines)"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "IdentityRegistry.sol",
+              "line": 0
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-04",
+            "position": "WARN",
+            "explanation": "Ongoing transaction monitoring must be in place, which is indicated but not fully confirmed in the code.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline §7 Transaction monitoring and reporting obligations",
+                "url": "https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-HKMA-05",
+            "position": "WARN",
+            "explanation": "The system must support freezing high-risk accounts, which is indicated but not fully confirmed in the code.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline §5 Risk mitigation / enhanced due diligence",
+                "url": "https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-01",
+            "position": "CHALLENGE",
+            "explanation": "Client identity must be verified before transactions, which is not explicitly shown in the code.",
+            "policy_refs": [
+              {
+                "label": "SFC Client Identity Rule Policy — Code of Conduct paragraph 5.4",
+                "url": "https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/guidelines/client-identity-rule-policy/Client-Identity-Rule-Policy---2000-07-01-00_00_00.pdf"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "evidence": {
+              "file": "Token.sol",
+              "line": 0
+            },
+            "severity": "FAIL",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-02",
+            "position": "WARN",
+            "explanation": "Timely disclosure of client identity to regulators must be ensured, which is indicated but not fully confirmed in the code.",
+            "policy_refs": [
+              {
+                "label": "SFC Client Identity Rule Policy — regulators can request identity info within 2 business days",
+                "url": "https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/guidelines/client-identity-rule-policy/Client-Identity-Rule-Policy---2000-07-01-00_00_00.pdf"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-03",
+            "position": "INFO",
+            "explanation": "Changes in identity or KYC data must be recorded, which is supported by the code.",
+            "policy_refs": [
+              {
+                "label": "SFC Code of Conduct §12 (Compliance obligations) — record keeping, control obligations",
+                "url": "https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/codes/code-of-conduct-for-persons-licensed-by-or-registered-with-the-securities-and-futures-commission/2011-08-31---2011-09-30---Code-of-Conduct-for-Per.pdf"
+              }
+            ],
+            "suggested_verdict": "INFO",
+            "severity": "INFO",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-04",
+            "position": "WARN",
+            "explanation": "Internal control and compliance oversight must be respected, which is indicated but not fully confirmed in the code.",
+            "policy_refs": [
+              {
+                "label": "SFC Code of Conduct §12.1 General compliance obligations",
+                "url": "https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/codes/code-of-conduct-for-persons-licensed-by-or-registered-with-the-securities-and-futures-commission/2011-08-31---2011-09-30---Code-of-Conduct-for-Per.pdf"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "rule_set": ""
+          },
+          {
+            "id": "R-SFC-05",
+            "position": "INFO",
+            "explanation": "Conflicts of interest must be disclosed, which is supported by the code.",
+            "policy_refs": [
+              {
+                "label": "SFC Code of Conduct §5 & §11 (fair treatment, disclosure)",
+                "url": "https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/codes/code-of-conduct-for-persons-licensed-by-or-registered-with-the-securities-and-futures-commission/2011-08-31---2011-09-30---Code-of-Conduct-for-Per.pdf"
+              }
+            ],
+            "suggested_verdict": "INFO",
+            "severity": "INFO",
+            "rule_set": ""
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+[
+  {
+    "rules": ["E3643-01", "E3643-02", "E3643-03", "E3643-04", "E3643-05", "E3643-08", "E3643-09", "E3643-10", "E3643-13", "E3643-14", "E3643-15", "E3643-16", "E3643-21", "E3643-22", "E3643-25"],
+    "refs": [
+      {
+        "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+        "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+      },
+      {
+        "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+        "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+      }
+    ]
+  },
+  {
+    "rules": ["E3643-06", "E3643-11", "E3643-19", "E3643-20", "E3643-23"],
+    "refs": [
+      {
+        "label": "HKMA Circular: Tokenised Securities and Digital Asset Activities (Dec 2023)",
+        "url": "https://www.hkma.gov.hk/eng/news-and-media/press-releases/2023/12/20231215-4/"
+      },
+      {
+        "label": "SFC Circular: Tokenised Securities-related Activities (Nov 2023)",
+        "url": "https://apps.sfc.hk/edistributionWeb/gateway/EN/circular/doc?refNo=23EC68"
+      }
+    ]
+  },
+  {
+    "rules": ["E3643-07", "E3643-12", "E3643-17", "E3643-18", "E3643-24"],
+    "refs": [
+      {
+        "label": "HKMA Supervisory Policy Manual – Corporate Governance & Operational Risk",
+        "url": "https://www.hkma.gov.hk/eng/regulatory-resources/prudential-regulation/supervisory-policy-manual/"
+      },
+      {
+        "label": "SFC Code of Conduct for Persons Licensed by or Registered with the SFC",
+        "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Supervision-and-Inspection/Code-of-Conduct"
+      }
+    ]
+  },
+  {
+    "rules": ["E3643-18"],
+    "refs": [
+      {
+        "label": "HKMA Disclosure Guideline on Banking Products",
+        "url": "https://www.hkma.gov.hk/eng/key-functions/international-financial-centre/banking-consumer-protection/"
+      },
+      {
+        "label": "HKEX / SFC Guidance on Product Disclosure for Tokenised Instruments",
+        "url": "https://www.hkex.com.hk/Listing/Rules-and-Guidance/Guidance-Materials?sc_lang=en"
+      }
+    ]
+  }
+]

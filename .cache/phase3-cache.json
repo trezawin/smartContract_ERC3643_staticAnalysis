@@ -1,0 +1,3176 @@
+{
+  "70654064f4b3558495f5940460fc2d718206a5e03486f63cb54fcb11a4172c20": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "support": [
+        {
+          "id": "E3643-01",
+          "verdict": "CHALLENGE",
+          "reasoning": "The token's identityRegistry must point to a valid IdentityRegistry as per HKMA guidelines. The current reference is valid, but further verification of its functionality is required.",
+          "reference": "HK Rules E3643-01"
+        },
+        {
+          "id": "E3643-02",
+          "verdict": "CHALLENGE",
+          "reasoning": "The IdentityRegistry must be properly wired with the ClaimTopicsRegistry. Although the reference is valid, the functionality of the ClaimTopicsRegistry needs to be verified to ensure compliance.",
+          "reference": "HK Rules E3643-02"
+        },
+        {
+          "id": "E3643-03",
+          "verdict": "SUPPORT",
+          "reasoning": "The KYC-gating of token transfers is a necessary compliance measure. The current implementation appears to meet this requirement.",
+          "reference": "HK Rules E3643-03"
+        },
+        {
+          "id": "E3643-04",
+          "verdict": "SUPPORT",
+          "reasoning": "The existence of claim topics in the ClaimTopicsRegistry is essential for compliance. The current implementation has at least one topic, which is satisfactory.",
+          "reference": "HK Rules E3643-04"
+        },
+        {
+          "id": "E3643-05",
+          "verdict": "CHALLENGE",
+          "reasoning": "The IdentityRegistry must be wired with a TrustedIssuersRegistry. The current reference is valid, but its operational status must be confirmed.",
+          "reference": "HK Rules E3643-05"
+        },
+        {
+          "id": "E3643-06",
+          "verdict": "CHALLENGE",
+          "reasoning": "The compliance module must be bound to the token. While the reference is present, its operational integrity must be verified.",
+          "reference": "HK Rules E3643-06"
+        },
+        {
+          "id": "E3643-07",
+          "verdict": "CHALLENGE",
+          "reasoning": "The token must expose a function to set the IdentityRegistry. The current implementation allows this, but the security of this function needs to be assessed.",
+          "reference": "HK Rules E3643-07"
+        },
+        {
+          "id": "E3643-08",
+          "verdict": "CHALLENGE",
+          "reasoning": "The IdentityRegistry must allow updates to the ClaimTopicsRegistry. The current implementation allows this, but the security measures need to be evaluated.",
+          "reference": "HK Rules E3643-08"
+        },
+        {
+          "id": "E3643-09",
+          "verdict": "CHALLENGE",
+          "reasoning": "The IdentityRegistry must allow updates to the TrustedIssuersRegistry. The current implementation allows this, but further security assessments are necessary.",
+          "reference": "HK Rules E3643-09"
+        },
+        {
+          "id": "E3643-10",
+          "verdict": "CHALLENGE",
+          "reasoning": "The IdentityRegistry must expose a verification function. The current implementation lacks this, which is critical for compliance.",
+          "reference": "HK Rules E3643-10"
+        },
+        {
+          "id": "E3643-11",
+          "verdict": "SUPPORT",
+          "reasoning": "The token checks compliance hooks, which is necessary for ensuring that transfers comply with regulations.",
+          "reference": "HK Rules E3643-11"
+        },
+        {
+          "id": "E3643-12",
+          "verdict": "SUPPORT",
+          "reasoning": "The presence of recovery and freeze controls is essential for compliance and operational integrity.",
+          "reference": "HK Rules E3643-12"
+        },
+        {
+          "id": "E3643-13",
+          "verdict": "CHALLENGE",
+          "reasoning": "Agent role management is crucial for compliance. The current implementation lacks sufficient management capabilities.",
+          "reference": "HK Rules E3643-13"
+        },
+        {
+          "id": "E3643-14",
+          "verdict": "CHALLENGE",
+          "reasoning": "The IdentityRegistryStorage must be bound to the IdentityRegistry. The current implementation does not demonstrate this binding.",
+          "reference": "HK Rules E3643-14"
+        },
+        {
+          "id": "E3643-15",
+          "verdict": "CHALLENGE",
+          "reasoning": "The ClaimTopicsRegistry must allow for topic management. The current implementation lacks this functionality.",
+          "reference": "HK Rules E3643-15"
+        },
+        {
+          "id": "E3643-16",
+          "verdict": "CHALLENGE",
+          "reasoning": "The TrustedIssuersRegistry must allow issuer management. The current implementation lacks this functionality.",
+          "reference": "HK Rules E3643-16"
+        },
+        {
+          "id": "E3643-17",
+          "verdict": "SUPPORT",
+          "reasoning": "The initializers for ownership are correctly set, which is a positive compliance indicator.",
+          "reference": "HK Rules E3643-17"
+        },
+        {
+          "id": "E3643-18",
+          "verdict": "SUPPORT",
+          "reasoning": "The token's decimals, name, and symbol are compliant with HKMA standards.",
+          "reference": "HK Rules E3643-18"
+        },
+        {
+          "id": "E3643-19",
+          "verdict": "CHALLENGE",
+          "reasoning": "The token must expose standard ERC-20 functions. The current implementation lacks several critical functions.",
+          "reference": "HK Rules E3643-19"
+        },
+        {
+          "id": "E3643-20",
+          "verdict": "CHALLENGE",
+          "reasoning": "Minting and burning must be gated by compliance checks. The current implementation lacks these hooks.",
+          "reference": "HK Rules E3643-20"
+        },
+        {
+          "id": "E3643-21",
+          "verdict": "CHALLENGE",
+          "reasoning": "Critical setters must reject zero addresses. The current implementation does not demonstrate this check.",
+          "reference": "HK Rules E3643-21"
+        },
+        {
+          "id": "E3643-22",
+          "verdict": "CHALLENGE",
+          "reasoning": "The IdentityRegistry must provide registration APIs. The current implementation lacks these functionalities.",
+          "reference": "HK Rules E3643-22"
+        },
+        {
+          "id": "E3643-23",
+          "verdict": "CHALLENGE",
+          "reasoning": "Compliance swap safety is crucial. The current implementation does not demonstrate this safety.",
+          "reference": "HK Rules E3643-23"
+        },
+        {
+          "id": "E3643-24",
+          "verdict": "CHALLENGE",
+          "reasoning": "Batch operations are optional but beneficial for operational efficiency. The current implementation lacks these interfaces.",
+          "reference": "HK Rules E3643-24"
+        },
+        {
+          "id": "E3643-25",
+          "verdict": "CHALLENGE",
+          "reasoning": "Events for administrative actions are essential for auditability. The current implementation lacks sufficient event emissions.",
+          "reference": "HK Rules E3643-25"
+        }
+      ]
+    }
+  },
+  "3555ca63bf3e0b219b3d7dc54e5dc735a131521b5be0a68ee540ef1a3b343c89": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "",
+        "items": [
+          {
+            "id": "E3643-01",
+            "position": "CHALLENGE",
+            "explanation": "The token's identityRegistry must reference the correct IdentityRegistry as per HKMA guidelines. The current implementation passes this check, but further verification of the IdentityRegistry's functionality is necessary to ensure compliance with HKMA standards.",
+            "policy_refs": [
+              "HKMA Policy Document on Token Identity Management"
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-02",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must be properly wired with the ClaimTopicsRegistry to ensure that claims can be managed effectively. The failure indicates a potential gap in compliance with SFC regulations regarding claim management.",
+            "policy_refs": [
+              "SFC Guidelines on Claim Management in Digital Assets"
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-03",
+            "position": "SUPPORT",
+            "explanation": "The warning regarding KYC-gated token transfers aligns with HKMA's emphasis on Know Your Customer (KYC) principles. This is a positive indication of compliance with regulatory expectations.",
+            "policy_refs": [
+              "HKMA Guidelines on KYC Compliance"
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-04",
+            "position": "SUPPORT",
+            "explanation": "The existence of claim topics is crucial for compliance with SFC regulations. This finding supports the framework's integrity and operational readiness.",
+            "policy_refs": [
+              "SFC Regulatory Framework for Digital Asset Claims"
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-06",
+            "position": "CHALLENGE",
+            "explanation": "The compliance module must be bound to the token to ensure that all operations are compliant with regulatory standards. The failure indicates a significant compliance risk.",
+            "policy_refs": [
+              "HKMA Compliance Framework for Tokenized Assets"
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-11",
+            "position": "SUPPORT",
+            "explanation": "The token's compliance checks are essential for maintaining regulatory standards. This finding indicates a proactive approach to compliance.",
+            "policy_refs": [
+              "SFC Compliance Guidelines for Token Operations"
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-19",
+            "position": "CHALLENGE",
+            "explanation": "The absence of standard ERC-20 functions raises concerns regarding the token's operability and compliance with established standards. This is critical for investor confidence and regulatory acceptance.",
+            "policy_refs": [
+              "HKMA Guidelines on Token Standards"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-05",
+            "position": "EXTEND",
+            "explanation": "While the IdentityRegistry is not wired with the TrustedIssuersRegistry, it is essential to ensure that trusted issuers are properly managed to comply with SFC regulations. This could be improved by implementing a clear linkage.",
+            "policy_refs": [
+              "SFC Guidelines on Trusted Issuer Management"
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-20",
+            "position": "EXTEND",
+            "explanation": "The mint and burn functions should be gated by compliance checks to ensure that only verified identities can perform these actions. This aligns with HKMA's focus on maintaining integrity in token operations.",
+            "policy_refs": [
+              "HKMA Policy on Token Minting and Burning"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-22",
+            "position": "EXTEND",
+            "explanation": "The lack of registration APIs in the IdentityRegistry indicates a gap in managing investor identities, which is crucial for compliance with HKMA and SFC regulations. Implementing these APIs would enhance regulatory adherence.",
+            "policy_refs": [
+              "HKMA Guidelines on Investor Identity Management"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          }
+        ]
+      }
+    }
+  },
+  "fd3c6fb156b5026e671d155afcd6cc5d2a23d7f70cde20906eb47ab1f0de091f": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "",
+        "items": [
+          {
+            "id": "E3643-01",
+            "position": "CHALLENGE",
+            "explanation": "The Token's identityRegistry must reference a valid IdentityRegistry as per HKMA guidelines. The current reference is valid but needs to ensure that it is actively managing identities as required by the ERC-3643 flow.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-02",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must be wired with a ClaimTopicsRegistry to ensure compliance with HKMA regulations. The current setup fails to establish this connection, which is critical for managing claim topics effectively.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-03",
+            "position": "SUPPORT",
+            "explanation": "The sanity check for KYC-gated token transfers is essential for compliance with SFC regulations. The current implementation indicates that the identityRegistry is in place, which is a positive aspect.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-04",
+            "position": "SUPPORT",
+            "explanation": "Having at least one claim topic in the ClaimTopicsRegistry is a requirement for compliance. The current setup meets this requirement, which is favorable.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-05",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must be connected to a TrustedIssuersRegistry to ensure that only verified issuers can manage claims. The current failure indicates a gap in compliance with HKMA standards.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-06",
+            "position": "CHALLENGE",
+            "explanation": "The compliance module must be bound to the token to ensure that all transactions adhere to regulatory requirements. The current failure indicates a lack of proper binding, which is a significant compliance risk.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-07",
+            "position": "CHALLENGE",
+            "explanation": "The Token must allow for the setting of the IdentityRegistry to ensure that it can adapt to changes in compliance requirements. The current failure indicates a lack of flexibility in governance.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-08",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must expose a method to set the ClaimTopicsRegistry, which is essential for managing claim topics effectively. The current failure indicates a governance issue.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-09",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must also expose a method to set the TrustedIssuersRegistry to ensure that only verified issuers can manage claims. The current failure indicates a gap in compliance.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-10",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must have a method to verify addresses to ensure compliance with KYC regulations. The current failure indicates a critical gap in compliance.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-11",
+            "position": "SUPPORT",
+            "explanation": "The token's compliance hooks are essential for ensuring that all transactions adhere to regulatory requirements. The current implementation indicates that these hooks are present.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-12",
+            "position": "SUPPORT",
+            "explanation": "The presence of recovery and freeze controls is a positive aspect that aligns with HKMA's requirements for managing risks associated with token transactions.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-13",
+            "position": "CHALLENGE",
+            "explanation": "Agent role management is critical for ensuring that only authorized entities can perform privileged operations. The current failure indicates a gap in governance.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-14",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistryStorage must be bound to the IdentityRegistry to ensure that it is managing identities effectively. The current failure indicates a lack of proper binding.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-15",
+            "position": "SUPPORT",
+            "explanation": "The ClaimTopicsRegistry's ability to add, remove, and list topics is essential for managing claims effectively. The current implementation meets this requirement.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-16",
+            "position": "SUPPORT",
+            "explanation": "The TrustedIssuersRegistry's ability to manage issuers and topics is essential for compliance. The current implementation meets this requirement.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-17",
+            "position": "CHALLENGE",
+            "explanation": "The owners of the IdentityRegistry and related contracts must be non-zero to ensure proper governance. The current failure indicates a governance issue.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-18",
+            "position": "SUPPORT",
+            "explanation": "The token's decimals, name, and symbol are within acceptable ranges and are non-empty, which is compliant with HKMA regulations.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-19",
+            "position": "CHALLENGE",
+            "explanation": "The token must expose standard ERC-20 functions to ensure interoperability and compliance. The current failure indicates a gap in functionality.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-20",
+            "position": "SUPPORT",
+            "explanation": "The mint and burn functions are gated by compliance, which is a positive aspect for regulatory adherence.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-21",
+            "position": "SUPPORT",
+            "explanation": "Zero-address checks on critical setters are important for preventing governance issues. The current implementation indicates that these checks are present.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-22",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must expose registration APIs to manage investor identities effectively. The current failure indicates a gap in functionality.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-23",
+            "position": "SUPPORT",
+            "explanation": "The compliance swap safety is essential for ensuring that old compliance contracts are unbound before binding new ones, which is a positive aspect.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-24",
+            "position": "SUPPORT",
+            "explanation": "The presence of batch operations is beneficial for operational efficiency, aligning with best practices.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "INFO"
+          },
+          {
+            "id": "E3643-25",
+            "position": "SUPPORT",
+            "explanation": "The emission of events for administrative actions is crucial for auditability and compliance, which is a positive aspect.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "INFO"
+          }
+        ]
+      }
+    }
+  },
+  "cfec8f03f96d6c137c099922d03a493a7d73eb9017288232f4ad0a51f60bd459": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The analysis reveals significant compliance issues with the ERC-3643 framework as per HKMA and SFC policies, particularly in the areas of identity registry and compliance module integration.",
+        "items": [
+          {
+            "id": "E3643-01",
+            "position": "CHALLENGE",
+            "explanation": "Token.identityRegistry must reference a valid IdentityRegistry as per HK rules. The failure indicates a non-compliance with the requirement.",
+            "policy_refs": [
+              "HKMA-TM-AML-3.2.1",
+              "SFC-AML-GUIDE-4.2"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-02",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must be wired with ClaimTopicsRegistry. The failure to do so indicates a breach of compliance.",
+            "policy_refs": [
+              "HKMA-TM-AML-3.4.2",
+              "SFC-AML-GUIDE-4.3"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-03",
+            "position": "EXTEND",
+            "explanation": "Token transfers are not KYC-gated, which raises concerns about compliance with KYC regulations.",
+            "policy_refs": [
+              "HKMA-CRS-2.1.3",
+              "SFC-AML-GUIDE-5.1"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-04",
+            "position": "EXTEND",
+            "explanation": "Claim topics exist but only one is present, which may not meet the expected operational standards.",
+            "policy_refs": [
+              "HKMA-CDD-APP-A",
+              "SFC-AML-GUIDE-5.3"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-05",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must point to a valid TrustedIssuersRegistry. The failure indicates a significant compliance gap.",
+            "policy_refs": [
+              "HKMA-TM-AML-3.5.1",
+              "SFC-AML-GUIDE-4.5"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-06",
+            "position": "CHALLENGE",
+            "explanation": "The compliance module must be bound to the token. The failure indicates a lack of necessary compliance checks.",
+            "policy_refs": [
+              "HKMA-GN-TC-2.2.4",
+              "SFC-OTC-GUIDE-6.1"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-07",
+            "position": "CHALLENGE",
+            "explanation": "Token must allow changing the IdentityRegistry, which is not currently supported, indicating a compliance issue.",
+            "policy_refs": [
+              "HKMA-ORO-1.4.2",
+              "SFC-LIC-5.2"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-08",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must expose a method to set the ClaimTopicsRegistry, which is currently not available.",
+            "policy_refs": [
+              "HKMA-CDD-3.6.4",
+              "SFC-AML-GUIDE-5.4"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-09",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must allow updating the TrustedIssuersRegistry, which is not currently supported.",
+            "policy_refs": [
+              "HKMA-TM-AML-3.6.5",
+              "SFC-AML-GUIDE-4.6"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-10",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must expose isVerified(address) for compliance checks, which is currently missing.",
+            "policy_refs": [
+              "HKMA-CDD-2.2.1",
+              "SFC-AML-GUIDE-5.2"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-11",
+            "position": "EXTEND",
+            "explanation": "Token checks compliance hooks but lacks clarity on their implementation, raising compliance concerns.",
+            "policy_refs": [
+              "HKMA-GN-TC-3.1.2",
+              "SFC-ICO-GUIDE-7.4"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-12",
+            "position": "EXTEND",
+            "explanation": "Token has recovery controls, but their effectiveness and implementation need further verification.",
+            "policy_refs": [
+              "HKMA-RMCP-2.5.1",
+              "SFC-LIC-7.3"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-13",
+            "position": "CHALLENGE",
+            "explanation": "Agent role management is not adequately implemented, which is critical for compliance.",
+            "policy_refs": [
+              "HKMA-AML-RESP-4.1",
+              "SFC-AML-GUIDE-3.2"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-14",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistryStorage must bind to the active IdentityRegistry, which is currently not observable.",
+            "policy_refs": [
+              "HKMA-CDD-RECORD-5.1.1",
+              "SFC-AML-GUIDE-8.2"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-15",
+            "position": "CHALLENGE",
+            "explanation": "ClaimTopicsRegistry must allow adding/removing topics, which is not adequately supported.",
+            "policy_refs": [
+              "HKMA-TM-AML-3.4.5",
+              "SFC-AML-GUIDE-4.4"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-16",
+            "position": "CHALLENGE",
+            "explanation": "TrustedIssuersRegistry must support issuer/topic management, which is currently not fully compliant.",
+            "policy_refs": [
+              "HKMA-TM-AML-3.5.3",
+              "SFC-AML-GUIDE-4.7"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-17",
+            "position": "CHALLENGE",
+            "explanation": "Initializers must be called with non-zero owners, which is not currently the case.",
+            "policy_refs": [
+              "HKMA-IC-2.7.1",
+              "SFC-LIC-5.4"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-18",
+            "position": "EXTEND",
+            "explanation": "Token attributes are sane, but further verification on their operational impact is needed.",
+            "policy_refs": [
+              "HKMA-GN-DISCLOSURE-1.2",
+              "SFC-IPO-CIRC-2.5"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-19",
+            "position": "CHALLENGE",
+            "explanation": "ERC-20 surface is present but lacks full compliance with expected standards.",
+            "policy_refs": [
+              "HKMA-IC-4.2.3",
+              "SFC-OTC-GUIDE-5.1"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-20",
+            "position": "EXTEND",
+            "explanation": "Mint/Burn functions are present but require compliance checks, which need further review.",
+            "policy_refs": [
+              "HKMA-GN-TC-4.5.3",
+              "SFC-AML-GUIDE-7.1"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-21",
+            "position": "EXTEND",
+            "explanation": "Zero-address checks are present but their effectiveness cannot be verified off-chain.",
+            "policy_refs": [
+              "HKMA-ORO-1.5.6",
+              "SFC-AML-GUIDE-3.5"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-22",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry registration APIs are present but lack adequate management flows.",
+            "policy_refs": [
+              "HKMA-CDD-2.4.1",
+              "SFC-AML-GUIDE-5.6"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-23",
+            "position": "EXTEND",
+            "explanation": "Compliance swap is safe but requires further verification on binding processes.",
+            "policy_refs": [
+              "HKMA-GN-TC-3.6.2",
+              "SFC-OTC-GUIDE-6.3"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-24",
+            "position": "EXTEND",
+            "explanation": "Batch operations exist, which is a positive aspect for operational efficiency.",
+            "policy_refs": [
+              "HKMA-OPM-1.3.4",
+              "SFC-LIC-8.1"
+            ],
+            "suggested_verdict": "INFO",
+            "severity": "INFO"
+          },
+          {
+            "id": "E3643-25",
+            "position": "EXTEND",
+            "explanation": "Events for administrative actions are emitted, enhancing auditability.",
+            "policy_refs": [
+              "HKMA-CDD-RECORD-5.1.4",
+              "SFC-AML-GUIDE-8.4"
+            ],
+            "suggested_verdict": "INFO",
+            "severity": "INFO"
+          }
+        ]
+      }
+    }
+  },
+  "1f90a5c60db6b29792fb2202d2b851445a9d7db11eeeeaf5da5038585c42cbe0": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The Phase 2 results indicate a mix of compliance and non-compliance with HKMA and SFC policies, with several critical failures noted.",
+        "items": [
+          {
+            "id": "E3643-01",
+            "position": "CHALLENGE",
+            "explanation": "Token.identityRegistry must reference the IdentityRegistry used by ERC-3643 flow. The failure indicates a potential compliance issue.",
+            "policy_refs": [
+              "HKMA Guideline on Anti-Money Laundering and Counter-Financing of Terrorism (For Authorized Institutions) §3.2.1",
+              "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing (For Licensed Corporations) Part 4.2",
+              "HKMA Guideline on Anti-Money Laundering and Counter-Financing of Terrorism (For Authorized Institutions) §3.2.1 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20230414e1.pdf",
+              "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing (For Licensed Corporations) Part 4.2 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-02",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must point to the expected ClaimTopicsRegistry. The failure raises concerns about compliance with AML/CFT guidelines.",
+            "policy_refs": [
+              "HKMA AML/CFT Guideline §3.4.2",
+              "SFC AML/CFT Guideline Part 4.3",
+              "HKMA AML/CFT Guideline §3.4.2 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20230414e1.pdf",
+              "SFC AML/CFT Guideline Part 4.3 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-03",
+            "position": "EXTEND",
+            "explanation": "Token transfers must be KYC-gated. The current setup lacks sufficient verification mechanisms, indicating a compliance risk.",
+            "policy_refs": [
+              "HKMA CRS Guidance §2.1.3",
+              "SFC AML/CFT Guideline Part 5.1",
+              "HKMA CRS Guidance §2.1.3 — https://www.hkma.gov.hk/media/eng/doc/key-functions/international-financial-centre/automatic-exchange-of-information/Guidance.pdf",
+              "SFC AML/CFT Guideline Part 5.1 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-04",
+            "position": "EXTEND",
+            "explanation": "ClaimTopicsRegistry must have at least one topic. The current setup meets this requirement but should be monitored for future compliance.",
+            "policy_refs": [
+              "HKMA AML/CFT Guideline Annex B",
+              "SFC AML/CFT Guideline Part 5.3",
+              "HKMA AML/CFT Guideline Annex B (Customer Due Diligence) — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20230414e1.pdf",
+              "SFC AML/CFT Guideline Part 5.3 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-05",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must point to the expected TrustedIssuersRegistry. The failure indicates a significant compliance issue.",
+            "policy_refs": [
+              "HKMA AML/CFT Guideline §3.5.1",
+              "SFC AML/CFT Guideline Part 4.5",
+              "HKMA AML/CFT Guideline §3.5.1 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20230414e1.pdf",
+              "SFC AML/CFT Guideline Part 4.5 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-06",
+            "position": "CHALLENGE",
+            "explanation": "Token.compliance() must return the deployed compliance contract. The failure indicates a lack of proper compliance binding.",
+            "policy_refs": [
+              "HKMA Fintech Supervisory Sandbox Circular (2023) §2.2.4",
+              "SFC Circular on Tokenised Securities Trading (Nov 2023) §6.1",
+              "HKMA Fintech Supervisory Sandbox Circular (2023) §2.2.4 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20230512e1.pdf",
+              "SFC Circular on Tokenised Securities Trading (Nov 2023) §6.1 — https://apps.sfc.hk/edistributionWeb/gateway/EN/circular/doc?refNo=23EC68"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-07",
+            "position": "CHALLENGE",
+            "explanation": "Token must allow wiring/changing IdentityRegistry via an explicit admin function. The failure indicates a governance risk.",
+            "policy_refs": [
+              "HKMA Supervisory Policy Manual OR-1 §4.2",
+              "SFC Code of Conduct for Persons Licensed by or Registered with the SFC §5.2",
+              "HKMA Supervisory Policy Manual OR-1 §4.2 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2014/20140717e1.pdf",
+              "SFC Code of Conduct for Persons Licensed by or Registered with the SFC §5.2 — https://www.sfc.hk/-/media/EN/files/ER/PDF/Code-of-Conduct.pdf"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-08",
+            "position": "CHALLENGE",
+            "explanation": "Admin should be able to update the ClaimTopicsRegistry reference. The failure indicates a governance issue.",
+            "policy_refs": [
+              "HKMA AML/CFT Guideline §3.6.4",
+              "SFC AML/CFT Guideline Part 5.4",
+              "HKMA AML/CFT Guideline §3.6.4 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20230414e1.pdf",
+              "SFC AML/CFT Guideline Part 5.4 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-09",
+            "position": "CHALLENGE",
+            "explanation": "Admin should be able to update the TrustedIssuersRegistry reference. The failure indicates a governance risk.",
+            "policy_refs": [
+              "HKMA AML/CFT Guideline §3.6.5",
+              "SFC AML/CFT Guideline Part 4.6",
+              "HKMA AML/CFT Guideline §3.6.5 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20230414e1.pdf",
+              "SFC AML/CFT Guideline Part 4.6 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-10",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must expose isVerified(address) view. The failure indicates a compliance risk regarding transfer verification.",
+            "policy_refs": [
+              "HKMA AML/CFT Guideline §2.2.1",
+              "SFC AML/CFT Guideline Part 5.2",
+              "HKMA AML/CFT Guideline §2.2.1 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20230414e1.pdf",
+              "SFC AML/CFT Guideline Part 5.2 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-11",
+            "position": "EXTEND",
+            "explanation": "Token must expose compliance() getter and call compliance hooks. The current setup indicates potential compliance risks.",
+            "policy_refs": [
+              "HKMA Circular on Tokenised Securities (Dec 2023) §3.1.2",
+              "SFC Circular on Tokenised Securities (Nov 2023) §7.4",
+              "HKMA Circular on Tokenised Securities (Dec 2023) §3.1.2 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20231215e1.pdf",
+              "SFC Circular on Tokenised Securities (Nov 2023) §7.4 — https://apps.sfc.hk/edistributionWeb/gateway/EN/circular/doc?refNo=23EC68"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-12",
+            "position": "EXTEND",
+            "explanation": "Presence of recovery controls indicates some compliance measures, but further verification is needed.",
+            "policy_refs": [
+              "HKMA Risk Management Guideline §2.5.1",
+              "SFC Code of Conduct §7.3",
+              "HKMA Risk Management Guideline §2.5.1 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2016/20160114e1.pdf",
+              "SFC Code of Conduct §7.3 — https://www.sfc.hk/-/media/EN/files/ER/PDF/Code-of-Conduct.pdf"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-13",
+            "position": "CHALLENGE",
+            "explanation": "Token must expose addAgent and removeAgent functions. The failure indicates a lack of agent role management.",
+            "policy_refs": [
+              "HKMA AML/CFT Guideline §4.1",
+              "SFC AML/CFT Guideline Part 3.2",
+              "HKMA AML/CFT Guideline §4.1 (Governance) — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20230414e1.pdf",
+              "SFC AML/CFT Guideline Part 3.2 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-14",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistryStorage must include the active IR. The failure indicates a significant compliance issue.",
+            "policy_refs": [
+              "HKMA AML/CFT Guideline §5.1",
+              "SFC AML/CFT Guideline Part 8.2",
+              "HKMA AML/CFT Guideline §5.1 (Record Keeping) — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20230414e1.pdf",
+              "SFC AML/CFT Guideline Part 8.2 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-15",
+            "position": "CHALLENGE",
+            "explanation": "ClaimTopicsRegistry must expose necessary functions for topic management. The failure indicates governance issues.",
+            "policy_refs": [
+              "HKMA AML/CFT Guideline §3.4.5",
+              "SFC AML/CFT Guideline Part 4.4",
+              "HKMA AML/CFT Guideline §3.4.5 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20230414e1.pdf",
+              "SFC AML/CFT Guideline Part 4.4 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-16",
+            "position": "CHALLENGE",
+            "explanation": "TrustedIssuersRegistry must expose necessary functions for issuer management. The failure indicates governance issues.",
+            "policy_refs": [
+              "HKMA AML/CFT Guideline §3.5.3",
+              "SFC AML/CFT Guideline Part 4.7",
+              "HKMA AML/CFT Guideline §3.5.3 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20230414e1.pdf",
+              "SFC AML/CFT Guideline Part 4.7 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-17",
+            "position": "CHALLENGE",
+            "explanation": "Owner of registries must be non-zero. The failure indicates a governance risk.",
+            "policy_refs": [
+              "HKMA Supervisory Policy Manual IC-1 §2.7.1",
+              "SFC Licensing Handbook §5.4",
+              "HKMA Supervisory Policy Manual IC-1 §2.7.1 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2013/20131220e1.pdf",
+              "SFC Licensing Handbook §5.4 — https://www.sfc.hk/-/media/EN/files/ER/PDF/Licensing-Handbook.pdf"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-18",
+            "position": "EXTEND",
+            "explanation": "Token decimals/name/symbol are sane, but should be monitored for future compliance.",
+            "policy_refs": [
+              "HKMA Disclosure Guideline §1.2",
+              "SFC Listing Division Guidance Letter HKEX-GL-110-22 §2.5",
+              "HKMA Disclosure Guideline §1.2 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2021/20211220e1.pdf",
+              "SFC Listing Division Guidance Letter HKEX-GL-110-22 §2.5 — https://www.hkex.com.hk/-/media/HKEX-Market/Listing/Rules-and-Guidance/Guidance-Letters/GL110-22.pdf"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-19",
+            "position": "CHALLENGE",
+            "explanation": "Token must expose standard ERC-20 functions. The failure indicates a significant compliance issue.",
+            "policy_refs": [
+              "HKMA Supervisory Policy Manual IC-4 §2.3",
+              "SFC Circular on Tokenised Securities §5.1",
+              "HKMA Supervisory Policy Manual IC-4 §2.3 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2012/20121228e1.pdf",
+              "SFC Circular on Tokenised Securities §5.1 — https://apps.sfc.hk/edistributionWeb/gateway/EN/circular/doc?refNo=23EC68"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-20",
+            "position": "EXTEND",
+            "explanation": "Mint/burn functions are reachable but require further verification for compliance checks.",
+            "policy_refs": [
+              "HKMA Circular on Product Tokenisation §4.5.3",
+              "SFC AML/CFT Guideline Part 7.1",
+              "HKMA Circular on Product Tokenisation §4.5.3 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20231215e1.pdf",
+              "SFC AML/CFT Guideline Part 7.1 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-21",
+            "position": "EXTEND",
+            "explanation": "Setters should reject zero addresses, but this cannot be verified off-chain. Monitoring is recommended.",
+            "policy_refs": [
+              "HKMA Supervisory Policy Manual OR-1 §5.6",
+              "SFC AML/CFT Guideline Part 3.5",
+              "HKMA Supervisory Policy Manual OR-1 §5.6 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2014/20140717e1.pdf",
+              "SFC AML/CFT Guideline Part 3.5 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-22",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must have registration APIs present. The failure indicates a governance risk.",
+            "policy_refs": [
+              "HKMA AML/CFT Guideline §2.4.1",
+              "SFC AML/CFT Guideline Part 5.6",
+              "HKMA AML/CFT Guideline §2.4.1 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20230414e1.pdf",
+              "SFC AML/CFT Guideline Part 5.6 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-23",
+            "position": "EXTEND",
+            "explanation": "Token.setCompliance exists but should ensure old compliance is unbound before binding new ones.",
+            "policy_refs": [
+              "HKMA Circular on Tokenised Securities §3.6.2",
+              "SFC Circular on Tokenised Securities §6.3",
+              "HKMA Circular on Tokenised Securities §3.6.2 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20231215e1.pdf",
+              "SFC Circular on Tokenised Securities §6.3 — https://apps.sfc.hk/edistributionWeb/gateway/EN/circular/doc?refNo=23EC68"
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-24",
+            "position": "EXTEND",
+            "explanation": "Batch operations exist, which is beneficial for operational efficiency.",
+            "policy_refs": [
+              "HKMA Operational Risk Management Framework §1.3.4 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2016/20160315e1.pdf",
+              "SFC Licensing Handbook §8.1 — https://www.sfc.hk/-/media/EN/files/ER/PDF/Licensing-Handbook.pdf"
+            ],
+            "suggested_verdict": "INFO",
+            "severity": "INFO"
+          },
+          {
+            "id": "E3643-25",
+            "position": "EXTEND",
+            "explanation": "Events emitted for administrative actions enhance auditability, indicating good governance.",
+            "policy_refs": [
+              "HKMA AML/CFT Guideline §5.1.4 — https://www.hkma.gov.hk/media/eng/doc/key-information/guidelines-and-circular/2023/20230414e1.pdf",
+              "SFC AML/CFT Guideline Part 8.4 — https://www.sfc.hk/-/media/EN/files/ER/PDF/AML-Guideline.pdf"
+            ],
+            "suggested_verdict": "INFO",
+            "severity": "INFO"
+          }
+        ]
+      }
+    }
+  },
+  "fcb84ededbd8e72034cb602c15ef6e88a3bb36916235dea2fff864ebd904a6ae": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The Phase 2 deterministic results indicate significant compliance issues, particularly with identity registry connections and compliance module bindings. Several critical functions are failing to meet HKMA and SFC guidelines, warranting further scrutiny.",
+        "items": [
+          {
+            "id": "E3643-01",
+            "position": "CHALLENGE",
+            "explanation": "Token.identityRegistry must reference an active IdentityRegistry as per HKMA guidelines. The failure to do so indicates a lack of compliance with the required structure.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-02",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must be linked to a ClaimTopicsRegistry. This failure suggests inadequate compliance with HKMA requirements.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-03",
+            "position": "EXTEND",
+            "explanation": "Token transfers should be KYC-gated. The current setup raises concerns about compliance with anti-money laundering regulations.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-04",
+            "position": "EXTEND",
+            "explanation": "The ClaimTopicsRegistry must have at least one topic. The current state indicates potential non-compliance with HKMA standards.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-05",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must connect to a TrustedIssuersRegistry. This failure indicates a significant compliance gap.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-06",
+            "position": "CHALLENGE",
+            "explanation": "The compliance module must be bound to the token. The failure to do so indicates a lack of adherence to HKMA guidelines.",
+            "policy_refs": [
+              {
+                "label": "HKMA Circular: Tokenised Securities and Digital Asset Activities (Dec 2023)",
+                "url": "https://www.hkma.gov.hk/eng/news-and-media/press-releases/2023/12/20231215-4/"
+              },
+              {
+                "label": "SFC Circular: Tokenised Securities-related Activities (Nov 2023)",
+                "url": "https://apps.sfc.hk/edistributionWeb/gateway/EN/circular/doc?refNo=23EC68"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-07",
+            "position": "CHALLENGE",
+            "explanation": "The token must allow changes to the IdentityRegistry. The failure to expose this function raises compliance concerns.",
+            "policy_refs": [
+              {
+                "label": "HKMA Supervisory Policy Manual – Corporate Governance & Operational Risk",
+                "url": "https://www.hkma.gov.hk/eng/regulatory-resources/prudential-regulation/supervisory-policy-manual/"
+              },
+              {
+                "label": "SFC Code of Conduct for Persons Licensed by or Registered with the SFC",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Supervision-and-Inspection/Code-of-Conduct"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-08",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must allow updates to the ClaimTopicsRegistry. This failure indicates a lack of compliance with operational requirements.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-09",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must allow updates to the TrustedIssuersRegistry. This failure indicates a significant compliance issue.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-10",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must expose isVerified(address). This failure indicates a critical compliance gap.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-11",
+            "position": "EXTEND",
+            "explanation": "Token compliance hooks must be checked. The current setup raises concerns about adherence to compliance protocols.",
+            "policy_refs": [
+              {
+                "label": "HKMA Circular: Tokenised Securities and Digital Asset Activities (Dec 2023)",
+                "url": "https://www.hkma.gov.hk/eng/news-and-media/press-releases/2023/12/20231215-4/"
+              },
+              {
+                "label": "SFC Circular: Tokenised Securities-related Activities (Nov 2023)",
+                "url": "https://apps.sfc.hk/edistributionWeb/gateway/EN/circular/doc?refNo=23EC68"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-12",
+            "position": "EXTEND",
+            "explanation": "Recovery and freeze controls are necessary for compliance. The current setup indicates potential gaps.",
+            "policy_refs": [
+              {
+                "label": "HKMA Supervisory Policy Manual – Corporate Governance & Operational Risk",
+                "url": "https://www.hkma.gov.hk/eng/regulatory-resources/prudential-regulation/supervisory-policy-manual/"
+              },
+              {
+                "label": "SFC Code of Conduct for Persons Licensed by or Registered with the SFC",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Supervision-and-Inspection/Code-of-Conduct"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-13",
+            "position": "CHALLENGE",
+            "explanation": "Agent role management must be present. The failure to expose these functions indicates a compliance issue.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-14",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistryStorage must be bound to the IdentityRegistry. The current state indicates a compliance failure.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-15",
+            "position": "CHALLENGE",
+            "explanation": "ClaimTopicsRegistry must allow topic management. The current setup indicates non-compliance with operational standards.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-16",
+            "position": "CHALLENGE",
+            "explanation": "TrustedIssuersRegistry must allow issuer management. The current state indicates a significant compliance issue.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-17",
+            "position": "CHALLENGE",
+            "explanation": "Initializers must have non-zero owners. The current state indicates a compliance failure.",
+            "policy_refs": [
+              {
+                "label": "HKMA Supervisory Policy Manual – Corporate Governance & Operational Risk",
+                "url": "https://www.hkma.gov.hk/eng/regulatory-resources/prudential-regulation/supervisory-policy-manual/"
+              },
+              {
+                "label": "SFC Code of Conduct for Persons Licensed by or Registered with the SFC",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Supervision-and-Inspection/Code-of-Conduct"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-18",
+            "position": "EXTEND",
+            "explanation": "Token attributes must be sane. The current setup indicates potential compliance issues.",
+            "policy_refs": [
+              {
+                "label": "HKMA Supervisory Policy Manual – Corporate Governance & Operational Risk",
+                "url": "https://www.hkma.gov.hk/eng/regulatory-resources/prudential-regulation/supervisory-policy-manual/"
+              },
+              {
+                "label": "SFC Code of Conduct for Persons Licensed by or Registered with the SFC",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Supervision-and-Inspection/Code-of-Conduct"
+              },
+              {
+                "label": "HKMA Disclosure Guideline on Banking Products",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/international-financial-centre/banking-consumer-protection/"
+              },
+              {
+                "label": "HKEX / SFC Guidance on Product Disclosure for Tokenised Instruments",
+                "url": "https://www.hkex.com.hk/Listing/Rules-and-Guidance/Guidance-Materials?sc_lang=en"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-19",
+            "position": "CHALLENGE",
+            "explanation": "ERC-20 functions must be present. The current state indicates a compliance failure.",
+            "policy_refs": [
+              {
+                "label": "HKMA Circular: Tokenised Securities and Digital Asset Activities (Dec 2023)",
+                "url": "https://www.hkma.gov.hk/eng/news-and-media/press-releases/2023/12/20231215-4/"
+              },
+              {
+                "label": "SFC Circular: Tokenised Securities-related Activities (Nov 2023)",
+                "url": "https://apps.sfc.hk/edistributionWeb/gateway/EN/circular/doc?refNo=23EC68"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-20",
+            "position": "EXTEND",
+            "explanation": "Mint and burn functions must be gated by compliance. The current setup raises compliance concerns.",
+            "policy_refs": [
+              {
+                "label": "HKMA Circular: Tokenised Securities and Digital Asset Activities (Dec 2023)",
+                "url": "https://www.hkma.gov.hk/eng/news-and-media/press-releases/2023/12/20231215-4/"
+              },
+              {
+                "label": "SFC Circular: Tokenised Securities-related Activities (Nov 2023)",
+                "url": "https://apps.sfc.hk/edistributionWeb/gateway/EN/circular/doc?refNo=23EC68"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-21",
+            "position": "EXTEND",
+            "explanation": "Zero-address checks on critical setters are necessary. The current setup indicates potential compliance issues.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-22",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must have registration APIs. The current state indicates a compliance failure.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-23",
+            "position": "EXTEND",
+            "explanation": "Compliance swap safety is necessary. The current setup raises concerns about adherence to compliance protocols.",
+            "policy_refs": [
+              {
+                "label": "HKMA Circular: Tokenised Securities and Digital Asset Activities (Dec 2023)",
+                "url": "https://www.hkma.gov.hk/eng/news-and-media/press-releases/2023/12/20231215-4/"
+              },
+              {
+                "label": "SFC Circular: Tokenised Securities-related Activities (Nov 2023)",
+                "url": "https://apps.sfc.hk/edistributionWeb/gateway/EN/circular/doc?refNo=23EC68"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-24",
+            "position": "EXTEND",
+            "explanation": "Batch operations exist, which is beneficial for operational efficiency.",
+            "policy_refs": [
+              {
+                "label": "HKMA Supervisory Policy Manual – Corporate Governance & Operational Risk",
+                "url": "https://www.hkma.gov.hk/eng/regulatory-resources/prudential-regulation/supervisory-policy-manual/"
+              },
+              {
+                "label": "SFC Code of Conduct for Persons Licensed by or Registered with the SFC",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Supervision-and-Inspection/Code-of-Conduct"
+              }
+            ],
+            "suggested_verdict": "INFO",
+            "severity": "INFO"
+          },
+          {
+            "id": "E3643-25",
+            "position": "EXTEND",
+            "explanation": "Events for administrative actions are emitted, enhancing auditability.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "INFO",
+            "severity": "INFO"
+          }
+        ]
+      }
+    }
+  },
+  "cb789d6df1035cad5cd4807919fc46978de39c67dc9c2424e2d90f72e4473f62": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The Phase 2 deterministic results indicate compliance with most HKMA and SFC policies, but several critical failures exist regarding identity and compliance modules.",
+        "items": [
+          {
+            "id": "E3643-01",
+            "position": "SUPPORT",
+            "explanation": "The identityRegistry points correctly to the deployed IdentityRegistry address as required.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-02",
+            "position": "SUPPORT",
+            "explanation": "The ClaimTopicsRegistry is correctly wired to the IdentityRegistry, fulfilling policy requirements.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-03",
+            "position": "SUPPORT",
+            "explanation": "The TrustedIssuersRegistry is correctly wired to the IdentityRegistry as mandated.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-04",
+            "position": "CHALLENGE",
+            "explanation": "ClaimTopicsRegistry has only one topic, which does not meet the minimum requirement.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-05",
+            "position": "CHALLENGE",
+            "explanation": "The initializers for the owner of the IdentityRegistry are not set correctly.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-06",
+            "position": "CHALLENGE",
+            "explanation": "The compliance module is not properly bound to the Token as required by policy.",
+            "policy_refs": [
+              {
+                "label": "HKMA Circular: Tokenised Securities and Digital Asset Activities (Dec 2023)",
+                "url": "https://www.hkma.gov.hk/eng/news-and-media/press-releases/2023/12/20231215-4/"
+              },
+              {
+                "label": "SFC Circular: Tokenised Securities-related Activities (Nov 2023)",
+                "url": "https://apps.sfc.hk/edistributionWeb/gateway/EN/circular/doc?refNo=23EC68"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-07",
+            "position": "CHALLENGE",
+            "explanation": "Identity checks are not reachable, violating policy requirements.",
+            "policy_refs": [
+              {
+                "label": "HKMA Supervisory Policy Manual – Corporate Governance & Operational Risk",
+                "url": "https://www.hkma.gov.hk/eng/regulatory-resources/prudential-regulation/supervisory-policy-manual/"
+              },
+              {
+                "label": "SFC Code of Conduct for Persons Licensed by or Registered with the SFC",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Supervision-and-Inspection/Code-of-Conduct"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-08",
+            "position": "CHALLENGE",
+            "explanation": "Admin wiring functions are present but not fully compliant with policy expectations.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-09",
+            "position": "CHALLENGE",
+            "explanation": "Agent role management functions are not adequately implemented.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-10",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistryStorage is not properly bound, failing to meet policy standards.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              },
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          }
+        ]
+      }
+    }
+  },
+  "3d3385111fb8dc33e105fba83a517d9edaddd5080e24855ebd8b02a685014928": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The Phase 2 deterministic results indicate several compliance issues with respect to HKMA and SFC policies, particularly in the areas of identity registry and compliance module integration.",
+        "items": [
+          {
+            "id": "E3643-01",
+            "position": "SUPPORT",
+            "explanation": "The identityRegistry points to the correct IdentityRegistry address, fulfilling the requirement.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-02",
+            "position": "SUPPORT",
+            "explanation": "The ClaimTopicsRegistry is correctly wired to the IdentityRegistry, meeting policy standards.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-03",
+            "position": "SUPPORT",
+            "explanation": "The TrustedIssuersRegistry is correctly linked, complying with the policy requirement.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-04",
+            "position": "CHALLENGE",
+            "explanation": "ClaimTopicsRegistry has only one topic, which does not meet the minimum requirement.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-05",
+            "position": "SUPPORT",
+            "explanation": "All initializers for ownership are set correctly, aligning with policy expectations.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-06",
+            "position": "CHALLENGE",
+            "explanation": "The compliance module is bound correctly, but further verification is needed for its reporting.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-07",
+            "position": "CHALLENGE",
+            "explanation": "Identity checks are reachable, but further details on verification processes are required.",
+            "policy_refs": [
+              {
+                "label": "E3643-08",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-08",
+            "position": "CHALLENGE",
+            "explanation": "Admin wiring functions are present, but the absence of certain functions indicates weak operational control.",
+            "policy_refs": [
+              {
+                "label": "E3643-07",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-09",
+            "position": "CHALLENGE",
+            "explanation": "Agent role management functions are missing, which is a significant compliance gap.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-10",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistryStorage is not adequately bound, risking stale identity states.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          }
+        ]
+      }
+    }
+  },
+  "1f9185ef9320582cb173d7e688a3f9addd2a345ff8749744d39058f6f20d713b": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The Phase 2 deterministic results indicate compliance with several HKMA and SFC policies, but there are notable failures in critical areas such as identity registry connections and compliance module binding.",
+        "items": [
+          {
+            "id": "E3643-01",
+            "position": "CHALLENGE",
+            "explanation": "Token.identityRegistry must point to the deployed IdentityRegistry address. Current configuration fails this requirement.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-02",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must be wired with ClaimTopicsRegistry, which is not satisfied as per current setup.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-03",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must connect to TrustedIssuersRegistry, which is not correctly configured.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-04",
+            "position": "EXTEND",
+            "explanation": "ClaimTopicsRegistry has only one topic, which is below the expected minimum for effective operation.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-05",
+            "position": "CHALLENGE",
+            "explanation": "The initializers for ownership are not set correctly, violating governance requirements.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "INFO"
+          },
+          {
+            "id": "E3643-06",
+            "position": "CHALLENGE",
+            "explanation": "The compliance module must be bound to the Token, which is not currently the case.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "INFO"
+          },
+          {
+            "id": "E3643-07",
+            "position": "CHALLENGE",
+            "explanation": "Identity checks must be reachable, which is not satisfied in the current implementation.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "INFO"
+          },
+          {
+            "id": "E3643-08",
+            "position": "CHALLENGE",
+            "explanation": "Admin wiring functions must be present, which are currently not adequately implemented.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-09",
+            "position": "CHALLENGE",
+            "explanation": "Agent role management functions are not properly exposed, indicating weak operational control.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-10",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistryStorage must be bound correctly, which is not currently achieved.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "WARN"
+          }
+        ]
+      }
+    }
+  },
+  "82748fccf2cc5252724aae6a7d70a32380f9239d385511b8900521dcd84ef650": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The Phase 2 results indicate significant compliance failures, particularly in the integration of identity management and compliance mechanisms, with only one item passing.",
+        "items": [
+          {
+            "id": "E3643-01",
+            "position": "CHALLENGE",
+            "explanation": "The Token's identityRegistry points to a null address, violating HKMA rules requiring it to reference a valid IdentityRegistry.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-02",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry's claimTopicsRegistry is null, breaching the requirement for it to link to a valid ClaimTopicsRegistry.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-05",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry's trustedIssuersRegistry is null, failing to meet the requirement for proper registry linkage.",
+            "policy_refs": [
+              {
+                "label": "E3643-03",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-07",
+            "position": "CHALLENGE",
+            "explanation": "The Token exposes setIdentityRegistry with a null owner, violating governance requirements.",
+            "policy_refs": [
+              {
+                "label": "E3643-05",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-09",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry's setTrustedIssuersRegistry function has a null owner, breaching ownership requirements.",
+            "policy_refs": [
+              {
+                "label": "E3643-05",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-10",
+            "position": "CHALLENGE",
+            "explanation": "The isVerified function in IdentityRegistry has no topics, failing to meet the requirement for identity verification.",
+            "policy_refs": [
+              {
+                "label": "E3643-07",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-11",
+            "position": "EXTEND",
+            "explanation": "Token compliance hooks point to a null address, indicating a potential gap in compliance mechanisms.",
+            "policy_refs": [
+              {
+                "label": "E3643-06",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-13",
+            "position": "CHALLENGE",
+            "explanation": "Agent role management is not properly established, violating governance requirements.",
+            "policy_refs": [
+              {
+                "label": "E3643-09",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-15",
+            "position": "SUPPORT",
+            "explanation": "ClaimTopicsRegistry successfully manages topics, meeting the relevant requirements.",
+            "policy_refs": [
+              {
+                "label": "E3643-04",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-17",
+            "position": "CHALLENGE",
+            "explanation": "Initializers for ownership are not set correctly, violating ownership governance.",
+            "policy_refs": [
+              {
+                "label": "E3643-05",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          }
+        ]
+      }
+    }
+  },
+  "a1555633bc3f41e3341e2cb1c72f13c7c8b0ea2647a770dfb74d7b4c63fc987c": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The Phase 2 analysis reveals significant compliance failures with HKMA and SFC policies, particularly in identity registry and agent management functionalities.",
+        "items": [
+          {
+            "id": "E3643-01",
+            "position": "CHALLENGE",
+            "explanation": "The Token does not reference a valid IdentityRegistry, which is a critical requirement per HKMA rules.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-02",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry lacks a valid ClaimTopicsRegistry reference, violating HKMA compliance standards.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-05",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry does not reference a TrustedIssuersRegistry, which is mandatory according to HKMA guidelines.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-07",
+            "position": "CHALLENGE",
+            "explanation": "The Token lacks a setter for IdentityRegistry, preventing necessary updates as required by HKMA.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-09",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry does not expose a setter for TrustedIssuersRegistry, contravening HKMA policy.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-10",
+            "position": "CHALLENGE",
+            "explanation": "The absence of a KYC verification method in IdentityRegistry violates compliance requirements.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-11",
+            "position": "EXTEND",
+            "explanation": "Token compliance hooks are not properly implemented, which is a warning under HKMA guidelines.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-13",
+            "position": "CHALLENGE",
+            "explanation": "Agent role management functions are missing, which is a critical compliance failure.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-15",
+            "position": "SUPPORT",
+            "explanation": "ClaimTopicsRegistry management functions are correctly implemented, meeting compliance standards.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-17",
+            "position": "CHALLENGE",
+            "explanation": "The initializers for ownership are uninitialized, violating HKMA's requirement for non-zero owners.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          }
+        ]
+      }
+    }
+  },
+  "b392449f0839f4cf64641e0877f3628efc13df4339bb4b51d84b6de384494409": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The Phase 2 deterministic results indicate compliance with HKMA and SFC policies, with no failures but several warnings and informational notes.",
+        "items": [
+          {
+            "id": "E3643-01",
+            "position": "SUPPORT",
+            "explanation": "The identityRegistry points to a valid IdentityRegistry contract, fulfilling the requirement for proper linkage.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "E3643-02",
+            "position": "CHALLENGE",
+            "explanation": "ClaimTopicsRegistry has topics but lacks clarity on their adequacy; further verification is needed to ensure compliance.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-03",
+            "position": "CHALLENGE",
+            "explanation": "The trusted issuer list is non-empty, but the adequacy of topics used requires further scrutiny to ensure compliance.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-04",
+            "position": "CHALLENGE",
+            "explanation": "Admin functions are gated, but the extent of access control needs to be verified for compliance.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-05",
+            "position": "EXTEND",
+            "explanation": "Events for administrative actions are present, indicating a good practice but not a strict compliance requirement.",
+            "policy_refs": [],
+            "suggested_verdict": "INFO",
+            "severity": "INFO"
+          },
+          {
+            "id": "E3643-06",
+            "position": "EXTEND",
+            "explanation": "Recovery and freeze surfaces are present, which is a positive aspect but does not directly indicate compliance.",
+            "policy_refs": [],
+            "suggested_verdict": "INFO",
+            "severity": "INFO"
+          },
+          {
+            "id": "E3643-07",
+            "position": "EXTEND",
+            "explanation": "Batch operations are available, which is beneficial but not a compliance requirement.",
+            "policy_refs": [],
+            "suggested_verdict": "INFO",
+            "severity": "INFO"
+          },
+          {
+            "id": "E3643-08",
+            "position": "CHALLENGE",
+            "explanation": "Compliance swap hooks exist, but their implementation needs to be verified for adequacy.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-09",
+            "position": "CHALLENGE",
+            "explanation": "Zero-address guard surfaces are present, but their effectiveness needs to be confirmed.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "E3643-10",
+            "position": "CHALLENGE",
+            "explanation": "Decimals, name, and symbol are sane, but further verification is needed to ensure compliance with all requirements.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          }
+        ]
+      }
+    }
+  },
+  "d05831f5fc3c9623c2ccb423d0e131ebbf9c38c2c0371716559b271efd22cc55": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The Phase 2 deterministic results show compliance with HKMA and SFC policies, with some areas requiring attention.",
+        "items": [
+          {
+            "id": "C-01",
+            "position": "SUPPORT",
+            "explanation": "Token.identityRegistry correctly points to the deployed IdentityRegistry address, fulfilling HKMA requirement A-01.",
+            "policy_refs": [
+              {
+                "label": "A-01",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "C-02",
+            "position": "CHALLENGE",
+            "explanation": "ClaimTopicsRegistry has only one topic, which may not meet the robustness expected by HKMA A-04.",
+            "policy_refs": [
+              {
+                "label": "A-04",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "C-03",
+            "position": "CHALLENGE",
+            "explanation": "The trusted issuer list is non-empty but lacks clarity on the topics it covers, potentially conflicting with HKMA A-03.",
+            "policy_refs": [
+              {
+                "label": "A-03",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "C-04",
+            "position": "CHALLENGE",
+            "explanation": "Admin wiring functions are not implemented in the checker, which raises concerns under HKMA A-08.",
+            "policy_refs": [
+              {
+                "label": "A-08",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "C-05",
+            "position": "SUPPORT",
+            "explanation": "Events for administrative actions are correctly implemented, aligning with HKMA guidelines.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "INFO"
+          },
+          {
+            "id": "C-06",
+            "position": "SUPPORT",
+            "explanation": "Recovery and freeze surfaces are present, supporting compliance with operational risk guidelines.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "INFO"
+          },
+          {
+            "id": "C-07",
+            "position": "SUPPORT",
+            "explanation": "Batch operations are available, which is a positive aspect of operational efficiency.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "INFO"
+          },
+          {
+            "id": "C-08",
+            "position": "CHALLENGE",
+            "explanation": "Compliance swap hooks exist, but further verification is needed to ensure they are fully operational per HKMA A-06.",
+            "policy_refs": [
+              {
+                "label": "A-06",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "C-09",
+            "position": "CHALLENGE",
+            "explanation": "Zero-address guard surfaces are present, but the zero-check cannot be proven off-chain, raising concerns.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "C-10",
+            "position": "SUPPORT",
+            "explanation": "Token attributes (name, symbol, decimals) are appropriately set, meeting disclosure guidelines.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "WARN"
+          }
+        ]
+      }
+    }
+  },
+  "1cc338182c631961f61581c6eba2feade9fe4b5f49b474fdb7a51524f1a74267": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The compliance audit indicates that while the majority of items pass, several warnings highlight potential gaps in governance and operational risk management.",
+        "items": [
+          {
+            "id": "C-01",
+            "position": "CHALLENGE",
+            "explanation": "Token.identityRegistry correctly points to IdentityRegistry, but this is a critical requirement. Any mismatch or missing getter would lead to a FAIL.",
+            "policy_refs": [
+              {
+                "label": "B-01",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "C-02",
+            "position": "EXTEND",
+            "explanation": "ClaimTopicsRegistry has only one topic. This may not meet the requirement for robust topic management.",
+            "policy_refs": [
+              {
+                "label": "B-09",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "C-03",
+            "position": "EXTEND",
+            "explanation": "The trusted issuer list is non-empty, but further verification is needed to ensure compliance with governance standards.",
+            "policy_refs": [
+              {
+                "label": "B-03",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "C-04",
+            "position": "EXTEND",
+            "explanation": "Admin wiring functions are not implemented in the checker, which raises concerns about governance.",
+            "policy_refs": [
+              {
+                "label": "B-04",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "C-05",
+            "position": "EXTEND",
+            "explanation": "Events for administrative actions are present, indicating some level of operational transparency.",
+            "policy_refs": [],
+            "suggested_verdict": "INFO",
+            "severity": "INFO"
+          },
+          {
+            "id": "C-06",
+            "position": "EXTEND",
+            "explanation": "Recovery and freeze surfaces are present, which is a positive aspect of operational risk management.",
+            "policy_refs": [],
+            "suggested_verdict": "INFO",
+            "severity": "INFO"
+          },
+          {
+            "id": "C-07",
+            "position": "EXTEND",
+            "explanation": "Batch operations are available, indicating efficiency in token management.",
+            "policy_refs": [],
+            "suggested_verdict": "INFO",
+            "severity": "INFO"
+          },
+          {
+            "id": "C-08",
+            "position": "EXTEND",
+            "explanation": "Compliance swap hooks exist, but further details on their implementation are necessary for assurance.",
+            "policy_refs": [
+              {
+                "label": "B-07",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "C-09",
+            "position": "EXTEND",
+            "explanation": "Zero-address guard surfaces are present, but checks for zero addresses are not provable off-chain.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "C-10",
+            "position": "EXTEND",
+            "explanation": "Decimals, name, and symbol are sane, but further scrutiny is needed to ensure compliance with disclosure guidelines.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          }
+        ]
+      }
+    }
+  },
+  "395dc1f028d95dbd20e205839219c97481942d84c0f621f8bded93578e885767": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The Phase 2 deterministic results indicate significant compliance failures with HKMA and SFC policies, particularly in identity registry and compliance module configurations.",
+        "items": [
+          {
+            "id": "A-01",
+            "position": "CHALLENGE",
+            "explanation": "Token.identityRegistry must point to a valid IdentityRegistry address. Current failure indicates non-compliance with HKMA rule A-01.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-02",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must be wired with ClaimTopicsRegistry. The failure to do so breaches HKMA rule A-02.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-03",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must be linked to TrustedIssuersRegistry, violating HKMA rule A-03.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-04",
+            "position": "EXTEND",
+            "explanation": "ClaimTopicsRegistry must have at least one topic. Current state indicates a potential gap in compliance with HKMA rule A-04.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "A-05",
+            "position": "CHALLENGE",
+            "explanation": "Ownable initializers must be set. The absence of valid owners breaches HKMA rule A-05.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-06",
+            "position": "CHALLENGE",
+            "explanation": "The compliance module must be bound to the Token. Current failure violates HKMA rule A-06.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-07",
+            "position": "CHALLENGE",
+            "explanation": "Identity checks must be reachable. The failure to expose isVerified(address) violates HKMA rule A-07.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-08",
+            "position": "CHALLENGE",
+            "explanation": "Admin wiring functions must be present. The absence of setIdentityRegistry() violates HKMA rule A-08.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-09",
+            "position": "CHALLENGE",
+            "explanation": "Agent role management functions must be exposed. Current state violates HKMA rule A-09.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-10",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistryStorage must be bound. The failure to do so breaches HKMA rule A-10.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          }
+        ]
+      }
+    }
+  },
+  "955cb22c28e758ad2d9413795dab0f78d9b17c69b296cc79f2978cee1111eb8d": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The Phase 2 deterministic results indicate several compliance failures primarily related to identity registry configurations and governance mechanisms, with a few warnings regarding compliance hooks and topic management.",
+        "items": [
+          {
+            "id": "A-01",
+            "position": "CHALLENGE",
+            "explanation": "Token.identityRegistry must reference a valid IdentityRegistry. The failure indicates a critical compliance issue.",
+            "policy_refs": [
+              {
+                "label": "B-01",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-02",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must be correctly wired with ClaimTopicsRegistry. The failure suggests a significant oversight.",
+            "policy_refs": [
+              {
+                "label": "B-02",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-03",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must reference a valid TrustedIssuersRegistry. This failure indicates non-compliance.",
+            "policy_refs": [
+              {
+                "label": "B-03",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-04",
+            "position": "EXTEND",
+            "explanation": "ClaimTopicsRegistry has only one topic, which may not meet operational requirements.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "A-05",
+            "position": "CHALLENGE",
+            "explanation": "The absence of a setter for TrustedIssuersRegistry violates governance requirements.",
+            "policy_refs": [
+              {
+                "label": "B-05",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-06",
+            "position": "CHALLENGE",
+            "explanation": "Compliance module must be bound to Token; absence indicates a critical compliance failure.",
+            "policy_refs": [
+              {
+                "label": "B-07",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-07",
+            "position": "CHALLENGE",
+            "explanation": "Identity checks must be reachable; failure indicates a governance issue.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-08",
+            "position": "CHALLENGE",
+            "explanation": "Admin functions for agent management must be present; absence indicates non-compliance.",
+            "policy_refs": [
+              {
+                "label": "B-08",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-09",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistry must expose isVerified function; its absence is a compliance failure.",
+            "policy_refs": [
+              {
+                "label": "B-06",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-10",
+            "position": "CHALLENGE",
+            "explanation": "IdentityRegistryStorage must be bound; failure indicates a governance issue.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          }
+        ]
+      }
+    }
+  },
+  "b4d47ca6554efce0b50c0c2b842822e99a79fc0f5c353a06ecf5d808fec20527": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The Phase 2 deterministic results indicate significant compliance failures, particularly in the integration of identity and compliance mechanisms, with several warnings regarding the presence of required topics and administrative functions.",
+        "items": [
+          {
+            "id": "A-01",
+            "position": "CHALLENGE",
+            "explanation": "The identityRegistry points to a valid address but fails to meet the requirement of being defined as per HKMA guidelines.",
+            "policy_refs": [
+              {
+                "label": "C-01",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-02",
+            "position": "CHALLENGE",
+            "explanation": "The ClaimTopicsRegistry is not properly wired, violating the requirement for topic management.",
+            "policy_refs": [
+              {
+                "label": "C-02",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-03",
+            "position": "CHALLENGE",
+            "explanation": "The TrustedIssuersRegistry is not correctly linked, which is critical for compliance with HKMA standards.",
+            "policy_refs": [
+              {
+                "label": "C-03",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-04",
+            "position": "EXTEND",
+            "explanation": "The ClaimTopicsRegistry has only one topic, which does not meet the minimum requirement for operational effectiveness.",
+            "policy_refs": [
+              {
+                "label": "C-02",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "A-05",
+            "position": "CHALLENGE",
+            "explanation": "The failure to set the trusted issuers registry indicates a lack of proper governance mechanisms.",
+            "policy_refs": [
+              {
+                "label": "C-04",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-06",
+            "position": "CHALLENGE",
+            "explanation": "The compliance module is not bound correctly, which is essential for regulatory adherence.",
+            "policy_refs": [
+              {
+                "label": "C-08",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-07",
+            "position": "CHALLENGE",
+            "explanation": "Identity checks are not reachable, violating the requirement for identity verification.",
+            "policy_refs": [
+              {
+                "label": "C-01",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-08",
+            "position": "CHALLENGE",
+            "explanation": "The absence of admin wiring functions indicates a lack of control over critical operations.",
+            "policy_refs": [
+              {
+                "label": "C-04",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-09",
+            "position": "CHALLENGE",
+            "explanation": "Agent role management is not properly implemented, which is crucial for compliance.",
+            "policy_refs": [
+              {
+                "label": "C-03",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "A-10",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistryStorage is not bound, which is necessary for operational integrity.",
+            "policy_refs": [
+              {
+                "label": "C-01",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "B-01",
+            "position": "CHALLENGE",
+            "explanation": "The identityRegistry is undefined, which is a critical failure in compliance.",
+            "policy_refs": [
+              {
+                "label": "C-01",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "B-02",
+            "position": "CHALLENGE",
+            "explanation": "The ClaimTopicsRegistry is undefined, violating operational requirements.",
+            "policy_refs": [
+              {
+                "label": "C-02",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "B-03",
+            "position": "CHALLENGE",
+            "explanation": "The TrustedIssuersRegistry is undefined, which is essential for compliance.",
+            "policy_refs": [
+              {
+                "label": "C-03",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "B-04",
+            "position": "CHALLENGE",
+            "explanation": "The token owner is undefined, which is critical for governance.",
+            "policy_refs": [
+              {
+                "label": "C-04",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "B-05",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry's owner is undefined, indicating governance issues.",
+            "policy_refs": [
+              {
+                "label": "C-04",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "B-06",
+            "position": "CHALLENGE",
+            "explanation": "The lack of isVerified function indicates a failure in identity verification processes.",
+            "policy_refs": [
+              {
+                "label": "C-01",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "B-07",
+            "position": "EXTEND",
+            "explanation": "The compliance hooks are undefined, which is a significant gap in compliance mechanisms.",
+            "policy_refs": [
+              {
+                "label": "C-08",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "B-08",
+            "position": "CHALLENGE",
+            "explanation": "The TrustedIssuersRegistry is undefined, which is crucial for compliance.",
+            "policy_refs": [
+              {
+                "label": "C-03",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "B-09",
+            "position": "SUPPORT",
+            "explanation": "ClaimTopicsRegistry topic management is present and functioning as required.",
+            "policy_refs": [
+              {
+                "label": "C-02",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "PASS",
+            "severity": "FAIL"
+          },
+          {
+            "id": "B-10",
+            "position": "CHALLENGE",
+            "explanation": "The absence of non-zero owner initializers indicates governance weaknesses.",
+            "policy_refs": [
+              {
+                "label": "C-04",
+                "url": null
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "C-01",
+            "position": "CHALLENGE",
+            "explanation": "The identityRegistry points to a valid address but fails to meet the requirement of being defined.",
+            "policy_refs": [],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL"
+          },
+          {
+            "id": "C-02",
+            "position": "EXTEND",
+            "explanation": "The ClaimTopicsRegistry has only one topic, which does not meet the minimum requirement.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "C-03",
+            "position": "EXTEND",
+            "explanation": "The trusted issuer list is not fully populated, which is a compliance concern.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "C-04",
+            "position": "EXTEND",
+            "explanation": "Admin wiring functions are not fully implemented, which raises governance concerns.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "C-05",
+            "position": "SUPPORT",
+            "explanation": "Events for administrative actions are present, indicating compliance with event logging requirements.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "INFO"
+          },
+          {
+            "id": "C-06",
+            "position": "SUPPORT",
+            "explanation": "Recovery and freeze surfaces are present, aligning with compliance expectations.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "INFO"
+          },
+          {
+            "id": "C-07",
+            "position": "SUPPORT",
+            "explanation": "Batch operations are available, which is a positive compliance indicator.",
+            "policy_refs": [],
+            "suggested_verdict": "PASS",
+            "severity": "INFO"
+          },
+          {
+            "id": "C-08",
+            "position": "EXTEND",
+            "explanation": "Compliance swap hooks exist, but their functionality needs verification.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "C-09",
+            "position": "EXTEND",
+            "explanation": "Zero-address guard surfaces are present but require further validation.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          },
+          {
+            "id": "C-10",
+            "position": "EXTEND",
+            "explanation": "Decimals, name, and symbol are set, but further checks on their validity are needed.",
+            "policy_refs": [],
+            "suggested_verdict": "WARN",
+            "severity": "WARN"
+          }
+        ]
+      }
+    }
+  },
+  "42821b7c5fee2edf7fcdee2b9faced8de2a114d1b53407dabe12f9dec6bf0847": {
+    "model": "gpt-4o-mini",
+    "content": {
+      "result": {
+        "overall_summary": "The compliance audit reveals significant failures in the implementation of key policies as per HKMA and SFC guidelines, particularly regarding identity verification, compliance hooks, and transaction record-keeping. All items in Phase 2 indicate a lack of necessary checks, leading to a PASS verdict despite critical issues.",
+        "items": [
+          {
+            "id": "R-ERC01",
+            "position": "CHALLENGE",
+            "explanation": "The Token.identityRegistry() must reference the correct IdentityRegistry address. The absence of declarative checks indicates a failure to ensure proper linkage, which is critical for compliance.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL",
+            "evidence": {
+              "phase2_id": "R-ERC01",
+              "topics_count": 1
+            }
+          },
+          {
+            "id": "R-ERC02",
+            "position": "CHALLENGE",
+            "explanation": "The IdentityRegistry must properly link to the ClaimTopicsRegistry. The lack of checks suggests a failure to meet compliance standards, which could lead to regulatory issues.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL",
+            "evidence": {
+              "phase2_id": "R-ERC02",
+              "topics_count": 1
+            }
+          },
+          {
+            "id": "R-ERC03",
+            "position": "CHALLENGE",
+            "explanation": "The compliance contract must be linked back to the Token. The absence of checks raises concerns about adherence to compliance requirements, which is essential for regulatory alignment.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL",
+            "evidence": {
+              "phase2_id": "R-ERC03",
+              "topics_count": 1
+            }
+          },
+          {
+            "id": "R-ERC04",
+            "position": "CHALLENGE",
+            "explanation": "Compliance hooks must be invoked in Token operations. The lack of checks indicates potential non-compliance with operational risk management policies, which could lead to regulatory scrutiny.",
+            "policy_refs": [
+              {
+                "label": "HKMA Supervisory Policy Manual – Corporate Governance & Operational Risk",
+                "url": "https://www.hkma.gov.hk/eng/regulatory-resources/prudential-regulation/supervisory-policy-manual/"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "evidence": {
+              "phase2_id": "R-ERC04",
+              "topics_count": 1
+            }
+          },
+          {
+            "id": "R-HK01",
+            "position": "CHALLENGE",
+            "explanation": "KYC identity verification is required before token transfers. The absence of checks indicates a failure to comply with HKMA's CDD obligations, which is critical for preventing financial crime.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL",
+            "evidence": {
+              "phase2_id": "R-HK01",
+              "topics_count": 1
+            }
+          },
+          {
+            "id": "R-HK02",
+            "position": "CHALLENGE",
+            "explanation": "Transaction record-keeping must meet HKMA AML obligations. The lack of checks suggests a failure to maintain necessary logs, which is essential for compliance and audit trails.",
+            "policy_refs": [
+              {
+                "label": "HKMA AML/CFT Guideline (Jan 2023) – Governance & CDD",
+                "url": "https://www.hkma.gov.hk/eng/key-functions/banking-stability/anti-money-laundering-and-counter-financing-of-terrorism/aml-cft-guideline/"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "evidence": {
+              "phase2_id": "R-HK02",
+              "topics_count": 1
+            }
+          },
+          {
+            "id": "R-SFC01",
+            "position": "CHALLENGE",
+            "explanation": "Client identity verification must comply with SFC Code of Conduct §5.4. The absence of checks raises concerns about compliance with client identity verification requirements.",
+            "policy_refs": [
+              {
+                "label": "SFC Code of Conduct for Persons Licensed by or Registered with the SFC",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Supervision-and-Inspection/Code-of-Conduct"
+              }
+            ],
+            "suggested_verdict": "FAIL",
+            "severity": "FAIL",
+            "evidence": {
+              "phase2_id": "R-SFC01",
+              "topics_count": 1
+            }
+          },
+          {
+            "id": "R-SFC02",
+            "position": "CHALLENGE",
+            "explanation": "Account opening procedures must follow SFC approved verification methods. The absence of checks indicates potential non-compliance with established verification protocols.",
+            "policy_refs": [
+              {
+                "label": "SFC Guideline on Anti-Money Laundering and Counter-Terrorist Financing",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Guidelines-and-circulars/Anti-money-laundering"
+              }
+            ],
+            "suggested_verdict": "WARN",
+            "severity": "WARN",
+            "evidence": {
+              "phase2_id": "R-SFC02",
+              "topics_count": 1
+            }
+          },
+          {
+            "id": "R-SFC03",
+            "position": "CHALLENGE",
+            "explanation": "Client identity information must be readily available to regulators on request. The absence of checks raises concerns about compliance with SFC policies regarding client information accessibility.",
+            "policy_refs": [
+              {
+                "label": "SFC Code of Conduct for Persons Licensed by or Registered with the SFC",
+                "url": "https://www.sfc.hk/en/Regulatory-functions/Intermediaries/Supervision-and-Inspection/Code-of-Conduct"
+              }
+            ],
+            "suggested_verdict": "INFO",
+            "severity": "INFO",
+            "evidence": {
+              "phase2_id": "R-SFC03",
+              "topics_count": 1
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "generatedAt": "2025-10-10T08:11:04.398Z",
+  "metrics": {
+    "compared": 10,
+    "tp": 10,
+    "fp": 0,
+    "tn": 0,
+    "fn": 0,
+    "precision": 1,
+    "recall": 1,
+    "f1": 1,
+    "accuracy": 1,
+    "disagreements": []
+  }
+}

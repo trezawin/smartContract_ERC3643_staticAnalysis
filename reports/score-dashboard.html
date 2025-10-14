@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Phase Score Dashboard</title>
+  <style>
+    :root {
+      font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #0f172a;
+    }
+    body {
+      margin: 0;
+      background: #f8fafc;
+      padding: 24px 0;
+    }
+    .wrapper {
+      background: #fff;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 18px 38px -24px rgba(30, 41, 59, 0.35);
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+    }
+    thead th {
+      background: #f1f5f9;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      padding: 10px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    tbody td {
+      padding: 10px;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+    tbody tr:nth-child(even) {
+      background: #f8fafc;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+    .tag-phase2 { background: rgba(14,116,144,0.15); color: #0f172a; }
+    .tag-phase3 { background: rgba(109,40,217,0.12); color: #4c1d95; }
+    .metric {
+      font-weight: 600;
+    }
+    .muted {
+      color: #64748b;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Phase Score Dashboard</h1>
+    <p class="muted">Generated at 2025-10-09T15:02:06.248Z</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Stage</th>
+          <th>Ground Truth</th>
+          <th>Precision / Recall / F1</th>
+          <th>Total Truth</th>
+          <th>Predictions</th>
+          <th>Support / Extend / Challenge</th>
+          <th>Explanation Quality</th>
+          <th>Coverage Expansion</th>
+        </tr>
+      </thead>
+      <tbody><tr>
+      <td><span class="tag tag-phase2">phase2</span></td>
+      <td>setA</td>
+      <td><span class="metric">1</span> / 1 / 1</td>
+      <td>10</td>
+      <td>30/30</td>
+      <td>0 / 0 / 0</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+<tr>
+      <td><span class="tag tag-phase2">phase2</span></td>
+      <td>setB</td>
+      <td><span class="metric">0.8</span> / 0.8 / 0.8</td>
+      <td>10</td>
+      <td>30/30</td>
+      <td>0 / 0 / 0</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+<tr>
+      <td><span class="tag tag-phase2">phase2</span></td>
+      <td>setC</td>
+      <td><span class="metric">1</span> / 1 / 1</td>
+      <td>6</td>
+      <td>30/30</td>
+      <td>0 / 0 / 0</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+<tr>
+      <td><span class="tag tag-phase3">phase3</span></td>
+      <td>setA</td>
+      <td><span class="metric">0.9</span> / 0.9 / 0.9</td>
+      <td>10</td>
+      <td>30/30</td>
+      <td>23 / 0 / 7</td>
+      <td>1.767 (n=30)</td>
+      <td>7 (A-04, C-02, C-03, C-04, C-08, C-09, C-10)</td>
+    </tr>
+<tr>
+      <td><span class="tag tag-phase3">phase3</span></td>
+      <td>setB</td>
+      <td><span class="metric">0.8</span> / 0.8 / 0.8</td>
+      <td>10</td>
+      <td>30/30</td>
+      <td>23 / 0 / 7</td>
+      <td>1.767 (n=30)</td>
+      <td>7 (A-04, C-02, C-03, C-04, C-08, C-09, C-10)</td>
+    </tr>
+<tr>
+      <td><span class="tag tag-phase3">phase3</span></td>
+      <td>setC</td>
+      <td><span class="metric">0.5</span> / 0.5 / 0.5</td>
+      <td>6</td>
+      <td>30/30</td>
+      <td>23 / 0 / 7</td>
+      <td>1.767 (n=30)</td>
+      <td>7 (A-04, C-02, C-03, C-04, C-08, C-09, C-10)</td>
+    </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
