@@ -1,0 +1,26 @@
+[
+  {
+    "id": "R-ERC3643-01",
+    "title": "Transfer must check identityRegistry.isVerified",
+    "desc": "Token transfers should be gated by identity verification.",
+    "snippet": "require(identityRegistry.isVerified(to), \"ERC-3643: invalid identity\");",
+    "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+    "severity": "Critical",
+    "check": {
+      "op": "nonzeroaddress",
+      "field": "data.tokenIdentity"
+    }
+  },
+  {
+    "id": "R-ERC3643-02",
+    "title": "Token must call compliance.canTransfer hook",
+    "desc": "Before transfers the token should invoke compliance.canTransfer to enforce rules.",
+    "snippet": "require(compliance.canTransfer(from, to, amount), \"ERC-3643: compliance failed\");",
+    "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+    "severity": "Critical",
+    "allOf": [
+      { "op": "nonzeroaddress", "field": "data.tokenIdentity" },
+      { "op": "nonzeroaddress", "field": "data.tokenCompliance" }
+    ]
+  }
+]

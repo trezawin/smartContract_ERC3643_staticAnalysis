@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif; color:#111827; margin:24px; }
+  h1 { font-size:24px; margin:0 0 4px 0; }
+  .sub { color:#6B7280; font-size:13px; }
+</style>
+</head>
+<body>
+  <h1>ERC-3643 Compliance Report</h1>
+  <div class="sub">
+    Generated: 2025-10-17T14:34:22.275Z — Deterministic checks + LLM reasoning
+  </div>
+
+  
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0">
+  <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#374151;color:#fff">Total</span> <strong style="margin-left:6px">2</strong></div>
+  <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">Pass</span> <strong style="margin-left:6px">2</strong></div>
+  <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#B91C1C;color:#fff">Critical</span> <strong style="margin-left:6px">0</strong></div>
+  <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#F97316;color:#111">High</span> <strong style="margin-left:6px">0</strong></div>
+  <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#FACC15;color:#111">Medium</span> <strong style="margin-left:6px">0</strong></div>
+  <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#6B7280;color:#fff">Low</span> <strong style="margin-left:6px">0</strong></div>
+</div>
+
+<div style="margin:8px 0 20px 0">
+  <div style="font-weight:700;margin-bottom:6px">Metrics vs Ground Truth</div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap">
+    <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#374151;color:#fff">Compared</span> <strong style="margin-left:6px">2</strong></div>
+    <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#374151;color:#fff">Precision</span> <strong style="margin-left:6px">100.0%</strong></div>
+    <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#374151;color:#fff">Recall</span> <strong style="margin-left:6px">100.0%</strong></div>
+    <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#374151;color:#fff">F1</span> <strong style="margin-left:6px">100.0%</strong></div>
+    <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#374151;color:#fff">Accuracy</span> <strong style="margin-left:6px">100.0%</strong></div>
+    <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#374151;color:#fff">TP</span> <strong style="margin-left:6px">2</strong></div>
+    <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#374151;color:#fff">FP</span> <strong style="margin-left:6px">0</strong></div>
+    <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#374151;color:#fff">TN</span> <strong style="margin-left:6px">0</strong></div>
+    <div><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#374151;color:#fff">FN</span> <strong style="margin-left:6px">0</strong></div>
+  </div>
+</div>
+
+  
+<div style="margin:16px 0;font-size:13px;color:#4B5563">
+  Additional artifacts: <code>reports/boulder-results.txt</code>
+</div>
+  
+<div style="margin:16px 0">
+  <div style="font-weight:700;margin-bottom:6px">Inputs</div>
+  <div style="font-size:13px;color:#374151">
+    <div>Addresses file: <code>/Users/treza/Documents/staticAnalysis/.cre.addresses.json</code></div>
+    <div>Rules: <code>cre/rules/rule.3643.json</code></div>
+    <div>ABI artifacts: <code>Token: ERC-3643-Implementation/artifacts/contracts/token/Token.sol/Token.json</code>, <code>IdentityRegistry: ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json</code>, <code>ClaimTopicsRegistry: ERC-3643-Implementation/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json</code>, <code>TrustedIssuersRegistry: ERC-3643-Implementation/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json</code></div>
+  </div>
+  <ul style="margin-top:8px">
+    <li>cre/rules/rule.3643.json</li>
+  </ul>
+  <details style="margin-top:10px;font-size:13px"><summary style="cursor:pointer">Resolved addresses</summary>
+    <ul style="margin-top:8px"><li><code>networkRpc</code> → <code>http://127.0.0.1:8545</code></li><li><code>token</code> → <code>0x610178dA211FEF7D417bC0e6FeD39F05609AD788</code></li><li><code>identityRegistry</code> → <code>0x0165878A594ca255338adfa4d48449f69242Eb8F</code></li><li><code>claimTopicsRegistry</code> → <code>0x5FbDB2315678afecb367f032d93F642f64180aa3</code></li><li><code>trustedIssuersRegistry</code> → <code>0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0</code></li><li><code>compliance</code> → <code>0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6</code></li></ul>
+  </details>
+</div>
+  
+<h2 style="margin:28px 0 12px 0;font-size:20px;border-bottom:1px solid #E5E7EB;padding-bottom:6px">Per-Rulebook Execution</h2>
+<div style="display:flex;flex-direction:column;gap:16px">
+  
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#FFFFFF">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div>
+          <div style="font-size:16px;font-weight:600">rule.3643</div>
+          <div style="font-size:13px;color:#6B7280">Rules: <code>cre/rules/rule.3643.json</code> · Addresses: <code>.cre.addresses.json</code></div>
+          <div style="font-size:12px;color:#6B7280">Execution: hardhat</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">Pass 2</span>
+          <span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#B91C1C;color:#fff">Critical 0</span>
+          <span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#F97316;color:#111">High 0</span>
+          <span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#FACC15;color:#111">Medium 0</span>
+          <span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#6B7280;color:#fff">Low 0</span>
+        </div>
+      </div>
+      
+      <div style="margin-top:10px;font-size:12px;color:#4B5563">
+        GT precision 100.0% · recall 100.0% · accuracy 100.0%
+      </div>
+      
+      <details style="margin-top:12px;font-size:13px">
+        <summary style="cursor:pointer">Runtime probes (2)</summary>
+        <ul style="margin-top:8px">
+          <li style="margin-bottom:4px"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">R-ERC3643-01</span> <span style="margin-left:6px">transfer(to=unverified) reverted as expected → indicates identity gating</span></li><li style="margin-bottom:4px"><span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">R-ERC3643-02</span> <span style="margin-left:6px">Probe module forced canTransfer=false via ComplianceProbeModule; hook responded false as expected.</span></li>
+        </ul>
+      </details>
+    </div>
+</div>
+  
+<h2 style="margin:28px 0 12px 0;font-size:20px;border-bottom:1px solid #E5E7EB;padding-bottom:6px">LLM Compliance Assessment</h2>
+<div style="font-size:12px;color:#6B7280">Model: gpt-4.1-nano-2025-04-14</div>
+
+<div style="margin:12px 0;font-size:14px;line-height:1.6"><strong>Summary:</strong> All runtime validation rules passed successfully, indicating compliance with ERC-3643 identity and transfer gating requirements.</div>
+<div style="display:flex;flex-direction:column;gap:16px">
+  
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600">1. <code>R-ERC3643-01</code> — Transfer must check identityRegistry.isVerified</div>
+        <span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#B91C1C;color:#fff">Critical</span>
+        <span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">Verdict PASS</span>
+        <span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#374151;color:#fff">SUPPORT</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The transfer operation correctly reverted when attempting to transfer to an unverified identity, confirming the identity verification check is active and functioning as intended.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> https://eips.ethereum.org/EIPS/eip-3643</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>transfer(to=unverified) reverted as expected → indicates identity gating</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Maintain current identity verification gating; consider periodic testing to ensure continued compliance.</div>
+    </div>
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600">2. <code>R-ERC3643-02</code> — Token must call compliance.canTransfer hook</div>
+        <span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#B91C1C;color:#fff">Critical</span>
+        <span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#10B981;color:#fff">Verdict PASS</span>
+        <span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;background:#374151;color:#fff">SUPPORT</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The compliance module correctly responded false to the canTransfer hook when forced, demonstrating proper enforcement of transfer restrictions via the compliance interface.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> https://eips.ethereum.org/EIPS/eip-3643</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>Probe module forced canTransfer=false via ComplianceProbeModule; hook responded false as expected.</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Continue monitoring compliance hooks; ensure hook responses remain consistent with policy updates.</div>
+    </div>
+</div>
+
+  <div style="margin-top:28px;color:#6B7280;font-size:12px">
+    Evidence combines deterministic probes (Hardhat fallback when available) and policy-grounded LLM analysis.
+  </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+Compliance Report
+Generated: 2025-10-16T13:41:41.279Z
+Deterministic Summary: PASS=2 | CRITICAL=0 | HIGH=0 | MEDIUM=0 | LOW=0
+LLM Model: gpt-4o-mini-2024-07-18
+
+PASS
+
+Findings:
+
+Critical
+1. Transfer must check identityRegistry.isVerified
+The transfer function correctly reverted when attempting to transfer to an unverified identity, demonstrating effective identity gating. This indicates compliance with the requirement to check the identity registry for verification status.
+Paths:
+- transfer(to=unverified) reverted as expected → indicates identity gating
+Compliance Ref: https://eips.ethereum.org/EIPS/eip-3643
+Recommendation: Continue to enforce identity verification checks in transfer functions.
+
+Critical
+2. Token must call compliance.canTransfer hook
+The compliance.canTransfer hook was successfully invoked and returned false when the probe module enforced a restriction. This confirms that the token adheres to compliance requirements regarding transfer permissions.
+Paths:
+- Probe module forced canTransfer=false via ComplianceProbeModule; hook responded false as expected.
+Compliance Ref: https://eips.ethereum.org/EIPS/eip-3643
+Recommendation: Maintain the integrity of the compliance checks in the transfer process.

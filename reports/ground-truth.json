@@ -1,0 +1,14 @@
+{
+  "generatedAt": "2025-10-16T15:03:25.705Z",
+  "source": "cre/rules/rule.3643.json",
+  "items": [
+    {
+      "id": "R-ERC3643-01",
+      "verdict": "PASS"
+    },
+    {
+      "id": "R-ERC3643-02",
+      "verdict": "PASS"
+    }
+  ]
+}
