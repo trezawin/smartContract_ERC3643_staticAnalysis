@@ -2,5 +2,7 @@
   "Token": "ERC-3643-Implementation/artifacts/contracts/token/Token.sol/Token.json",
   "IdentityRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
   "ClaimTopicsRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
-  "TrustedIssuersRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json"
+  "TrustedIssuersRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
+  "Compliance": "ERC-3643-Implementation/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
+  "IdentityRegistryStorage": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
 }

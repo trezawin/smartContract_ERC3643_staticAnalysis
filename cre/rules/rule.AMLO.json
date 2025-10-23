@@ -1,0 +1,36 @@
+[
+  {
+    "id": "R-HKMA-AMLO-CDD",
+    "title": "AMLO CDD identity controls",
+    "desc": "Token and Identity Registry must expose the hooks necessary to perform customer and beneficial owner due diligence before onboarding.",
+    "snippet": "require(identityRegistry.isVerified(to), \"CDD\");\nfunction identity(address investor) external view returns (address);\nfunction batchRegisterIdentity(address[] calldata investors, address[] calldata identities, uint16[] calldata countries);",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "token", "sig": "identityRegistry()" },
+      { "op": "nonzeroaddress", "field": "data.tokenIdentity" },
+      { "op": "equalsaddress", "field": "data.tokenIdentity", "equals": "cfg.identityRegistry" },
+      { "op": "hasabifn", "where": "idr", "sig": "isVerified(address)" },
+      { "op": "hasabifn", "where": "idr", "sig": "identity(address)" },
+      { "op": "hasabifn", "where": "idr", "sig": "batchRegisterIdentity(address[],address[],uint16[])" },
+      { "op": "hasevent", "where": "idr", "name": "IdentityRegistered" },
+      { "op": "hasevent", "where": "idr", "name": "IdentityUpdated" }
+    ]
+  },
+  {
+    "id": "R-HKMA-AMLO-RecordKeeping",
+    "title": "AMLO record keeping support",
+    "desc": "Identity Registry Storage must be wired and emit lifecycle events so identity evidence can be retained for at least seven years.",
+    "snippet": "function identityStorage() external view returns (address);\nevent IdentityStored(address indexed investor, address indexed identity);\nevent IdentityUnstored(address indexed investor, address indexed identity);",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasabifn", "where": "idr", "sig": "identityStorage()" },
+      { "op": "nonzeroaddress", "field": "data.idrIdentityStorageAddr" },
+      { "op": "hasevent", "where": "irs", "name": "IdentityStored" },
+      { "op": "hasevent", "where": "irs", "name": "IdentityModified" },
+      { "op": "hasevent", "where": "irs", "name": "IdentityUnstored" },
+      { "op": "hasevent", "where": "irs", "name": "IdentityRegistryBound" }
+    ]
+  }
+]

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2025-10-16T13:41:41.280Z",
+  "generatedAt": "2025-10-22T13:17:37.389Z",
   "inputs": {
-    "addressesPath": "/Users/treza/Documents/staticAnalysis/.cre.addresses.json",
+    "addressesPath": "/Users/weizicheng/Downloads/smartContract_ERC3643_staticAnalysis/.cre.addresses.json",
     "addresses": {
       "networkRpc": "http://127.0.0.1:8545",
       "token": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
@@ -11,19 +11,94 @@
       "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
     },
     "ruleFiles": [
-      "cre/rules/rule.3643.json"
+      "cre/rules/rule.3643.json",
+      "cre/rules/rule.AMLO.json"
     ],
     "abiArtifacts": {
       "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
       "IdentityRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
       "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
-      "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json"
+      "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
+      "Compliance": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
+      "IdentityRegistryStorage": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
     }
   },
   "runs": [
     {
       "label": "rule.3643",
       "rulesPath": "cre/rules/rule.3643.json",
+      "addressesPath": ".cre.addresses.json",
+      "summary": {
+        "total": 31,
+        "pass": 31,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "fail": 0,
+        "warn": 0,
+        "info": 0
+      },
+      "addresses": {
+        "networkRpc": "http://127.0.0.1:8545",
+        "token": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+        "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+      },
+      "data": {
+        "tokenIdentity": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+        "tokenCompliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+        "tokenOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "ctrOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "idrClaimTopicsAddr": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "idrTrustedIssuersAddr": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "idrIdentityStorageAddr": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+        "topicsCount": 1,
+        "complianceBoundToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "executionMode": "hardhat",
+        "tokenName": "HK Green Bond",
+        "tokenSymbol": "HKGB",
+        "tokenDecimals": 18,
+        "tirOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "irsOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+      },
+      "probes": {
+        "R-ERC3643-01": {
+          "ran": true,
+          "pass": true,
+          "evidence": "transfer(to=unverified) reverted as expected → indicates identity gating"
+        },
+        "R-ERC3643-02": {
+          "ran": true,
+          "pass": true,
+          "evidence": "INCONCLUSIVE (not penalized): compliance.canTransfer=true; transfer reverted. Without a test compliance that can return false, the cause can't be isolated."
+        }
+      },
+      "abiArtifacts": {
+        "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
+        "IdentityRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
+        "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
+        "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
+        "Compliance": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
+        "IdentityRegistryStorage": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
+      },
+      "metrics": {
+        "compared": 2,
+        "tp": 2,
+        "fp": 0,
+        "tn": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "accuracy": 1
+      }
+    },
+    {
+      "label": "rule.AMLO",
+      "rulesPath": "cre/rules/rule.AMLO.json",
       "addressesPath": ".cre.addresses.json",
       "summary": {
         "total": 2,
@@ -51,6 +126,7 @@
         "ctrOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
         "idrClaimTopicsAddr": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
         "idrTrustedIssuersAddr": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "idrIdentityStorageAddr": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
         "topicsCount": 1,
         "complianceBoundToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
         "executionMode": "hardhat",
@@ -58,25 +134,38 @@
         "tokenSymbol": "HKGB",
         "tokenDecimals": 18,
         "tirOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-        "irsOwner": "0x0000000000000000000000000000000000000000"
+        "irsOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
       },
       "probes": {
-        "R-ERC3643-01": {
+        "R-HKMA-AMLO-CDD": {
           "ran": true,
           "pass": true,
-          "evidence": "transfer(to=unverified) reverted as expected → indicates identity gating"
+          "evidence": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
         },
-        "R-ERC3643-02": {
+        "R-HKMA-AMLO-RECORDKEEPING": {
           "ran": true,
           "pass": true,
-          "evidence": "Probe module forced canTransfer=false via ComplianceProbeModule; hook responded false as expected."
+          "evidence": "AMLO record-keeping probe: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0 returned an empty linkedIdentityRegistries() list; manual confirmation of off-chain retention is required."
         }
       },
       "abiArtifacts": {
         "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
         "IdentityRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
         "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
-        "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json"
+        "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
+        "Compliance": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
+        "IdentityRegistryStorage": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
+      },
+      "metrics": {
+        "compared": 0,
+        "tp": 0,
+        "fp": 0,
+        "tn": 0,
+        "fn": 0,
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "accuracy": 0
       }
     }
   ],
@@ -111,13 +200,13 @@
       "snippet": "require(compliance.canTransfer(from, to, amount), \"ERC-3643: compliance failed\");",
       "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
       "pass": true,
-      "note": "Probe module forced canTransfer=false via ComplianceProbeModule; hook responded false as expected.",
+      "note": "INCONCLUSIVE (not penalized): compliance.canTransfer=true; transfer reverted. Without a test compliance that can return false, the cause can't be isolated.",
       "details": [
         {
           "probe": true,
           "ran": true,
           "pass": true,
-          "evidence": "Probe module forced canTransfer=false via ComplianceProbeModule; hook responded false as expected."
+          "evidence": "INCONCLUSIVE (not penalized): compliance.canTransfer=true; transfer reverted. Without a test compliance that can return false, the cause can't be isolated."
         }
       ],
       "run": "rule.3643",
@@ -126,11 +215,1538 @@
       "severityLabel": "Critical",
       "severityOriginal": "Critical",
       "severityWeight": 4
+    },
+    {
+      "id": "R-ERC3643-03",
+      "title": "ClaimTopicsRegistry must support add/remove and event emission",
+      "desc": "Claim Topics Registry should expose management functions and emit the standard add/remove events.",
+      "snippet": "function addClaimTopic(uint256 _claimTopic); event ClaimTopicAdded(uint256 indexed claimTopic);",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/claim-topics-registry/",
+      "pass": true,
+      "note": "ABI has ctr.addClaimTopic(uint256): true; ABI has ctr.removeClaimTopic(uint256): true; ABI has ctr.getClaimTopics(): true; Event on ctr:ClaimTopicAdded present: true; Event on ctr:ClaimTopicRemoved present: true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "ctr",
+          "sig": "addClaimTopic(uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "ctr",
+          "sig": "removeClaimTopic(uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "ctr",
+          "sig": "getClaimTopics()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "ctr",
+          "name": "ClaimTopicAdded",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "ctr",
+          "name": "ClaimTopicRemoved",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-ERC3643-04",
+      "title": "IdentityRegistry must support setter for ClaimTopicsRegistry",
+      "desc": "Identity Registry should wire the ClaimTopicsRegistry via setter and expose the stored address.",
+      "snippet": "function setClaimTopicsRegistry(address _claimTopics);",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+      "pass": true,
+      "note": "ABI has idr.setClaimTopicsRegistry(address): true; ABI has idr.topicsRegistry(): true; data.idrTopicsRegistryAddr is non-zero: 0x5fbdb2315678afecb367f032d93f642f64180aa3; data.idrTopicsRegistryAddr equals cfg.claimTopicsRegistry → (0x5fbdb2315678afecb367f032d93f642f64180aa3 vs 0x5fbdb2315678afecb367f032d93f642f64180aa3)",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "setClaimTopicsRegistry(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "topicsRegistry()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "nonzeroaddress",
+          "field": "data.idrTopicsRegistryAddr",
+          "actual": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+          "expected": "!= ZERO",
+          "ok": true
+        },
+        {
+          "op": "equalsaddress",
+          "field": "data.idrTopicsRegistryAddr",
+          "left": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+          "right": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-ERC3643-05",
+      "title": "IdentityRegistry must support setter for TrustedIssuersRegistry",
+      "desc": "Identity Registry must reference the Trusted Issuers Registry through the official setter.",
+      "snippet": "function setTrustedIssuersRegistry(address _trustedIssuers);",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+      "pass": true,
+      "note": "ABI has idr.setTrustedIssuersRegistry(address): true; ABI has idr.issuersRegistry(): true; data.idrTrustedIssuersAddr is non-zero: 0xe7f1725e7734ce288f8367e1bb143e90bb3f0512; data.idrTrustedIssuersAddr equals cfg.trustedIssuersRegistry → (0xe7f1725e7734ce288f8367e1bb143e90bb3f0512 vs 0xe7f1725e7734ce288f8367e1bb143e90bb3f0512)",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "setTrustedIssuersRegistry(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "issuersRegistry()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "nonzeroaddress",
+          "field": "data.idrTrustedIssuersAddr",
+          "actual": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+          "expected": "!= ZERO",
+          "ok": true
+        },
+        {
+          "op": "equalsaddress",
+          "field": "data.idrTrustedIssuersAddr",
+          "left": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+          "right": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-ERC3643-06",
+      "title": "IdentityRegistry must expose isVerified view function",
+      "desc": "Identity Registry should implement isVerified and the token should point to the configured registry.",
+      "snippet": "function isVerified(address userAddress) external view returns (bool);",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+      "pass": true,
+      "note": "ABI has idr.isVerified(address): true; ABI has token.identityRegistry(): true; data.tokenIdentity is non-zero: 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9; data.tokenIdentity equals cfg.identityRegistry → (0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9 vs 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9)",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "isVerified(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "identityRegistry()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "nonzeroaddress",
+          "field": "data.tokenIdentity",
+          "actual": "0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
+          "expected": "!= ZERO",
+          "ok": true
+        },
+        {
+          "op": "equalsaddress",
+          "field": "data.tokenIdentity",
+          "left": "0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
+          "right": "0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-ERC3643-07",
+      "title": "Token must emit IdentityRegistryAdded and ComplianceAdded",
+      "desc": "Token should emit events when wiring the identity registry and compliance modules.",
+      "snippet": "event IdentityRegistryAdded(address indexed identityRegistry);\nevent ComplianceAdded(address indexed compliance);",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": true,
+      "note": "Event on token:IdentityRegistryAdded present: true; Event on token:ComplianceAdded present: true",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "IdentityRegistryAdded",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "ComplianceAdded",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-ERC3643-08",
+      "title": "Token must support freezing and unfreezing addresses",
+      "desc": "Token should include freeze management primitives required by ERC-3643.",
+      "snippet": "function setAddressFrozen(address _who, bool _frozen);\nfunction freezePartialTokens(address _who, uint256 _amount);",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": true,
+      "note": "ABI has token.setAddressFrozen(address,bool): true; ABI has token.freezePartialTokens(address,uint256): true; ABI has token.unfreezePartialTokens(address,uint256): true; ABI has token.isFrozen(address): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "setAddressFrozen(address,bool)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "freezePartialTokens(address,uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "unfreezePartialTokens(address,uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "isFrozen(address)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-ERC3643-09",
+      "title": "Token must be ERC-20 compatible",
+      "desc": "ERC-3643 tokens should fully implement the ERC-20 surface.",
+      "snippet": "function transfer(address to, uint256 amount) external returns (bool); function approve(address spender, uint256 amount) external returns (bool);",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": true,
+      "note": "ABI has token.transfer(address,uint256): true; ABI has token.transferFrom(address,address,uint256): true; ABI has token.approve(address,uint256): true; ABI has token.allowance(address,address): true; ABI has token.balanceOf(address): true; ABI has token.totalSupply(): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "transfer(address,uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "transferFrom(address,address,uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "approve(address,uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "allowance(address,address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "balanceOf(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "totalSupply()",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-ERC3643-10",
+      "title": "Token must support investor recovery functionality",
+      "desc": "Token should expose the recovery flow and emit the corresponding success event.",
+      "snippet": "function recoveryAddress(address _lostWallet, address _newWallet, address _onchainID);\nevent RecoverySuccess(address indexed _lostWallet, address indexed _newWallet, address indexed _investor);",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": true,
+      "note": "ABI has token.recoveryAddress(address,address,address): true; ABI has token.forcedTransfer(address,address,uint256): true; Event on token:RecoverySuccess present: true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "recoveryAddress(address,address,address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "forcedTransfer(address,address,uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "RecoverySuccess",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-ERC3643-11",
+      "title": "Token must expose identity/compliance wiring functions",
+      "desc": "The security token should wire and update the linked identity registry and compliance contracts.",
+      "snippet": "function setIdentityRegistry(address _identityRegistry);\nfunction setCompliance(address _compliance);",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": true,
+      "note": "ABI has token.setIdentityRegistry(address): true; ABI has token.identityRegistry(): true; ABI has token.setCompliance(address): true; ABI has token.compliance(): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "setIdentityRegistry(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "identityRegistry()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "setCompliance(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "compliance()",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-ERC3643-12",
+      "title": "Token must manage agent roles and emit events",
+      "desc": "ERC-3643 requires agent role management on the token, including add/remove operations and audit events.",
+      "snippet": "function addAgent(address _agent);\nfunction removeAgent(address _agent);\nevent AgentAdded(address indexed agent);\nevent AgentRemoved(address indexed agent);",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": true,
+      "note": "ABI has token.addAgent(address): true; ABI has token.removeAgent(address): true; ABI has token.isAgent(address): true; Event on token:AgentAdded present: true; Event on token:AgentRemoved present: true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "addAgent(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "removeAgent(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "isAgent(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "AgentAdded",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "AgentRemoved",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-ERC3643-13",
+      "title": "Token must support pause/unpause controls",
+      "desc": "The token should be pausable with explicit pause/unpause functions and events for compliance oversight.",
+      "snippet": "function pause();\nfunction unpause();\nfunction paused() external view returns (bool);\nevent Paused(address account);\nevent Unpaused(address account);",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": true,
+      "note": "ABI has token.pause(): true; ABI has token.unpause(): true; ABI has token.paused(): true; Event on token:Paused present: true; Event on token:Unpaused present: true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "pause()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "unpause()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "paused()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "Paused",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "Unpaused",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-ERC3643-14",
+      "title": "Token must emit freeze management events",
+      "desc": "Freeze/unfreeze controls require dedicated events so operators can audit address-level freezes.",
+      "snippet": "event AddressFrozen(address indexed account, bool frozen);\nevent TokensFrozen(address indexed account, uint256 amount);\nevent TokensUnfrozen(address indexed account, uint256 amount);",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": true,
+      "note": "Event on token:AddressFrozen present: true; Event on token:TokensFrozen present: true; Event on token:TokensUnfrozen present: true",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "AddressFrozen",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "TokensFrozen",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "TokensUnfrozen",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-ERC3643-15",
+      "title": "Token must support mint, burn, and forced transfers",
+      "desc": "ERC-3643 tokens require controlled supply adjustments and emergency forced transfers.",
+      "snippet": "function mint(address _to, uint256 _amount);\nfunction burn(address _from, uint256 _amount);\nfunction forcedTransfer(address _from, address _to, uint256 _amount);",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": true,
+      "note": "ABI has token.mint(address,uint256): true; ABI has token.burn(address,uint256): true; ABI has token.forcedTransfer(address,address,uint256): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "mint(address,uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "burn(address,uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "forcedTransfer(address,address,uint256)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-ERC3643-16",
+      "title": "Token must support batch administrative operations",
+      "desc": "The token interface defines batch variants for transfers, freezes, mint/burn, and agent controls.",
+      "snippet": "function batchTransfer(address[] calldata _from, uint256[] calldata _amounts);\nfunction batchForcedTransfer(address[] calldata _from, address[] calldata _to, uint256[] calldata _amounts);\nfunction batchMint(address[] calldata _to, uint256[] calldata _amounts);",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": true,
+      "note": "ABI has token.batchTransfer(address[],uint256[]): true; ABI has token.batchForcedTransfer(address[],address[],uint256[]): true; ABI has token.batchMint(address[],uint256[]): true; ABI has token.batchBurn(address[],uint256[]): true; ABI has token.batchFreezePartialTokens(address[],uint256[]): true; ABI has token.batchUnfreezePartialTokens(address[],uint256[]): true; ABI has token.batchSetAddressFrozen(address[],bool[]): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "batchTransfer(address[],uint256[])",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "batchForcedTransfer(address[],address[],uint256[])",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "batchMint(address[],uint256[])",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "batchBurn(address[],uint256[])",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "batchFreezePartialTokens(address[],uint256[])",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "batchUnfreezePartialTokens(address[],uint256[])",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "batchSetAddressFrozen(address[],bool[])",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "LOW",
+      "severityCode": "LOW",
+      "severityLabel": "Low",
+      "severityOriginal": "Low",
+      "severityWeight": 1
+    },
+    {
+      "id": "R-ERC3643-17",
+      "title": "Token must expose investor identity metadata controls",
+      "desc": "Token name, symbol, and on-chain identity must be mutable with corresponding audit event.",
+      "snippet": "function setName(string calldata _name);\nfunction setSymbol(string calldata _symbol);\nfunction setOnchainID(address _onchainID);\nevent UpdatedTokenInformation(string name, string symbol);",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": true,
+      "note": "ABI has token.setName(string): true; ABI has token.setSymbol(string): true; ABI has token.setOnchainID(address): true; ABI has token.onchainID(): true; ABI has token.name(): true; ABI has token.symbol(): true; Event on token:UpdatedTokenInformation present: true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "setName(string)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "setSymbol(string)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "setOnchainID(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "onchainID()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "name()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "symbol()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "UpdatedTokenInformation",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-ERC3643-18",
+      "title": "IdentityRegistry must manage agent roles with events",
+      "desc": "Identity registry contracts also expose agent controls mirroring the token requirements.",
+      "snippet": "function addAgent(address _agent);\nfunction removeAgent(address _agent);\nevent AgentAdded(address indexed agent);\nevent AgentRemoved(address indexed agent);",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+      "pass": true,
+      "note": "ABI has idr.addAgent(address): true; ABI has idr.removeAgent(address): true; ABI has idr.isAgent(address): true; Event on idr:AgentAdded present: true; Event on idr:AgentRemoved present: true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "addAgent(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "removeAgent(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "isAgent(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "idr",
+          "name": "AgentAdded",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "idr",
+          "name": "AgentRemoved",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-ERC3643-19",
+      "title": "IdentityRegistry must support identity lifecycle management",
+      "desc": "Registering, updating, deleting, and batching identities are core ERC-3643 requirements.",
+      "snippet": "function registerIdentity(address investor, address identity, uint16 country);\nfunction updateIdentity(address investor, address identity);\nfunction deleteIdentity(address investor);\nfunction batchRegisterIdentity(address[] calldata investors, address[] calldata identities, uint16[] calldata countries);",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+      "pass": true,
+      "note": "ABI has idr.registerIdentity(address,address,uint16): true; ABI has idr.updateIdentity(address,address): true; ABI has idr.deleteIdentity(address): true; ABI has idr.contains(address): true; ABI has idr.identity(address): true; ABI has idr.batchRegisterIdentity(address[],address[],uint16[]): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "registerIdentity(address,address,uint16)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "updateIdentity(address,address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "deleteIdentity(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "contains(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "identity(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "batchRegisterIdentity(address[],address[],uint16[])",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-ERC3643-20",
+      "title": "IdentityRegistry must manage investor country data",
+      "desc": "Country information drives jurisdictional compliance and must be retrievable and updatable.",
+      "snippet": "function updateCountry(address investor, uint16 country);\nfunction investorCountry(address investor) external view returns (uint16);\nevent CountryUpdated(address indexed investor, uint16 country);",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+      "pass": true,
+      "note": "ABI has idr.updateCountry(address,uint16): true; ABI has idr.investorCountry(address): true; Event on idr:CountryUpdated present: true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "updateCountry(address,uint16)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "investorCountry(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "idr",
+          "name": "CountryUpdated",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-ERC3643-21",
+      "title": "IdentityRegistry must link IdentityRegistryStorage",
+      "desc": "The identity registry should expose its storage contract, setter, and emit the linkage event.",
+      "snippet": "function setIdentityRegistryStorage(address _identityRegistryStorage);\nfunction identityStorage() external view returns (address);\nevent IdentityStorageSet(address indexed storageAddr);",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+      "pass": true,
+      "note": "ABI has idr.setIdentityRegistryStorage(address): true; ABI has idr.identityStorage(): true; Event on idr:IdentityStorageSet present: true; data.idrIdentityStorageAddr is non-zero: 0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "setIdentityRegistryStorage(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "identityStorage()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "idr",
+          "name": "IdentityStorageSet",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "nonzeroaddress",
+          "field": "data.idrIdentityStorageAddr",
+          "actual": "0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0",
+          "expected": "!= ZERO",
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-ERC3643-22",
+      "title": "IdentityRegistry must emit registry linkage events",
+      "desc": "Changes to trusted issuers or claim topics registries must emit dedicated events.",
+      "snippet": "event ClaimTopicsRegistrySet(address indexed claimTopicsRegistry);\nevent TrustedIssuersRegistrySet(address indexed trustedIssuersRegistry);",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+      "pass": true,
+      "note": "Event on idr:ClaimTopicsRegistrySet present: true; Event on idr:TrustedIssuersRegistrySet present: true",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "idr",
+          "name": "ClaimTopicsRegistrySet",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "idr",
+          "name": "TrustedIssuersRegistrySet",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-ERC3643-23",
+      "title": "IdentityRegistry must emit identity lifecycle events",
+      "desc": "Investor identity creation, updates, and removals require auditable events.",
+      "snippet": "event IdentityRegistered(address indexed investor, address indexed identity);\nevent IdentityUpdated(address indexed investor, address indexed identity);\nevent IdentityRemoved(address indexed investor, address indexed identity);",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+      "pass": true,
+      "note": "Event on idr:IdentityRegistered present: true; Event on idr:IdentityUpdated present: true; Event on idr:IdentityRemoved present: true",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "idr",
+          "name": "IdentityRegistered",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "idr",
+          "name": "IdentityUpdated",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "idr",
+          "name": "IdentityRemoved",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-ERC3643-24",
+      "title": "IdentityRegistryStorage must provide identity storage primitives",
+      "desc": "The storage contract should add, modify, remove identities and bind/unbind registries with events.",
+      "snippet": "function addIdentityToStorage(address investor, address identity, uint16 country);\nfunction modifyStoredIdentity(address investor, address identity);\nfunction removeIdentityFromStorage(address investor);\nfunction bindIdentityRegistry(address identityRegistry);\nevent IdentityStored(address indexed investor, address indexed identity);",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+      "pass": true,
+      "note": "ABI has irs.addIdentityToStorage(address,address,uint16): true; ABI has irs.modifyStoredIdentity(address,address): true; ABI has irs.modifyStoredInvestorCountry(address,uint16): true; ABI has irs.removeIdentityFromStorage(address): true; ABI has irs.bindIdentityRegistry(address): true; ABI has irs.unbindIdentityRegistry(address): true; ABI has irs.storedIdentity(address): true; ABI has irs.storedInvestorCountry(address): true; Event on irs:IdentityStored present: true; Event on irs:IdentityUnstored present: true; Event on irs:IdentityModified present: true; Event on irs:CountryModified present: true; Event on irs:IdentityRegistryBound present: true; Event on irs:IdentityRegistryUnbound present: true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "irs",
+          "sig": "addIdentityToStorage(address,address,uint16)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "irs",
+          "sig": "modifyStoredIdentity(address,address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "irs",
+          "sig": "modifyStoredInvestorCountry(address,uint16)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "irs",
+          "sig": "removeIdentityFromStorage(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "irs",
+          "sig": "bindIdentityRegistry(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "irs",
+          "sig": "unbindIdentityRegistry(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "irs",
+          "sig": "storedIdentity(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "irs",
+          "sig": "storedInvestorCountry(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "irs",
+          "name": "IdentityStored",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "irs",
+          "name": "IdentityUnstored",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "irs",
+          "name": "IdentityModified",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "irs",
+          "name": "CountryModified",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "irs",
+          "name": "IdentityRegistryBound",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "irs",
+          "name": "IdentityRegistryUnbound",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-ERC3643-25",
+      "title": "TrustedIssuersRegistry must cover issuer lifecycle",
+      "desc": "Trusted issuers registry should add, remove, and update issuers and emit lifecycle events.",
+      "snippet": "function addTrustedIssuer(address issuer, uint256[] calldata claimTopics);\nfunction removeTrustedIssuer(address issuer);\nfunction updateIssuerClaimTopics(address issuer, uint256[] calldata claimTopics);\nevent TrustedIssuerAdded(address indexed issuer);\nevent TrustedIssuerRemoved(address indexed issuer);",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/trusted-issuers-registry/",
+      "pass": true,
+      "note": "ABI has tir.addTrustedIssuer(address,uint256[]): true; ABI has tir.removeTrustedIssuer(address): true; ABI has tir.updateIssuerClaimTopics(address,uint256[]): true; ABI has tir.getTrustedIssuers(): true; ABI has tir.getTrustedIssuerClaimTopics(address): true; ABI has tir.getTrustedIssuersForClaimTopic(uint256): true; ABI has tir.hasClaimTopic(address,uint256): true; ABI has tir.isTrustedIssuer(address): true; Event on tir:TrustedIssuerAdded present: true; Event on tir:TrustedIssuerRemoved present: true; Event on tir:ClaimTopicsUpdated present: true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "tir",
+          "sig": "addTrustedIssuer(address,uint256[])",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "tir",
+          "sig": "removeTrustedIssuer(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "tir",
+          "sig": "updateIssuerClaimTopics(address,uint256[])",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "tir",
+          "sig": "getTrustedIssuers()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "tir",
+          "sig": "getTrustedIssuerClaimTopics(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "tir",
+          "sig": "getTrustedIssuersForClaimTopic(uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "tir",
+          "sig": "hasClaimTopic(address,uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "tir",
+          "sig": "isTrustedIssuer(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "tir",
+          "name": "TrustedIssuerAdded",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "tir",
+          "name": "TrustedIssuerRemoved",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "tir",
+          "name": "ClaimTopicsUpdated",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-ERC3643-26",
+      "title": "ClaimTopicsRegistry must expose ownership controls",
+      "desc": "Registry ownership transferability is required for governance handover.",
+      "snippet": "function owner() external view returns (address);\nfunction transferOwnership(address newOwner);\nfunction renounceOwnership();",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/claim-topics-registry/",
+      "pass": true,
+      "note": "ABI has ctr.owner(): true; ABI has ctr.transferOwnership(address): true; ABI has ctr.renounceOwnership(): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "ctr",
+          "sig": "owner()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "ctr",
+          "sig": "transferOwnership(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "ctr",
+          "sig": "renounceOwnership()",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "LOW",
+      "severityCode": "LOW",
+      "severityLabel": "Low",
+      "severityOriginal": "Low",
+      "severityWeight": 1
+    },
+    {
+      "id": "R-ERC3643-27",
+      "title": "Compliance contract must manage modules and transfer hooks",
+      "desc": "Modular compliance must bind the token, manage modules, and expose hooks per ERC-3643.",
+      "snippet": "function bindToken(address _token);\nfunction unbindToken(address _token);\nfunction addModule(address module);\nfunction removeModule(address module);\nfunction transferred(address _from, address _to, uint256 _amount);",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/compliance/",
+      "pass": true,
+      "note": "ABI has compliance.bindToken(address): true; ABI has compliance.unbindToken(address): true; ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.transferred(address,address,uint256): true; ABI has compliance.getTokenBound(): true; ABI has compliance.getModules(): true; ABI has compliance.isModuleBound(address): true; ABI has compliance.callModuleFunction(bytes,address): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "bindToken(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "unbindToken(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "addModule(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "removeModule(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "transferred(address,address,uint256)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "getTokenBound()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "getModules()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "isModuleBound(address)",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "callModuleFunction(bytes,address)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-ERC3643-28",
+      "title": "Compliance contract must emit module lifecycle events",
+      "desc": "Binding tokens and managing modules must trigger events for auditability.",
+      "snippet": "event ModuleAdded(address indexed module);\nevent ModuleRemoved(address indexed module);\nevent ModuleInteraction(bytes4 selector, address indexed module);\nevent TokenBound(address indexed token);\nevent TokenUnbound(address indexed token);",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/compliance/",
+      "pass": true,
+      "note": "Event on compliance:ModuleAdded present: true; Event on compliance:ModuleRemoved present: true; Event on compliance:ModuleInteraction present: true; Event on compliance:TokenBound present: true; Event on compliance:TokenUnbound present: true",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "compliance",
+          "name": "ModuleAdded",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "compliance",
+          "name": "ModuleRemoved",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "compliance",
+          "name": "ModuleInteraction",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "compliance",
+          "name": "TokenBound",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "compliance",
+          "name": "TokenUnbound",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-ERC3643-29",
+      "title": "Compliance contract must remain bound to the target token",
+      "desc": "The modular compliance contract should report the audited token address.",
+      "snippet": "require(compliance.getTokenBound() == address(this), \"ERC-3643: compliance not bound\");",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/compliance/",
+      "pass": true,
+      "note": "data.complianceBoundToken is non-zero: 0x5fc8d32690cc91d4c39d9d3abcbd16989f875707; data.complianceBoundToken equals cfg.token → (0x5fc8d32690cc91d4c39d9d3abcbd16989f875707 vs 0x5fc8d32690cc91d4c39d9d3abcbd16989f875707)",
+      "details": [
+        {
+          "op": "nonzeroaddress",
+          "field": "data.complianceBoundToken",
+          "actual": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+          "expected": "!= ZERO",
+          "ok": true
+        },
+        {
+          "op": "equalsaddress",
+          "field": "data.complianceBoundToken",
+          "left": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+          "right": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-ERC3643-30",
+      "title": "Token's compliance pointer must match configuration",
+      "desc": "The token should reference the expected compliance contract address.",
+      "snippet": "require(address(compliance()) == expectedCompliance, \"ERC-3643: unexpected compliance\");",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/compliance/",
+      "pass": true,
+      "note": "data.tokenCompliance is non-zero: 0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; data.tokenCompliance equals cfg.compliance → (0xdc64a140aa3e981100a9beca4e685f962f0cf6c9 vs 0xdc64a140aa3e981100a9beca4e685f962f0cf6c9)",
+      "details": [
+        {
+          "op": "nonzeroaddress",
+          "field": "data.tokenCompliance",
+          "actual": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+          "expected": "!= ZERO",
+          "ok": true
+        },
+        {
+          "op": "equalsaddress",
+          "field": "data.tokenCompliance",
+          "left": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+          "right": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-ERC3643-31",
+      "title": "ClaimTopicsRegistry must contain at least one claim topic",
+      "desc": "A compliant deployment should define the minimum claim topics used for eligibility checks.",
+      "snippet": "require(claimTopics.length > 0, \"ERC-3643: missing claim topics\");",
+      "policyRef": "https://erc-3643.github.io/documentation/docs/suite/claim-topics-registry/",
+      "pass": true,
+      "note": "data.topics.length>=1 (actual 1)",
+      "details": [
+        {
+          "op": "lengthgte",
+          "field": "data.topics",
+          "min": 1,
+          "actual": 1,
+          "ok": true
+        }
+      ],
+      "run": "rule.3643",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-HKMA-AMLO-CDD",
+      "title": "AMLO CDD identity controls",
+      "desc": "Token and Identity Registry must expose the hooks necessary to perform customer and beneficial owner due diligence before onboarding.",
+      "snippet": "require(identityRegistry.isVerified(to), \"CDD\");\nfunction identity(address investor) external view returns (address);\nfunction batchRegisterIdentity(address[] calldata investors, address[] calldata identities, uint16[] calldata countries);",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk",
+      "pass": true,
+      "note": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": true,
+          "evidence": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-AMLO-RecordKeeping",
+      "title": "AMLO record keeping support",
+      "desc": "Identity Registry Storage must be wired and emit lifecycle events so identity evidence can be retained for at least seven years.",
+      "snippet": "function identityStorage() external view returns (address);\nevent IdentityStored(address indexed investor, address indexed identity);\nevent IdentityUnstored(address indexed investor, address indexed identity);",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk",
+      "pass": true,
+      "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true; Event on irs:IdentityRegistryBound present: true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "identityStorage()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "nonzeroaddress",
+          "field": "data.idrIdentityStorageAddr",
+          "actual": "0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0",
+          "expected": "!= ZERO",
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "irs",
+          "name": "IdentityStored",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "irs",
+          "name": "IdentityModified",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "irs",
+          "name": "IdentityUnstored",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "hasevent",
+          "where": "irs",
+          "name": "IdentityRegistryBound",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
     }
   ],
   "summary": {
-    "total": 2,
-    "pass": 2,
+    "total": 33,
+    "pass": 33,
     "critical": 0,
     "high": 0,
     "medium": 0,
@@ -139,54 +1755,402 @@
     "warn": 0,
     "info": 0
   },
-  "metrics": null,
+  "metrics": {
+    "compared": 2,
+    "tp": 2,
+    "fp": 0,
+    "tn": 0,
+    "fn": 0,
+    "precision": 1,
+    "recall": 1,
+    "f1": 1,
+    "accuracy": 1,
+    "disagreements": []
+  },
   "llm": {
-    "generatedAt": "2025-10-16T13:41:41.280Z",
-    "model": "gpt-4o-mini-2024-07-18",
-    "disabled": false,
-    "reason": null,
+    "generatedAt": "2025-10-22T13:17:37.389Z",
+    "model": "gpt-4.1-nano",
+    "disabled": true,
+    "reason": "LLM disabled (missing API key)",
     "error": null,
-    "overallAssessment": "PASS",
+    "overallAssessment": "LLM disabled (missing API key)",
     "findings": [
       {
         "id": "R-ERC3643-01",
         "title": "Transfer must check identityRegistry.isVerified",
         "severity": "CRITICAL",
         "severity_label": "Critical",
-        "phase2_verdict": "Pass",
+        "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The transfer function correctly reverted when attempting to transfer to an unverified identity, demonstrating effective identity gating. This indicates compliance with the requirement to check the identity registry for verification status.",
+        "explanation": "transfer(to=unverified) reverted as expected → indicates identity gating",
         "compliance_refs": [
           "https://eips.ethereum.org/EIPS/eip-3643"
         ],
         "evidence_paths": [
           "transfer(to=unverified) reverted as expected → indicates identity gating"
         ],
-        "recommendation": "Continue to enforce identity verification checks in transfer functions."
+        "recommendation": "No action required."
       },
       {
         "id": "R-ERC3643-02",
         "title": "Token must call compliance.canTransfer hook",
         "severity": "CRITICAL",
         "severity_label": "Critical",
-        "phase2_verdict": "Pass",
+        "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The compliance.canTransfer hook was successfully invoked and returned false when the probe module enforced a restriction. This confirms that the token adheres to compliance requirements regarding transfer permissions.",
+        "explanation": "INCONCLUSIVE (not penalized): compliance.canTransfer=true; transfer reverted. Without a test compliance that can return false, the cause can't be isolated.",
         "compliance_refs": [
           "https://eips.ethereum.org/EIPS/eip-3643"
         ],
         "evidence_paths": [
-          "Probe module forced canTransfer=false via ComplianceProbeModule; hook responded false as expected."
+          "INCONCLUSIVE (not penalized): compliance.canTransfer=true; transfer reverted. Without a test compliance that can return false, the cause can't be isolated."
         ],
-        "recommendation": "Maintain the integrity of the compliance checks in the transfer process."
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-03",
+        "title": "ClaimTopicsRegistry must support add/remove and event emission",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "ABI has ctr.addClaimTopic(uint256): true; ABI has ctr.removeClaimTopic(uint256): true; ABI has ctr.getClaimTopics(): true; Event on ctr:ClaimTopicAdded present: true; Event on ctr:ClaimTopicRemoved present: true",
+        "compliance_refs": [
+          "https://erc-3643.github.io/documentation/docs/suite/claim-topics-registry/"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"addClaimTopic(uint256)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"removeClaimTopic(uint256)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"getClaimTopics()\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-04",
+        "title": "IdentityRegistry must support setter for ClaimTopicsRegistry",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "ABI has idr.setClaimTopicsRegistry(address): true; ABI has idr.topicsRegistry(): true; data.idrTopicsRegistryAddr is non-zero: 0x5fbdb2315678afecb367f032d93f642f64180aa3; data.idrTopicsRegistryAddr equals cfg.claimTopicsRegistry → (0x5fbdb2315678afecb367f032d93f642f64180aa3 vs 0x5fbdb2315678afecb367f032d93f642f64180aa3)",
+        "compliance_refs": [
+          "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"setClaimTopicsRegistry(address)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"topicsRegistry()\",\"present\":true,\"ok\":true}",
+          "nonzeroaddress:data.idrTopicsRegistryAddr:"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-05",
+        "title": "IdentityRegistry must support setter for TrustedIssuersRegistry",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "ABI has idr.setTrustedIssuersRegistry(address): true; ABI has idr.issuersRegistry(): true; data.idrTrustedIssuersAddr is non-zero: 0xe7f1725e7734ce288f8367e1bb143e90bb3f0512; data.idrTrustedIssuersAddr equals cfg.trustedIssuersRegistry → (0xe7f1725e7734ce288f8367e1bb143e90bb3f0512 vs 0xe7f1725e7734ce288f8367e1bb143e90bb3f0512)",
+        "compliance_refs": [
+          "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"setTrustedIssuersRegistry(address)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"issuersRegistry()\",\"present\":true,\"ok\":true}",
+          "nonzeroaddress:data.idrTrustedIssuersAddr:"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-06",
+        "title": "IdentityRegistry must expose isVerified view function",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "ABI has idr.isVerified(address): true; ABI has token.identityRegistry(): true; data.tokenIdentity is non-zero: 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9; data.tokenIdentity equals cfg.identityRegistry → (0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9 vs 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9)",
+        "compliance_refs": [
+          "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"isVerified(address)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"identityRegistry()\",\"present\":true,\"ok\":true}",
+          "nonzeroaddress:data.tokenIdentity:"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-09",
+        "title": "Token must be ERC-20 compatible",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "ABI has token.transfer(address,uint256): true; ABI has token.transferFrom(address,address,uint256): true; ABI has token.approve(address,uint256): true; ABI has token.allowance(address,address): true; ABI has token.balanceOf(address): true; ABI has token.totalSupply(): true",
+        "compliance_refs": [
+          "https://eips.ethereum.org/EIPS/eip-3643"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"transfer(address,uint256)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"transferFrom(address,address,uint256)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"approve(address,uint256)\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-11",
+        "title": "Token must expose identity/compliance wiring functions",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "ABI has token.setIdentityRegistry(address): true; ABI has token.identityRegistry(): true; ABI has token.setCompliance(address): true; ABI has token.compliance(): true",
+        "compliance_refs": [
+          "https://eips.ethereum.org/EIPS/eip-3643"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"setIdentityRegistry(address)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"identityRegistry()\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"setCompliance(address)\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-15",
+        "title": "Token must support mint, burn, and forced transfers",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "ABI has token.mint(address,uint256): true; ABI has token.burn(address,uint256): true; ABI has token.forcedTransfer(address,address,uint256): true",
+        "compliance_refs": [
+          "https://eips.ethereum.org/EIPS/eip-3643"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"mint(address,uint256)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"burn(address,uint256)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"forcedTransfer(address,address,uint256)\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-19",
+        "title": "IdentityRegistry must support identity lifecycle management",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "ABI has idr.registerIdentity(address,address,uint16): true; ABI has idr.updateIdentity(address,address): true; ABI has idr.deleteIdentity(address): true; ABI has idr.contains(address): true; ABI has idr.identity(address): true; ABI has idr.batchRegisterIdentity(address[],address[],uint16[]): true",
+        "compliance_refs": [
+          "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"registerIdentity(address,address,uint16)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"updateIdentity(address,address)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"deleteIdentity(address)\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-21",
+        "title": "IdentityRegistry must link IdentityRegistryStorage",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "ABI has idr.setIdentityRegistryStorage(address): true; ABI has idr.identityStorage(): true; Event on idr:IdentityStorageSet present: true; data.idrIdentityStorageAddr is non-zero: 0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0",
+        "compliance_refs": [
+          "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"setIdentityRegistryStorage(address)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasevent\",\"where\":\"idr\",\"name\":\"IdentityStorageSet\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-25",
+        "title": "TrustedIssuersRegistry must cover issuer lifecycle",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "ABI has tir.addTrustedIssuer(address,uint256[]): true; ABI has tir.removeTrustedIssuer(address): true; ABI has tir.updateIssuerClaimTopics(address,uint256[]): true; ABI has tir.getTrustedIssuers(): true; ABI has tir.getTrustedIssuerClaimTopics(address): true; ABI has tir.getTrustedIssuersForClaimTopic(uint256): true; ABI has tir.hasClaimTopic(address,uint...",
+        "compliance_refs": [
+          "https://erc-3643.github.io/documentation/docs/suite/trusted-issuers-registry/"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"addTrustedIssuer(address,uint256[])\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"removeTrustedIssuer(address)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"updateIssuerClaimTopics(address,uint256[])\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-27",
+        "title": "Compliance contract must manage modules and transfer hooks",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "ABI has compliance.bindToken(address): true; ABI has compliance.unbindToken(address): true; ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.transferred(address,address,uint256): true; ABI has compliance.getTokenBound(): true; ABI has compliance.getModules(): true; ABI has compliance.isModuleB...",
+        "compliance_refs": [
+          "https://erc-3643.github.io/documentation/docs/suite/compliance/"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"bindToken(address)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"unbindToken(address)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"addModule(address)\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-29",
+        "title": "Compliance contract must remain bound to the target token",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "data.complianceBoundToken is non-zero: 0x5fc8d32690cc91d4c39d9d3abcbd16989f875707; data.complianceBoundToken equals cfg.token → (0x5fc8d32690cc91d4c39d9d3abcbd16989f875707 vs 0x5fc8d32690cc91d4c39d9d3abcbd16989f875707)",
+        "compliance_refs": [
+          "https://erc-3643.github.io/documentation/docs/suite/compliance/"
+        ],
+        "evidence_paths": [
+          "nonzeroaddress:data.complianceBoundToken:",
+          "equalsaddress:data.complianceBoundToken:"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-30",
+        "title": "Token's compliance pointer must match configuration",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "data.tokenCompliance is non-zero: 0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; data.tokenCompliance equals cfg.compliance → (0xdc64a140aa3e981100a9beca4e685f962f0cf6c9 vs 0xdc64a140aa3e981100a9beca4e685f962f0cf6c9)",
+        "compliance_refs": [
+          "https://erc-3643.github.io/documentation/docs/suite/compliance/"
+        ],
+        "evidence_paths": [
+          "nonzeroaddress:data.tokenCompliance:",
+          "equalsaddress:data.tokenCompliance:"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-HKMA-AMLO-CDD",
+        "title": "AMLO CDD identity controls",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-07",
+        "title": "Token must emit IdentityRegistryAdded and ComplianceAdded",
+        "severity": "MEDIUM",
+        "severity_label": "Medium",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "Event on token:IdentityRegistryAdded present: true; Event on token:ComplianceAdded present: true",
+        "compliance_refs": [
+          "https://eips.ethereum.org/EIPS/eip-3643"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"IdentityRegistryAdded\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"ComplianceAdded\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-08",
+        "title": "Token must support freezing and unfreezing addresses",
+        "severity": "MEDIUM",
+        "severity_label": "Medium",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "ABI has token.setAddressFrozen(address,bool): true; ABI has token.freezePartialTokens(address,uint256): true; ABI has token.unfreezePartialTokens(address,uint256): true; ABI has token.isFrozen(address): true",
+        "compliance_refs": [
+          "https://eips.ethereum.org/EIPS/eip-3643"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"setAddressFrozen(address,bool)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"freezePartialTokens(address,uint256)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"unfreezePartialTokens(address,uint256)\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-10",
+        "title": "Token must support investor recovery functionality",
+        "severity": "MEDIUM",
+        "severity_label": "Medium",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "ABI has token.recoveryAddress(address,address,address): true; ABI has token.forcedTransfer(address,address,uint256): true; Event on token:RecoverySuccess present: true",
+        "compliance_refs": [
+          "https://eips.ethereum.org/EIPS/eip-3643"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"recoveryAddress(address,address,address)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"forcedTransfer(address,address,uint256)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"RecoverySuccess\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "No action required."
+      },
+      {
+        "id": "R-ERC3643-12",
+        "title": "Token must manage agent roles and emit events",
+        "severity": "MEDIUM",
+        "severity_label": "Medium",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "ABI has token.addAgent(address): true; ABI has token.removeAgent(address): true; ABI has token.isAgent(address): true; Event on token:AgentAdded present: true; Event on token:AgentRemoved present: true",
+        "compliance_refs": [
+          "https://eips.ethereum.org/EIPS/eip-3643"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"addAgent(address)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"removeAgent(address)\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"isAgent(address)\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "No action required."
       }
     ],
     "payload": {
       "summary": {
-        "total": 2,
-        "pass": 2,
+        "total": 33,
+        "pass": 33,
         "critical": 0,
         "high": 0,
         "medium": 0,
@@ -224,12 +2188,672 @@
           "phase2_verdict": "PASS",
           "pass": true,
           "run": "rule.3643",
-          "note": "Probe module forced canTransfer=false via ComplianceProbeModule; hook responded false as expected.",
+          "note": "INCONCLUSIVE (not penalized): compliance.canTransfer=true; transfer reverted. Without a test compliance that can return false, the cause can't be isolated.",
           "evidence": [
-            "Probe module forced canTransfer=false via ComplianceProbeModule; hook responded false as expected."
+            "INCONCLUSIVE (not penalized): compliance.canTransfer=true; transfer reverted. Without a test compliance that can return false, the cause can't be isolated."
           ],
           "policy_refs": [
             "https://eips.ethereum.org/EIPS/eip-3643"
+          ]
+        },
+        {
+          "id": "R-ERC3643-03",
+          "title": "ClaimTopicsRegistry must support add/remove and event emission",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has ctr.addClaimTopic(uint256): true; ABI has ctr.removeClaimTopic(uint256): true; ABI has ctr.getClaimTopics(): true; Event on ctr:ClaimTopicAdded present: true; Event on ctr:ClaimTopicRemoved present: true",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"addClaimTopic(uint256)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"removeClaimTopic(uint256)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"getClaimTopics()\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"ctr\",\"name\":\"ClaimTopicAdded\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"ctr\",\"name\":\"ClaimTopicRemoved\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/claim-topics-registry/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-04",
+          "title": "IdentityRegistry must support setter for ClaimTopicsRegistry",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has idr.setClaimTopicsRegistry(address): true; ABI has idr.topicsRegistry(): true; data.idrTopicsRegistryAddr is non-zero: 0x5fbdb2315678afecb367f032d93f642f64180aa3; data.idrTopicsRegistryAddr equals cfg.claimTopicsRegistry → (0x5fbdb2315678afecb367f032d93f642f64180aa3 vs 0x5fbdb2315678afecb367f032d93f642f64180...",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"setClaimTopicsRegistry(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"topicsRegistry()\",\"present\":true,\"ok\":true}",
+            "nonzeroaddress:data.idrTopicsRegistryAddr:",
+            "equalsaddress:data.idrTopicsRegistryAddr:"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-05",
+          "title": "IdentityRegistry must support setter for TrustedIssuersRegistry",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has idr.setTrustedIssuersRegistry(address): true; ABI has idr.issuersRegistry(): true; data.idrTrustedIssuersAddr is non-zero: 0xe7f1725e7734ce288f8367e1bb143e90bb3f0512; data.idrTrustedIssuersAddr equals cfg.trustedIssuersRegistry → (0xe7f1725e7734ce288f8367e1bb143e90bb3f0512 vs 0xe7f1725e7734ce288f8367e1bb143e...",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"setTrustedIssuersRegistry(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"issuersRegistry()\",\"present\":true,\"ok\":true}",
+            "nonzeroaddress:data.idrTrustedIssuersAddr:",
+            "equalsaddress:data.idrTrustedIssuersAddr:"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-06",
+          "title": "IdentityRegistry must expose isVerified view function",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has idr.isVerified(address): true; ABI has token.identityRegistry(): true; data.tokenIdentity is non-zero: 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9; data.tokenIdentity equals cfg.identityRegistry → (0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9 vs 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9)",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"isVerified(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"identityRegistry()\",\"present\":true,\"ok\":true}",
+            "nonzeroaddress:data.tokenIdentity:",
+            "equalsaddress:data.tokenIdentity:"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-07",
+          "title": "Token must emit IdentityRegistryAdded and ComplianceAdded",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "Event on token:IdentityRegistryAdded present: true; Event on token:ComplianceAdded present: true",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"IdentityRegistryAdded\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"ComplianceAdded\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://eips.ethereum.org/EIPS/eip-3643"
+          ]
+        },
+        {
+          "id": "R-ERC3643-08",
+          "title": "Token must support freezing and unfreezing addresses",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has token.setAddressFrozen(address,bool): true; ABI has token.freezePartialTokens(address,uint256): true; ABI has token.unfreezePartialTokens(address,uint256): true; ABI has token.isFrozen(address): true",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"setAddressFrozen(address,bool)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"freezePartialTokens(address,uint256)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"unfreezePartialTokens(address,uint256)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"isFrozen(address)\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://eips.ethereum.org/EIPS/eip-3643"
+          ]
+        },
+        {
+          "id": "R-ERC3643-09",
+          "title": "Token must be ERC-20 compatible",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has token.transfer(address,uint256): true; ABI has token.transferFrom(address,address,uint256): true; ABI has token.approve(address,uint256): true; ABI has token.allowance(address,address): true; ABI has token.balanceOf(address): true; ABI has token.totalSupply(): true",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"transfer(address,uint256)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"transferFrom(address,address,uint256)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"approve(address,uint256)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"allowance(address,address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"balanceOf(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"totalSupply()\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://eips.ethereum.org/EIPS/eip-3643"
+          ]
+        },
+        {
+          "id": "R-ERC3643-10",
+          "title": "Token must support investor recovery functionality",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has token.recoveryAddress(address,address,address): true; ABI has token.forcedTransfer(address,address,uint256): true; Event on token:RecoverySuccess present: true",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"recoveryAddress(address,address,address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"forcedTransfer(address,address,uint256)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"RecoverySuccess\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://eips.ethereum.org/EIPS/eip-3643"
+          ]
+        },
+        {
+          "id": "R-ERC3643-11",
+          "title": "Token must expose identity/compliance wiring functions",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has token.setIdentityRegistry(address): true; ABI has token.identityRegistry(): true; ABI has token.setCompliance(address): true; ABI has token.compliance(): true",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"setIdentityRegistry(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"identityRegistry()\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"setCompliance(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"compliance()\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://eips.ethereum.org/EIPS/eip-3643"
+          ]
+        },
+        {
+          "id": "R-ERC3643-12",
+          "title": "Token must manage agent roles and emit events",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has token.addAgent(address): true; ABI has token.removeAgent(address): true; ABI has token.isAgent(address): true; Event on token:AgentAdded present: true; Event on token:AgentRemoved present: true",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"addAgent(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"removeAgent(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"isAgent(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"AgentAdded\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"AgentRemoved\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://eips.ethereum.org/EIPS/eip-3643"
+          ]
+        },
+        {
+          "id": "R-ERC3643-13",
+          "title": "Token must support pause/unpause controls",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has token.pause(): true; ABI has token.unpause(): true; ABI has token.paused(): true; Event on token:Paused present: true; Event on token:Unpaused present: true",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"pause()\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"unpause()\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"paused()\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"Paused\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"Unpaused\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://eips.ethereum.org/EIPS/eip-3643"
+          ]
+        },
+        {
+          "id": "R-ERC3643-14",
+          "title": "Token must emit freeze management events",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "Event on token:AddressFrozen present: true; Event on token:TokensFrozen present: true; Event on token:TokensUnfrozen present: true",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"AddressFrozen\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"TokensFrozen\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"TokensUnfrozen\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://eips.ethereum.org/EIPS/eip-3643"
+          ]
+        },
+        {
+          "id": "R-ERC3643-15",
+          "title": "Token must support mint, burn, and forced transfers",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has token.mint(address,uint256): true; ABI has token.burn(address,uint256): true; ABI has token.forcedTransfer(address,address,uint256): true",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"mint(address,uint256)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"burn(address,uint256)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"forcedTransfer(address,address,uint256)\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://eips.ethereum.org/EIPS/eip-3643"
+          ]
+        },
+        {
+          "id": "R-ERC3643-16",
+          "title": "Token must support batch administrative operations",
+          "severity": "Low",
+          "severity_code": "LOW",
+          "severity_label": "Low",
+          "severity_original": "Low",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has token.batchTransfer(address[],uint256[]): true; ABI has token.batchForcedTransfer(address[],address[],uint256[]): true; ABI has token.batchMint(address[],uint256[]): true; ABI has token.batchBurn(address[],uint256[]): true; ABI has token.batchFreezePartialTokens(address[],uint256[]): true; ABI has token.batc...",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"batchTransfer(address[],uint256[])\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"batchForcedTransfer(address[],address[],uint256[])\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"batchMint(address[],uint256[])\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"batchBurn(address[],uint256[])\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"batchFreezePartialTokens(address[],uint256[])\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"batchUnfreezePartialTokens(address[],uint256[])\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"batchSetAddressFrozen(address[],bool[])\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://eips.ethereum.org/EIPS/eip-3643"
+          ]
+        },
+        {
+          "id": "R-ERC3643-17",
+          "title": "Token must expose investor identity metadata controls",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has token.setName(string): true; ABI has token.setSymbol(string): true; ABI has token.setOnchainID(address): true; ABI has token.onchainID(): true; ABI has token.name(): true; ABI has token.symbol(): true; Event on token:UpdatedTokenInformation present: true",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"setName(string)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"setSymbol(string)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"setOnchainID(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"onchainID()\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"name()\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"symbol()\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"UpdatedTokenInformation\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://eips.ethereum.org/EIPS/eip-3643"
+          ]
+        },
+        {
+          "id": "R-ERC3643-18",
+          "title": "IdentityRegistry must manage agent roles with events",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has idr.addAgent(address): true; ABI has idr.removeAgent(address): true; ABI has idr.isAgent(address): true; Event on idr:AgentAdded present: true; Event on idr:AgentRemoved present: true",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"addAgent(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"removeAgent(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"isAgent(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"idr\",\"name\":\"AgentAdded\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"idr\",\"name\":\"AgentRemoved\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-19",
+          "title": "IdentityRegistry must support identity lifecycle management",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has idr.registerIdentity(address,address,uint16): true; ABI has idr.updateIdentity(address,address): true; ABI has idr.deleteIdentity(address): true; ABI has idr.contains(address): true; ABI has idr.identity(address): true; ABI has idr.batchRegisterIdentity(address[],address[],uint16[]): true",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"registerIdentity(address,address,uint16)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"updateIdentity(address,address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"deleteIdentity(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"contains(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identity(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"batchRegisterIdentity(address[],address[],uint16[])\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-20",
+          "title": "IdentityRegistry must manage investor country data",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has idr.updateCountry(address,uint16): true; ABI has idr.investorCountry(address): true; Event on idr:CountryUpdated present: true",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"updateCountry(address,uint16)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"investorCountry(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"idr\",\"name\":\"CountryUpdated\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-21",
+          "title": "IdentityRegistry must link IdentityRegistryStorage",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has idr.setIdentityRegistryStorage(address): true; ABI has idr.identityStorage(): true; Event on idr:IdentityStorageSet present: true; data.idrIdentityStorageAddr is non-zero: 0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"setIdentityRegistryStorage(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"idr\",\"name\":\"IdentityStorageSet\",\"present\":true,\"ok\":true}",
+            "nonzeroaddress:data.idrIdentityStorageAddr:"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-22",
+          "title": "IdentityRegistry must emit registry linkage events",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "Event on idr:ClaimTopicsRegistrySet present: true; Event on idr:TrustedIssuersRegistrySet present: true",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"idr\",\"name\":\"ClaimTopicsRegistrySet\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"idr\",\"name\":\"TrustedIssuersRegistrySet\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-23",
+          "title": "IdentityRegistry must emit identity lifecycle events",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "Event on idr:IdentityRegistered present: true; Event on idr:IdentityUpdated present: true; Event on idr:IdentityRemoved present: true",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"idr\",\"name\":\"IdentityRegistered\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"idr\",\"name\":\"IdentityUpdated\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"idr\",\"name\":\"IdentityRemoved\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-24",
+          "title": "IdentityRegistryStorage must provide identity storage primitives",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has irs.addIdentityToStorage(address,address,uint16): true; ABI has irs.modifyStoredIdentity(address,address): true; ABI has irs.modifyStoredInvestorCountry(address,uint16): true; ABI has irs.removeIdentityFromStorage(address): true; ABI has irs.bindIdentityRegistry(address): true; ABI has irs.unbindIdentityRegi...",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"irs\",\"sig\":\"addIdentityToStorage(address,address,uint16)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"irs\",\"sig\":\"modifyStoredIdentity(address,address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"irs\",\"sig\":\"modifyStoredInvestorCountry(address,uint16)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"irs\",\"sig\":\"removeIdentityFromStorage(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"irs\",\"sig\":\"bindIdentityRegistry(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"irs\",\"sig\":\"unbindIdentityRegistry(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"irs\",\"sig\":\"storedIdentity(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"irs\",\"sig\":\"storedInvestorCountry(address)\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/identity-registry/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-25",
+          "title": "TrustedIssuersRegistry must cover issuer lifecycle",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has tir.addTrustedIssuer(address,uint256[]): true; ABI has tir.removeTrustedIssuer(address): true; ABI has tir.updateIssuerClaimTopics(address,uint256[]): true; ABI has tir.getTrustedIssuers(): true; ABI has tir.getTrustedIssuerClaimTopics(address): true; ABI has tir.getTrustedIssuersForClaimTopic(uint256): true...",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"addTrustedIssuer(address,uint256[])\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"removeTrustedIssuer(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"updateIssuerClaimTopics(address,uint256[])\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"getTrustedIssuers()\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"getTrustedIssuerClaimTopics(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"getTrustedIssuersForClaimTopic(uint256)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"hasClaimTopic(address,uint256)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"isTrustedIssuer(address)\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/trusted-issuers-registry/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-26",
+          "title": "ClaimTopicsRegistry must expose ownership controls",
+          "severity": "Low",
+          "severity_code": "LOW",
+          "severity_label": "Low",
+          "severity_original": "Low",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has ctr.owner(): true; ABI has ctr.transferOwnership(address): true; ABI has ctr.renounceOwnership(): true",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"owner()\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"transferOwnership(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"renounceOwnership()\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/claim-topics-registry/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-27",
+          "title": "Compliance contract must manage modules and transfer hooks",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "ABI has compliance.bindToken(address): true; ABI has compliance.unbindToken(address): true; ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.transferred(address,address,uint256): true; ABI has compliance.getTokenBound(): true; ABI has compliance.getModul...",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"bindToken(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"unbindToken(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"addModule(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"removeModule(address)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"transferred(address,address,uint256)\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"getTokenBound()\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"getModules()\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"isModuleBound(address)\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/compliance/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-28",
+          "title": "Compliance contract must emit module lifecycle events",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "Event on compliance:ModuleAdded present: true; Event on compliance:ModuleRemoved present: true; Event on compliance:ModuleInteraction present: true; Event on compliance:TokenBound present: true; Event on compliance:TokenUnbound present: true",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"compliance\",\"name\":\"ModuleAdded\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"compliance\",\"name\":\"ModuleRemoved\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"compliance\",\"name\":\"ModuleInteraction\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"compliance\",\"name\":\"TokenBound\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"compliance\",\"name\":\"TokenUnbound\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/compliance/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-29",
+          "title": "Compliance contract must remain bound to the target token",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "data.complianceBoundToken is non-zero: 0x5fc8d32690cc91d4c39d9d3abcbd16989f875707; data.complianceBoundToken equals cfg.token → (0x5fc8d32690cc91d4c39d9d3abcbd16989f875707 vs 0x5fc8d32690cc91d4c39d9d3abcbd16989f875707)",
+          "evidence": [
+            "nonzeroaddress:data.complianceBoundToken:",
+            "equalsaddress:data.complianceBoundToken:"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/compliance/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-30",
+          "title": "Token's compliance pointer must match configuration",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "data.tokenCompliance is non-zero: 0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; data.tokenCompliance equals cfg.compliance → (0xdc64a140aa3e981100a9beca4e685f962f0cf6c9 vs 0xdc64a140aa3e981100a9beca4e685f962f0cf6c9)",
+          "evidence": [
+            "nonzeroaddress:data.tokenCompliance:",
+            "equalsaddress:data.tokenCompliance:"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/compliance/"
+          ]
+        },
+        {
+          "id": "R-ERC3643-31",
+          "title": "ClaimTopicsRegistry must contain at least one claim topic",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.3643",
+          "note": "data.topics.length>=1 (actual 1)",
+          "evidence": [
+            "lengthgte:data.topics:"
+          ],
+          "policy_refs": [
+            "https://erc-3643.github.io/documentation/docs/suite/claim-topics-registry/"
+          ]
+        },
+        {
+          "id": "R-HKMA-AMLO-CDD",
+          "title": "AMLO CDD identity controls",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO",
+          "note": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.",
+          "evidence": [
+            "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+          ]
+        },
+        {
+          "id": "R-HKMA-AMLO-RecordKeeping",
+          "title": "AMLO record keeping support",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO",
+          "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true; Event on irs:IdentityRegistryBound present: true",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
+            "nonzeroaddress:data.idrIdentityStorageAddr:",
+            "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityStored\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityModified\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityUnstored\",\"present\":true,\"ok\":true}",
+            "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityRegistryBound\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
           ]
         }
       ],
@@ -248,7 +2872,25 @@
               "id": "R-ERC3643-02",
               "ran": true,
               "pass": true,
-              "evidence": "Probe module forced canTransfer=false via ComplianceProbeModule; hook responded false as expected."
+              "evidence": "INCONCLUSIVE (not penalized): compliance.canTransfer=true; transfer reverted. Without a test compliance that can return false, the cause can't be isolated."
+            }
+          ]
+        },
+        {
+          "run": "rule.AMLO",
+          "executionMode": "hardhat",
+          "probes": [
+            {
+              "id": "R-HKMA-AMLO-CDD",
+              "ran": true,
+              "pass": true,
+              "evidence": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+            },
+            {
+              "id": "R-HKMA-AMLO-RECORDKEEPING",
+              "ran": true,
+              "pass": true,
+              "evidence": "AMLO record-keeping probe: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0 returned an empty linkedIdentityRegistries() list; manual confirmation of off-chain retention is required."
             }
           ]
         }

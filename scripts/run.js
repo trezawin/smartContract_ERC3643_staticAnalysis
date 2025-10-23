@@ -21,16 +21,22 @@ function loadAbiArtifacts(root) {
     const idr = loadOne(map.IdentityRegistry);
     const ctr = loadOne(map.ClaimTopicsRegistry);
     const tir = loadOne(map.TrustedIssuersRegistry);
+    const compliance = loadOne(map.Compliance);
+    const irs = loadOne(map.IdentityRegistryStorage);
     return {
       tokenAbi: token.abi,
       idrAbi: idr.abi,
       ctrAbi: ctr.abi,
       tirAbi: tir.abi,
+      complianceAbi: compliance.abi,
+      irsAbi: irs.abi,
       paths: {
         Token: token.path,
         IdentityRegistry: idr.path,
         ClaimTopicsRegistry: ctr.path,
-        TrustedIssuersRegistry: tir.path
+        TrustedIssuersRegistry: tir.path,
+        Compliance: compliance.path,
+        IdentityRegistryStorage: irs.path
       }
     };
   } catch {
@@ -95,6 +101,7 @@ function matchRule(r, canonicalId) {
   const id = String(r.id || "").toUpperCase();
   return id === String(canonicalId).toUpperCase();
 }
+
 
 function loadLocalEnv(root) {
   const envPath = path.join(root, ".env");
@@ -577,7 +584,8 @@ const TokenABI = [
 ];
 const IdentityRegistryABI = [
   "function topicsRegistry() view returns (address)",
-  "function issuersRegistry() view returns (address)"
+  "function issuersRegistry() view returns (address)",
+  "function identityStorage() view returns (address)"
 ];
 const ClaimTopicsRegistryABI = [
   "function getClaimTopics() view returns (uint256[])",
@@ -640,14 +648,20 @@ async function collectData(ctx, cfg) {
   const ctr = new Contract(cfg.claimTopicsRegistry, ClaimTopicsRegistryABI, signer);
   const tirAddr = cfg.trustedIssuersRegistry;
   const tir = tirAddr ? new Contract(tirAddr, TrustedIssuersRegistryABI, signer) : null;
-  const irsAddr = cfg.identityRegistryStorage; // optional if provided
-  const irs = irsAddr ? new Contract(irsAddr, IdentityRegistryStorageABI, signer) : null;
 
   const tryCall = async (fn, def = null) => { try { return await fn(); } catch { return def; } };
 
   const tokenIdentity = await tryCall(() => token.identityRegistry(), constants.AddressZero);
   const tokenCompliance = await tryCall(() => token.compliance(), constants.AddressZero);
   const tokenOwner = await tryCall(() => token.owner(), constants.AddressZero);
+
+  const idrIdentityStorageAddr = await tryCall(() => idr.identityStorage(), constants.AddressZero);
+  const resolvedIrsAddr = normalizeAddress(idrIdentityStorageAddr) !== ZERO
+    ? idrIdentityStorageAddr
+    : (cfg.identityRegistryStorage || constants.AddressZero);
+  const irs = normalizeAddress(resolvedIrsAddr) !== ZERO
+    ? new Contract(resolvedIrsAddr, IdentityRegistryStorageABI, signer)
+    : null;
 
   const idrTopicsRegistryAddr = await tryCall(() => idr.topicsRegistry(), constants.AddressZero);
   const idrTrustedIssuersAddr = await tryCall(() => idr.issuersRegistry(), constants.AddressZero);
@@ -696,16 +710,29 @@ async function collectData(ctx, cfg) {
     erc20AllowanceSelf,
     tirOwner,
     irsOwner,
+    idrIdentityStorageAddr: resolvedIrsAddr,
   };
 }
 
 // =====================
 // Runtime probes (only in Hardhat fallback)
 // =====================
-async function runRuntimeProbes(context, cfg, data) {
+async function runRuntimeProbes(context, cfg, data, rules) {
   const probes = {};
-  probes["R-ERC3643-01"] = { ran: false, pass: null, evidence: "skipped (no runtime)" };
-  probes["R-ERC3643-02"] = { ran: false, pass: null, evidence: "skipped (no runtime)" };
+  const ruleIds = new Set(Array.isArray(rules) ? rules.map((r) => String(r.id || "").toUpperCase()) : []);
+  const needs3643_01 = ruleIds.has("R-ERC3643-01");
+  const needs3643_02 = ruleIds.has("R-ERC3643-02");
+  const needsAmloCdd = ruleIds.has("R-HKMA-AMLO-CDD");
+  const needsAmloRecord = ruleIds.has("R-HKMA-AMLO-RECORDKEEPING");
+
+  const ensureProbe = (id) => {
+    if (!probes[id]) probes[id] = { ran: false, pass: null, evidence: "skipped (no runtime)" };
+  };
+
+  if (needs3643_01) ensureProbe("R-ERC3643-01");
+  if (needs3643_02) ensureProbe("R-ERC3643-02");
+  if (needsAmloCdd) ensureProbe("R-HKMA-AMLO-CDD");
+  if (needsAmloRecord) ensureProbe("R-HKMA-AMLO-RECORDKEEPING");
 
   if (!context || context.mode !== "hardhat") {
     return probes;
@@ -718,6 +745,9 @@ async function runRuntimeProbes(context, cfg, data) {
   const complianceAddr = normalizeAddress(data.tokenCompliance);
   const hasCompliance = complianceAddr !== ZERO;
   const compliance = hasCompliance ? new Contract(complianceAddr, ComplianceABI, signer) : null;
+  const identityRegistry = (needsAmloRecord || needsAmloCdd)
+    ? new Contract(cfg.identityRegistry, IdentityRegistryABI, signer)
+    : null;
 
   const tryTx = async (fn) => {
     try {
@@ -729,99 +759,147 @@ async function runRuntimeProbes(context, cfg, data) {
     }
   };
 
-  // --- Probe for R-ERC3643-01: transfer should fail if recipient is NOT verified ---
-  try {
-    const to = ethers.Wallet.createRandom().address;
-    const res = await tryTx(() => token.transfer(to, 1));
-    const pass = !res.ok;
-    const ev = pass
-      ? "transfer(to=unverified) reverted as expected → indicates identity gating"
-      : "transfer(to=unverified) succeeded → missing identity gating";
-    probes["R-ERC3643-01"] = { ran: true, pass, evidence: ev };
-  } catch (e) {
-    probes["R-ERC3643-01"] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+  // --- Probe for identity gating (shared by ERC-3643-01 & AMLO CDD) ---
+  if (needs3643_01 || needsAmloCdd) {
+    try {
+      const to = ethers.Wallet.createRandom().address;
+      const res = await tryTx(() => token.transfer(to, 1));
+      const pass = !res.ok;
+      const evidenceBase = pass
+        ? "transfer(to=unverified) reverted as expected → indicates identity gating"
+        : "transfer(to=unverified) succeeded → missing identity gating";
+
+      if (needs3643_01) {
+        probes["R-ERC3643-01"] = { ran: true, pass, evidence: evidenceBase };
+      }
+      if (needsAmloCdd) {
+        const amloEvidence = pass
+          ? "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+          : "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating.";
+        probes["R-HKMA-AMLO-CDD"] = { ran: true, pass, evidence: amloEvidence };
+      }
+    } catch (e) {
+      const failure = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+      if (needs3643_01) probes["R-ERC3643-01"] = { ...failure };
+      if (needsAmloCdd) probes["R-HKMA-AMLO-CDD"] = { ...failure };
+    }
   }
 
   // --- Probe for R-ERC3643-02: token should consult compliance.canTransfer ---
-  try {
-    if (!hasCompliance) {
-      probes["R-ERC3643-02"] = { ran: true, pass: false, evidence: "no compliance() address on token" };
-    } else {
-      const from = await signer.getAddress();
-      const to = ethers.Wallet.createRandom().address;
-
-      let hookSays = null;
-      let hookCalled = false;
-      try {
-        hookSays = await compliance.callStatic.canTransfer(from, to, 1);
-        hookCalled = true;
-      } catch {
-        // if canTransfer is missing or non-callable, keep hookCalled=false
-      }
-      const res = await tryTx(() => token.transfer(to, 1));
-      let pass = false;
-      let ev = "";
-
-      if (hookCalled && hookSays === false && !res.ok) {
-        // Strong signal: hook said NO and transfer reverted → likely consulting compliance
-        pass = true;
-        ev = "PASS (deterministic): compliance.canTransfer(...) returned false and transfer reverted → token likely consults compliance hook";
-      } else if (hookCalled && hookSays === false && res.ok) {
-        // Strong negative: hook said NO but transfer still succeeded
-        pass = false;
-        ev = "FAIL: compliance.canTransfer(...) returned false but transfer succeeded → token may NOT consult compliance hook";
-      } else if (!hookCalled) {
-        // Hook not callable → treat as fail for this rule
-        pass = false;
-        ev = "FAIL: compliance.canTransfer not callable on compliance contract";
+  if (needs3643_02) {
+    try {
+      if (!hasCompliance) {
+        probes["R-ERC3643-02"] = { ran: true, pass: false, evidence: "no compliance() address on token" };
       } else {
-        // Inconclusive combos (e.g., hook true + revert, or hook true + success): don't penalize.
-        pass = true; // neutralize to avoid false negatives in the deterministic phase
-        ev = `INCONCLUSIVE (not penalized): compliance.canTransfer=${hookSays}; transfer ${res.ok ? "succeeded" : "reverted"}. Without a test compliance that can return false, the cause can't be isolated.`;
-      }
+        const from = await signer.getAddress();
+        const to = ethers.Wallet.createRandom().address;
 
-      const enhance = context.ethers && typeof context.ethers.getContractFactory === "function"
-        ? await (async () => {
-            const admin = new Contract(complianceAddr, ComplianceAdminABI, signer);
-            try {
-              const factory = await context.ethers.getContractFactory("ComplianceProbeModule", signer);
-              const module = await factory.deploy();
-              await module.deployed();
+        let hookSays = null;
+        let hookCalled = false;
+        try {
+          hookSays = await compliance.callStatic.canTransfer(from, to, 1);
+          hookCalled = true;
+        } catch {
+          // if canTransfer is missing or non-callable, keep hookCalled=false
+        }
+        const res = await tryTx(() => token.transfer(to, 1));
+        let pass = false;
+        let ev = "";
 
+        if (hookCalled && hookSays === false && !res.ok) {
+          pass = true;
+          ev = "PASS (deterministic): compliance.canTransfer(...) returned false and transfer reverted → token likely consults compliance hook";
+        } else if (hookCalled && hookSays === false && res.ok) {
+          pass = false;
+          ev = "FAIL: compliance.canTransfer(...) returned false but transfer succeeded → token may NOT consult compliance hook";
+        } else if (!hookCalled) {
+          pass = false;
+          ev = "FAIL: compliance.canTransfer not callable on compliance contract";
+        } else {
+          pass = true;
+          ev = `INCONCLUSIVE (not penalized): compliance.canTransfer=${hookSays}; transfer ${res.ok ? "succeeded" : "reverted"}. Without a test compliance that can return false, the cause can't be isolated.`;
+        }
+
+        const enhance = context.ethers && typeof context.ethers.getContractFactory === "function"
+          ? await (async () => {
+              const admin = new Contract(complianceAddr, ComplianceAdminABI, signer);
               try {
-                await (await admin.addModule(module.address)).wait();
-                const disableData = module.interface.encodeFunctionData("setResult", [false]);
-                await (await admin.callModuleFunction(disableData, module.address)).wait();
+                const factory = await context.ethers.getContractFactory("ComplianceProbeModule", signer);
+                const module = await factory.deploy();
+                await module.deployed();
 
-                const checkAfter = await compliance.callStatic.canTransfer(from, to, 1);
-                const outcome = {
-                  pass: checkAfter === false,
-                  evidence: checkAfter === false
-                    ? "Probe module forced canTransfer=false via ComplianceProbeModule; hook responded false as expected."
-                    : `Probe module injection failed: canTransfer returned ${checkAfter}`
-                };
+                try {
+                  await (await admin.addModule(module.address)).wait();
+                  const disableData = module.interface.encodeFunctionData("setResult", [false]);
+                  await (await admin.callModuleFunction(disableData, module.address)).wait();
 
-                const enableData = module.interface.encodeFunctionData("setResult", [true]);
-                await (await admin.callModuleFunction(enableData, module.address)).wait();
-                return outcome;
-              } finally {
-                try { await (await admin.removeModule(module.address)).wait(); } catch { /* ignore cleanup */ }
+                  const checkAfter = await compliance.callStatic.canTransfer(from, to, 1);
+                  const outcome = {
+                    pass: checkAfter === false,
+                    evidence: checkAfter === false
+                      ? "Probe module forced canTransfer=false via ComplianceProbeModule; hook responded false as expected."
+                      : `Probe module injection failed: canTransfer returned ${checkAfter}`
+                  };
+
+                  const enableData = module.interface.encodeFunctionData("setResult", [true]);
+                  await (await admin.callModuleFunction(enableData, module.address)).wait();
+                  return outcome;
+                } finally {
+                  try { await (await admin.removeModule(module.address)).wait(); } catch { /* ignore cleanup */ }
+                }
+              } catch {
+                return null;
               }
-            } catch {
-              return null;
-            }
-          })()
-        : null;
+            })()
+          : null;
 
-      if (enhance) {
-        pass = enhance.pass;
-        ev = enhance.evidence;
+        if (enhance) {
+          pass = enhance.pass;
+          ev = enhance.evidence;
+        }
+
+        probes["R-ERC3643-02"] = { ran: true, pass, evidence: ev };
       }
-
-      probes["R-ERC3643-02"] = { ran: true, pass, evidence: ev };
+    } catch (e) {
+      probes["R-ERC3643-02"] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
     }
-  } catch (e) {
-    probes["R-ERC3643-02"] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+  }
+
+  // --- Probe for AMLO record keeping: ensure identity storage bound to registry ---
+  if (needsAmloRecord && identityRegistry) {
+    try {
+      const storageAddr = await identityRegistry.identityStorage();
+      if (normalizeAddress(storageAddr) === ZERO) {
+        probes["R-HKMA-AMLO-RECORDKEEPING"] = {
+          ran: true,
+          pass: false,
+          evidence: "AMLO record-keeping probe: identityRegistry.identityStorage() returned zero address; storage is not wired."
+        };
+      } else {
+        const storage = new Contract(storageAddr, IdentityRegistryStorageABI, signer);
+        let linked = [];
+        try {
+          linked = await storage.linkedIdentityRegistries();
+        } catch {
+          linked = [];
+        }
+        const linkedLower = Array.isArray(linked) ? linked.map((addr) => normalizeAddress(addr)) : [];
+        const expected = normalizeAddress(cfg.identityRegistry);
+        let bound = linkedLower.includes(expected);
+        let evidence = "";
+        if (bound) {
+          evidence = `AMLO record-keeping probe: identityStorage=${storageAddr} is bound to IdentityRegistry ${cfg.identityRegistry}.`;
+        } else if (linkedLower.length === 0) {
+          bound = true;
+          evidence = `AMLO record-keeping probe: identityStorage=${storageAddr} returned an empty linkedIdentityRegistries() list; manual confirmation of off-chain retention is required.`;
+        } else {
+          evidence = `AMLO record-keeping probe: identityStorage=${storageAddr} does not list ${cfg.identityRegistry} in linkedIdentityRegistries().`;
+        }
+        probes["R-HKMA-AMLO-RECORDKEEPING"] = { ran: true, pass: bound, evidence };
+      }
+    } catch (e) {
+      probes["R-HKMA-AMLO-RECORDKEEPING"] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+    }
   }
 
   return probes;
@@ -900,6 +978,7 @@ function defaultDeclarativeFor(ruleId) {
       return null;
   }
 }
+
 // =====================
 // Normalize possible declarative shapes coming from rules JSON
 function normalizeDeclarativeSpec(r) {
@@ -1077,6 +1156,7 @@ async function main() {
   // - Otherwise, default to both ERC‑3643 and HK rules when present.
   const defaultRuleFiles = [
     "cre/rules/rule.3643.json",
+    "cre/rules/rule.AMLO.json"
     // "cre/rules/baseline.hk.json"
   ];
 
@@ -1313,9 +1393,11 @@ async function evaluateRun(root, def, rules, abiArtifactsArg) {
     idr: makeAbiIndex(abiArtifacts?.idrAbi),
     ctr: makeAbiIndex(abiArtifacts?.ctrAbi),
     tir: makeAbiIndex(abiArtifacts?.tirAbi),
+    compliance: makeAbiIndex(abiArtifacts?.complianceAbi),
+    irs: makeAbiIndex(abiArtifacts?.irsAbi),
   };
   // Guard against missing ABI indices
-  for (const k of ["token","idr","ctr","tir"]) {
+  for (const k of ["token","idr","ctr","tir","compliance","irs"]) {
     if (!idx[k]) idx[k] = { bySig: new Set(), byName: new Set(), hasEvent: new Set() };
   }
   const hasFn = (where, sigOrName) => idx[where] && (idx[where].bySig.has(sigOrName) || idx[where].byName.has(sigOrName));
@@ -1343,7 +1425,7 @@ async function evaluateRun(root, def, rules, abiArtifactsArg) {
   // Runtime probes (only on Hardhat fallback)
   let probes = {};
   try {
-    probes = await runRuntimeProbes(context, cfg, data);
+    probes = await runRuntimeProbes(context, cfg, data, rules);
   } catch {
     probes = {};
   }
@@ -1374,6 +1456,8 @@ async function evaluateRun(root, def, rules, abiArtifactsArg) {
       }
     }
     // Prefer explicit declarative checks from the rule object
+    // e.g. static rules such as R-ERC3643-30 (compliance address check) or
+    // R-HKMA-AMLO-RecordKeeping rely on JSON allOf/check declarations evaluated here.
     const spec = normalizeDeclarativeSpec(r);
     let dec = spec ? evalDeclarativeRule(spec, data, cfg, { hasFn, hasEvent })
                    : evalDeclarativeRule(r, data, cfg, { hasFn, hasEvent });
@@ -1420,6 +1504,7 @@ async function evaluateRun(root, def, rules, abiArtifactsArg) {
       ctrOwner: data?.ctrOwner ?? null,
       idrClaimTopicsAddr: data?.idrTopicsRegistryAddr ?? null,
       idrTrustedIssuersAddr: data?.idrTrustedIssuersAddr ?? null,
+      idrIdentityStorageAddr: data?.idrIdentityStorageAddr ?? null,
       topicsCount: Array.isArray(data?.topics) ? data.topics.length : 0,
       complianceBoundToken: data?.complianceBoundToken ?? null,
       executionMode: context?.mode ?? null,

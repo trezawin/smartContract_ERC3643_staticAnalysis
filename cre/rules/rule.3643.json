@@ -22,5 +22,427 @@
       { "op": "nonzeroaddress", "field": "data.tokenIdentity" },
       { "op": "nonzeroaddress", "field": "data.tokenCompliance" }
     ]
+  },
+  {
+    "id": "R-ERC3643-03",
+    "title": "ClaimTopicsRegistry must support add/remove and event emission",
+    "desc": "Claim Topics Registry should expose management functions and emit the standard add/remove events.",
+    "snippet": "function addClaimTopic(uint256 _claimTopic); event ClaimTopicAdded(uint256 indexed claimTopic);",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/claim-topics-registry/",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "ctr", "sig": "addClaimTopic(uint256)" },
+      { "op": "hasabifn", "where": "ctr", "sig": "removeClaimTopic(uint256)" },
+      { "op": "hasabifn", "where": "ctr", "sig": "getClaimTopics()" },
+      { "op": "hasevent", "where": "ctr", "name": "ClaimTopicAdded" },
+      { "op": "hasevent", "where": "ctr", "name": "ClaimTopicRemoved" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-04",
+    "title": "IdentityRegistry must support setter for ClaimTopicsRegistry",
+    "desc": "Identity Registry should wire the ClaimTopicsRegistry via setter and expose the stored address.",
+    "snippet": "function setClaimTopicsRegistry(address _claimTopics);",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "idr", "sig": "setClaimTopicsRegistry(address)" },
+      { "op": "hasabifn", "where": "idr", "sig": "topicsRegistry()" },
+      { "op": "nonzeroaddress", "field": "data.idrTopicsRegistryAddr" },
+      { "op": "equalsaddress", "field": "data.idrTopicsRegistryAddr", "equals": "cfg.claimTopicsRegistry" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-05",
+    "title": "IdentityRegistry must support setter for TrustedIssuersRegistry",
+    "desc": "Identity Registry must reference the Trusted Issuers Registry through the official setter.",
+    "snippet": "function setTrustedIssuersRegistry(address _trustedIssuers);",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "idr", "sig": "setTrustedIssuersRegistry(address)" },
+      { "op": "hasabifn", "where": "idr", "sig": "issuersRegistry()" },
+      { "op": "nonzeroaddress", "field": "data.idrTrustedIssuersAddr" },
+      { "op": "equalsaddress", "field": "data.idrTrustedIssuersAddr", "equals": "cfg.trustedIssuersRegistry" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-06",
+    "title": "IdentityRegistry must expose isVerified view function",
+    "desc": "Identity Registry should implement isVerified and the token should point to the configured registry.",
+    "snippet": "function isVerified(address userAddress) external view returns (bool);",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "idr", "sig": "isVerified(address)" },
+      { "op": "hasabifn", "where": "token", "sig": "identityRegistry()" },
+      { "op": "nonzeroaddress", "field": "data.tokenIdentity" },
+      { "op": "equalsaddress", "field": "data.tokenIdentity", "equals": "cfg.identityRegistry" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-07",
+    "title": "Token must emit IdentityRegistryAdded and ComplianceAdded",
+    "desc": "Token should emit events when wiring the identity registry and compliance modules.",
+    "snippet": "event IdentityRegistryAdded(address indexed identityRegistry);\nevent ComplianceAdded(address indexed compliance);",
+    "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasevent", "where": "token", "name": "IdentityRegistryAdded" },
+      { "op": "hasevent", "where": "token", "name": "ComplianceAdded" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-08",
+    "title": "Token must support freezing and unfreezing addresses",
+    "desc": "Token should include freeze management primitives required by ERC-3643.",
+    "snippet": "function setAddressFrozen(address _who, bool _frozen);\nfunction freezePartialTokens(address _who, uint256 _amount);",
+    "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasabifn", "where": "token", "sig": "setAddressFrozen(address,bool)" },
+      { "op": "hasabifn", "where": "token", "sig": "freezePartialTokens(address,uint256)" },
+      { "op": "hasabifn", "where": "token", "sig": "unfreezePartialTokens(address,uint256)" },
+      { "op": "hasabifn", "where": "token", "sig": "isFrozen(address)" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-09",
+    "title": "Token must be ERC-20 compatible",
+    "desc": "ERC-3643 tokens should fully implement the ERC-20 surface.",
+    "snippet": "function transfer(address to, uint256 amount) external returns (bool); function approve(address spender, uint256 amount) external returns (bool);",
+    "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "token", "sig": "transfer(address,uint256)" },
+      { "op": "hasabifn", "where": "token", "sig": "transferFrom(address,address,uint256)" },
+      { "op": "hasabifn", "where": "token", "sig": "allowance(address,address)" },
+      { "op": "hasabifn", "where": "token", "sig": "balanceOf(address)" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-10",
+    "title": "Token must support investor recovery functionality",
+    "desc": "Token should expose the recovery flow and emit the corresponding success event.",
+    "snippet": "function recoveryAddress(address _lostWallet, address _newWallet, address _onchainID);\nevent RecoverySuccess(address indexed _lostWallet, address indexed _newWallet, address indexed _investor);",
+    "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasabifn", "where": "token", "sig": "recoveryAddress(address,address,address)" },
+      { "op": "hasabifn", "where": "token", "sig": "forcedTransfer(address,address,uint256)" },
+      { "op": "hasevent", "where": "token", "name": "RecoverySuccess" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-11",
+    "title": "Token must expose identity/compliance wiring functions",
+    "desc": "The security token should wire and update the linked identity registry and compliance contracts.",
+    "snippet": "function setIdentityRegistry(address _identityRegistry);\nfunction setCompliance(address _compliance);",
+    "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "token", "sig": "setIdentityRegistry(address)" },
+      { "op": "hasabifn", "where": "token", "sig": "identityRegistry()" },
+      { "op": "hasabifn", "where": "token", "sig": "setCompliance(address)" },
+      { "op": "hasabifn", "where": "token", "sig": "compliance()" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-12",
+    "title": "Token must manage agent roles and emit events",
+    "desc": "ERC-3643 requires agent role management on the token, including add/remove operations and audit events.",
+    "snippet": "function addAgent(address _agent);\nfunction removeAgent(address _agent);\nevent AgentAdded(address indexed agent);\nevent AgentRemoved(address indexed agent);",
+    "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasabifn", "where": "token", "sig": "addAgent(address)" },
+      { "op": "hasabifn", "where": "token", "sig": "removeAgent(address)" },
+      { "op": "hasabifn", "where": "token", "sig": "isAgent(address)" },
+      { "op": "hasevent", "where": "token", "name": "AgentAdded" },
+      { "op": "hasevent", "where": "token", "name": "AgentRemoved" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-13",
+    "title": "Token must support pause/unpause controls",
+    "desc": "The token should be pausable with explicit pause/unpause functions and events for compliance oversight.",
+    "snippet": "function pause();\nfunction unpause();\nfunction paused() external view returns (bool);\nevent Paused(address account);\nevent Unpaused(address account);",
+    "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasabifn", "where": "token", "sig": "pause()" },
+      { "op": "hasabifn", "where": "token", "sig": "unpause()" },
+      { "op": "hasabifn", "where": "token", "sig": "paused()" },
+      { "op": "hasevent", "where": "token", "name": "Paused" },
+      { "op": "hasevent", "where": "token", "name": "Unpaused" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-14",
+    "title": "Token must emit freeze management events",
+    "desc": "Freeze/unfreeze controls require dedicated events so operators can audit address-level freezes.",
+    "snippet": "event AddressFrozen(address indexed account, bool frozen);\nevent TokensFrozen(address indexed account, uint256 amount);\nevent TokensUnfrozen(address indexed account, uint256 amount);",
+    "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasevent", "where": "token", "name": "AddressFrozen" },
+      { "op": "hasevent", "where": "token", "name": "TokensFrozen" },
+      { "op": "hasevent", "where": "token", "name": "TokensUnfrozen" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-15",
+    "title": "Token must support mint, burn, and forced transfers",
+    "desc": "ERC-3643 tokens require controlled supply adjustments and emergency forced transfers.",
+    "snippet": "function mint(address _to, uint256 _amount);\nfunction burn(address _from, uint256 _amount);\nfunction forcedTransfer(address _from, address _to, uint256 _amount);",
+    "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "token", "sig": "mint(address,uint256)" },
+      { "op": "hasabifn", "where": "token", "sig": "burn(address,uint256)" },
+      { "op": "hasabifn", "where": "token", "sig": "forcedTransfer(address,address,uint256)" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-16",
+    "title": "Token must support batch administrative operations",
+    "desc": "The token interface defines batch variants for transfers, freezes, mint/burn, and agent controls.",
+    "snippet": "function batchTransfer(address[] calldata _from, uint256[] calldata _amounts);\nfunction batchForcedTransfer(address[] calldata _from, address[] calldata _to, uint256[] calldata _amounts);\nfunction batchMint(address[] calldata _to, uint256[] calldata _amounts);",
+    "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+    "severity": "Low",
+    "allOf": [
+      { "op": "hasabifn", "where": "token", "sig": "batchTransfer(address[],uint256[])" },
+      { "op": "hasabifn", "where": "token", "sig": "batchForcedTransfer(address[],address[],uint256[])" },
+      { "op": "hasabifn", "where": "token", "sig": "batchMint(address[],uint256[])" },
+      { "op": "hasabifn", "where": "token", "sig": "batchBurn(address[],uint256[])" },
+      { "op": "hasabifn", "where": "token", "sig": "batchFreezePartialTokens(address[],uint256[])" },
+      { "op": "hasabifn", "where": "token", "sig": "batchUnfreezePartialTokens(address[],uint256[])" },
+      { "op": "hasabifn", "where": "token", "sig": "batchSetAddressFrozen(address[],bool[])" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-17",
+    "title": "Token must expose investor identity metadata controls",
+    "desc": "Token name, symbol, and on-chain identity must be mutable with corresponding audit event.",
+    "snippet": "function setName(string calldata _name);\nfunction setSymbol(string calldata _symbol);\nfunction setOnchainID(address _onchainID);\nevent UpdatedTokenInformation(string name, string symbol);",
+    "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasabifn", "where": "token", "sig": "setName(string)" },
+      { "op": "hasabifn", "where": "token", "sig": "setSymbol(string)" },
+      { "op": "hasabifn", "where": "token", "sig": "setOnchainID(address)" },
+      { "op": "hasabifn", "where": "token", "sig": "onchainID()" },
+      { "op": "hasabifn", "where": "token", "sig": "name()" },
+      { "op": "hasabifn", "where": "token", "sig": "symbol()" },
+      { "op": "hasevent", "where": "token", "name": "UpdatedTokenInformation" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-18",
+    "title": "IdentityRegistry must manage agent roles with events",
+    "desc": "Identity registry contracts also expose agent controls mirroring the token requirements.",
+    "snippet": "function addAgent(address _agent);\nfunction removeAgent(address _agent);\nevent AgentAdded(address indexed agent);\nevent AgentRemoved(address indexed agent);",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasabifn", "where": "idr", "sig": "addAgent(address)" },
+      { "op": "hasabifn", "where": "idr", "sig": "removeAgent(address)" },
+      { "op": "hasabifn", "where": "idr", "sig": "isAgent(address)" },
+      { "op": "hasevent", "where": "idr", "name": "AgentAdded" },
+      { "op": "hasevent", "where": "idr", "name": "AgentRemoved" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-19",
+    "title": "IdentityRegistry must support identity lifecycle management",
+    "desc": "Registering, updating, deleting, and batching identities are core ERC-3643 requirements.",
+    "snippet": "function registerIdentity(address investor, address identity, uint16 country);\nfunction updateIdentity(address investor, address identity);\nfunction deleteIdentity(address investor);\nfunction batchRegisterIdentity(address[] calldata investors, address[] calldata identities, uint16[] calldata countries);",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "idr", "sig": "registerIdentity(address,address,uint16)" },
+      { "op": "hasabifn", "where": "idr", "sig": "updateIdentity(address,address)" },
+      { "op": "hasabifn", "where": "idr", "sig": "deleteIdentity(address)" },
+      { "op": "hasabifn", "where": "idr", "sig": "contains(address)" },
+      { "op": "hasabifn", "where": "idr", "sig": "identity(address)" },
+      { "op": "hasabifn", "where": "idr", "sig": "batchRegisterIdentity(address[],address[],uint16[])" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-20",
+    "title": "IdentityRegistry must manage investor country data",
+    "desc": "Country information drives jurisdictional compliance and must be retrievable and updatable.",
+    "snippet": "function updateCountry(address investor, uint16 country);\nfunction investorCountry(address investor) external view returns (uint16);\nevent CountryUpdated(address indexed investor, uint16 country);",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasabifn", "where": "idr", "sig": "updateCountry(address,uint16)" },
+      { "op": "hasabifn", "where": "idr", "sig": "investorCountry(address)" },
+      { "op": "hasevent", "where": "idr", "name": "CountryUpdated" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-21",
+    "title": "IdentityRegistry must link IdentityRegistryStorage",
+    "desc": "The identity registry should expose its storage contract, setter, and emit the linkage event.",
+    "snippet": "function setIdentityRegistryStorage(address _identityRegistryStorage);\nfunction identityStorage() external view returns (address);\nevent IdentityStorageSet(address indexed storageAddr);",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "idr", "sig": "setIdentityRegistryStorage(address)" },
+      { "op": "hasabifn", "where": "idr", "sig": "identityStorage()" },
+      { "op": "hasevent", "where": "idr", "name": "IdentityStorageSet" },
+      { "op": "nonzeroaddress", "field": "data.idrIdentityStorageAddr" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-22",
+    "title": "IdentityRegistry must emit registry linkage events",
+    "desc": "Changes to trusted issuers or claim topics registries must emit dedicated events.",
+    "snippet": "event ClaimTopicsRegistrySet(address indexed claimTopicsRegistry);\nevent TrustedIssuersRegistrySet(address indexed trustedIssuersRegistry);",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasevent", "where": "idr", "name": "ClaimTopicsRegistrySet" },
+      { "op": "hasevent", "where": "idr", "name": "TrustedIssuersRegistrySet" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-23",
+    "title": "IdentityRegistry must emit identity lifecycle events",
+    "desc": "Investor identity creation, updates, and removals require auditable events.",
+    "snippet": "event IdentityRegistered(address indexed investor, address indexed identity);\nevent IdentityUpdated(address indexed investor, address indexed identity);\nevent IdentityRemoved(address indexed investor, address indexed identity);",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasevent", "where": "idr", "name": "IdentityRegistered" },
+      { "op": "hasevent", "where": "idr", "name": "IdentityUpdated" },
+      { "op": "hasevent", "where": "idr", "name": "IdentityRemoved" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-24",
+    "title": "IdentityRegistryStorage must provide identity storage primitives",
+    "desc": "The storage contract should add, modify, remove identities and bind/unbind registries with events.",
+    "snippet": "function addIdentityToStorage(address investor, address identity, uint16 country);\nfunction modifyStoredIdentity(address investor, address identity);\nfunction removeIdentityFromStorage(address investor);\nfunction bindIdentityRegistry(address identityRegistry);\nevent IdentityStored(address indexed investor, address indexed identity);",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/identity-registry/",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasabifn", "where": "irs", "sig": "addIdentityToStorage(address,address,uint16)" },
+      { "op": "hasabifn", "where": "irs", "sig": "modifyStoredIdentity(address,address)" },
+      { "op": "hasabifn", "where": "irs", "sig": "modifyStoredInvestorCountry(address,uint16)" },
+      { "op": "hasabifn", "where": "irs", "sig": "removeIdentityFromStorage(address)" },
+      { "op": "hasabifn", "where": "irs", "sig": "bindIdentityRegistry(address)" },
+      { "op": "hasabifn", "where": "irs", "sig": "unbindIdentityRegistry(address)" },
+      { "op": "hasabifn", "where": "irs", "sig": "storedIdentity(address)" },
+      { "op": "hasabifn", "where": "irs", "sig": "storedInvestorCountry(address)" },
+      { "op": "hasevent", "where": "irs", "name": "IdentityStored" },
+      { "op": "hasevent", "where": "irs", "name": "IdentityUnstored" },
+      { "op": "hasevent", "where": "irs", "name": "IdentityModified" },
+      { "op": "hasevent", "where": "irs", "name": "CountryModified" },
+      { "op": "hasevent", "where": "irs", "name": "IdentityRegistryBound" },
+      { "op": "hasevent", "where": "irs", "name": "IdentityRegistryUnbound" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-25",
+    "title": "TrustedIssuersRegistry must cover issuer lifecycle",
+    "desc": "Trusted issuers registry should add, remove, and update issuers and emit lifecycle events.",
+    "snippet": "function addTrustedIssuer(address issuer, uint256[] calldata claimTopics);\nfunction removeTrustedIssuer(address issuer);\nfunction updateIssuerClaimTopics(address issuer, uint256[] calldata claimTopics);\nevent TrustedIssuerAdded(address indexed issuer);\nevent TrustedIssuerRemoved(address indexed issuer);",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/trusted-issuers-registry/",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "tir", "sig": "addTrustedIssuer(address,uint256[])" },
+      { "op": "hasabifn", "where": "tir", "sig": "removeTrustedIssuer(address)" },
+      { "op": "hasabifn", "where": "tir", "sig": "updateIssuerClaimTopics(address,uint256[])" },
+      { "op": "hasabifn", "where": "tir", "sig": "getTrustedIssuers()" },
+      { "op": "hasabifn", "where": "tir", "sig": "getTrustedIssuerClaimTopics(address)" },
+      { "op": "hasabifn", "where": "tir", "sig": "getTrustedIssuersForClaimTopic(uint256)" },
+      { "op": "hasabifn", "where": "tir", "sig": "hasClaimTopic(address,uint256)" },
+      { "op": "hasabifn", "where": "tir", "sig": "isTrustedIssuer(address)" },
+      { "op": "hasevent", "where": "tir", "name": "TrustedIssuerAdded" },
+      { "op": "hasevent", "where": "tir", "name": "TrustedIssuerRemoved" },
+      { "op": "hasevent", "where": "tir", "name": "ClaimTopicsUpdated" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-26",
+    "title": "ClaimTopicsRegistry must expose ownership controls",
+    "desc": "Registry ownership transferability is required for governance handover.",
+    "snippet": "function owner() external view returns (address);\nfunction transferOwnership(address newOwner);\nfunction renounceOwnership();",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/claim-topics-registry/",
+    "severity": "Low",
+    "allOf": [
+      { "op": "hasabifn", "where": "ctr", "sig": "owner()" },
+      { "op": "hasabifn", "where": "ctr", "sig": "transferOwnership(address)" },
+      { "op": "hasabifn", "where": "ctr", "sig": "renounceOwnership()" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-27",
+    "title": "Compliance contract must manage modules and transfer hooks",
+    "desc": "Modular compliance must bind the token, manage modules, and expose hooks per ERC-3643.",
+    "snippet": "function bindToken(address _token);\nfunction unbindToken(address _token);\nfunction addModule(address module);\nfunction removeModule(address module);\nfunction transferred(address _from, address _to, uint256 _amount);",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/compliance/",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "compliance", "sig": "bindToken(address)" },
+      { "op": "hasabifn", "where": "compliance", "sig": "unbindToken(address)" },
+      { "op": "hasabifn", "where": "compliance", "sig": "addModule(address)" },
+      { "op": "hasabifn", "where": "compliance", "sig": "removeModule(address)" },
+      { "op": "hasabifn", "where": "compliance", "sig": "transferred(address,address,uint256)" },
+      { "op": "hasabifn", "where": "compliance", "sig": "getTokenBound()" },
+      { "op": "hasabifn", "where": "compliance", "sig": "getModules()" },
+      { "op": "hasabifn", "where": "compliance", "sig": "isModuleBound(address)" },
+      { "op": "hasabifn", "where": "compliance", "sig": "callModuleFunction(bytes,address)" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-28",
+    "title": "Compliance contract must emit module lifecycle events",
+    "desc": "Binding tokens and managing modules must trigger events for auditability.",
+    "snippet": "event ModuleAdded(address indexed module);\nevent ModuleRemoved(address indexed module);\nevent ModuleInteraction(bytes4 selector, address indexed module);\nevent TokenBound(address indexed token);\nevent TokenUnbound(address indexed token);",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/compliance/",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasevent", "where": "compliance", "name": "ModuleAdded" },
+      { "op": "hasevent", "where": "compliance", "name": "ModuleRemoved" },
+      { "op": "hasevent", "where": "compliance", "name": "ModuleInteraction" },
+      { "op": "hasevent", "where": "compliance", "name": "TokenBound" },
+      { "op": "hasevent", "where": "compliance", "name": "TokenUnbound" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-29",
+    "title": "Compliance contract must remain bound to the target token",
+    "desc": "The modular compliance contract should report the audited token address.",
+    "snippet": "require(compliance.getTokenBound() == address(this), \"ERC-3643: compliance not bound\");",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/compliance/",
+    "severity": "High",
+    "allOf": [
+      { "op": "nonzeroaddress", "field": "data.complianceBoundToken" },
+      { "op": "equalsaddress", "field": "data.complianceBoundToken", "equals": "cfg.token" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-30",
+    "title": "Token's compliance pointer must match configuration",
+    "desc": "The token should reference the expected compliance contract address.",
+    "snippet": "require(address(compliance()) == expectedCompliance, \"ERC-3643: unexpected compliance\");",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/compliance/",
+    "severity": "High",
+    "allOf": [
+      { "op": "nonzeroaddress", "field": "data.tokenCompliance" },
+      { "op": "equalsaddress", "field": "data.tokenCompliance", "equals": "cfg.compliance" }
+    ]
+  },
+  {
+    "id": "R-ERC3643-31",
+    "title": "ClaimTopicsRegistry must contain at least one claim topic",
+    "desc": "A compliant deployment should define the minimum claim topics used for eligibility checks.",
+    "snippet": "require(claimTopics.length > 0, \"ERC-3643: missing claim topics\");",
+    "policyRef": "https://erc-3643.github.io/documentation/docs/suite/claim-topics-registry/",
+    "severity": "Medium",
+    "check": { "op": "lengthgte", "field": "data.topics", "value": 1 }
   }
 ]
