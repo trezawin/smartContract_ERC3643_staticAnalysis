@@ -1,0 +1,564 @@
+{
+  "generatedAt": "2025-10-23T15:19:38.474Z",
+  "inputs": {
+    "addressesPath": "/Users/weizicheng/Downloads/smartContract_ERC3643_staticAnalysis/.cre.addresses.json",
+    "addresses": {
+      "networkRpc": "http://127.0.0.1:8545",
+      "token": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+    },
+    "ruleFiles": [
+      "cre/rules/rule.AMLO.va.json"
+    ],
+    "abiArtifacts": {
+      "Token": "artifacts/contracts/test/SmartContractTest04.sol/SmartContractTest04.json",
+      "IdentityRegistry": "artifacts/contracts/test/SmartContractTest04.sol/SmartContractTest04.json",
+      "ClaimTopicsRegistry": "artifacts/contracts/test/SmartContractTest04.sol/SmartContractTest04.json",
+      "TrustedIssuersRegistry": "artifacts/contracts/test/SmartContractTest04.sol/SmartContractTest04.json",
+      "Compliance": "artifacts/contracts/test/SmartContractTest04.sol/SmartContractTest04.json",
+      "IdentityRegistryStorage": "artifacts/contracts/test/SmartContractTest04.sol/SmartContractTest04.json"
+    }
+  },
+  "runs": [
+    {
+      "label": "rule.AMLO.va",
+      "rulesPath": "cre/rules/rule.AMLO.va.json",
+      "addressesPath": ".cre.addresses.json",
+      "summary": {
+        "total": 6,
+        "pass": 1,
+        "critical": 0,
+        "high": 4,
+        "medium": 1,
+        "low": 0,
+        "fail": 0,
+        "warn": 5,
+        "info": 0
+      },
+      "addresses": {
+        "networkRpc": "http://127.0.0.1:8545",
+        "token": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+        "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+      },
+      "data": {
+        "tokenIdentity": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+        "tokenCompliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+        "tokenOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "ctrOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "idrClaimTopicsAddr": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "idrTrustedIssuersAddr": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "idrIdentityStorageAddr": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+        "topicsCount": 1,
+        "complianceBoundToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "executionMode": "hardhat",
+        "tokenName": "HK Green Bond",
+        "tokenSymbol": "HKGB",
+        "tokenDecimals": 18,
+        "tirOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "irsOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+      },
+      "probes": {
+        "R-HKMA-AMLO-VA-01": {
+          "ran": true,
+          "pass": false,
+          "evidence": "Missing instrumentation for originator.name, originator.accountReference, recipient.name, recipient.accountReference; no ABI entries mention required metadata. AMLO §13A(2)(a),(b),(d),(e) expects these fields to be captured pre-transfer."
+        },
+        "R-HKMA-AMLO-VA-02": {
+          "ran": true,
+          "pass": false,
+          "evidence": "Threshold metadata missing: originator.address, originator.dateOfBirth, originator.placeOfBirth, originator.customerId/idDocumentNumber. No ABI evidence of capture at ≥ HKD 8k."
+        },
+        "R-HKMA-AMLO-VA-03": {
+          "ran": true,
+          "pass": false,
+          "evidence": "Transmission payload support incomplete (base fields missing: ordered payload: originator.name, ordered payload: originator.accountReference, ordered payload: recipient.name, ordered payload: recipient.accountReference | threshold fields missing: ordered payload: originator.address, ordered payload: originator.identifier)."
+        },
+        "R-HKMA-AMLO-VA-04": {
+          "ran": true,
+          "pass": false,
+          "evidence": "Missing instrumentation for beneficiary intake: originator.name, beneficiary intake: originator.accountReference, beneficiary intake: recipient.name, beneficiary intake: recipient.accountReference; no ABI entries mention required metadata. Beneficiary retention hooks not surfaced in ABI."
+        },
+        "R-HKMA-AMLO-VA-05": {
+          "ran": true,
+          "pass": true,
+          "evidence": "Forwarding hook located at Token.forwardFullPayload(bytes32,address)."
+        },
+        "R-HKMA-AMLO-VA-06": {
+          "ran": true,
+          "pass": false,
+          "evidence": "Unable to locate remediation primitives (missingInfo=none, mitigation=none)."
+        }
+      },
+      "abiArtifacts": {
+        "Token": "artifacts/contracts/test/SmartContractTest04.sol/SmartContractTest04.json",
+        "IdentityRegistry": "artifacts/contracts/test/SmartContractTest04.sol/SmartContractTest04.json",
+        "ClaimTopicsRegistry": "artifacts/contracts/test/SmartContractTest04.sol/SmartContractTest04.json",
+        "TrustedIssuersRegistry": "artifacts/contracts/test/SmartContractTest04.sol/SmartContractTest04.json",
+        "Compliance": "artifacts/contracts/test/SmartContractTest04.sol/SmartContractTest04.json",
+        "IdentityRegistryStorage": "artifacts/contracts/test/SmartContractTest04.sol/SmartContractTest04.json"
+      },
+      "metrics": {
+        "compared": 0,
+        "tp": 0,
+        "fp": 0,
+        "tn": 0,
+        "fn": 0,
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "accuracy": 0
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "R-HKMA-AMLO-VA-01",
+      "title": "Ordering institution records core parties",
+      "desc": "Before executing a virtual asset transfer, the ordering institution must record the originator’s and beneficiary’s identifiers as required by AMLO §13A(2)(a),(b),(d),(e).",
+      "snippet": "",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §13A(2)(a)-(b),(d)-(e)",
+      "pass": false,
+      "note": "Missing instrumentation for originator.name, originator.accountReference, recipient.name, recipient.accountReference; no ABI entries mention required metadata. AMLO §13A(2)(a),(b),(d),(e) expects these fields to be captured pre-transfer.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "Missing instrumentation for originator.name, originator.accountReference, recipient.name, recipient.accountReference; no ABI entries mention required metadata. AMLO §13A(2)(a),(b),(d),(e) expects these fields to be captured pre-transfer."
+        }
+      ],
+      "run": "rule.AMLO.va",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-AMLO-VA-02",
+      "title": "Ordering institution captures enhanced originator KYC",
+      "desc": "For transfers ≥ HKD 8,000 the ordering institution must record the originator’s address, identifier, and if the originator is an individual, date and place of birth per AMLO §13A(2)(c),(3).",
+      "snippet": "",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §13A(2)(c), §13A(3)",
+      "pass": false,
+      "note": "Threshold metadata missing: originator.address, originator.dateOfBirth, originator.placeOfBirth, originator.customerId/idDocumentNumber. No ABI evidence of capture at ≥ HKD 8k.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "Threshold metadata missing: originator.address, originator.dateOfBirth, originator.placeOfBirth, originator.customerId/idDocumentNumber. No ABI evidence of capture at ≥ HKD 8k."
+        }
+      ],
+      "run": "rule.AMLO.va",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-AMLO-VA-03",
+      "title": "Ordering institution transmits mandated payload",
+      "desc": "When dispatching a virtual asset transfer, the ordering institution must forward the required information set to the beneficiary institution in line with AMLO §13A(4).",
+      "snippet": "",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §13A(4)",
+      "pass": false,
+      "note": "Transmission payload support incomplete (base fields missing: ordered payload: originator.name, ordered payload: originator.accountReference, ordered payload: recipient.name, ordered payload: recipient.accountReference | threshold fields missing: ordered payload: originator.address, ordered payload: originator.identifier).",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "Transmission payload support incomplete (base fields missing: ordered payload: originator.name, ordered payload: originator.accountReference, ordered payload: recipient.name, ordered payload: recipient.accountReference | threshold fields missing: ordered payload: originator.address, ordered payload: originator.identifier)."
+        }
+      ],
+      "run": "rule.AMLO.va",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-AMLO-VA-04",
+      "title": "Beneficiary institution records and reconciles data",
+      "desc": "The beneficiary institution must ingest and retain the fields received from the ordering institution and ensure payload integrity per AMLO §13A(5).",
+      "snippet": "",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §13A(5)",
+      "pass": false,
+      "note": "Missing instrumentation for beneficiary intake: originator.name, beneficiary intake: originator.accountReference, beneficiary intake: recipient.name, beneficiary intake: recipient.accountReference; no ABI entries mention required metadata. Beneficiary retention hooks not surfaced in ABI.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "Missing instrumentation for beneficiary intake: originator.name, beneficiary intake: originator.accountReference, beneficiary intake: recipient.name, beneficiary intake: recipient.accountReference; no ABI entries mention required metadata. Beneficiary retention hooks not surfaced in ABI."
+        }
+      ],
+      "run": "rule.AMLO.va",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-HKMA-AMLO-VA-05",
+      "title": "Intermediary institution forwards full payload",
+      "desc": "Any intermediary institution must relay the transfer payload without alteration and emit an auditable event, in accordance with AMLO §13A(6).",
+      "snippet": "",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §13A(6)",
+      "pass": true,
+      "note": "Forwarding hook located at Token.forwardFullPayload(bytes32,address).",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": true,
+          "evidence": "Forwarding hook located at Token.forwardFullPayload(bytes32,address)."
+        }
+      ],
+      "run": "rule.AMLO.va",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-HKMA-AMLO-VA-06",
+      "title": "Instructioned institution resolves missing or meaningless data",
+      "desc": "If a beneficiary or intermediary institution receives incomplete or meaningless information, it must obtain the missing data or apply AML/CTF mitigations per AMLO §13A(7).",
+      "snippet": "",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §13A(7)",
+      "pass": false,
+      "note": "Unable to locate remediation primitives (missingInfo=none, mitigation=none).",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "Unable to locate remediation primitives (missingInfo=none, mitigation=none)."
+        }
+      ],
+      "run": "rule.AMLO.va",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    }
+  ],
+  "summary": {
+    "total": 6,
+    "pass": 1,
+    "critical": 0,
+    "high": 4,
+    "medium": 1,
+    "low": 0,
+    "fail": 0,
+    "warn": 5,
+    "info": 0
+  },
+  "metrics": {
+    "compared": 0,
+    "tp": 0,
+    "fp": 0,
+    "tn": 0,
+    "fn": 0,
+    "precision": 0,
+    "recall": 0,
+    "f1": 0,
+    "accuracy": 0,
+    "disagreements": []
+  },
+  "llm": {
+    "generatedAt": "2025-10-23T15:19:38.474Z",
+    "model": "gpt-4.1-nano",
+    "disabled": true,
+    "reason": "LLM disabled (missing API key)",
+    "error": null,
+    "overallAssessment": "LLM disabled (missing API key)",
+    "findings": [
+      {
+        "id": "R-HKMA-AMLO-VA-01",
+        "title": "Ordering institution records core parties",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "High",
+        "verdict": "High",
+        "position": "CHALLENGE",
+        "explanation": "Missing instrumentation for originator.name, originator.accountReference, recipient.name, recipient.accountReference; no ABI entries mention required metadata. AMLO §13A(2)(a),(b),(d),(e) expects these fields to be captured pre-transfer.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §13A(2)(a)-(b),(d)-(e)"
+        ],
+        "evidence_paths": [
+          "Missing instrumentation for originator.name, originator.accountReference, recipient.name, recipient.accountReference; no ABI entries mention required metadata. AMLO §13A(2)(a),(b),(d),(e) expects these fields to be captured pre-transfer."
+        ],
+        "recommendation": "Review the associated control and align the contract implementation with the policy requirement."
+      },
+      {
+        "id": "R-HKMA-AMLO-VA-02",
+        "title": "Ordering institution captures enhanced originator KYC",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "High",
+        "verdict": "High",
+        "position": "CHALLENGE",
+        "explanation": "Threshold metadata missing: originator.address, originator.dateOfBirth, originator.placeOfBirth, originator.customerId/idDocumentNumber. No ABI evidence of capture at ≥ HKD 8k.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §13A(2)(c), §13A(3)"
+        ],
+        "evidence_paths": [
+          "Threshold metadata missing: originator.address, originator.dateOfBirth, originator.placeOfBirth, originator.customerId/idDocumentNumber. No ABI evidence of capture at ≥ HKD 8k."
+        ],
+        "recommendation": "Review the associated control and align the contract implementation with the policy requirement."
+      },
+      {
+        "id": "R-HKMA-AMLO-VA-03",
+        "title": "Ordering institution transmits mandated payload",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "High",
+        "verdict": "High",
+        "position": "CHALLENGE",
+        "explanation": "Transmission payload support incomplete (base fields missing: ordered payload: originator.name, ordered payload: originator.accountReference, ordered payload: recipient.name, ordered payload: recipient.accountReference | threshold fields missing: ordered payload: originator.address, ordered payload: originator.identifier).",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §13A(4)"
+        ],
+        "evidence_paths": [
+          "Transmission payload support incomplete (base fields missing: ordered payload: originator.name, ordered payload: originator.accountReference, ordered payload: recipient.name, ordered payload: recipient.accountReference | threshold fields missing: ordered payload: originator.address, ordered payload: originator.identifier)."
+        ],
+        "recommendation": "Review the associated control and align the contract implementation with the policy requirement."
+      },
+      {
+        "id": "R-HKMA-AMLO-VA-06",
+        "title": "Instructioned institution resolves missing or meaningless data",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "High",
+        "verdict": "High",
+        "position": "CHALLENGE",
+        "explanation": "Unable to locate remediation primitives (missingInfo=none, mitigation=none).",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §13A(7)"
+        ],
+        "evidence_paths": [
+          "Unable to locate remediation primitives (missingInfo=none, mitigation=none)."
+        ],
+        "recommendation": "Review the associated control and align the contract implementation with the policy requirement."
+      },
+      {
+        "id": "R-HKMA-AMLO-VA-04",
+        "title": "Beneficiary institution records and reconciles data",
+        "severity": "MEDIUM",
+        "severity_label": "Medium",
+        "phase2_verdict": "Medium",
+        "verdict": "Medium",
+        "position": "CHALLENGE",
+        "explanation": "Missing instrumentation for beneficiary intake: originator.name, beneficiary intake: originator.accountReference, beneficiary intake: recipient.name, beneficiary intake: recipient.accountReference; no ABI entries mention required metadata. Beneficiary retention hooks not surfaced in ABI.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §13A(5)"
+        ],
+        "evidence_paths": [
+          "Missing instrumentation for beneficiary intake: originator.name, beneficiary intake: originator.accountReference, beneficiary intake: recipient.name, beneficiary intake: recipient.accountReference; no ABI entries mention required metadata. Beneficiary retention hooks not surfaced in ABI."
+        ],
+        "recommendation": "Review the associated control and align the contract implementation with the policy requirement."
+      },
+      {
+        "id": "R-HKMA-AMLO-VA-05",
+        "title": "Intermediary institution forwards full payload",
+        "severity": "MEDIUM",
+        "severity_label": "Medium",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "Forwarding hook located at Token.forwardFullPayload(bytes32,address).",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §13A(6)"
+        ],
+        "evidence_paths": [
+          "Forwarding hook located at Token.forwardFullPayload(bytes32,address)."
+        ],
+        "recommendation": "No action required."
+      }
+    ],
+    "payload": {
+      "summary": {
+        "total": 6,
+        "pass": 1,
+        "critical": 0,
+        "high": 4,
+        "medium": 1,
+        "low": 0,
+        "fail": 0,
+        "warn": 5,
+        "info": 0
+      },
+      "rules": [
+        {
+          "id": "R-HKMA-AMLO-VA-01",
+          "title": "Ordering institution records core parties",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO.va",
+          "note": "Missing instrumentation for originator.name, originator.accountReference, recipient.name, recipient.accountReference; no ABI entries mention required metadata. AMLO §13A(2)(a),(b),(d),(e) expects these fields to be captured pre-transfer.",
+          "evidence": [
+            "Missing instrumentation for originator.name, originator.accountReference, recipient.name, recipient.accountReference; no ABI entries mention required metadata. AMLO §13A(2)(a),(b),(d),(e) expects these fields to be captured pre-transfer."
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §13A(2)(a)-(b),(d)-(e)"
+          ]
+        },
+        {
+          "id": "R-HKMA-AMLO-VA-02",
+          "title": "Ordering institution captures enhanced originator KYC",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO.va",
+          "note": "Threshold metadata missing: originator.address, originator.dateOfBirth, originator.placeOfBirth, originator.customerId/idDocumentNumber. No ABI evidence of capture at ≥ HKD 8k.",
+          "evidence": [
+            "Threshold metadata missing: originator.address, originator.dateOfBirth, originator.placeOfBirth, originator.customerId/idDocumentNumber. No ABI evidence of capture at ≥ HKD 8k."
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §13A(2)(c), §13A(3)"
+          ]
+        },
+        {
+          "id": "R-HKMA-AMLO-VA-03",
+          "title": "Ordering institution transmits mandated payload",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO.va",
+          "note": "Transmission payload support incomplete (base fields missing: ordered payload: originator.name, ordered payload: originator.accountReference, ordered payload: recipient.name, ordered payload: recipient.accountReference | threshold fields missing: ordered payload: originator.address, ordered payload: originator.ident...",
+          "evidence": [
+            "Transmission payload support incomplete (base fields missing: ordered payload: originator.name, ordered payload: originator.accountReference, ordered payload: recipient.name, ordered payload: recipient.accountReference | threshold fields..."
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §13A(4)"
+          ]
+        },
+        {
+          "id": "R-HKMA-AMLO-VA-04",
+          "title": "Beneficiary institution records and reconciles data",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "Medium",
+          "pass": false,
+          "run": "rule.AMLO.va",
+          "note": "Missing instrumentation for beneficiary intake: originator.name, beneficiary intake: originator.accountReference, beneficiary intake: recipient.name, beneficiary intake: recipient.accountReference; no ABI entries mention required metadata. Beneficiary retention hooks not surfaced in ABI.",
+          "evidence": [
+            "Missing instrumentation for beneficiary intake: originator.name, beneficiary intake: originator.accountReference, beneficiary intake: recipient.name, beneficiary intake: recipient.accountReference; no ABI entries mention required metadat..."
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §13A(5)"
+          ]
+        },
+        {
+          "id": "R-HKMA-AMLO-VA-05",
+          "title": "Intermediary institution forwards full payload",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO.va",
+          "note": "Forwarding hook located at Token.forwardFullPayload(bytes32,address).",
+          "evidence": [
+            "Forwarding hook located at Token.forwardFullPayload(bytes32,address)."
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §13A(6)"
+          ]
+        },
+        {
+          "id": "R-HKMA-AMLO-VA-06",
+          "title": "Instructioned institution resolves missing or meaningless data",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO.va",
+          "note": "Unable to locate remediation primitives (missingInfo=none, mitigation=none).",
+          "evidence": [
+            "Unable to locate remediation primitives (missingInfo=none, mitigation=none)."
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §13A(7)"
+          ]
+        }
+      ],
+      "runtime": [
+        {
+          "run": "rule.AMLO.va",
+          "executionMode": "hardhat",
+          "probes": [
+            {
+              "id": "R-HKMA-AMLO-VA-01",
+              "ran": true,
+              "pass": false,
+              "evidence": "Missing instrumentation for originator.name, originator.accountReference, recipient.name, recipient.accountReference; no ABI entries mention required metadata. AMLO §13A(2)(a),(b),(d),(e) expects t..."
+            },
+            {
+              "id": "R-HKMA-AMLO-VA-02",
+              "ran": true,
+              "pass": false,
+              "evidence": "Threshold metadata missing: originator.address, originator.dateOfBirth, originator.placeOfBirth, originator.customerId/idDocumentNumber. No ABI evidence of capture at ≥ HKD 8k."
+            },
+            {
+              "id": "R-HKMA-AMLO-VA-03",
+              "ran": true,
+              "pass": false,
+              "evidence": "Transmission payload support incomplete (base fields missing: ordered payload: originator.name, ordered payload: originator.accountReference, ordered payload: recipient.name, ordered payload: recip..."
+            },
+            {
+              "id": "R-HKMA-AMLO-VA-04",
+              "ran": true,
+              "pass": false,
+              "evidence": "Missing instrumentation for beneficiary intake: originator.name, beneficiary intake: originator.accountReference, beneficiary intake: recipient.name, beneficiary intake: recipient.accountReference;..."
+            },
+            {
+              "id": "R-HKMA-AMLO-VA-05",
+              "ran": true,
+              "pass": true,
+              "evidence": "Forwarding hook located at Token.forwardFullPayload(bytes32,address)."
+            },
+            {
+              "id": "R-HKMA-AMLO-VA-06",
+              "ran": true,
+              "pass": false,
+              "evidence": "Unable to locate remediation primitives (missingInfo=none, mitigation=none)."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "report": {
+    "textPath": "reports/va-test04.txt"
+  }
+}

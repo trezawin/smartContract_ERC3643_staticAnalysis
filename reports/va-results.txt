@@ -1,0 +1,56 @@
+Compliance Report
+Generated: 2025-10-23T14:49:50.285Z
+Deterministic Summary: PASS=0 | CRITICAL=0 | HIGH=4 | MEDIUM=2 | LOW=0
+LLM Model: gpt-4.1-nano
+
+LLM disabled (missing API key)
+
+Findings:
+
+High
+1. Ordering institution records core parties
+Missing instrumentation for originator.name, originator.accountReference, recipient.name, recipient.accountReference; no ABI entries mention required metadata. AMLO §13A(2)(a),(b),(d),(e) expects these fields to be captured pre-transfer.
+Paths:
+- Missing instrumentation for originator.name, originator.accountReference, recipient.name, recipient.accountReference; no ABI entries mention required metadata. AMLO §13A(2)(a),(b),(d),(e) expects these fields to be captured pre-transfer.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §13A(2)(a)-(b),(d)-(e)
+Recommendation: Review the associated control and align the contract implementation with the policy requirement.
+
+High
+2. Ordering institution captures enhanced originator KYC
+Threshold metadata missing: originator.address, originator.dateOfBirth, originator.placeOfBirth, originator.customerId/idDocumentNumber. No ABI evidence of capture at ≥ HKD 8k.
+Paths:
+- Threshold metadata missing: originator.address, originator.dateOfBirth, originator.placeOfBirth, originator.customerId/idDocumentNumber. No ABI evidence of capture at ≥ HKD 8k.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §13A(2)(c), §13A(3)
+Recommendation: Review the associated control and align the contract implementation with the policy requirement.
+
+High
+3. Ordering institution transmits mandated payload
+Transmission payload support incomplete (base fields missing: ordered payload: originator.name, ordered payload: originator.accountReference, ordered payload: recipient.name, ordered payload: recipient.accountReference | threshold fields missing: ordered payload: originator.address, ordered payload: originator.identifier).
+Paths:
+- Transmission payload support incomplete (base fields missing: ordered payload: originator.name, ordered payload: originator.accountReference, ordered payload: recipient.name, ordered payload: recipient.accountReference | threshold fields missing: ordered payload: originator.address, ordered payload: originator.identifier).
+Compliance Ref: AMLO (Cap.615) Schedule 2 §13A(4)
+Recommendation: Review the associated control and align the contract implementation with the policy requirement.
+
+High
+4. Instructioned institution resolves missing or meaningless data
+Unable to locate remediation primitives (missingInfo=none, mitigation=none).
+Paths:
+- Unable to locate remediation primitives (missingInfo=none, mitigation=none).
+Compliance Ref: AMLO (Cap.615) Schedule 2 §13A(7)
+Recommendation: Review the associated control and align the contract implementation with the policy requirement.
+
+Medium
+5. Beneficiary institution records and reconciles data
+Missing instrumentation for beneficiary intake: originator.name, beneficiary intake: originator.accountReference, beneficiary intake: recipient.name, beneficiary intake: recipient.accountReference, beneficiary integrity verification; no ABI entries mention required metadata. Beneficiary retention hooks not surfaced in ABI.
+Paths:
+- Missing instrumentation for beneficiary intake: originator.name, beneficiary intake: originator.accountReference, beneficiary intake: recipient.name, beneficiary intake: recipient.accountReference, beneficiary integrity verification; no ABI entries mention required metadata. Beneficiary retention hooks not surfaced in ABI.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §13A(5)
+Recommendation: Review the associated control and align the contract implementation with the policy requirement.
+
+Medium
+6. Intermediary institution forwards full payload
+No function/event referencing forward/payload semantics; intermediary cannot be instrumented.
+Paths:
+- No function/event referencing forward/payload semantics; intermediary cannot be instrumented.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §13A(6)
+Recommendation: Review the associated control and align the contract implementation with the policy requirement.

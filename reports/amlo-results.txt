@@ -1,0 +1,26 @@
+Compliance Report
+Generated: 2025-10-23T14:54:42.065Z
+Deterministic Summary: PASS=2 | CRITICAL=0 | HIGH=0 | MEDIUM=0 | LOW=0
+LLM Model: gpt-4.1-nano
+
+LLM disabled (missing API key)
+
+Findings:
+
+High
+1. AMLO CDD identity controls
+AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.
+Paths:
+- AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk
+Recommendation: No action required.
+
+Medium
+2. AMLO record keeping support
+ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true; Event on irs:IdentityRegistryBound present: true
+Paths:
+- {"where":"idr","sig":"identityStorage()","present":true,"ok":true,"op":"hasabifn"}
+- nonzeroaddress:data.idrIdentityStorageAddr:
+- {"where":"irs","name":"IdentityStored","present":true,"ok":true,"op":"hasevent"}
+Compliance Ref: AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk
+Recommendation: No action required.

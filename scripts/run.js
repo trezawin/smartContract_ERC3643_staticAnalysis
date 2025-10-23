@@ -4,8 +4,14 @@ const path = require("path");
 const { ethers: rpcEthers } = require("ethers");
 
 // Optional ABI artifact loader (if present via abipaths.json)
-function loadAbiArtifacts(root) {
-  const abipathsPath = path.join(root, "abipaths.json");
+function loadAbiArtifacts(root, customPath) {
+  const resolvedPath = (() => {
+    if (customPath) {
+      return path.isAbsolute(customPath) ? customPath : path.join(root, customPath);
+    }
+    return path.join(root, "abipaths.json");
+  })();
+  const abipathsPath = resolvedPath;
   if (!fs.existsSync(abipathsPath)) return null;
   try {
     const map = JSON.parse(fs.readFileSync(abipathsPath, "utf8"));
@@ -30,6 +36,7 @@ function loadAbiArtifacts(root) {
       tirAbi: tir.abi,
       complianceAbi: compliance.abi,
       irsAbi: irs.abi,
+      source: abipathsPath,
       paths: {
         Token: token.path,
         IdentityRegistry: idr.path,
@@ -59,6 +66,141 @@ function makeAbiIndex(abi) {
     }
   }
   return { bySig, byName, hasEvent };
+}
+
+function normalizeIdentifierToken(str) {
+  if (typeof str !== "string") return "";
+  return str
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/_/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+function tokenizeIdentifier(str) {
+  const norm = normalizeIdentifierToken(str);
+  if (!norm) return [];
+  return norm.split(/\s+/).filter(Boolean);
+}
+
+function fieldToKeywords(field) {
+  if (!field) return [];
+  if (Array.isArray(field)) {
+    return field.flatMap((f) => fieldToKeywords(f));
+  }
+  const raw = String(field);
+  const parts = raw.split(".").filter(Boolean);
+  const tokens = [];
+  for (const part of parts) {
+    tokens.push(...tokenizeIdentifier(part));
+  }
+  if (tokens.length === 0 && raw) {
+    tokens.push(...tokenizeIdentifier(raw));
+  }
+  return tokens.filter(Boolean);
+}
+
+function describeCondition(cond) {
+  if (!cond || typeof cond !== "object") return "";
+  if (Array.isArray(cond)) {
+    return cond.map((c) => describeCondition(c)).filter(Boolean).join(" AND ");
+  }
+  if (cond.all && Array.isArray(cond.all)) {
+    return cond.all.map((c) => describeCondition(c)).filter(Boolean).join(" AND ");
+  }
+  if (cond.any && Array.isArray(cond.any)) {
+    return cond.any.map((c) => describeCondition(c)).filter(Boolean).join(" OR ");
+  }
+  const field = cond.field ? cond.field : "";
+  const operator = cond.operator ? cond.operator : (cond.equals ? "equals" : "");
+  const value = cond.value !== undefined ? cond.value : (cond.equals !== undefined ? cond.equals : "");
+  const parts = [field, operator, value].map((p) => (p === undefined || p === null ? "" : String(p))).filter(Boolean);
+  if (parts.length) return parts.join(" ");
+  return JSON.stringify(cond);
+}
+
+function buildAbiLexicon(abiArtifacts) {
+  const entries = [];
+  if (!abiArtifacts) {
+    return {
+      entries,
+      findEntry: () => null,
+      findEvent: () => null
+    };
+  }
+  const registry = [
+    ["token", "Token", abiArtifacts.tokenAbi],
+    ["idr", "IdentityRegistry", abiArtifacts.idrAbi],
+    ["ctr", "ClaimTopicsRegistry", abiArtifacts.ctrAbi],
+    ["tir", "TrustedIssuersRegistry", abiArtifacts.tirAbi],
+    ["compliance", "Compliance", abiArtifacts.complianceAbi],
+    ["irs", "IdentityRegistryStorage", abiArtifacts.irsAbi],
+  ];
+  for (const [key, label, abi] of registry) {
+    if (!Array.isArray(abi)) continue;
+    for (const el of abi) {
+      if (!el || typeof el !== "object") continue;
+      const base = [];
+      if (el.name) base.push(el.name);
+      if (Array.isArray(el.inputs)) {
+        for (const input of el.inputs) {
+          if (input && typeof input === "object") {
+            if (input.name) base.push(input.name);
+            if (input.type) base.push(input.type);
+          }
+        }
+      }
+      if (Array.isArray(el.outputs)) {
+        for (const output of el.outputs) {
+          if (output && typeof output === "object") {
+            if (output.name) base.push(output.name);
+            if (output.type) base.push(output.type);
+          }
+        }
+      }
+      const normalized = base.map((b) => normalizeIdentifierToken(b));
+      const text = normalized.filter(Boolean).join(" ");
+      const tokens = new Set(text.split(/\s+/).filter(Boolean));
+      const signature = el.type === "function"
+        ? `${el.name || "anonymous"}(${(el.inputs || []).map((i) => i.type || "unknown").join(",")})`
+        : el.name || "anonymous";
+      entries.push({
+        contractKey: key,
+        contractLabel: label,
+        type: el.type || "unknown",
+        name: el.name || "",
+        signature,
+        tokens,
+        text
+      });
+    }
+  }
+  return {
+    entries,
+    findEntry(keywordList) {
+      if (!keywordList) return null;
+      const keywords = Array.isArray(keywordList) ? keywordList : [keywordList];
+      const queryTokens = keywords.flatMap((k) => tokenizeIdentifier(k)).filter(Boolean);
+      if (!queryTokens.length) return null;
+      for (const entry of entries) {
+        const ok = queryTokens.every((qt) => entry.tokens.has(qt));
+        if (ok) return entry;
+      }
+      return null;
+    },
+    findEvent(name) {
+      if (!name) return null;
+      const tokens = tokenizeIdentifier(name);
+      if (!tokens.length) return null;
+      for (const entry of entries) {
+        if (entry.type !== "event") continue;
+        const ok = tokens.every((qt) => entry.tokens.has(qt));
+        if (ok) return entry;
+      }
+      return null;
+    }
+  };
 }
 
 // =====================
@@ -717,13 +859,19 @@ async function collectData(ctx, cfg) {
 // =====================
 // Runtime probes (only in Hardhat fallback)
 // =====================
-async function runRuntimeProbes(context, cfg, data, rules) {
+async function runRuntimeProbes(context, cfg, data, rules, abiArtifacts) {
   const probes = {};
   const ruleIds = new Set(Array.isArray(rules) ? rules.map((r) => String(r.id || "").toUpperCase()) : []);
   const needs3643_01 = ruleIds.has("R-ERC3643-01");
   const needs3643_02 = ruleIds.has("R-ERC3643-02");
   const needsAmloCdd = ruleIds.has("R-HKMA-AMLO-CDD");
   const needsAmloRecord = ruleIds.has("R-HKMA-AMLO-RECORDKEEPING");
+  const needsVa01 = ruleIds.has("R-HKMA-AMLO-VA-01");
+  const needsVa02 = ruleIds.has("R-HKMA-AMLO-VA-02");
+  const needsVa03 = ruleIds.has("R-HKMA-AMLO-VA-03");
+  const needsVa04 = ruleIds.has("R-HKMA-AMLO-VA-04");
+  const needsVa05 = ruleIds.has("R-HKMA-AMLO-VA-05");
+  const needsVa06 = ruleIds.has("R-HKMA-AMLO-VA-06");
 
   const ensureProbe = (id) => {
     if (!probes[id]) probes[id] = { ran: false, pass: null, evidence: "skipped (no runtime)" };
@@ -733,6 +881,12 @@ async function runRuntimeProbes(context, cfg, data, rules) {
   if (needs3643_02) ensureProbe("R-ERC3643-02");
   if (needsAmloCdd) ensureProbe("R-HKMA-AMLO-CDD");
   if (needsAmloRecord) ensureProbe("R-HKMA-AMLO-RECORDKEEPING");
+  if (needsVa01) ensureProbe("R-HKMA-AMLO-VA-01");
+  if (needsVa02) ensureProbe("R-HKMA-AMLO-VA-02");
+  if (needsVa03) ensureProbe("R-HKMA-AMLO-VA-03");
+  if (needsVa04) ensureProbe("R-HKMA-AMLO-VA-04");
+  if (needsVa05) ensureProbe("R-HKMA-AMLO-VA-05");
+  if (needsVa06) ensureProbe("R-HKMA-AMLO-VA-06");
 
   if (!context || context.mode !== "hardhat") {
     return probes;
@@ -899,7 +1053,129 @@ async function runRuntimeProbes(context, cfg, data, rules) {
       }
     } catch (e) {
       probes["R-HKMA-AMLO-RECORDKEEPING"] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+	  }
+	}
+
+  const abiLexicon = buildAbiLexicon(abiArtifacts);
+  const findAbiSupport = (keywords) => abiLexicon.findEntry ? abiLexicon.findEntry(keywords) : null;
+
+  const supportSummary = (fieldLabel, keywords) => {
+    const match = findAbiSupport(keywords);
+    return {
+      field: fieldLabel,
+      keywords,
+      match: match ? `${match.contractLabel}.${match.signature}` : null
+    };
+  };
+
+  const summarizeResults = (results) => {
+    const missing = results.filter((r) => !r.match);
+    const pass = missing.length === 0;
+    const evidence = pass
+      ? `Detected instrumentation: ${results.map((r) => `${r.field}→${r.match}`).join("; ")}`
+      : `Missing instrumentation for ${missing.map((m) => `${m.field}`).join(", ")}; no ABI entries mention required metadata.`;
+    return { pass, evidence };
+  };
+
+  if (needsVa01) {
+    const fields = [
+      supportSummary("originator.name", fieldToKeywords("originator.name")),
+      supportSummary("originator.accountReference", fieldToKeywords("originator.accountReference")),
+      supportSummary("recipient.name", fieldToKeywords("recipient.name")),
+      supportSummary("recipient.accountReference", fieldToKeywords("recipient.accountReference"))
+    ];
+    const { pass, evidence } = summarizeResults(fields);
+    probes["R-HKMA-AMLO-VA-01"] = {
+      ran: true,
+      pass,
+      evidence: `${evidence} AMLO §13A(2)(a),(b),(d),(e) expects these fields to be captured pre-transfer.`
+    };
+  }
+
+  if (needsVa02) {
+    const addressSupport = supportSummary("originator.address", fieldToKeywords("originator.address"));
+    const idOptions = [
+      supportSummary("originator.customerId", fieldToKeywords("originator.customerId")),
+      supportSummary("originator.idDocumentNumber", fieldToKeywords("originator.idDocumentNumber"))
+    ];
+    const dobSupport = supportSummary("originator.dateOfBirth", fieldToKeywords("originator.dateOfBirth"));
+    const pobSupport = supportSummary("originator.placeOfBirth", fieldToKeywords("originator.placeOfBirth"));
+    const missing = [];
+    if (!addressSupport.match) missing.push("originator.address");
+    if (!dobSupport.match) missing.push("originator.dateOfBirth");
+    if (!pobSupport.match) missing.push("originator.placeOfBirth");
+    const idMatch = idOptions.find((o) => o.match);
+    if (!idMatch) missing.push("originator.customerId/idDocumentNumber");
+    const pass = missing.length === 0;
+    const evidence = pass
+      ? `Threshold metadata support present (${addressSupport.match}; ${idMatch.match}; ${dobSupport.match}; ${pobSupport.match}).`
+      : `Threshold metadata missing: ${missing.join(", ")}. No ABI evidence of capture at ≥ HKD 8k.`;
+    probes["R-HKMA-AMLO-VA-02"] = {
+      ran: true,
+      pass,
+      evidence
+    };
+  }
+
+  if (needsVa03) {
+    const fields = [
+      supportSummary("ordered payload: originator.name", fieldToKeywords("originator.name")),
+      supportSummary("ordered payload: originator.accountReference", fieldToKeywords("originator.accountReference")),
+      supportSummary("ordered payload: recipient.name", fieldToKeywords("recipient.name")),
+      supportSummary("ordered payload: recipient.accountReference", fieldToKeywords("recipient.accountReference")),
+      supportSummary("ordered payload: originator.address", fieldToKeywords("originator.address")),
+      supportSummary("ordered payload: originator.identifier", fieldToKeywords("originator.identifier"))
+    ];
+    const baseResults = fields.slice(0, 4);
+    const thresholdResults = fields.slice(4);
+    const missingBase = baseResults.filter((r) => !r.match);
+    const missingThreshold = thresholdResults.filter((r) => !r.match);
+    const pass = missingBase.length === 0 && missingThreshold.length === 0;
+    let evidence = "";
+    if (pass) {
+      evidence = `All mandatory transmission fields discoverable (${fields.map((r) => `${r.field}→${r.match}`).join("; ")}).`;
+    } else {
+      const segments = [];
+      if (missingBase.length) segments.push(`base fields missing: ${missingBase.map((m) => m.field).join(", ")}`);
+      if (missingThreshold.length) segments.push(`threshold fields missing: ${missingThreshold.map((m) => m.field).join(", ")}`);
+      evidence = `Transmission payload support incomplete (${segments.join(" | ")}).`;
     }
+    probes["R-HKMA-AMLO-VA-03"] = { ran: true, pass, evidence };
+  }
+
+  if (needsVa04) {
+    const fields = [
+      supportSummary("beneficiary intake: originator.name", fieldToKeywords("originator.name")),
+      supportSummary("beneficiary intake: originator.accountReference", fieldToKeywords("originator.accountReference")),
+      supportSummary("beneficiary intake: recipient.name", fieldToKeywords("recipient.name")),
+      supportSummary("beneficiary intake: recipient.accountReference", fieldToKeywords("recipient.accountReference")),
+      supportSummary("beneficiary integrity verification", ["verify", "payload", "integrity", "transfer", "payload"])
+    ];
+    const { pass, evidence } = summarizeResults(fields);
+    probes["R-HKMA-AMLO-VA-04"] = {
+      ran: true,
+      pass,
+      evidence: `${evidence} Beneficiary retention hooks not surfaced in ABI.`
+    };
+  }
+
+  if (needsVa05) {
+    const summary = supportSummary("forward payload", ["forward", "payload"]);
+    const pass = !!summary.match;
+    const evidence = pass
+      ? `Forwarding hook located at ${summary.match}.`
+      : "No function/event referencing forward/payload semantics; intermediary cannot be instrumented.";
+    probes["R-HKMA-AMLO-VA-05"] = { ran: true, pass, evidence };
+  }
+
+  if (needsVa06) {
+    const missingInfo = supportSummary("missing-information remediation", ["missing", "information", "request"]);
+    const mitigation = supportSummary("risk mitigation", ["mitigate", "risk"]);
+    const pass = !!missingInfo.match && !!mitigation.match;
+    const evidence = pass
+      ? `Remediation routines detected (${missingInfo.match}; ${mitigation.match}).`
+      : `Unable to locate remediation primitives (missingInfo=${missingInfo.match || "none"}, mitigation=${mitigation.match || "none"}).`;
+    probes["R-HKMA-AMLO-VA-06"] = { ran: true, pass, evidence };
   }
 
   return probes;
@@ -987,6 +1263,41 @@ function normalizeDeclarativeSpec(r) {
   if (r.check || r.allOf || r.anyOf) {
     return { check: r.check || null, allOf: r.allOf || null, anyOf: r.anyOf || null };
   }
+  if (r.controls) {
+    const ctrls = Array.isArray(r.controls) ? r.controls : [r.controls];
+    const wrap = (baseCtrl, chk) => {
+      if (!chk || typeof chk !== "object") return null;
+      const copy = Object.assign({}, chk);
+      if (baseCtrl.role && !copy.role) copy.role = baseCtrl.role;
+      if (baseCtrl.phase && !copy.phase) copy.phase = baseCtrl.phase;
+      if (baseCtrl.roleLabel && !copy.roleLabel) copy.roleLabel = baseCtrl.roleLabel;
+      return copy;
+    };
+    const checks = [];
+    const anys = [];
+    let singleCheck = null;
+    for (const ctrl of ctrls) {
+      if (!ctrl || typeof ctrl !== "object") continue;
+      if (ctrl.check) {
+        singleCheck = wrap(ctrl, ctrl.check);
+      }
+      if (Array.isArray(ctrl.allOf)) {
+        for (const chk of ctrl.allOf) {
+          const wrapped = wrap(ctrl, chk);
+          if (wrapped) checks.push(wrapped);
+        }
+      }
+      if (Array.isArray(ctrl.anyOf)) {
+        for (const chk of ctrl.anyOf) {
+          const wrapped = wrap(ctrl, chk);
+          if (wrapped) anys.push(wrapped);
+        }
+      }
+    }
+    if (singleCheck) return { check: singleCheck, allOf: null, anyOf: null };
+    if (checks.length) return { check: null, allOf: checks, anyOf: null };
+    if (anys.length) return { check: null, allOf: null, anyOf: anys };
+  }
   // common aliases used in some files
   if (Array.isArray(r.checks)) {
     return { allOf: r.checks };
@@ -1043,53 +1354,280 @@ function evalDeclarativeRule(r, data, cfg, helpers) {
   const notes = [];
   const details = [];
   const normField = (field) => (field && field.startsWith("data.")) ? field : (field ? `data.${field}` : field);
+  const findAbiSupport = helpers && typeof helpers.findAbiSupport === "function"
+    ? helpers.findAbiSupport
+    : () => null;
+  const findAbiEvent = helpers && typeof helpers.findAbiEvent === "function"
+    ? helpers.findAbiEvent
+    : null;
+  const abiAvailable = !!(helpers && typeof helpers.findAbiSupport === "function");
 
   const run = (c) => {
+    if (!c || typeof c !== "object") return true;
     const op = (c.op || "").toLowerCase();
+    const role = c.role || r.role || null;
+    const phase = c.phase || r.phase || null;
+    const condition = c.condition || null;
+    const conditionText = describeCondition(condition);
+    const metaParts = [];
+    if (role) metaParts.push(`role=${role}`);
+    if (phase) metaParts.push(`phase=${phase}`);
+    if (conditionText) metaParts.push(`when ${conditionText}`);
+    const prefix = metaParts.length ? `[${metaParts.join(" | ")}] ` : "";
+    const pushNote = (msg) => notes.push(`${prefix}${msg}`);
+    const addDetail = (detail) => {
+      const enriched = Object.assign({}, detail || {});
+      if (!enriched.op) enriched.op = op;
+      if (role && enriched.role == null) enriched.role = role;
+      if (phase && enriched.phase == null) enriched.phase = phase;
+      if (conditionText && enriched.conditionText == null) enriched.conditionText = conditionText;
+      if (condition && enriched.condition == null) enriched.condition = condition;
+      details.push(enriched);
+    };
     let ok = true;
 
     if (op === "nonzeroaddress") {
       const f = normField(c.field);
       const v = asAddr(f, cfg, data);
       ok = v !== ZERO;
-      notes.push(`${f} is non-zero: ${v}`);
-      details.push({ op, field: f, actual: v, expected: "!= ZERO", ok });
+      pushNote(`${f} is non-zero: ${v}`);
+      addDetail({ field: f, actual: v, expected: "!= ZERO", ok });
     } else if (op === "equalsaddress") {
       const f = normField(c.field);
       const left = asAddr(f, cfg, data);
       const right = asAddr(c.equals ?? c.value, cfg, data);
       ok = left === right;
-      notes.push(`${f} equals ${c.equals || c.value} → (${left} vs ${right})`);
-      details.push({ op, field: f, left, right, ok });
+      pushNote(`${f} equals ${c.equals || c.value} → (${left} vs ${right})`);
+      addDetail({ field: f, left, right, ok });
     } else if (op === "lengthgte") {
       const f = normField(c.field);
       const arr = getByPath(data, f.slice(5));
       const n = typeof c.value === "number" ? c.value : 0;
       ok = Array.isArray(arr) && arr.length >= n;
-      notes.push(`${f}.length>=${n} (actual ${Array.isArray(arr) ? arr.length : "n/a"})`);
-      details.push({ op, field: f, min: n, actual: Array.isArray(arr) ? arr.length : null, ok });
+      pushNote(`${f}.length>=${n} (actual ${Array.isArray(arr) ? arr.length : "n/a"})`);
+      addDetail({ field: f, min: n, actual: Array.isArray(arr) ? arr.length : null, ok });
     } else if (op === "oneofaddress") {
       const f = normField(c.field);
       const left = asAddr(f, cfg, data);
       const list = Array.isArray(c.values) ? c.values.map(v => asAddr(v, cfg, data)) : [];
       ok = list.includes(left);
-      notes.push(`${f} in [${(c.values||[]).join(",")}] actual=${left}`);
-      details.push({ op, field: f, actual: left, allowed: list, ok });
+      pushNote(`${f} in [${(c.values||[]).join(",")}] actual=${left}`);
+      addDetail({ field: f, actual: left, allowed: list, ok });
     } else if (op === "hasabifn") {
       const present = helpers && helpers.hasFn ? helpers.hasFn((c.where||"").toLowerCase(), String(c.sig || c.name || "")) : false;
       ok = !!present;
-      notes.push(`ABI has ${c.where}.${c.sig || c.name}: ${present}`);
-      details.push({ op, where: (c.where||"").toLowerCase(), sig: String(c.sig || c.name || ""), present, ok });
+      pushNote(`ABI has ${c.where}.${c.sig || c.name}: ${present}`);
+      addDetail({ where: (c.where||"").toLowerCase(), sig: String(c.sig || c.name || ""), present, ok });
     } else if (op === "hasevent") {
       const present = helpers && helpers.hasEvent ? helpers.hasEvent((c.where||"").toLowerCase(), String(c.name||"")) : false;
       ok = !!present;
-      notes.push(`Event on ${c.where}:${c.name} present: ${present}`);
-      details.push({ op, where: (c.where||"").toLowerCase(), name: String(c.name||""), present, ok });
+      pushNote(`Event on ${c.where}:${c.name} present: ${present}`);
+      addDetail({ where: (c.where||"").toLowerCase(), name: String(c.name||""), present, ok });
+    } else if (op === "ensurefield" || op === "requiresfield") {
+      const field = c.field || "";
+      const keywords = fieldToKeywords(field);
+      if (!keywords.length) {
+        ok = false;
+        pushNote(`Unable to derive keywords for field '${field}'`);
+        addDetail({ field, keywords, ok, manualReview: true, reason: "no keywords derived" });
+      } else {
+        const match = findAbiSupport(keywords);
+        ok = !!match;
+        if (ok) {
+          pushNote(`Field '${field}' supported via ${match.contractLabel}.${match.signature}`);
+        } else {
+          const reason = abiAvailable ? "no matching ABI entry" : "ABI artifacts unavailable";
+          pushNote(`Field '${field}' lacks detectable support (${reason}); manual review required.`);
+        }
+        addDetail({
+          field,
+          keywords,
+          match: match ? { contract: match.contractLabel, signature: match.signature } : null,
+          ok,
+          manualReview: !match
+        });
+      }
+    } else if (op === "conditionalensurefield") {
+      const field = c.field || "";
+      const keywords = fieldToKeywords(field);
+      const match = keywords.length ? findAbiSupport(keywords) : null;
+      ok = !!match;
+      if (ok) {
+        pushNote(`Conditional field '${field}' supported via ${match.contractLabel}.${match.signature}`);
+      } else {
+        const reason = !keywords.length ? "no keywords derived" : (abiAvailable ? "no matching ABI entry" : "ABI artifacts unavailable");
+        pushNote(`Conditional field '${field}' not verified (${reason}); manual mitigation required.`);
+      }
+      addDetail({
+        field,
+        keywords,
+        match: match ? { contract: match.contractLabel, signature: match.signature } : null,
+        ok,
+        manualReview: !match
+      });
+    } else if (op === "conditionalensureoneof") {
+      const fields = Array.isArray(c.fields) ? c.fields : [];
+      const results = fields.map((f) => {
+        const keywords = fieldToKeywords(f);
+        const match = keywords.length ? findAbiSupport(keywords) : null;
+        return {
+          field: f,
+          keywords,
+          match: match ? { contract: match.contractLabel, signature: match.signature } : null
+        };
+      });
+      ok = results.some((r) => r.match);
+      if (ok) {
+        const hit = results.find((r) => r.match);
+        pushNote(`At least one conditional alternative supported (${hit.field} via ${hit.match.contract}.${hit.match.signature})`);
+      } else {
+        pushNote(`None of the conditional field options resolved to ABI support; manual review required.`);
+      }
+      addDetail({ fields: results, ok, manualReview: !ok });
+    } else if (op === "transmitfields" || op === "conditionaltransmitfields") {
+      const fields = Array.isArray(c.fields) ? c.fields : [];
+      const results = fields.map((f) => {
+        const keywords = fieldToKeywords(f);
+        const match = keywords.length ? findAbiSupport(keywords) : null;
+        return {
+          field: f,
+          keywords,
+          match: match ? { contract: match.contractLabel, signature: match.signature } : null
+        };
+      });
+      const missing = results.filter((r) => !r.match);
+      ok = missing.length === 0;
+      if (ok) {
+        pushNote(`Transmission fields supported across ABI (all ${fields.length} detected).`);
+      } else {
+        const missingList = missing.map((m) => m.field).join(", ");
+        const reason = abiAvailable ? `missing ABI support for ${missingList}` : "ABI artifacts unavailable";
+        pushNote(`Transmission fields incomplete (${reason}); manual confirmation needed.`);
+      }
+      addDetail({ fields: results, ok, manualReview: missing.length > 0 });
+    } else if (op === "forwardpayloadintact") {
+      let keywords = [];
+      if (Array.isArray(c.fields)) {
+        keywords = c.fields.flatMap((f) => fieldToKeywords(f));
+      } else if (typeof c.fields === "string" && c.fields.toLowerCase() !== "all") {
+        keywords = fieldToKeywords(c.fields);
+      }
+      if (!keywords.length) {
+        keywords = ["forward", "payload"];
+      }
+      const match = findAbiSupport(keywords);
+      ok = !!match;
+      if (ok) {
+        pushNote(`Forwarding control detected via ${match.contractLabel}.${match.signature}`);
+      } else {
+        const reason = abiAvailable ? "no ABI entry mentions forward/payload semantics" : "ABI artifacts unavailable";
+        pushNote(`No evidence of payload forwarding guard (${reason}).`);
+      }
+      addDetail({
+        keywords,
+        match: match ? { contract: match.contractLabel, signature: match.signature } : null,
+        ok,
+        manualReview: !match
+      });
+    } else if (op === "emitauditevent") {
+      const eventName = c.eventName || c.event || c.name;
+      let matched = null;
+      if (findAbiEvent) matched = findAbiEvent(eventName);
+      if (!matched && helpers && typeof helpers.hasEvent === "function") {
+        const where = (c.where || "").toLowerCase();
+        if (helpers.hasEvent(where, eventName)) {
+          matched = { contractLabel: where || "unknown", signature: eventName };
+        }
+      }
+      ok = !!matched;
+      if (ok) {
+        pushNote(`Audit event '${eventName}' present (${matched.contractLabel}.${matched.signature}).`);
+      } else {
+        pushNote(`Audit event '${eventName}' not found; manual event logging review required.`);
+      }
+      addDetail({
+        event: eventName,
+        match: matched ? { contract: matched.contractLabel, signature: matched.signature } : null,
+        ok,
+        manualReview: !matched
+      });
+    } else if (op === "handlemissinginformation") {
+      const steps = Array.isArray(c.steps) ? c.steps : [];
+      const keywords = ["missing", "information", ...steps.flatMap((s) => tokenizeIdentifier(s))];
+      const match = findAbiSupport(keywords);
+      ok = !!match;
+      if (ok) {
+        pushNote(`Missing-information remediation hook detected via ${match.contractLabel}.${match.signature}`);
+      } else {
+        pushNote(`No missing-information remediation hook detected; ensure off-chain process covers steps.`);
+      }
+      addDetail({
+        steps,
+        keywords,
+        match: match ? { contract: match.contractLabel, signature: match.signature } : null,
+        ok,
+        manualReview: !match
+      });
+    } else if (op === "handlemeaninglessinformation") {
+      const actions = Array.isArray(c.actions) ? c.actions : [];
+      const keywords = ["mitigate", "risk", ...actions.flatMap((a) => tokenizeIdentifier(a))];
+      const match = findAbiSupport(keywords);
+      ok = !!match;
+      if (ok) {
+        pushNote(`Meaningless-information mitigation detected via ${match.contractLabel}.${match.signature}`);
+      } else {
+        pushNote(`No automatic mitigation for meaningless payload detected; manual escalations required.`);
+      }
+      addDetail({
+        actions,
+        keywords,
+        match: match ? { contract: match.contractLabel, signature: match.signature } : null,
+        ok,
+        manualReview: !match
+      });
+    } else if (op === "verifypayloadintegrity") {
+      const dataset = c.dataset || "transferPayload";
+      const source = c.source || "";
+      const keywords = ["verify", "payload", "integrity"];
+      if (dataset) keywords.push(dataset);
+      if (source) keywords.push(source);
+      const match = findAbiSupport(keywords);
+      ok = !!match;
+      if (ok) {
+        pushNote(`Payload integrity verification detected via ${match.contractLabel}.${match.signature}`);
+      } else {
+        pushNote(`No payload integrity verification hook detected; beneficiary reconciliation may be manual.`);
+      }
+      addDetail({
+        dataset,
+        source,
+        keywords,
+        match: match ? { contract: match.contractLabel, signature: match.signature } : null,
+        ok,
+        manualReview: !match
+      });
+    } else if (op === "requirerecordedbeforetransfer") {
+      const dataset = c.dataset || "transferRecord";
+      const keywords = ["record", "transfer", dataset];
+      const match = findAbiSupport(keywords);
+      ok = !!match;
+      if (ok) {
+        pushNote(`Pre-transfer recording support detected via ${match.contractLabel}.${match.signature}`);
+      } else {
+        pushNote(`No on-chain primitive for pre-transfer recording found; rely on off-chain controls.`);
+      }
+      addDetail({
+        dataset,
+        keywords,
+        match: match ? { contract: match.contractLabel, signature: match.signature } : null,
+        ok,
+        manualReview: !match
+      });
     } else {
       // unknown op -> treat as pass but record
       ok = true;
-      notes.push(`unknown op ${op} (treated as pass)`);
-      details.push({ op, ok: true, unknown: true });
+      pushNote(`unknown op ${op} (treated as pass)`);
+      addDetail({ ok: true, unknown: true });
     }
     return ok;
   };
@@ -1117,6 +1655,7 @@ async function main() {
   let addressesArg = null;
   let outputArg = null;
   let groundArg = null;
+  let abipathsArg = null;
   for (let i = 0; i < argv.length; i += 1) {
     const token = argv[i];
     if (!token) continue;
@@ -1140,6 +1679,11 @@ async function main() {
       i += 1;
     } else if (token.startsWith("--groundtruth=")) {
       groundArg = token.slice("--groundtruth=".length);
+    } else if (token === "--abipaths" && argv[i + 1]) {
+      abipathsArg = argv[i + 1];
+      i += 1;
+    } else if (token.startsWith("--abipaths=")) {
+      abipathsArg = token.slice("--abipaths=".length);
     }
   }
 
@@ -1214,13 +1758,14 @@ async function main() {
   }
 
   // Load ABI artifacts once, to use for inputsMeta
-  const abiArtifacts = loadAbiArtifacts(root);
+  const abiArtifacts = loadAbiArtifacts(root, abipathsArg);
 
   // Compose richer inputs metadata
   const inputsMeta = {
     addressesPath,
     addresses: loadJson(addressesPath),
     ruleFiles: ruleFilesUsed,
+    abipathsPath: abiArtifacts?.source ? path.relative(root, abiArtifacts.source) : (abipathsArg ? abipathsArg : "abipaths.json"),
     abiArtifacts: Object.fromEntries(
       Object.entries(abiArtifacts?.paths || {}).map(
         ([k,v]) => [k, v ? path.relative(root, v) : null]
@@ -1387,7 +1932,7 @@ async function evaluateRun(root, def, rules, abiArtifactsArg) {
   const cfg = loadJson(addressesPath);
 
   // Use abiArtifactsArg if provided, else load
-  const abiArtifacts = abiArtifactsArg || loadAbiArtifacts(root);
+  const abiArtifacts = abiArtifactsArg || loadAbiArtifacts(root, null);
   const idx = {
     token: makeAbiIndex(abiArtifacts?.tokenAbi),
     idr: makeAbiIndex(abiArtifacts?.idrAbi),
@@ -1402,6 +1947,10 @@ async function evaluateRun(root, def, rules, abiArtifactsArg) {
   }
   const hasFn = (where, sigOrName) => idx[where] && (idx[where].bySig.has(sigOrName) || idx[where].byName.has(sigOrName));
   const hasEvent = (where, name) => idx[where] && idx[where].hasEvent.has(name);
+  const abiLexicon = buildAbiLexicon(abiArtifacts);
+  const findAbiSupport = (keywords) => abiLexicon.findEntry ? abiLexicon.findEntry(keywords) : null;
+  const findAbiEvent = (name) => abiLexicon.findEvent ? abiLexicon.findEvent(name) : null;
+  const helperContext = { hasFn, hasEvent, findAbiSupport, findAbiEvent };
 
   let context = await tryCreateRpcContext(cfg);
   let data = null;
@@ -1425,7 +1974,7 @@ async function evaluateRun(root, def, rules, abiArtifactsArg) {
   // Runtime probes (only on Hardhat fallback)
   let probes = {};
   try {
-    probes = await runRuntimeProbes(context, cfg, data, rules);
+    probes = await runRuntimeProbes(context, cfg, data, rules, abiArtifacts);
   } catch {
     probes = {};
   }
@@ -1459,13 +2008,13 @@ async function evaluateRun(root, def, rules, abiArtifactsArg) {
     // e.g. static rules such as R-ERC3643-30 (compliance address check) or
     // R-HKMA-AMLO-RecordKeeping rely on JSON allOf/check declarations evaluated here.
     const spec = normalizeDeclarativeSpec(r);
-    let dec = spec ? evalDeclarativeRule(spec, data, cfg, { hasFn, hasEvent })
-                   : evalDeclarativeRule(r, data, cfg, { hasFn, hasEvent });
+    let dec = spec ? evalDeclarativeRule(spec, data, cfg, helperContext)
+                   : evalDeclarativeRule(r, data, cfg, helperContext);
 
     // If still nothing, try auto-mapping for well-known IDs
     if (!dec) {
       const auto = defaultDeclarativeFor(r.id);
-      if (auto) dec = evalDeclarativeRule(auto, data, cfg, { hasFn, hasEvent });
+      if (auto) dec = evalDeclarativeRule(auto, data, cfg, helperContext);
     }
 
     if (dec) {

@@ -1,0 +1,154 @@
+[
+  {
+    "id": "R-HKMA-AMLO-VA-01",
+    "title": "Ordering institution records core parties",
+    "desc": "Before executing a virtual asset transfer, the ordering institution must record the originator’s and beneficiary’s identifiers as required by AMLO §13A(2)(a),(b),(d),(e).",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §13A(2)(a)-(b),(d)-(e)",
+    "severity": "High",
+    "controls": {
+      "role": "ordering",
+      "phase": "pre-transfer",
+      "allOf": [
+        { "op": "ensureField", "field": "originator.name" },
+        { "op": "ensureField", "field": "originator.accountReference" },
+        { "op": "ensureField", "field": "recipient.name" },
+        { "op": "ensureField", "field": "recipient.accountReference" },
+        { "op": "requireRecordedBeforeTransfer", "dataset": "transferRecord" }
+      ]
+    }
+  },
+  {
+    "id": "R-HKMA-AMLO-VA-02",
+    "title": "Ordering institution captures enhanced originator KYC",
+    "desc": "For transfers ≥ HKD 8,000 the ordering institution must record the originator’s address, identifier, and if the originator is an individual, date and place of birth per AMLO §13A(2)(c),(3).",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §13A(2)(c), §13A(3)",
+    "severity": "High",
+    "controls": {
+      "role": "ordering",
+      "phase": "pre-transfer",
+      "allOf": [
+        {
+          "op": "conditionalEnsureField",
+          "condition": { "field": "transfer.amountHkd", "operator": ">=", "value": 8000 },
+          "field": "originator.address"
+        },
+        {
+          "op": "conditionalEnsureOneOf",
+          "condition": { "field": "transfer.amountHkd", "operator": ">=", "value": 8000 },
+          "fields": ["originator.customerId", "originator.idDocumentNumber"]
+        },
+        {
+          "op": "conditionalEnsureField",
+          "condition": {
+            "all": [
+              { "field": "transfer.amountHkd", "operator": ">=", "value": 8000 },
+              { "field": "originator.type", "operator": "equals", "value": "individual" }
+            ]
+          },
+          "field": "originator.dateOfBirth"
+        },
+        {
+          "op": "conditionalEnsureField",
+          "condition": {
+            "all": [
+              { "field": "transfer.amountHkd", "operator": ">=", "value": 8000 },
+              { "field": "originator.type", "operator": "equals", "value": "individual" }
+            ]
+          },
+          "field": "originator.placeOfBirth"
+        }
+      ]
+    }
+  },
+  {
+    "id": "R-HKMA-AMLO-VA-03",
+    "title": "Ordering institution transmits mandated payload",
+    "desc": "When dispatching a virtual asset transfer, the ordering institution must forward the required information set to the beneficiary institution in line with AMLO §13A(4).",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §13A(4)",
+    "severity": "High",
+    "controls": {
+      "role": "ordering",
+      "phase": "transfer-dispatch",
+      "allOf": [
+        {
+          "op": "transmitFields",
+          "target": "beneficiary",
+          "fields": [
+            "originator.name",
+            "originator.accountReference",
+            "recipient.name",
+            "recipient.accountReference"
+          ]
+        },
+        {
+          "op": "conditionalTransmitFields",
+          "condition": { "field": "transfer.amountHkd", "operator": ">=", "value": 8000 },
+          "target": "beneficiary",
+          "fields": [
+            "originator.address",
+            "originator.identifier"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "R-HKMA-AMLO-VA-04",
+    "title": "Beneficiary institution records and reconciles data",
+    "desc": "The beneficiary institution must ingest and retain the fields received from the ordering institution and ensure payload integrity per AMLO §13A(5).",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §13A(5)",
+    "severity": "Medium",
+    "controls": {
+      "role": "beneficiary",
+      "phase": "intake",
+      "allOf": [
+        { "op": "ensureField", "field": "originator.name" },
+        { "op": "ensureField", "field": "originator.accountReference" },
+        { "op": "ensureField", "field": "recipient.name" },
+        { "op": "ensureField", "field": "recipient.accountReference" },
+        { "op": "verifyPayloadIntegrity", "source": "ordering", "dataset": "transferPayload" }
+      ]
+    }
+  },
+  {
+    "id": "R-HKMA-AMLO-VA-05",
+    "title": "Intermediary institution forwards full payload",
+    "desc": "Any intermediary institution must relay the transfer payload without alteration and emit an auditable event, in accordance with AMLO §13A(6).",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §13A(6)",
+    "severity": "Medium",
+    "controls": {
+      "role": "intermediary",
+      "phase": "relay",
+      "allOf": [
+        { "op": "forwardPayloadIntact", "fields": "all" },
+        { "op": "emitAuditEvent", "eventName": "VirtualAssetTransferForwarded" }
+      ]
+    }
+  },
+  {
+    "id": "R-HKMA-AMLO-VA-06",
+    "title": "Instructioned institution resolves missing or meaningless data",
+    "desc": "If a beneficiary or intermediary institution receives incomplete or meaningless information, it must obtain the missing data or apply AML/CTF mitigations per AMLO §13A(7).",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §13A(7)",
+    "severity": "High",
+    "controls": {
+      "role": "instructioned",
+      "phase": "post-intake",
+      "allOf": [
+        {
+          "op": "handleMissingInformation",
+          "steps": [
+            "requestMissingFromUpstream",
+            "ifUnresolvedThenRestrictOrMitigate"
+          ]
+        },
+        {
+          "op": "handleMeaninglessInformation",
+          "actions": [
+            "triggerMoneyLaunderingRiskMitigation"
+          ]
+        }
+      ]
+    }
+  }
+]

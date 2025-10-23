@@ -1,0 +1,56 @@
+Compliance Report
+Generated: 2025-10-23T15:23:30.270Z
+Deterministic Summary: PASS=4 | CRITICAL=0 | HIGH=2 | MEDIUM=0 | LOW=0
+LLM Model: gpt-4.1-nano
+
+LLM disabled (missing API key)
+
+Findings:
+
+High
+1. Ordering institution records core parties
+Detected instrumentation: originator.name→Token.originatorNameFieldBeacon(); originator.accountReference→Token.originatorAccountReferenceFieldBeacon(); recipient.name→Token.recipientNameFieldBeacon(); recipient.accountReference→Token.recipientAccountReferenceFieldBeacon() AMLO §13A(2)(a),(b),(d),(e) expects these fields to be captured pre-transfer.
+Paths:
+- Detected instrumentation: originator.name→Token.originatorNameFieldBeacon(); originator.accountReference→Token.originatorAccountReferenceFieldBeacon(); recipient.name→Token.recipientNameFieldBeacon(); recipient.accountReference→Token.recipientAccountReferenceFieldBeacon() AMLO §13A(2)(a),(b),(d),(e) expects these fields to be captured pre-transfer.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §13A(2)(a)-(b),(d)-(e)
+Recommendation: No action required.
+
+High
+2. Ordering institution captures enhanced originator KYC
+Threshold metadata missing: originator.customerId/idDocumentNumber. No ABI evidence of capture at ≥ HKD 8k.
+Paths:
+- Threshold metadata missing: originator.customerId/idDocumentNumber. No ABI evidence of capture at ≥ HKD 8k.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §13A(2)(c), §13A(3)
+Recommendation: Review the associated control and align the contract implementation with the policy requirement.
+
+High
+3. Ordering institution transmits mandated payload
+All mandatory transmission fields discoverable (ordered payload: originator.name→Token.originatorNameFieldBeacon(); ordered payload: originator.accountReference→Token.originatorAccountReferenceFieldBeacon(); ordered payload: recipient.name→Token.recipientNameFieldBeacon(); ordered payload: recipient.accountReference→Token.recipientAccountReferenceFieldBea...
+Paths:
+- All mandatory transmission fields discoverable (ordered payload: originator.name→Token.originatorNameFieldBeacon(); ordered payload: originator.accountReference→Token.originatorAccountReferenceFieldBeacon(); ordered payload: recipient.name→Token.recipientNameFieldBeacon(); ordered payload: recipient.accountReference→Token.recipientAccountReferenceFieldBeacon(); ordered payload: originator.address→Token.originatorAddressFieldBeacon(); ordered payload: originator.identifier→Token.originatorIdentifierFieldBeacon()).
+Compliance Ref: AMLO (Cap.615) Schedule 2 §13A(4)
+Recommendation: No action required.
+
+High
+4. Instructioned institution resolves missing or meaningless data
+Unable to locate remediation primitives (missingInfo=none, mitigation=none).
+Paths:
+- Unable to locate remediation primitives (missingInfo=none, mitigation=none).
+Compliance Ref: AMLO (Cap.615) Schedule 2 §13A(7)
+Recommendation: Review the associated control and align the contract implementation with the policy requirement.
+
+Medium
+5. Beneficiary institution records and reconciles data
+Detected instrumentation: beneficiary intake: originator.name→Token.originatorNameFieldBeacon(); beneficiary intake: originator.accountReference→Token.originatorAccountReferenceFieldBeacon(); beneficiary intake: recipient.name→Token.recipientNameFieldBeacon(); beneficiary intake: recipient.accountReference→Token.recipientAccountReferenceFieldBeacon(); ben...
+Paths:
+- Detected instrumentation: beneficiary intake: originator.name→Token.originatorNameFieldBeacon(); beneficiary intake: originator.accountReference→Token.originatorAccountReferenceFieldBeacon(); beneficiary intake: recipient.name→Token.recipientNameFieldBeacon(); beneficiary intake: recipient.accountReference→Token.recipientAccountReferenceFieldBeacon(); beneficiary integrity verification→Token.verifyPayloadIntegrity(bytes32,address) Beneficiary retention hooks not surfaced in ABI.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §13A(5)
+Recommendation: No action required.
+
+Medium
+6. Intermediary institution forwards full payload
+Forwarding hook located at Token.forwardFullPayload(bytes32,address).
+Paths:
+- Forwarding hook located at Token.forwardFullPayload(bytes32,address).
+Compliance Ref: AMLO (Cap.615) Schedule 2 §13A(6)
+Recommendation: No action required.
