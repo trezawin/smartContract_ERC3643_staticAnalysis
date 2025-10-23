@@ -1,0 +1,68 @@
+Compliance Report
+Generated: 2025-10-23T08:56:27.979Z
+Deterministic Summary: PASS=9 | CRITICAL=0 | HIGH=0 | MEDIUM=1 | LOW=0
+LLM Model: gpt-4o-mini-2024-07-18
+
+The audit results indicate a strong compliance posture with the majority of rules passing. However, there is a notable area for improvement regarding ongoing transaction monitoring.
+
+Findings:
+
+Medium
+1. Customer Due Diligence (CDD) before first transaction
+The system successfully prevented a transaction to an unverified user, indicating that customer due diligence is being enforced effectively.
+Compliance Ref: HKMA AML/CFT Guideline (2023) §3.4 Customer due diligence and verification https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf
+Recommendation: Continue to monitor and ensure that identity verification processes are consistently applied.
+
+Medium
+2. Record keeping retention ≥ 5 years
+The presence of the ERC20 Transfer event indicates that transaction records are being maintained, which is essential for compliance.
+Compliance Ref: HKMA AML/CFT Guideline (2023) §9 Record keeping requirement https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf
+Recommendation: Ensure that all records are stored securely and are retrievable for the required retention period.
+
+Medium
+3. Beneficial ownership identification
+The system is correctly wired to identify beneficial ownership, which is crucial for compliance with ownership identification requirements.
+Compliance Ref: HKMA AML/CFT Guideline §4.4 Beneficial owner identification (derived from general guidelines) https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf
+Recommendation: Maintain and regularly update the beneficial ownership identification processes.
+
+Medium
+4. Ongoing transaction monitoring / suspicious flags
+The absence of a SuspiciousTransfer event indicates that ongoing transaction monitoring is not fully implemented, which poses a risk of undetected suspicious activities.
+Compliance Ref: HKMA AML/CFT Guideline §7 Transaction monitoring and reporting obligations https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf
+Recommendation: Implement a mechanism to flag and monitor suspicious transactions effectively.
+
+Medium
+5. Freezing high-risk accounts or sanctions screening
+The presence of freeze control functionality indicates that the system can respond to high-risk accounts appropriately.
+Compliance Ref: HKMA AML/CFT Guideline §5 Risk mitigation / enhanced due diligence https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf
+Recommendation: Regularly review the effectiveness of the freeze controls and update as necessary.
+
+Medium
+6. Client identity rule: identity on file prior to transaction
+The system effectively prevents transactions from unverified users, ensuring compliance with identity verification rules.
+Compliance Ref: SFC Client Identity Rule Policy — Code of Conduct paragraph 5.4 https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/guidelines/client-identity-rule-policy/Client-Identity-Rule-Policy---2000-07-01-00_00_00.pdf
+Recommendation: Continue to enforce identity verification before allowing transactions.
+
+Medium
+7. Timely disclosure of client identity to regulators
+The ability to retrieve identity information for disclosure indicates compliance with regulatory requirements.
+Compliance Ref: SFC Client Identity Rule Policy — regulators can request identity info within 2 business days https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/guidelines/client-identity-rule-policy/Client-Identity-Rule-Policy---2000-07-01-00_00_00.pdf
+Recommendation: Ensure that processes are in place for timely disclosure of identity information to regulators.
+
+Medium
+8. Record changes in identity / KYC data
+The presence of the IdentityUpdated event indicates that changes in identity data are being recorded as required.
+Compliance Ref: SFC Code of Conduct §12 (Compliance obligations) — record keeping, control obligations https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/codes/code-of-conduct-for-persons-licensed-by-or-registered-with-the-securities-and-futures-commission/2011-08-31---2011-09-30---Code-of-Conduct-for-Per.pdf
+Recommendation: Continue to ensure that all changes in identity data are accurately recorded.
+
+Medium
+9. Internal control & compliance function oversight
+The presence of ownership controls and compliance wiring indicates that internal controls are in place.
+Compliance Ref: SFC Code of Conduct §12.1 General compliance obligations https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/codes/code-of-conduct-for-persons-licensed-by-or-registered-with-the-securities-and-futures-commission/2011-08-31---2011-09-30---Code-of-Conduct-for-Per.pdf
+Recommendation: Regularly review and update internal control mechanisms to ensure ongoing compliance.
+
+Medium
+10. Conflicts of interest disclosure & fairness
+The presence of transparency events indicates that conflicts of interest are being managed appropriately.
+Compliance Ref: SFC Code of Conduct §5 & §11 (fair treatment, disclosure) https://www.sfc.hk/-/media/EN/assets/components/codes/files-previous/web/codes/code-of-conduct-for-persons-licensed-by-or-registered-with-the-securities-and-futures-commission/2011-08-31---2011-09-30---Code-of-Conduct-for-Per.pdf
+Recommendation: Maintain transparency in operations and ensure that conflicts of interest are disclosed as required.

@@ -32,5 +32,33 @@
       { "op": "hasevent", "where": "irs", "name": "IdentityUnstored" },
       { "op": "hasevent", "where": "irs", "name": "IdentityRegistryBound" }
     ]
+  }, 
+  {
+    "id": "R-HKMA-AMLO-Sanctions",
+    "title": "Sanctions and Blacklist Screening",
+    "desc": "Smart contracts must enforce sanctions compliance by reverting transfers to addresses flagged by blacklist logic.",
+    "snippet": "require(!blacklisted[to], \"Sanctioned address\");",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk",
+    "severity": "High",
+    "allOf": [
+      { "op": "phase2" },
+      { "op": "runtxrevert", "desc": "Transfer to a random address should revert if blacklist logic is enforced" }
+    ]
+  },
+  {
+    "id": "R-HKMA-AMLO-OngoingMonitoring",
+    "title": "Ongoing Monitoring via Modular Compliance",
+    "desc": "Smart contracts must enable modular compliance checks to enforce transaction surveillance, including country restrictions and monthly transfer limits.",
+    "snippet": "require(canTransfer(from, to, value), \"Compliance: transfer not allowed\");\naddModule(CountryRestrictModule);\naddModule(ExchangeMonthlyLimitsModule);",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "compliance", "sig": "canTransfer(address,address,uint256)" },
+      { "op": "hasevent", "where": "compliance", "name": "ModuleAdded" },
+      { "op": "hasmodule", "where": "compliance", "name": "ExchangeMonthlyLimitsModule" },
+      { "op": "hasmodule", "where": "compliance", "name": "CountryRestrictModule" },
+      { "op": "phase2" },
+      { "op": "runtxrevert", "desc": "Transfer from blocked country or over monthly limits should revert due to active monitoring module" }
+    ]
   }
 ]

@@ -12,6 +12,8 @@ import "@tokenysolutions/t-rex/contracts/compliance/modular/modules/AbstractModu
 contract ComplianceProbeModule is AbstractModule {
     mapping(address => bool) private _allow;
     mapping(address => bool) private _initialized;
+    mapping(address => mapping(address => bool)) private _blocked;
+    mapping(address => uint256) private _maxAmount;
 
     function moduleTransferAction(address, address, uint256) external override onlyComplianceCall {}
     function moduleMintAction(address, uint256) external override onlyComplianceCall {}
@@ -38,11 +40,27 @@ contract ComplianceProbeModule is AbstractModule {
         if (!_initialized[compliance]) {
             return true;
         }
+        if (_blocked[compliance][from] || _blocked[compliance][to]) {
+            return false;
+        }
+        if (_maxAmount[compliance] != 0 && amount > _maxAmount[compliance]) {
+            return false;
+        }
         return _allow[compliance];
     }
 
     function setResult(bool allowTransfers) external onlyComplianceCall {
         _allow[msg.sender] = allowTransfers;
+        _initialized[msg.sender] = true;
+    }
+
+    function setBlockedAddress(address target, bool blocked) external onlyComplianceCall {
+        _blocked[msg.sender][target] = blocked;
+        _initialized[msg.sender] = true;
+    }
+
+    function setMaxAmount(uint256 maxAmount) external onlyComplianceCall {
+        _maxAmount[msg.sender] = maxAmount;
         _initialized[msg.sender] = true;
     }
 }

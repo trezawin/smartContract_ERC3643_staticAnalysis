@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2025-10-23T08:55:47.407Z",
+  "deterministic": {
+    "compared": 0,
+    "tp": 0,
+    "fp": 0,
+    "tn": 0,
+    "fn": 0,
+    "precision": 0,
+    "recall": 0,
+    "f1": 0,
+    "accuracy": 0,
+    "disagreements": []
+  },
+  "llm": {
+    "compared": 10,
+    "tp": 9,
+    "fp": 0,
+    "tn": 1,
+    "fn": 0,
+    "new": 0,
+    "precision": 1,
+    "recall": 1,
+    "f1": 1,
+    "accuracy": 1,
+    "disagreements": []
+  },
+  "coverageDistribution": {
+    "SUPPORT": 9,
+    "CHALLENGE": 1,
+    "EXTEND": 0
+  }
+}

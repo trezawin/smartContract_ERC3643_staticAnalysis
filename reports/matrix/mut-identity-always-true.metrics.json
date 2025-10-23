@@ -1,0 +1,23 @@
+{
+  "generatedAt": "2025-10-20T15:42:31.364Z",
+  "metrics": {
+    "compared": 2,
+    "tp": 1,
+    "fp": 0,
+    "tn": 0,
+    "fn": 1,
+    "precision": 1,
+    "recall": 0.5,
+    "f1": 0.6666666666666666,
+    "accuracy": 0.5,
+    "disagreements": [
+      {
+        "run": "rule.3643",
+        "id": "R-ERC3643-01",
+        "expected": "PASS",
+        "predicted": "Critical",
+        "note": "transfer(to=unverified) succeeded → missing identity gating"
+      }
+    ]
+  }
+}

@@ -20,7 +20,7 @@
       "title": "Beneficial ownership identification",
       "desc": "For entity accounts, beneficial owners must be identified and verified as part of KYC flow.",
       "snippet": "if (account.isEntity) require(identityRegistry.verifyBeneficialOwner(account, owner), \"HKMA: BO not verified\");",
-      "policyRef": "HKMA AML/CFT Guideline §4.4 Beneficial owner identification https://brdr.hkma.gov.hk/eng/doc-key/guide (derived from general guidelines) https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf",
+      "policyRef": "HKMA AML/CFT Guideline §4.4 Beneficial owner identification (derived from general guidelines) https://brdr.hkma.gov.hk/eng/doc-ldg/docId/getPdf/20230525-3-EN/20230525-3-EN.pdf",
       "severity": "FAIL"
     },
     {

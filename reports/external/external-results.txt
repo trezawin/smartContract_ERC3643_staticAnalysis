@@ -1,0 +1,23 @@
+External Smart Contracts Compliance Scan
+Generated: 2025-10-22T09:42:39.621Z
+
+Contract: IdFactory_0x23b64F/IdFactory_0x23b64F.sol
+Source: contracts/SmartContract-External/IdFactory_0x23b64F/IdFactory_0x23b64F.sol
+- Critical R-ERC3643-01: FAIL
+  Static scan did not find a call to identityRegistry.isVerified(); treated as missing identity gating.
+- Critical R-ERC3643-02: FAIL
+  Static scan did not find compliance.canTransfer() usage; treated as compliance hook missing.
+
+Contract: TREXFactory_0x7F1fD4/TREXFactory_0x7F1fD4.sol
+Source: contracts/SmartContract-External/TREXFactory_0x7F1fD4/TREXFactory_0x7F1fD4.sol
+- Critical R-ERC3643-01: FAIL
+  Static scan did not find a call to identityRegistry.isVerified(); treated as missing identity gating.
+- Critical R-ERC3643-02: FAIL
+  Static scan did not find compliance.canTransfer() usage; treated as compliance hook missing.
+
+Contract: TREXGateway_0x5fcc3d/TREXGateway_0x5fcc3d.sol
+Source: contracts/SmartContract-External/TREXGateway_0x5fcc3d/TREXGateway_0x5fcc3d.sol
+- Critical R-ERC3643-01: FAIL
+  Static scan did not find a call to identityRegistry.isVerified(); treated as missing identity gating.
+- Critical R-ERC3643-02: FAIL
+  Static scan did not find compliance.canTransfer() usage; treated as compliance hook missing.

@@ -16,19 +16,63 @@ function esc(s) {
 function readJson(p) { return JSON.parse(fs.readFileSync(p, "utf8")); }
 function ensureDir(p) { fs.mkdirSync(p, { recursive: true }); }
 
-function pill(text, kind) {
-  const colors = {
-    PASS:"background:#10B981;color:#fff",
-    FAIL:"background:#EF4444;color:#fff",
-    WARN:"background:#F59E0B;color:#111",
-    INFO:"background:#6B7280;color:#fff",
-    CRITICAL:"background:#B91C1C;color:#fff",
-    HIGH:"background:#F97316;color:#111",
-    MEDIUM:"background:#FACC15;color:#111",
-    LOW:"background:#6B7280;color:#fff",
-    META:"background:#374151;color:#fff"
-  };
-  return `<span style="display:inline-block;padding:2px 8px;border-radius:999px;font-weight:600;${colors[kind]||colors.INFO}">${esc(text)}</span>`;
+const STATUS_COLORS = {
+  TOTAL: "#374151",
+  PASS: "#10B981",
+  CRITICAL: "#B91C1C",
+  HIGH: "#F97316",
+  MEDIUM: "#FACC15",
+  LOW: "#6B7280",
+  META: "#374151"
+};
+
+const POSITION_COLORS = {
+  SUPPORT: "#10B981",
+  CHALLENGE: "#B91C1C",
+  EXTEND: "#6366F1"
+};
+
+const PROBE_STATUS_COLORS = {
+  PASS: "#10B981",
+  FAIL: "#B91C1C",
+  INFO: "#6B7280"
+};
+
+function statText(label, value, kind) {
+  const color = STATUS_COLORS[kind] || "#374151";
+  return `<span style="font-weight:600;color:${color}">${esc(label)} ${esc(String(value))}</span>`;
+}
+
+function positionText(kind) {
+  const key = String(kind || "").toUpperCase();
+  const map = { SUPPORT: "Support", CHALLENGE: "Challenge", EXTEND: "Extend", PASS: "Support" };
+  const label = map[key] || (key ? key.charAt(0) + key.slice(1).toLowerCase() : "");
+  const color = POSITION_COLORS[key] || (key === "PASS" ? POSITION_COLORS.SUPPORT : STATUS_COLORS.META);
+  return label ? `<span style="font-weight:600;color:${color}">${esc(label)}</span>` : "";
+}
+
+function ruleStatusTag(status) {
+  if (status == null) return "";
+  const key = String(status).trim().toUpperCase();
+  if (!key) return "";
+  const label = key === "PASS" ? "Pass" : key === "FAIL" ? "Fail" : key.charAt(0) + key.slice(1).toLowerCase();
+  const color = key === "PASS" ? STATUS_COLORS.PASS : key === "FAIL" ? STATUS_COLORS.CRITICAL : STATUS_COLORS.META;
+  return `<span style="font-weight:600;color:${color}">${esc(label)}</span>`;
+}
+
+function probeBadge(id, status) {
+  const key = String(status || "").toUpperCase();
+  const color = PROBE_STATUS_COLORS[key] || STATUS_COLORS.META;
+  const labelMap = { PASS: "Pass", FAIL: "Fail", INFO: "Info" };
+  const label = labelMap[key] || (key ? key.charAt(0) + key.slice(1).toLowerCase() : "");
+  return `<span style="font-weight:600;color:${color}">${esc(id)}${label ? ` (${esc(label)})` : ""}</span>`;
+}
+
+function severityTag(kind) {
+  const key = String(kind || "").toUpperCase();
+  const label = severityDisplay(key);
+  const color = STATUS_COLORS[key] || STATUS_COLORS.META;
+  return `<span style="font-weight:600;color:${color}">${esc(label)}</span>`;
 }
 
 function sectionTitle(text) {
@@ -95,6 +139,7 @@ function normalizeItem(it) {
   const source = it.source || it.rulesFile || it.file || "";
   const run = it.run || it.label || "";
   const policyRef = it.policyRef || it.policy_refs || "";
+  const codeRefs = it.codeReferences || it.code_refs || [];
   const pass = it.pass === true || (String(outcome).toUpperCase() === "PASS");
   return {
     id,
@@ -108,8 +153,22 @@ function normalizeItem(it) {
     source,
     run,
     policyRef,
+    codeReferences: codeRefs,
     outcome: String(outcome).toUpperCase()
   };
+}
+
+function computeCoverageDistribution(findings) {
+  const counts = { SUPPORT: 0, CHALLENGE: 0, EXTEND: 0 };
+  if (Array.isArray(findings)) {
+    for (const f of findings) {
+      const key = String(f?.position || f?.verdict || '').toUpperCase();
+      if (key === 'SUPPORT' || key === 'PASS') counts.SUPPORT += 1;
+      else if (key === 'CHALLENGE' || key === 'FAIL') counts.CHALLENGE += 1;
+      else if (key === 'EXTEND' || key === 'NEW') counts.EXTEND += 1;
+    }
+  }
+  return counts;
 }
 
 function computeSummary(items) {
@@ -142,37 +201,84 @@ function computeSummary(items) {
   return summary;
 }
 
-function renderSummary(summary, metrics) {
-  return `
-<div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0">
-  <div>${pill("Total", "META")} <strong style="margin-left:6px">${summary.total}</strong></div>
-  <div>${pill("Pass", "PASS")} <strong style="margin-left:6px">${summary.pass}</strong></div>
-  <div>${pill("Critical", "CRITICAL")} <strong style="margin-left:6px">${summary.critical || 0}</strong></div>
-  <div>${pill("High", "HIGH")} <strong style="margin-left:6px">${summary.high || 0}</strong></div>
-  <div>${pill("Medium", "MEDIUM")} <strong style="margin-left:6px">${summary.medium || 0}</strong></div>
-  <div>${pill("Low", "LOW")} <strong style="margin-left:6px">${summary.low || 0}</strong></div>
-</div>
-${metrics ? `
-<div style="margin:8px 0 20px 0">
-  <div style="font-weight:700;margin-bottom:6px">Metrics vs Ground Truth</div>
-  <div style="display:flex;gap:12px;flex-wrap:wrap">
-    <div>${pill("Compared", "META")} <strong style="margin-left:6px">${metrics.compared}</strong></div>
-    <div>${pill("Precision", "META")} <strong style="margin-left:6px">${((metrics.precision||0)*100).toFixed(1)}%</strong></div>
-    <div>${pill("Recall", "META")} <strong style="margin-left:6px">${((metrics.recall||0)*100).toFixed(1)}%</strong></div>
-    <div>${pill("F1", "META")} <strong style="margin-left:6px">${((metrics.f1||0)*100).toFixed(1)}%</strong></div>
-    <div>${pill("Accuracy", "META")} <strong style="margin-left:6px">${((metrics.accuracy||0)*100).toFixed(1)}%</strong></div>
-    <div>${pill("TP", "META")} <strong style="margin-left:6px">${metrics.tp||0}</strong></div>
-    <div>${pill("FP", "META")} <strong style="margin-left:6px">${metrics.fp||0}</strong></div>
-    <div>${pill("TN", "META")} <strong style="margin-left:6px">${metrics.tn||0}</strong></div>
-    <div>${pill("FN", "META")} <strong style="margin-left:6px">${metrics.fn||0}</strong></div>
-  </div>
-</div>
-${metrics.disagreements && metrics.disagreements.length ? `
+function renderSummary(summary, metrics, coverageCounts) {
+  const statLine = [
+    statText("Total", summary.total || 0, "TOTAL"),
+    statText("Pass", summary.pass || 0, "PASS"),
+    statText("Critical", summary.critical || 0, "CRITICAL"),
+    statText("High", summary.high || 0, "HIGH"),
+    statText("Medium", summary.medium || 0, "MEDIUM"),
+    statText("Low", summary.low || 0, "LOW")
+  ].join('<span style="width:8px;display:inline-block"></span>');
+
+const metricsLine = (() => {
+  const sections = [];
+  if (metrics) {
+    sections.push(`
+    <div style="min-width:220px;flex:1 1 220px">
+      <div style="font-weight:700;margin-bottom:6px">Metrics vs Ground Truth</div>
+      <table style="border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr style="background:#F9FAFB;text-align:left">
+            <th style="padding:6px 10px;border:1px solid #E5E7EB">Metric</th>
+            <th style="padding:6px 10px;border:1px solid #E5E7EB">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+                    <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Status</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(summary.pass === summary.total ? "PASS" : "FAIL")}</td></tr>
+<tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Compared</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(metrics.compared || 0)}</td></tr>
+          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Precision</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(((metrics.precision||0)*100).toFixed(1))}%</td></tr>
+          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Recall</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(((metrics.recall||0)*100).toFixed(1))}%</td></tr>
+          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">F1</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(((metrics.f1||0)*100).toFixed(1))}%</td></tr>
+          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Accuracy</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(((metrics.accuracy||0)*100).toFixed(1))}%</td></tr>
+          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">TP</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(metrics.tp || 0)}</td></tr>
+          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">FP</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(metrics.fp || 0)}</td></tr>
+          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">TN</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(metrics.tn || 0)}</td></tr>
+          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">FN</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(metrics.fn || 0)}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    `);
+  }
+  if (coverageCounts) {
+    sections.push(`
+    <div style="min-width:220px;flex:1 1 220px">
+      <div style="font-weight:700;margin-bottom:6px">Coverage Expansion</div>
+      <table style="border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr style="background:#F9FAFB;text-align:left">
+            <th style="padding:6px 10px;border:1px solid #E5E7EB">Verdict</th>
+            <th style="padding:6px 10px;border:1px solid #E5E7EB">Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Support</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(coverageCounts.SUPPORT || 0)}</td></tr>
+          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Challenge</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(coverageCounts.CHALLENGE || 0)}</td></tr>
+          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Extend</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(coverageCounts.EXTEND || 0)}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    `);
+  }
+  if (!sections.length) return "";
+  const disagreementsBlock = (metrics && metrics.disagreements && metrics.disagreements.length) ? `
   <details style="margin:10px 0"><summary style="cursor:pointer">Disagreements (${metrics.disagreements.length})</summary>
     <ul style="margin-top:8px">
       ${metrics.disagreements.map(d => `<li><code>${esc(d.id||"")}</code> → expected <b>${esc(d.expected||"")}</b>, got <b>${esc(d.predicted||"")}</b> ${d.note?`— ${esc(d.note)}`:""}</li>`).join("")}
     </ul>
-  </details>` : ""}` : ""}`;
+  </details>` : "";
+  return `
+<div style="margin:8px 0 20px 0">
+  <div style="display:flex;gap:20px;flex-wrap:wrap">${sections.join('')}</div>${disagreementsBlock}
+</div>
+`;
+})();
+
+  return `
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0">
+  ${statLine}
+</div>
+${metricsLine}`;
 }
 
 function renderSources(inputs, sources, fallbackRulesPath) {
@@ -219,12 +325,12 @@ ${sectionTitle("Per-Rulebook Execution")}
           <div style="font-size:13px;color:#6B7280">${run.rulesPath?`Rules: <code>${esc(run.rulesPath)}</code>`:""}${run.addressesPath?` · Addresses: <code>${esc(run.addressesPath)}</code>`:""}</div>
           ${run.data && run.data.executionMode ? `<div style="font-size:12px;color:#6B7280">Execution: ${esc(run.data.executionMode)}</div>` : ""}
         </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          ${pill(`Pass ${summary.pass||0}`, "PASS")}
-          ${pill(`Critical ${summary.critical||0}`, "CRITICAL")}
-          ${pill(`High ${summary.high||0}`, "HIGH")}
-          ${pill(`Medium ${summary.medium||0}`, "MEDIUM")}
-          ${pill(`Low ${summary.low||0}`, "LOW")}
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          ${statText("Pass", summary.pass || 0, "PASS")}
+          ${statText("Critical", summary.critical || 0, "CRITICAL")}
+          ${statText("High", summary.high || 0, "HIGH")}
+          ${statText("Medium", summary.medium || 0, "MEDIUM")}
+          ${statText("Low", summary.low || 0, "LOW")}
         </div>
       </div>
       ${(metrics && metrics.compared) ? `
@@ -238,7 +344,7 @@ ${sectionTitle("Per-Rulebook Execution")}
           ${probeKeys.map(id => {
             const pr = probes[id] || {};
             const status = pr.pass === true ? "PASS" : pr.pass === false ? "FAIL" : "INFO";
-            return `<li style="margin-bottom:4px">${pill(id, status)} <span style="margin-left:6px">${esc(pr.evidence||"")}</span></li>`;
+            return `<li style="margin-bottom:4px">${probeBadge(id, status)} <span style="margin-left:6px">${esc(pr.evidence||"")}</span></li>`;
           }).join("")}
         </ul>
       </details>` : ""}
@@ -247,17 +353,24 @@ ${sectionTitle("Per-Rulebook Execution")}
 </div>`;
 }
 
-function renderLlmSection(llm) {
+function renderLlmSection(llm, ruleStatuses) {
   if (!llm || !llm.findings) return "";
   const failed = llm.error ? `<div style="color:#B91C1C;margin-bottom:8px">${esc(llm.error)}</div>` : "";
   const disabled = llm.disabled ? `<div style="color:#2563EB;margin-bottom:8px">${esc(llm.reason || "LLM disabled.")}</div>` : "";
   const modelLine = llm.model ? `<div style="font-size:12px;color:#6B7280">Model: ${esc(llm.model)}</div>` : "";
   const cards = (Array.isArray(llm.findings) ? llm.findings : []).map((f, idx) => {
     const severityCode = String(f.severity || f.severity_code || "").toUpperCase();
-    const severityText = f.severity_label || severityDisplay(severityCode);
     const verdict = String(f.verdict || f.phase2_verdict || "").toUpperCase();
     const position = String(f.position || "").toUpperCase();
+    const verdictKind = position || verdict || "PASS";
+    const deterministicStatus = (() => {
+      if (!ruleStatuses) return "";
+      if (typeof ruleStatuses.get === "function") return ruleStatuses.get(f.id);
+      if (f.id && Object.prototype.hasOwnProperty.call(ruleStatuses, f.id)) return ruleStatuses[f.id];
+      return "";
+    })();
     const refs = Array.isArray(f.compliance_refs) ? f.compliance_refs.filter(Boolean) : [];
+    const codeRefs = Array.isArray(f.code_refs) ? f.code_refs.filter(Boolean) : [];
     const evidence = Array.isArray(f.evidence_paths) ? f.evidence_paths.filter(Boolean) : [];
     const heading = (() => {
       if (f.id) {
@@ -270,12 +383,15 @@ function renderLlmSection(llm) {
     <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
       <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
         <div style="font-size:16px;font-weight:600">${esc(idx+1)}. ${heading}</div>
-        ${pill(severityText, severityCode || "MEDIUM")}
-        ${verdict ? pill(`Verdict ${verdict}`, verdict) : ""}
-        ${position ? pill(position, "META") : ""}
+        ${severityTag(severityCode || "MEDIUM")}
+        ${positionText(verdictKind)}
+        ${deterministicStatus ? ruleStatusTag(deterministicStatus) : ""}
       </div>
       ${f.explanation ? `<div style="font-size:14px;line-height:1.6;margin-bottom:10px">${esc(f.explanation)}</div>` : ""}
       ${refs.length ? `<div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> ${joinList(refs, "; ")}</div>` : ""}
+      ${codeRefs.length ? `<div style="font-size:13px;margin-bottom:6px"><strong>Code Reference:</strong>
+        <ul style="margin:6px 0 0 16px">${codeRefs.map(ref => `<li><code>${esc(ref)}</code></li>`).join("")}</ul>
+      </div>` : ""}
       ${evidence.length ? `<div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
         <ul style="margin:6px 0 0 16px">${evidence.map(e => `<li><code>${esc(e)}</code></li>`).join("")}</ul>
       </div>` : ""}
@@ -332,6 +448,17 @@ function main(){
 
   const rawItems = raw.items || (raw.results && raw.results.items) || raw.findings || [];
   const items = rawItems.map(normalizeItem);
+  const ruleStatuses = new Map();
+  for (const item of items) {
+    if (!item || !item.id) continue;
+    const outcome = String(item.outcome || "").toUpperCase();
+    if (item.pass === true || outcome === "PASS") {
+      ruleStatuses.set(item.id, "PASS");
+    } else if (item.pass === false || outcome === "FAIL" || outcome === "CRITICAL" || outcome === "HIGH" || outcome === "MEDIUM" || outcome === "LOW") {
+      // Treat non-pass outcomes as fail for status tagging
+      ruleStatuses.set(item.id, "FAIL");
+    }
+  }
 
   const summaryRaw = raw.summary
     ? Object.assign({ total: items.length }, raw.summary)
@@ -347,10 +474,11 @@ function main(){
     warn: 0,
     info: 0
   }, summaryRaw);
-  const metrics = raw.metrics || null;
-  const sources = raw.sources || null;
-  const runs = raw.runs || null;
-  const llm = raw.llm || null;
+const metrics = raw.metrics || null;
+const sources = raw.sources || null;
+const runs = raw.runs || null;
+const llm = raw.llm || null;
+const coverageCounts = raw.coverageDistribution || (llm ? computeCoverageDistribution(llm.findings) : null);
   const reportInfo = raw.report || null;
 
   const html = `<!doctype html>
@@ -371,11 +499,11 @@ function main(){
     Generated: ${esc(raw.generatedAt||"")} — Deterministic checks + LLM reasoning
   </div>
 
-  ${renderSummary(summary, metrics)}
+${renderSummary(summary, metrics, coverageCounts)}
   ${renderArtifacts(reportInfo)}
   ${renderSources(inputsBlock, sources, fallbackRulesPath)}
   ${renderRunDetails(runs)}
-  ${renderLlmSection(llm)}
+  ${renderLlmSection(llm, ruleStatuses)}
 
   <div style="margin-top:28px;color:#6B7280;font-size:12px">
     Evidence combines deterministic probes (Hardhat fallback when available) and policy-grounded LLM analysis.

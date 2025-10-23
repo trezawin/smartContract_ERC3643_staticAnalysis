@@ -31,6 +31,8 @@ export async function bootstrap(hre?: HardhatRuntimeEnvironment): Promise<Bootst
   const IdentityRegistryArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json");
   const TokenArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json");
   const ModularComplianceArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json");
+  const CountryRestrictModuleArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/modules/CountryRestrictModule.sol/CountryRestrictModule.json");
+  const ExchangeMonthlyLimitsModuleArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/modules/ExchangeMonthlyLimitsModule.sol/ExchangeMonthlyLimitsModule.json");
 
   const ClaimTopicsRegistry = await ethers.getContractFactory(
     ClaimTopicsRegistryArtifact.abi,
@@ -104,7 +106,45 @@ export async function bootstrap(hre?: HardhatRuntimeEnvironment): Promise<Bootst
   );
   await tx6.wait();
 
+  // Attach baseline compliance modules (CountryRestrict + ExchangeMonthlyLimits)
+  try {
+    const CountryRestrictModule = await ethers.getContractFactory(
+      CountryRestrictModuleArtifact.abi,
+      CountryRestrictModuleArtifact.bytecode,
+      deployer
+    );
+    const countryModule = await CountryRestrictModule.deploy();
+    await countryModule.deployed();
+    if (countryModule.initialize) {
+      await (await countryModule.initialize()).wait();
+    }
+
+    const ExchangeMonthlyLimitsModule = await ethers.getContractFactory(
+      ExchangeMonthlyLimitsModuleArtifact.abi,
+      ExchangeMonthlyLimitsModuleArtifact.bytecode,
+      deployer
+    );
+    const exchangeModule = await ExchangeMonthlyLimitsModule.deploy();
+    await exchangeModule.deployed();
+    if (exchangeModule.initialize) {
+      await (await exchangeModule.initialize()).wait();
+    }
+
+    await (await cmp.addModule(countryModule.address)).wait();
+    await (await cmp.addModule(exchangeModule.address)).wait();
+    console.log("Added compliance modules:", countryModule.address, exchangeModule.address);
+  } catch (moduleErr) {
+    console.warn("Failed to deploy/bind monitoring modules:", (moduleErr as Error).message);
+  }
+
   // Token.init internally binds the compliance contract to itself, so no extra wiring needed here.
+
+  // Ensure agent rights, unpause, and seed balance for deterministic runtime probes
+  try {
+    if ((tkn as any).addAgent) { await (tkn as any).addAgent(deployer.address); }
+  } catch {}
+  try { if ((tkn as any).unpause) { await (tkn as any).unpause(); } } catch {}
+  try { if ((tkn as any).mint) { await (tkn as any).mint(deployer.address, ethers.utils.parseUnits('1000', 18)); } } catch {}
 
   // 4) Seed 1 KYC claim topic (e.g., 1 = KYC_BASIC for demo)
   console.log("Seeding claim topic #1...");

@@ -1,199 +1,88 @@
 Compliance Report
-Generated: 2025-10-22T13:17:37.389Z
-Deterministic Summary: PASS=33 | CRITICAL=0 | HIGH=0 | MEDIUM=0 | LOW=0
-LLM Model: gpt-4.1-nano
+Generated: 2025-10-23T09:19:36.334Z
+Deterministic Summary: PASS=6 | CRITICAL=0 | HIGH=11 | MEDIUM=14 | LOW=2
+LLM Model: gpt-4o-mini-2024-07-18
 
-LLM disabled (missing API key)
+The compliance audit reveals significant deficiencies in the implementation of ERC-3643 standards, particularly in the IdentityRegistry and Token functionalities. While some critical checks passed, numerous high-severity failures indicate a lack of essential features and controls.
 
 Findings:
 
 Critical
 1. Transfer must check identityRegistry.isVerified
-transfer(to=unverified) reverted as expected → indicates identity gating
+The transfer to an unverified address reverted as expected, confirming that identity gating is enforced correctly.
 Paths:
 - transfer(to=unverified) reverted as expected → indicates identity gating
 Compliance Ref: https://eips.ethereum.org/EIPS/eip-3643
-Recommendation: No action required.
+Recommendation: Continue to enforce identity verification on transfers.
 
 Critical
 2. Token must call compliance.canTransfer hook
-INCONCLUSIVE (not penalized): compliance.canTransfer=true; transfer reverted. Without a test compliance that can return false, the cause can't be isolated.
+The compliance hook responded false as expected when forced, indicating proper integration of compliance checks.
 Paths:
-- INCONCLUSIVE (not penalized): compliance.canTransfer=true; transfer reverted. Without a test compliance that can return false, the cause can't be isolated.
+- Probe module forced canTransfer=false via ComplianceProbeModule; hook responded false as expected.
 Compliance Ref: https://eips.ethereum.org/EIPS/eip-3643
-Recommendation: No action required.
+Recommendation: Maintain the current compliance hook implementation.
 
 High
 3. ClaimTopicsRegistry must support add/remove and event emission
-ABI has ctr.addClaimTopic(uint256): true; ABI has ctr.removeClaimTopic(uint256): true; ABI has ctr.getClaimTopics(): true; Event on ctr:ClaimTopicAdded present: true; Event on ctr:ClaimTopicRemoved present: true
+The absence of the addClaimTopic function in the ABI indicates a critical gap in functionality for managing claim topics.
 Paths:
-- {"op":"hasabifn","where":"ctr","sig":"addClaimTopic(uint256)","present":true,"ok":true}
-- {"op":"hasabifn","where":"ctr","sig":"removeClaimTopic(uint256)","present":true,"ok":true}
-- {"op":"hasabifn","where":"ctr","sig":"getClaimTopics()","present":true,"ok":true}
+- {"op":"hasabifn","where":"ctr","sig":"addClaimTopic(uint256)","present":false,"ok":false}
 Compliance Ref: https://erc-3643.github.io/documentation/docs/suite/claim-topics-registry/
-Recommendation: No action required.
+Recommendation: Implement the addClaimTopic function to ensure compliance.
 
 High
 4. IdentityRegistry must support setter for ClaimTopicsRegistry
-ABI has idr.setClaimTopicsRegistry(address): true; ABI has idr.topicsRegistry(): true; data.idrTopicsRegistryAddr is non-zero: 0x5fbdb2315678afecb367f032d93f642f64180aa3; data.idrTopicsRegistryAddr equals cfg.claimTopicsRegistry → (0x5fbdb2315678afecb367f032d93f642f64180aa3 vs 0x5fbdb2315678afecb367f032d93f642f64180aa3)
+The missing setClaimTopicsRegistry function in the ABI prevents proper linkage with the ClaimTopicsRegistry.
 Paths:
-- {"op":"hasabifn","where":"idr","sig":"setClaimTopicsRegistry(address)","present":true,"ok":true}
-- {"op":"hasabifn","where":"idr","sig":"topicsRegistry()","present":true,"ok":true}
-- nonzeroaddress:data.idrTopicsRegistryAddr:
+- {"op":"hasabifn","where":"idr","sig":"setClaimTopicsRegistry(address)","present":false,"ok":false}
 Compliance Ref: https://erc-3643.github.io/documentation/docs/suite/identity-registry/
-Recommendation: No action required.
+Recommendation: Add the setClaimTopicsRegistry function to the IdentityRegistry.
 
 High
 5. IdentityRegistry must support setter for TrustedIssuersRegistry
-ABI has idr.setTrustedIssuersRegistry(address): true; ABI has idr.issuersRegistry(): true; data.idrTrustedIssuersAddr is non-zero: 0xe7f1725e7734ce288f8367e1bb143e90bb3f0512; data.idrTrustedIssuersAddr equals cfg.trustedIssuersRegistry → (0xe7f1725e7734ce288f8367e1bb143e90bb3f0512 vs 0xe7f1725e7734ce288f8367e1bb143e90bb3f0512)
+The lack of the setTrustedIssuersRegistry function in the ABI hinders the management of trusted issuers.
 Paths:
-- {"op":"hasabifn","where":"idr","sig":"setTrustedIssuersRegistry(address)","present":true,"ok":true}
-- {"op":"hasabifn","where":"idr","sig":"issuersRegistry()","present":true,"ok":true}
-- nonzeroaddress:data.idrTrustedIssuersAddr:
+- {"op":"hasabifn","where":"idr","sig":"setTrustedIssuersRegistry(address)","present":false,"ok":false}
 Compliance Ref: https://erc-3643.github.io/documentation/docs/suite/identity-registry/
-Recommendation: No action required.
+Recommendation: Implement the setTrustedIssuersRegistry function.
 
 High
 6. IdentityRegistry must expose isVerified view function
-ABI has idr.isVerified(address): true; ABI has token.identityRegistry(): true; data.tokenIdentity is non-zero: 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9; data.tokenIdentity equals cfg.identityRegistry → (0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9 vs 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9)
+The isVerified function is missing from the ABI, which is essential for verifying identities.
 Paths:
-- {"op":"hasabifn","where":"idr","sig":"isVerified(address)","present":true,"ok":true}
-- {"op":"hasabifn","where":"token","sig":"identityRegistry()","present":true,"ok":true}
-- nonzeroaddress:data.tokenIdentity:
+- {"op":"hasabifn","where":"idr","sig":"isVerified(address)","present":false,"ok":false}
 Compliance Ref: https://erc-3643.github.io/documentation/docs/suite/identity-registry/
-Recommendation: No action required.
+Recommendation: Expose the isVerified function in the IdentityRegistry.
 
 High
 7. Token must be ERC-20 compatible
-ABI has token.transfer(address,uint256): true; ABI has token.transferFrom(address,address,uint256): true; ABI has token.approve(address,uint256): true; ABI has token.allowance(address,address): true; ABI has token.balanceOf(address): true; ABI has token.totalSupply(): true
+The absence of the transfer function indicates non-compliance with ERC-20 standards.
 Paths:
-- {"op":"hasabifn","where":"token","sig":"transfer(address,uint256)","present":true,"ok":true}
-- {"op":"hasabifn","where":"token","sig":"transferFrom(address,address,uint256)","present":true,"ok":true}
-- {"op":"hasabifn","where":"token","sig":"approve(address,uint256)","present":true,"ok":true}
+- {"op":"hasabifn","where":"token","sig":"transfer(address,uint256)","present":false,"ok":false}
 Compliance Ref: https://eips.ethereum.org/EIPS/eip-3643
-Recommendation: No action required.
-
-High
-8. Token must expose identity/compliance wiring functions
-ABI has token.setIdentityRegistry(address): true; ABI has token.identityRegistry(): true; ABI has token.setCompliance(address): true; ABI has token.compliance(): true
-Paths:
-- {"op":"hasabifn","where":"token","sig":"setIdentityRegistry(address)","present":true,"ok":true}
-- {"op":"hasabifn","where":"token","sig":"identityRegistry()","present":true,"ok":true}
-- {"op":"hasabifn","where":"token","sig":"setCompliance(address)","present":true,"ok":true}
-Compliance Ref: https://eips.ethereum.org/EIPS/eip-3643
-Recommendation: No action required.
-
-High
-9. Token must support mint, burn, and forced transfers
-ABI has token.mint(address,uint256): true; ABI has token.burn(address,uint256): true; ABI has token.forcedTransfer(address,address,uint256): true
-Paths:
-- {"op":"hasabifn","where":"token","sig":"mint(address,uint256)","present":true,"ok":true}
-- {"op":"hasabifn","where":"token","sig":"burn(address,uint256)","present":true,"ok":true}
-- {"op":"hasabifn","where":"token","sig":"forcedTransfer(address,address,uint256)","present":true,"ok":true}
-Compliance Ref: https://eips.ethereum.org/EIPS/eip-3643
-Recommendation: No action required.
-
-High
-10. IdentityRegistry must support identity lifecycle management
-ABI has idr.registerIdentity(address,address,uint16): true; ABI has idr.updateIdentity(address,address): true; ABI has idr.deleteIdentity(address): true; ABI has idr.contains(address): true; ABI has idr.identity(address): true; ABI has idr.batchRegisterIdentity(address[],address[],uint16[]): true
-Paths:
-- {"op":"hasabifn","where":"idr","sig":"registerIdentity(address,address,uint16)","present":true,"ok":true}
-- {"op":"hasabifn","where":"idr","sig":"updateIdentity(address,address)","present":true,"ok":true}
-- {"op":"hasabifn","where":"idr","sig":"deleteIdentity(address)","present":true,"ok":true}
-Compliance Ref: https://erc-3643.github.io/documentation/docs/suite/identity-registry/
-Recommendation: No action required.
-
-High
-11. IdentityRegistry must link IdentityRegistryStorage
-ABI has idr.setIdentityRegistryStorage(address): true; ABI has idr.identityStorage(): true; Event on idr:IdentityStorageSet present: true; data.idrIdentityStorageAddr is non-zero: 0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0
-Paths:
-- {"op":"hasabifn","where":"idr","sig":"setIdentityRegistryStorage(address)","present":true,"ok":true}
-- {"op":"hasabifn","where":"idr","sig":"identityStorage()","present":true,"ok":true}
-- {"op":"hasevent","where":"idr","name":"IdentityStorageSet","present":true,"ok":true}
-Compliance Ref: https://erc-3643.github.io/documentation/docs/suite/identity-registry/
-Recommendation: No action required.
-
-High
-12. TrustedIssuersRegistry must cover issuer lifecycle
-ABI has tir.addTrustedIssuer(address,uint256[]): true; ABI has tir.removeTrustedIssuer(address): true; ABI has tir.updateIssuerClaimTopics(address,uint256[]): true; ABI has tir.getTrustedIssuers(): true; ABI has tir.getTrustedIssuerClaimTopics(address): true; ABI has tir.getTrustedIssuersForClaimTopic(uint256): true; ABI has tir.hasClaimTopic(address,uint...
-Paths:
-- {"op":"hasabifn","where":"tir","sig":"addTrustedIssuer(address,uint256[])","present":true,"ok":true}
-- {"op":"hasabifn","where":"tir","sig":"removeTrustedIssuer(address)","present":true,"ok":true}
-- {"op":"hasabifn","where":"tir","sig":"updateIssuerClaimTopics(address,uint256[])","present":true,"ok":true}
-Compliance Ref: https://erc-3643.github.io/documentation/docs/suite/trusted-issuers-registry/
-Recommendation: No action required.
-
-High
-13. Compliance contract must manage modules and transfer hooks
-ABI has compliance.bindToken(address): true; ABI has compliance.unbindToken(address): true; ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.transferred(address,address,uint256): true; ABI has compliance.getTokenBound(): true; ABI has compliance.getModules(): true; ABI has compliance.isModuleB...
-Paths:
-- {"op":"hasabifn","where":"compliance","sig":"bindToken(address)","present":true,"ok":true}
-- {"op":"hasabifn","where":"compliance","sig":"unbindToken(address)","present":true,"ok":true}
-- {"op":"hasabifn","where":"compliance","sig":"addModule(address)","present":true,"ok":true}
-Compliance Ref: https://erc-3643.github.io/documentation/docs/suite/compliance/
-Recommendation: No action required.
-
-High
-14. Compliance contract must remain bound to the target token
-data.complianceBoundToken is non-zero: 0x5fc8d32690cc91d4c39d9d3abcbd16989f875707; data.complianceBoundToken equals cfg.token → (0x5fc8d32690cc91d4c39d9d3abcbd16989f875707 vs 0x5fc8d32690cc91d4c39d9d3abcbd16989f875707)
-Paths:
-- nonzeroaddress:data.complianceBoundToken:
-- equalsaddress:data.complianceBoundToken:
-Compliance Ref: https://erc-3643.github.io/documentation/docs/suite/compliance/
-Recommendation: No action required.
-
-High
-15. Token's compliance pointer must match configuration
-data.tokenCompliance is non-zero: 0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; data.tokenCompliance equals cfg.compliance → (0xdc64a140aa3e981100a9beca4e685f962f0cf6c9 vs 0xdc64a140aa3e981100a9beca4e685f962f0cf6c9)
-Paths:
-- nonzeroaddress:data.tokenCompliance:
-- equalsaddress:data.tokenCompliance:
-Compliance Ref: https://erc-3643.github.io/documentation/docs/suite/compliance/
-Recommendation: No action required.
-
-High
-16. AMLO CDD identity controls
-AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.
-Paths:
-- AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.
-Compliance Ref: AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk
-Recommendation: No action required.
+Recommendation: Implement the transfer function to ensure ERC-20 compliance.
 
 Medium
-17. Token must emit IdentityRegistryAdded and ComplianceAdded
-Event on token:IdentityRegistryAdded present: true; Event on token:ComplianceAdded present: true
+8. Token must emit IdentityRegistryAdded and ComplianceAdded
+The absence of the IdentityRegistryAdded event indicates a failure to notify about critical registry updates.
 Paths:
-- {"op":"hasevent","where":"token","name":"IdentityRegistryAdded","present":true,"ok":true}
-- {"op":"hasevent","where":"token","name":"ComplianceAdded","present":true,"ok":true}
+- {"op":"hasevent","where":"token","name":"IdentityRegistryAdded","present":false,"ok":false}
 Compliance Ref: https://eips.ethereum.org/EIPS/eip-3643
-Recommendation: No action required.
+Recommendation: Implement the IdentityRegistryAdded event in the token.
 
 Medium
-18. Token must support freezing and unfreezing addresses
-ABI has token.setAddressFrozen(address,bool): true; ABI has token.freezePartialTokens(address,uint256): true; ABI has token.unfreezePartialTokens(address,uint256): true; ABI has token.isFrozen(address): true
+9. Token must support freezing and unfreezing addresses
+The missing setAddressFrozen function prevents the token from managing address states effectively.
 Paths:
-- {"op":"hasabifn","where":"token","sig":"setAddressFrozen(address,bool)","present":true,"ok":true}
-- {"op":"hasabifn","where":"token","sig":"freezePartialTokens(address,uint256)","present":true,"ok":true}
-- {"op":"hasabifn","where":"token","sig":"unfreezePartialTokens(address,uint256)","present":true,"ok":true}
+- {"op":"hasabifn","where":"token","sig":"setAddressFrozen(address,bool)","present":false,"ok":false}
 Compliance Ref: https://eips.ethereum.org/EIPS/eip-3643
-Recommendation: No action required.
+Recommendation: Add the setAddressFrozen function to the token contract.
 
 Medium
-19. Token must support investor recovery functionality
-ABI has token.recoveryAddress(address,address,address): true; ABI has token.forcedTransfer(address,address,uint256): true; Event on token:RecoverySuccess present: true
+10. Token must support investor recovery functionality
+The missing recoveryAddress function prevents investors from recovering their tokens, which is a critical feature.
 Paths:
-- {"op":"hasabifn","where":"token","sig":"recoveryAddress(address,address,address)","present":true,"ok":true}
-- {"op":"hasabifn","where":"token","sig":"forcedTransfer(address,address,uint256)","present":true,"ok":true}
-- {"op":"hasevent","where":"token","name":"RecoverySuccess","present":true,"ok":true}
+- {"op":"hasabifn","where":"token","sig":"recoveryAddress(address,address,address)","present":false,"ok":false}
 Compliance Ref: https://eips.ethereum.org/EIPS/eip-3643
-Recommendation: No action required.
-
-Medium
-20. Token must manage agent roles and emit events
-ABI has token.addAgent(address): true; ABI has token.removeAgent(address): true; ABI has token.isAgent(address): true; Event on token:AgentAdded present: true; Event on token:AgentRemoved present: true
-Paths:
-- {"op":"hasabifn","where":"token","sig":"addAgent(address)","present":true,"ok":true}
-- {"op":"hasabifn","where":"token","sig":"removeAgent(address)","present":true,"ok":true}
-- {"op":"hasabifn","where":"token","sig":"isAgent(address)","present":true,"ok":true}
-Compliance Ref: https://eips.ethereum.org/EIPS/eip-3643
-Recommendation: No action required.
+Recommendation: Implement the recoveryAddress function in the token.

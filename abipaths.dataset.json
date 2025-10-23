@@ -1,0 +1,9 @@
+{
+  "Token": "ERC-3643-Implementation/artifacts/contracts/token/Token.sol/Token.json",
+  "IdentityRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
+  "ClaimTopicsRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
+  "TrustedIssuersRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
+  "Compliance": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
+  "CountryRestrictModule": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/modules/CountryRestrictModule.sol/CountryRestrictModule.json",
+  "ExchangeMonthlyLimitsModule": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/modules/ExchangeMonthlyLimitsModule.sol/ExchangeMonthlyLimitsModule.json"
+}

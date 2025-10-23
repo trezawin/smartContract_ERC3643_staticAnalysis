@@ -1,0 +1,24 @@
+Compliance Report
+Generated: 2025-10-20T15:42:32.783Z
+Deterministic Summary: PASS=1 | CRITICAL=1 | HIGH=0 | MEDIUM=0 | LOW=0
+LLM Model: gpt-4.1-nano
+
+Critical failure due to missing identity verification gating during transfer.
+
+Findings:
+
+Critical
+1. Transfer must check identityRegistry.isVerified
+The transfer to an unverified address succeeded, indicating the identity check was bypassed or missing. This violates ERC-3643 requirements for identity gating, risking unauthorized token transfers.
+Paths:
+- transfer(to=unverified) succeeded → missing identity gating
+Compliance Ref: https://eips.ethereum.org/EIPS/eip-3643
+Recommendation: Implement and verify strict identityRegistry.isVerified checks before allowing transfers to unverified addresses.
+
+Critical
+2. Token must call compliance.canTransfer hook
+The compliance.canTransfer hook responded correctly, preventing transfer when forced false by the probe module. This indicates proper hook integration and functioning.
+Paths:
+- Probe module forced canTransfer=false via ComplianceProbeModule; hook responded false as expected.
+Compliance Ref: https://eips.ethereum.org/EIPS/eip-3643
+Recommendation: Maintain current hook implementation; ensure consistent enforcement of compliance checks.

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-10-17T14:34:22.275Z",
+  "generatedAt": "2025-10-21T10:17:34.115Z",
   "inputs": {
     "addressesPath": "/Users/treza/Documents/staticAnalysis/.cre.addresses.json",
     "addresses": {
@@ -51,7 +51,7 @@
         "ctrOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
         "idrClaimTopicsAddr": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
         "idrTrustedIssuersAddr": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-        "topicsCount": 0,
+        "topicsCount": 1,
         "complianceBoundToken": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
         "executionMode": "hardhat",
         "tokenName": "Boulder Test Token",
@@ -64,7 +64,7 @@
         "R-ERC3643-01": {
           "ran": true,
           "pass": true,
-          "evidence": "transfer(to=unverified) reverted as expected → indicates identity gating"
+          "evidence": "transfer(to=unverified) reverted as expected (reason: VM Exception while processing transaction: reverted with reason string 'Insufficient Balance') → indicates identity gating"
         },
         "R-ERC3643-02": {
           "ran": true,
@@ -99,13 +99,13 @@
       "snippet": "require(identityRegistry.isVerified(to), \"ERC-3643: invalid identity\");",
       "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
       "pass": true,
-      "note": "transfer(to=unverified) reverted as expected → indicates identity gating",
+      "note": "transfer(to=unverified) reverted as expected (reason: VM Exception while processing transaction: reverted with reason string 'Insufficient Balance') → indicates identity gating",
       "details": [
         {
           "probe": true,
           "ran": true,
           "pass": true,
-          "evidence": "transfer(to=unverified) reverted as expected → indicates identity gating"
+          "evidence": "transfer(to=unverified) reverted as expected (reason: VM Exception while processing transaction: reverted with reason string 'Insufficient Balance') → indicates identity gating"
         }
       ],
       "run": "rule.3643",
@@ -163,12 +163,12 @@
     "disagreements": []
   },
   "llm": {
-    "generatedAt": "2025-10-17T14:34:22.275Z",
-    "model": "gpt-4.1-nano-2025-04-14",
+    "generatedAt": "2025-10-21T10:17:34.115Z",
+    "model": "gpt-4.1-nano",
     "disabled": false,
     "reason": null,
     "error": null,
-    "overallAssessment": "All runtime validation rules passed successfully, indicating compliance with ERC-3643 identity and transfer gating requirements.",
+    "overallAssessment": "All runtime validation rules passed successfully, indicating compliance with ERC-3643 identity gating and transfer restrictions.",
     "findings": [
       {
         "id": "R-ERC3643-01",
@@ -178,14 +178,14 @@
         "phase2_verdict": "Pass",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The transfer operation correctly reverted when attempting to transfer to an unverified identity, confirming the identity verification check is active and functioning as intended.",
+        "explanation": "The transfer to an unverified address was reverted as expected, confirming the identity verification check is operational and effective.",
         "compliance_refs": [
           "https://eips.ethereum.org/EIPS/eip-3643"
         ],
         "evidence_paths": [
-          "transfer(to=unverified) reverted as expected → indicates identity gating"
+          "transfer(to=unverified) reverted as expected (reason: VM Exception while processing transaction: reverted with reason string 'Insufficient Balance')"
         ],
-        "recommendation": "Maintain current identity verification gating; consider periodic testing to ensure continued compliance."
+        "recommendation": "Maintain current implementation; periodically verify that identity gating remains active and effective."
       },
       {
         "id": "R-ERC3643-02",
@@ -195,14 +195,14 @@
         "phase2_verdict": "Pass",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The compliance module correctly responded false to the canTransfer hook when forced, demonstrating proper enforcement of transfer restrictions via the compliance interface.",
+        "explanation": "The compliance hook responded false when forced, preventing transfer, demonstrating proper hook invocation and compliance enforcement.",
         "compliance_refs": [
           "https://eips.ethereum.org/EIPS/eip-3643"
         ],
         "evidence_paths": [
           "Probe module forced canTransfer=false via ComplianceProbeModule; hook responded false as expected."
         ],
-        "recommendation": "Continue monitoring compliance hooks; ensure hook responses remain consistent with policy updates."
+        "recommendation": "Continue to monitor hook responses to ensure transfer restrictions are consistently enforced."
       }
     ],
     "payload": {
@@ -228,9 +228,9 @@
           "phase2_verdict": "PASS",
           "pass": true,
           "run": "rule.3643",
-          "note": "transfer(to=unverified) reverted as expected → indicates identity gating",
+          "note": "transfer(to=unverified) reverted as expected (reason: VM Exception while processing transaction: reverted with reason string 'Insufficient Balance') → indicates identity gating",
           "evidence": [
-            "transfer(to=unverified) reverted as expected → indicates identity gating"
+            "transfer(to=unverified) reverted as expected (reason: VM Exception while processing transaction: reverted with reason string 'Insufficient Balance') → indicates identity gating"
           ],
           "policy_refs": [
             "https://eips.ethereum.org/EIPS/eip-3643"
@@ -264,7 +264,7 @@
               "id": "R-ERC3643-01",
               "ran": true,
               "pass": true,
-              "evidence": "transfer(to=unverified) reverted as expected → indicates identity gating"
+              "evidence": "transfer(to=unverified) reverted as expected (reason: VM Exception while processing transaction: reverted with reason string 'Insufficient Balance') → indicates identity gating"
             },
             {
               "id": "R-ERC3643-02",

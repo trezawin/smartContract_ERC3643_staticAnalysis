@@ -18,7 +18,20 @@
     "audit:boulder:run": "LLM_MODEL=gpt-4.1-nano BOOTSTRAP_IMPL=boulder node scripts/run.js --addresses .cre.addresses.json --rules cre/rules/rule.3643.json --output reports/boulder-results.json",
     "audit:boulder:render": "node scripts/render.js --input reports/boulder-results.json --output reports/boulder-report.html",
     "audit:boulder:open": "open reports/boulder-report.html",
-    "audit:boulder": "npm run abi:use:boulder && npm run bootstrap:boulder && npm run audit:boulder:run && npm run audit:boulder:render && npm run audit:boulder:open"
+    "audit:boulder": "npm run abi:use:boulder && npm run bootstrap:boulder && npm run audit:boulder:run && npm run audit:boulder:render && npm run audit:boulder:open",
+    "bootstrap:boulder:mutant": "BOULDER_MUTATION=token-audit-bug BOULDER_OUTPUT=configs/boulder.addresses.json node --require ts-node/register/transpile-only scripts/bootstrap-boulder.ts",
+    "audit:boulder:mutant:run": "LLM_MODEL=gpt-4.1-nano BOOTSTRAP_IMPL=boulder BOULDER_MUTATION=token-audit-bug node scripts/run.js --addresses .cre.addresses.json --rules cre/rules/rule.3643.json --output reports/boulder-mutant-results.json",
+    "audit:boulder:mutant:render": "node scripts/render.js --input reports/boulder-mutant-results.json --output reports/boulder-mutant-report.html",
+    "audit:boulder:mutant": "npm run abi:use:boulder && npm run bootstrap:boulder:mutant && npm run audit:boulder:mutant:run && npm run audit:boulder:mutant:render"
+    ,
+    "audit:matrix": "node scripts/audit-matrix.js && node scripts/render-matrix.js && open reports/matrix-report.html",
+    "audit:matrix:compact": "MATRIX_COMPACT=1 node scripts/audit-matrix.js && node scripts/render-matrix.js && open reports/matrix-report.html",
+    "abi:use:trex": "node -e \"require('fs').copyFileSync('abipaths.trex.json','abipaths.json')\"",
+    "audit:amlo:run": "node scripts/run.js --addresses .cre.addresses.json --rules cre/rules/rule.AMLO.json --output reports/amlo-results.json",
+    "audit:amlo:render": "node scripts/render.js --input reports/amlo-results.json --output reports/amlo-report.html",
+    "audit:amlo:open": "open reports/amlo-report.html",
+    "clean": "rm .cache/p2-llm-cache.json",
+    "audit:amlo": "npm run abi:use:trex && npm run bootstrap && npm run audit:amlo:run && npm run audit:amlo:render && npm run audit:amlo:open"
   },
   "keywords": [],
   "author": "",

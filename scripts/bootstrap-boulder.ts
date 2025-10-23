@@ -23,7 +23,9 @@ function loadArtifact(name: string) {
     IdentityRegistryStorage: "contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json",
     IdentityRegistry: "contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
     ModularCompliance: "contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
-    Token: "contracts/token/Token.sol/Token.json"
+    Token: "contracts/token/Token.sol/Token.json",
+    CountryRestrictModule: "contracts/compliance/modular/modules/CountryRestrictModule.sol/CountryRestrictModule.json",
+    ExchangeMonthlyLimitsModule: "contracts/compliance/modular/modules/ExchangeMonthlyLimitsModule.sol/ExchangeMonthlyLimitsModule.json"
   }[name];
   if (!rel) throw new Error(`Unknown artifact mapping for ${name}`);
   const abs = path.resolve(__dirname, "../ERC-3643-Implementation/artifacts", rel);
@@ -66,6 +68,11 @@ export async function bootstrapBoulder(
   const identityRegistryArtifact = loadArtifact("IdentityRegistry");
   const complianceArtifact = loadArtifact("ModularCompliance");
   const tokenArtifact = loadArtifact("Token");
+  const tokenNoIdentity = loadLocalArtifact("TokenNoIdentity");
+  const tokenNoCompliance = loadLocalArtifact("TokenNoCompliance");
+  const tokenAuditBug = loadLocalArtifact("TokenAuditBug");
+  const countryRestrictArtifact = loadArtifact("CountryRestrictModule");
+  const exchangeMonthlyArtifact = loadArtifact("ExchangeMonthlyLimitsModule");
 
   const ctr = await deployFromArtifact(ethers, claimTopicsArtifact, deployer);
   await (await ctr.init()).wait();
@@ -96,17 +103,45 @@ export async function bootstrapBoulder(
     }
   }
 
-  const tokenFactory = new ethers.ContractFactory(tokenArtifact.abi, tokenArtifact.bytecode, deployer);
-  const token = await tokenFactory.deploy();
+  let token: any;
+  if (hasMutation("token-no-identity")) {
+    const tokenFactory = new ethers.ContractFactory(tokenNoIdentity.abi, tokenNoIdentity.bytecode, deployer);
+    token = await tokenFactory.deploy();
+  } else if (hasMutation("token-no-compliance")) {
+    const tokenFactory = new ethers.ContractFactory(tokenNoCompliance.abi, tokenNoCompliance.bytecode, deployer);
+    token = await tokenFactory.deploy();
+  } else if (hasMutation("token-audit-bug")) {
+    const tokenFactory = new ethers.ContractFactory(tokenAuditBug.abi, tokenAuditBug.bytecode, deployer);
+    token = await tokenFactory.deploy();
+  } else {
+    const tokenFactory = new ethers.ContractFactory(tokenArtifact.abi, tokenArtifact.bytecode, deployer);
+    token = await tokenFactory.deploy();
+  }
   await token.deployed();
   await (await token.init(
-    ir.address,
-    compliance.address,
-    "Boulder Test Token",
-    "BTT",
-    18,
-    deployer.address
-  )).wait();
+      hasMutation("identity-always-true")
+        ? (await (async () => {
+            const idTrue = await (async () => {
+              const idTrueArt = loadLocalArtifact("IdentityAlwaysTrue");
+              const f = new ethers.ContractFactory(idTrueArt.abi, idTrueArt.bytecode, deployer);
+              const c = await f.deploy(ctr.address, tir.address);
+              await c.deployed();
+              return c;
+            })();
+            return idTrue.address;
+          })())
+        : ir.address,
+      compliance.address,
+      "Boulder Test Token",
+      "BTT",
+      18,
+      deployer.address
+    )).wait();
+
+  // Ensure agent rights, unpause, and seed balance for deterministic runtime probes
+  try { if (token.addAgent) await token.addAgent(deployer.address); } catch {}
+  try { if (token.unpause) await token.unpause(); } catch {}
+  try { if (token.mint) await token.mint(deployer.address, hardhatEthers.utils.parseUnits('1000', 18)); } catch {}
 
   if (!hasMutation("no-claim-topic")) {
     await (await ctr.addClaimTopic(1)).wait();
@@ -167,3 +202,25 @@ if (require.main === module) {
     process.exit(1);
   });
 }
+  // Attach monitoring modules when available (skip for compliance bypass/mutants lacking interface)
+  if (compliance && typeof compliance.addModule === "function" && !hasMutation("compliance-bypass")) {
+    try {
+      if (countryRestrictArtifact && exchangeMonthlyArtifact) {
+        const countryFactory = new ethers.ContractFactory(countryRestrictArtifact.abi, countryRestrictArtifact.bytecode, deployer);
+        const countryModule = await countryFactory.deploy();
+        await countryModule.deployed();
+        if (countryModule.initialize) { await (await countryModule.initialize()).wait(); }
+
+        const exchangeFactory = new ethers.ContractFactory(exchangeMonthlyArtifact.abi, exchangeMonthlyArtifact.bytecode, deployer);
+        const exchangeModule = await exchangeFactory.deploy();
+        await exchangeModule.deployed();
+        if (exchangeModule.initialize) { await (await exchangeModule.initialize()).wait(); }
+
+        await (await compliance.addModule(countryModule.address)).wait();
+        await (await compliance.addModule(exchangeModule.address)).wait();
+        console.log("[bootstrap:boulder] Added monitoring modules:", countryModule.address, exchangeModule.address);
+      }
+    } catch (moduleErr) {
+      console.warn("[bootstrap:boulder] Unable to bind monitoring modules:", (moduleErr as Error).message);
+    }
+  }

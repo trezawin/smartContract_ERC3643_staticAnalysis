@@ -1,0 +1,270 @@
+{
+  "generatedAt": "2025-10-22T09:42:39.616Z",
+  "inputs": {
+    "sourceDirectory": "contracts/SmartContract-External",
+    "contracts": [
+      "contracts/SmartContract-External/IdFactory_0x23b64F/IdFactory_0x23b64F.sol",
+      "contracts/SmartContract-External/TREXFactory_0x7F1fD4/TREXFactory_0x7F1fD4.sol",
+      "contracts/SmartContract-External/TREXGateway_0x5fcc3d/TREXGateway_0x5fcc3d.sol"
+    ],
+    "ruleFiles": [
+      "cre/rules/rule.3643.json"
+    ]
+  },
+  "items": [
+    {
+      "id": "R-ERC3643-01",
+      "title": "Transfer must check identityRegistry.isVerified",
+      "desc": "Token transfers should be gated by identity verification.",
+      "snippet": "require(identityRegistry.isVerified(to), \"ERC-3643: invalid identity\");",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": false,
+      "note": "Static scan did not find a call to identityRegistry.isVerified(); treated as missing identity gating.",
+      "run": "IdFactory_0x23b64F/IdFactory_0x23b64F.sol",
+      "details": [
+        {
+          "static": true,
+          "file": "contracts/SmartContract-External/IdFactory_0x23b64F/IdFactory_0x23b64F.sol",
+          "evidence": "Static scan did not find a call to identityRegistry.isVerified(); treated as missing identity gating."
+        }
+      ],
+      "severity": "CRITICAL",
+      "severityCode": "CRITICAL",
+      "severityLabel": "Critical",
+      "severityOriginal": "Critical",
+      "severityWeight": 4,
+      "codeReferences": [
+        "./ERC-3643-Implementation/contracts/token/Token.sol:transfer(address,address,uint256)",
+        "./ERC-3643-Implementation/contracts/registry/implementation/IdentityRegistry.sol:isVerified(address)"
+      ]
+    },
+    {
+      "id": "R-ERC3643-02",
+      "title": "Token must call compliance.canTransfer hook",
+      "desc": "Before transfers the token should invoke compliance.canTransfer to enforce rules.",
+      "snippet": "require(compliance.canTransfer(from, to, amount), \"ERC-3643: compliance failed\");",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": false,
+      "note": "Static scan did not find compliance.canTransfer() usage; treated as compliance hook missing.",
+      "run": "IdFactory_0x23b64F/IdFactory_0x23b64F.sol",
+      "details": [
+        {
+          "static": true,
+          "file": "contracts/SmartContract-External/IdFactory_0x23b64F/IdFactory_0x23b64F.sol",
+          "evidence": "Static scan did not find compliance.canTransfer() usage; treated as compliance hook missing."
+        }
+      ],
+      "severity": "CRITICAL",
+      "severityCode": "CRITICAL",
+      "severityLabel": "Critical",
+      "severityOriginal": "Critical",
+      "severityWeight": 4,
+      "codeReferences": [
+        "./ERC-3643-Implementation/contracts/token/Token.sol:transfer(address,address,uint256)",
+        "./ERC-3643-Implementation/contracts/compliance/modular/ModularCompliance.sol:canTransfer(address,address,uint256)"
+      ]
+    },
+    {
+      "id": "R-ERC3643-01",
+      "title": "Transfer must check identityRegistry.isVerified",
+      "desc": "Token transfers should be gated by identity verification.",
+      "snippet": "require(identityRegistry.isVerified(to), \"ERC-3643: invalid identity\");",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": false,
+      "note": "Static scan did not find a call to identityRegistry.isVerified(); treated as missing identity gating.",
+      "run": "TREXFactory_0x7F1fD4/TREXFactory_0x7F1fD4.sol",
+      "details": [
+        {
+          "static": true,
+          "file": "contracts/SmartContract-External/TREXFactory_0x7F1fD4/TREXFactory_0x7F1fD4.sol",
+          "evidence": "Static scan did not find a call to identityRegistry.isVerified(); treated as missing identity gating."
+        }
+      ],
+      "severity": "CRITICAL",
+      "severityCode": "CRITICAL",
+      "severityLabel": "Critical",
+      "severityOriginal": "Critical",
+      "severityWeight": 4,
+      "codeReferences": [
+        "./ERC-3643-Implementation/contracts/token/Token.sol:transfer(address,address,uint256)",
+        "./ERC-3643-Implementation/contracts/registry/implementation/IdentityRegistry.sol:isVerified(address)"
+      ]
+    },
+    {
+      "id": "R-ERC3643-02",
+      "title": "Token must call compliance.canTransfer hook",
+      "desc": "Before transfers the token should invoke compliance.canTransfer to enforce rules.",
+      "snippet": "require(compliance.canTransfer(from, to, amount), \"ERC-3643: compliance failed\");",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": false,
+      "note": "Static scan did not find compliance.canTransfer() usage; treated as compliance hook missing.",
+      "run": "TREXFactory_0x7F1fD4/TREXFactory_0x7F1fD4.sol",
+      "details": [
+        {
+          "static": true,
+          "file": "contracts/SmartContract-External/TREXFactory_0x7F1fD4/TREXFactory_0x7F1fD4.sol",
+          "evidence": "Static scan did not find compliance.canTransfer() usage; treated as compliance hook missing."
+        }
+      ],
+      "severity": "CRITICAL",
+      "severityCode": "CRITICAL",
+      "severityLabel": "Critical",
+      "severityOriginal": "Critical",
+      "severityWeight": 4,
+      "codeReferences": [
+        "./ERC-3643-Implementation/contracts/token/Token.sol:transfer(address,address,uint256)",
+        "./ERC-3643-Implementation/contracts/compliance/modular/ModularCompliance.sol:canTransfer(address,address,uint256)"
+      ]
+    },
+    {
+      "id": "R-ERC3643-01",
+      "title": "Transfer must check identityRegistry.isVerified",
+      "desc": "Token transfers should be gated by identity verification.",
+      "snippet": "require(identityRegistry.isVerified(to), \"ERC-3643: invalid identity\");",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": false,
+      "note": "Static scan did not find a call to identityRegistry.isVerified(); treated as missing identity gating.",
+      "run": "TREXGateway_0x5fcc3d/TREXGateway_0x5fcc3d.sol",
+      "details": [
+        {
+          "static": true,
+          "file": "contracts/SmartContract-External/TREXGateway_0x5fcc3d/TREXGateway_0x5fcc3d.sol",
+          "evidence": "Static scan did not find a call to identityRegistry.isVerified(); treated as missing identity gating."
+        }
+      ],
+      "severity": "CRITICAL",
+      "severityCode": "CRITICAL",
+      "severityLabel": "Critical",
+      "severityOriginal": "Critical",
+      "severityWeight": 4,
+      "codeReferences": [
+        "./ERC-3643-Implementation/contracts/token/Token.sol:transfer(address,address,uint256)",
+        "./ERC-3643-Implementation/contracts/registry/implementation/IdentityRegistry.sol:isVerified(address)"
+      ]
+    },
+    {
+      "id": "R-ERC3643-02",
+      "title": "Token must call compliance.canTransfer hook",
+      "desc": "Before transfers the token should invoke compliance.canTransfer to enforce rules.",
+      "snippet": "require(compliance.canTransfer(from, to, amount), \"ERC-3643: compliance failed\");",
+      "policyRef": "https://eips.ethereum.org/EIPS/eip-3643",
+      "pass": false,
+      "note": "Static scan did not find compliance.canTransfer() usage; treated as compliance hook missing.",
+      "run": "TREXGateway_0x5fcc3d/TREXGateway_0x5fcc3d.sol",
+      "details": [
+        {
+          "static": true,
+          "file": "contracts/SmartContract-External/TREXGateway_0x5fcc3d/TREXGateway_0x5fcc3d.sol",
+          "evidence": "Static scan did not find compliance.canTransfer() usage; treated as compliance hook missing."
+        }
+      ],
+      "severity": "CRITICAL",
+      "severityCode": "CRITICAL",
+      "severityLabel": "Critical",
+      "severityOriginal": "Critical",
+      "severityWeight": 4,
+      "codeReferences": [
+        "./ERC-3643-Implementation/contracts/token/Token.sol:transfer(address,address,uint256)",
+        "./ERC-3643-Implementation/contracts/compliance/modular/ModularCompliance.sol:canTransfer(address,address,uint256)"
+      ]
+    }
+  ],
+  "summary": {
+    "total": 6,
+    "pass": 0,
+    "critical": 6,
+    "high": 0,
+    "medium": 0,
+    "low": 0,
+    "fail": 6,
+    "warn": 0,
+    "info": 0
+  },
+  "runs": [
+    {
+      "label": "IdFactory_0x23b64F/IdFactory_0x23b64F.sol",
+      "rulesPath": "cre/rules/rule.3643.json",
+      "addressesPath": "contracts/SmartContract-External/IdFactory_0x23b64F/IdFactory_0x23b64F.sol",
+      "summary": {
+        "total": 2,
+        "pass": 0,
+        "critical": 2,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "fail": 2,
+        "warn": 0,
+        "info": 0
+      },
+      "addresses": {
+        "token": "contracts/SmartContract-External/IdFactory_0x23b64F/IdFactory_0x23b64F.sol",
+        "identityRegistry": "0x0000000000000000000000000000000000000000",
+        "claimTopicsRegistry": "0x0000000000000000000000000000000000000000",
+        "trustedIssuersRegistry": "0x0000000000000000000000000000000000000000",
+        "compliance": "0x0000000000000000000000000000000000000000"
+      },
+      "probes": {}
+    },
+    {
+      "label": "TREXFactory_0x7F1fD4/TREXFactory_0x7F1fD4.sol",
+      "rulesPath": "cre/rules/rule.3643.json",
+      "addressesPath": "contracts/SmartContract-External/TREXFactory_0x7F1fD4/TREXFactory_0x7F1fD4.sol",
+      "summary": {
+        "total": 2,
+        "pass": 0,
+        "critical": 2,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "fail": 2,
+        "warn": 0,
+        "info": 0
+      },
+      "addresses": {
+        "token": "contracts/SmartContract-External/TREXFactory_0x7F1fD4/TREXFactory_0x7F1fD4.sol",
+        "identityRegistry": "0x0000000000000000000000000000000000000000",
+        "claimTopicsRegistry": "0x0000000000000000000000000000000000000000",
+        "trustedIssuersRegistry": "0x0000000000000000000000000000000000000000",
+        "compliance": "0x0000000000000000000000000000000000000000"
+      },
+      "probes": {}
+    },
+    {
+      "label": "TREXGateway_0x5fcc3d/TREXGateway_0x5fcc3d.sol",
+      "rulesPath": "cre/rules/rule.3643.json",
+      "addressesPath": "contracts/SmartContract-External/TREXGateway_0x5fcc3d/TREXGateway_0x5fcc3d.sol",
+      "summary": {
+        "total": 2,
+        "pass": 0,
+        "critical": 2,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "fail": 2,
+        "warn": 0,
+        "info": 0
+      },
+      "addresses": {
+        "token": "contracts/SmartContract-External/TREXGateway_0x5fcc3d/TREXGateway_0x5fcc3d.sol",
+        "identityRegistry": "0x0000000000000000000000000000000000000000",
+        "claimTopicsRegistry": "0x0000000000000000000000000000000000000000",
+        "trustedIssuersRegistry": "0x0000000000000000000000000000000000000000",
+        "compliance": "0x0000000000000000000000000000000000000000"
+      },
+      "probes": {}
+    }
+  ],
+  "metrics": null,
+  "deterministicMetrics": null,
+  "llm": {
+    "model": null,
+    "disabled": true,
+    "reason": "LLM disabled for external static scan.",
+    "overallAssessment": "LLM disabled for external static scan.",
+    "findings": []
+  },
+  "coverageDistribution": null,
+  "report": {
+    "textPath": "reports/external/external-results.txt"
+  }
+}

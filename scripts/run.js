@@ -331,11 +331,28 @@ async function callPhase2Llm(payload) {
   }
 
   const fetchImpl = await ensureFetch();
+  // ---- simple local cache (model + payload) ----
+  const cacheFile = path.join(process.cwd(), ".cache", "p2-llm-cache.json");
+  function loadCache() { try { return JSON.parse(fs.readFileSync(cacheFile, "utf8")); } catch { return {}; } }
+  function saveCache(obj) { fs.mkdirSync(path.dirname(cacheFile), { recursive: true }); fs.writeFileSync(cacheFile, JSON.stringify(obj, null, 2)); }
+  function makeKey(m, p) { return require("crypto").createHash("sha256").update(JSON.stringify({ m, p })).digest("hex"); }
+  const cache = loadCache();
+  const key = makeKey(model, payload);
+  if (cache[key]) {
+    return { disabled: false, model, cacheHit: true, raw: cache[key] };
+  }
   const systemPrompt = [
-    "You are a senior ERC-3643 compliance auditor.",
-    "Review deterministic runtime validation results and produce concise findings.",
-    "Respond strictly with JSON: {\"overall_assessment\": string, \"findings\": [{\"id\": string, \"title\": string, \"severity\": \"CRITICAL\"|\"HIGH\"|\"MEDIUM\"|\"LOW\", \"phase2_verdict\": string, \"verdict\": \"PASS\"|\"CRITICAL\"|\"HIGH\"|\"MEDIUM\"|\"LOW\", \"position\": \"SUPPORT\"|\"CHALLENGE\"|\"EXTEND\", \"explanation\": string, \"compliance_refs\": string[], \"evidence_paths\": string[], \"recommendation\": string}]}",
-    "Keep each explanation ≤ 120 words and rely on supplied notes and probes."
+    "You are the lead auditor acting as an HKMA/SFC virtual-asset controller with deep knowledge of ERC-3643.",
+    "Write executive-readable but engineer-actionable findings. Anchor your reasoning in the supplied deterministic signals and rule payload; do not invent facts or clauses.",
+    "For every finding, cover these four points explicitly: (1) What happened (plain, concise description), (2) Which exact clause applies (ERC-3643, HKMA AMLO, or SFC reference from the payload), (3) Why it matters (business, regulatory, licensing or supervisory risk), (4) What to do next (a concrete, feasible remediation).",
+    "When relevant, reflect a regulator's control objective (prevent misuse, preserve market integrity, client asset protection) and indicate audit readiness (e.g., evidence artefacts, event logs, role separation).",
+    "Use any provided code_refs to cite contract paths and functions; do not fabricate filenames or functions.",
+    "Reference only the clause URLs/identifiers supplied. If none exist, leave compliance_refs empty rather than guessing.",
+    "Paraphrase runtime hints; avoid pasting raw probe strings or internal artefacts.",
+    "Self-check before finalizing: clarity, correctness (matches payload), policy alignment, and actionability must all be satisfied.",
+    "Recommendations should be specific and testable (update contract logic, wire controls, add events/monitoring, add regression tests, operational run-books) and, where helpful, include a brief validation plan (what unit/integration tests to add).",
+    "Respond strictly with JSON:{\"overall_assessment\":string,\"findings\":[{\"id\":string,\"title\":string,\"severity\":\"CRITICAL\"|\"HIGH\"|\"MEDIUM\"|\"LOW\",\"phase2_verdict\":string,\"verdict\":\"PASS\"|\"CRITICAL\"|\"HIGH\"|\"MEDIUM\"|\"LOW\",\"position\":\"SUPPORT\"|\"CHALLENGE\"|\"EXTEND\",\"explanation\":string,\"compliance_refs\":string[],\"evidence_paths\":string[],\"recommendation\":string}]}",
+    "Keep tone professional and supervisory (HKMA/SFC)."
   ].join(" ");
 
   const body = {
@@ -377,11 +394,9 @@ async function callPhase2Llm(payload) {
     } catch (e) {
       throw new Error(`LLM content parse failed: ${e.message}`);
     }
-    return {
-      disabled: false,
-      model: outer?.model || model,
-      raw: parsed
-    };
+    // save to cache before returning
+    cache[key] = parsed; saveCache(cache);
+    return { disabled: false, model: outer?.model || model, raw: parsed };
   } catch (error) {
     return {
       disabled: false,
@@ -593,7 +608,8 @@ const ClaimTopicsRegistryABI = [
 ];
 const ComplianceABI = [
   "function getTokenBound() view returns (address)",
-  "function canTransfer(address,address,uint256) view returns (bool)"
+  "function canTransfer(address,address,uint256) view returns (bool)",
+  "function getModules() view returns (address[])"
 ];
 const TrustedIssuersRegistryABI = [
   "function owner() view returns (address)"
@@ -720,10 +736,21 @@ async function collectData(ctx, cfg) {
 async function runRuntimeProbes(context, cfg, data, rules) {
   const probes = {};
   const ruleIds = new Set(Array.isArray(rules) ? rules.map((r) => String(r.id || "").toUpperCase()) : []);
+  const ruleIdMap = new Map();
+  if (Array.isArray(rules)) {
+    for (const r of rules) {
+      const up = String(r?.id || "").toUpperCase();
+      if (up) ruleIdMap.set(up, String(r.id));
+    }
+  }
   const needs3643_01 = ruleIds.has("R-ERC3643-01");
   const needs3643_02 = ruleIds.has("R-ERC3643-02");
   const needsAmloCdd = ruleIds.has("R-HKMA-AMLO-CDD");
   const needsAmloRecord = ruleIds.has("R-HKMA-AMLO-RECORDKEEPING");
+  const needsSanctions = ruleIds.has("R-HKMA-AMLO-SANCTIONS") || ruleIds.has("R-HKMA-SANCTIONS");
+  const sanctionsKeyUpper = ruleIds.has("R-HKMA-AMLO-SANCTIONS") ? "R-HKMA-AMLO-SANCTIONS" : "R-HKMA-SANCTIONS";
+  const sanctionsKey = ruleIdMap.get(sanctionsKeyUpper) || sanctionsKeyUpper;
+  const needsOngoing = ruleIds.has("R-HKMA-AMLO-ONGOINGMONITORING");
 
   const ensureProbe = (id) => {
     if (!probes[id]) probes[id] = { ran: false, pass: null, evidence: "skipped (no runtime)" };
@@ -733,6 +760,9 @@ async function runRuntimeProbes(context, cfg, data, rules) {
   if (needs3643_02) ensureProbe("R-ERC3643-02");
   if (needsAmloCdd) ensureProbe("R-HKMA-AMLO-CDD");
   if (needsAmloRecord) ensureProbe("R-HKMA-AMLO-RECORDKEEPING");
+  if (needsSanctions) ensureProbe(sanctionsKey);
+  const ongoingKey = ruleIdMap.get("R-HKMA-AMLO-ONGOINGMONITORING") || "R-HKMA-AMLO-ONGOINGMONITORING";
+  if (needsOngoing) ensureProbe(ongoingKey);
 
   if (!context || context.mode !== "hardhat") {
     return probes;
@@ -745,7 +775,26 @@ async function runRuntimeProbes(context, cfg, data, rules) {
   const complianceAddr = normalizeAddress(data.tokenCompliance);
   const hasCompliance = complianceAddr !== ZERO;
   const compliance = hasCompliance ? new Contract(complianceAddr, ComplianceABI, signer) : null;
-  const identityRegistry = (needsAmloRecord || needsAmloCdd)
+
+  const complianceModules = [];
+  if (hasCompliance) {
+    try {
+      const moduleAddrs = await compliance.getModules();
+      for (const addr of moduleAddrs) {
+        const modAddr = normalizeAddress(addr);
+        if (modAddr === ZERO) continue;
+        let moduleName = "";
+        try {
+          const moduleContract = new Contract(addr, ["function name() view returns (string)"] , signer);
+          moduleName = String(await moduleContract.name());
+        } catch {}
+        complianceModules.push({ address: modAddr, name: moduleName });
+      }
+    } catch {}
+  }
+  data.complianceModules = complianceModules;
+
+  const identityRegistry = (needsAmloRecord || needsAmloCdd || needsOngoing)
     ? new Contract(cfg.identityRegistry, IdentityRegistryABI, signer)
     : null;
 
@@ -901,6 +950,135 @@ async function runRuntimeProbes(context, cfg, data, rules) {
       probes["R-HKMA-AMLO-RECORDKEEPING"] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
     }
   }
+    // --- Probe for sanctions / blacklist screening (R-HKMA-AMLO-SANCTIONS) ---
+    if (needsSanctions) {
+      try {
+        const sanctioned = ethers.Wallet.createRandom().address;
+        // Dynamic probe only: attempt transfer to a pseudo-sanctioned address and infer from revert
+        const res = await tryTx(() => token.transfer(sanctioned, 1));
+        const pass = !res.ok;
+        const evidence = pass
+          ? "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+          : (hasCompliance
+              ? "Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent."
+              : "Sanctions probe: transfer succeeded and no compliance module present; blacklist control not evidenced.");
+
+        probes[sanctionsKey] = { ran: true, pass, evidence };
+      } catch (e) {
+        probes[sanctionsKey] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+      }
+    }
+
+    // --- Probe for ongoing monitoring capability (R-HKMA-AMLO-ONGOINGMONITORING) ---
+    if (needsOngoing) {
+      if (!hasCompliance) {
+        probes[ongoingKey] = {
+          ran: true,
+          pass: false,
+          evidence: "Ongoing monitoring: no compliance() address configured; modular checks unavailable."
+        };
+      } else {
+        const countryModuleInfo = complianceModules.find((m) => m.name === "CountryRestrictModule");
+        const exchangeModuleInfo = complianceModules.find((m) => m.name === "ExchangeMonthlyLimitsModule");
+        if (!countryModuleInfo || !exchangeModuleInfo) {
+          const missing = [
+            countryModuleInfo ? null : "CountryRestrictModule",
+            exchangeModuleInfo ? null : "ExchangeMonthlyLimitsModule"
+          ].filter(Boolean).join(", ");
+          probes[ongoingKey] = {
+            ran: true,
+            pass: false,
+            evidence: `Ongoing monitoring modules missing: ${missing || "unknown"}.`
+          };
+        } else {
+          let pass = true;
+          const parts = [];
+          const admin = new Contract(complianceAddr, ComplianceAdminABI, signer);
+
+          // Country restrict module configuration check
+          try {
+            const countryIface = new context.ethers.utils.Interface([
+              "function batchRestrictCountries(uint16[])",
+              "function batchUnrestrictCountries(uint16[])"
+            ]);
+            const countryModule = new Contract(
+              countryModuleInfo.address,
+              [
+                "function isCountryRestricted(address,uint16) view returns (bool)"
+              ],
+              signer
+            );
+            const testCountry = 840;
+            await (await admin.callModuleFunction(countryIface.encodeFunctionData("batchRestrictCountries", [[testCountry]]), countryModuleInfo.address)).wait();
+            const restricted = await countryModule.isCountryRestricted(complianceAddr, testCountry);
+            // best-effort cleanup
+            try {
+              await (await admin.callModuleFunction(countryIface.encodeFunctionData("batchUnrestrictCountries", [[testCountry]]), countryModuleInfo.address)).wait();
+            } catch {}
+            if (restricted) {
+              parts.push("CountryRestrictModule responded to batchRestrictCountries; country flagged for compliance.");
+            } else {
+              pass = false;
+              parts.push("CountryRestrictModule did not report the test country as restricted after configuration.");
+            }
+          } catch (err) {
+            pass = false;
+            parts.push(`CountryRestrictModule configuration failed: ${String(err && err.message || err)}`);
+          }
+
+          // Exchange monthly limits module configuration check
+          try {
+            const exchangeIface = new context.ethers.utils.Interface([
+              "function setExchangeMonthlyLimit(address,uint256)"
+            ]);
+            const exchangeModule = new Contract(
+              exchangeModuleInfo.address,
+              [
+                "function owner() view returns (address)",
+                "function addExchangeID(address) external",
+                "function isExchangeID(address) view returns (bool)",
+                "function getExchangeMonthlyLimit(address,address) view returns (uint256)"
+              ],
+              signer
+            );
+            const exchangeIdentity = ethers.Wallet.createRandom().address;
+            try {
+              const modOwner = await exchangeModule.owner().catch(() => ZERO);
+              if (normalizeAddress(modOwner) === normalizeAddress(await signer.getAddress())) {
+                await (await exchangeModule.addExchangeID(exchangeIdentity)).wait();
+              }
+            } catch {}
+
+            const decimals = (() => {
+              const raw = data?.tokenDecimals;
+              if (raw == null) return 18;
+              if (typeof raw === "number") return raw;
+              if (typeof raw === "string") return Number(raw);
+              if (raw._isBigNumber) return Number(raw.toString());
+              return 18;
+            })();
+            const limit = context.ethers.utils.parseUnits("100", decimals);
+            await (await admin.callModuleFunction(exchangeIface.encodeFunctionData("setExchangeMonthlyLimit", [exchangeIdentity, limit]), exchangeModuleInfo.address)).wait();
+            const stored = await exchangeModule.getExchangeMonthlyLimit(complianceAddr, exchangeIdentity);
+            if (stored.eq(limit)) {
+              parts.push("ExchangeMonthlyLimitsModule accepted monthly limit configuration via compliance.");
+            } else {
+              pass = false;
+              parts.push("ExchangeMonthlyLimitsModule limit readback mismatch after configuration.");
+            }
+          } catch (err) {
+            pass = false;
+            parts.push(`ExchangeMonthlyLimitsModule configuration failed: ${String(err && err.message || err)}`);
+          }
+
+          probes[ongoingKey] = {
+            ran: true,
+            pass,
+            evidence: parts.join(" ")
+          };
+        }
+      }
+    }
 
   return probes;
 }
