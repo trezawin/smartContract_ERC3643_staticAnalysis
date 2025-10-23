@@ -839,11 +839,19 @@ function evalDeclarativeRule(r, data, cfg, helpers) {
       details.push({ op, where: (c.where||"").toLowerCase(), name: String(c.name||""), present, ok });
     } else if (op === "hasmodule") {
       const modules = Array.isArray(data?.complianceModules) ? data.complianceModules : [];
-      const target = String(c.name || c.module || "").toLowerCase();
-      const found = modules.find((m) => String(m?.name || "").toLowerCase() === target);
+      const raw = String(c.name || c.module || "").trim();
+      const makeRegex = (pattern) => {
+        const escaped = pattern.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const withWildcards = escaped.replace(/\\\*/g, ".*");
+        return new RegExp(`^${withWildcards}$`, "i");
+      };
+      const matcher = raw.length ? makeRegex(raw) : null;
+      const found = matcher
+        ? modules.find((m) => matcher.test(String(m?.name || "")))
+        : null;
       ok = !!found;
-      notes.push(`Compliance module ${c.name || c.module} present: ${!!found}`);
-      details.push({ op, module: c.name || c.module, present: !!found, address: found?.address || null, ok });
+      notes.push(`Compliance module ${raw || "(unspecified)"} present: ${!!found}`);
+      details.push({ op, module: raw || null, present: !!found, address: found?.address || null, ok });
     } else {
       // unknown op -> treat as pass but record
       ok = true;

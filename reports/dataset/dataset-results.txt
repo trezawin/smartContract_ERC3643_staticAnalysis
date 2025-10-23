@@ -1,5 +1,0 @@
-Compliance Report
-Generated: 2025-10-22T10:05:50.972Z
-Deterministic Summary: PASS=1 | CRITICAL=1 | HIGH=0 | MEDIUM=0 | LOW=0
-
-LLM skipped: deterministic data only (no on-chain evidence).

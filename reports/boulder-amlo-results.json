@@ -1,25 +1,25 @@
 {
-  "generatedAt": "2025-10-23T16:43:44.514Z",
+  "generatedAt": "2025-10-23T16:43:22.695Z",
   "inputs": {
     "addressesPath": "/Users/treza/Documents/staticAnalysis/.cre.addresses.json",
     "addresses": {
       "networkRpc": "http://127.0.0.1:8545",
-      "token": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
-      "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "token": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+      "identityRegistry": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
       "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-      "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+      "trustedIssuersRegistry": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      "compliance": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
     },
     "ruleFiles": [
       "cre/rules/rule.AMLO.json"
     ],
     "abiArtifacts": {
-      "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
-      "IdentityRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
-      "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
-      "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
-      "Compliance": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
-      "IdentityRegistryStorage": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
+      "Token": "ERC-3643-Implementation/artifacts/contracts/token/Token.sol/Token.json",
+      "IdentityRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
+      "ClaimTopicsRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
+      "TrustedIssuersRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
+      "Compliance": "ERC-3643-Implementation/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
+      "IdentityRegistryStorage": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
     }
   },
   "runs": [
@@ -40,25 +40,25 @@
       },
       "addresses": {
         "networkRpc": "http://127.0.0.1:8545",
-        "token": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
-        "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+        "token": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+        "identityRegistry": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
         "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-        "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-        "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+        "trustedIssuersRegistry": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+        "compliance": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
       },
       "data": {
-        "tokenIdentity": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
-        "tokenCompliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+        "tokenIdentity": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+        "tokenCompliance": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
         "tokenOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
         "ctrOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
         "idrClaimTopicsAddr": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-        "idrTrustedIssuersAddr": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-        "idrIdentityStorageAddr": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+        "idrTrustedIssuersAddr": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+        "idrIdentityStorageAddr": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
         "topicsCount": 1,
-        "complianceBoundToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "complianceBoundToken": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
         "executionMode": "hardhat",
-        "tokenName": "HK Green Bond",
-        "tokenSymbol": "HKGB",
+        "tokenName": "Boulder Test Token",
+        "tokenSymbol": "BTT",
         "tokenDecimals": 18,
         "tirOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
         "irsOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
@@ -72,7 +72,7 @@
         "R-HKMA-AMLO-RECORDKEEPING": {
           "ran": true,
           "pass": true,
-          "evidence": "AMLO record-keeping probe: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0 returned an empty linkedIdentityRegistries() list; manual confirmation of off-chain retention is required."
+          "evidence": "AMLO record-keeping probe: identityStorage=0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9 returned an empty linkedIdentityRegistries() list; manual confirmation of off-chain retention is required."
         },
         "R-HKMA-AMLO-Sanctions": {
           "ran": true,
@@ -86,12 +86,12 @@
         }
       },
       "abiArtifacts": {
-        "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
-        "IdentityRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
-        "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
-        "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
-        "Compliance": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
-        "IdentityRegistryStorage": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
+        "Token": "ERC-3643-Implementation/artifacts/contracts/token/Token.sol/Token.json",
+        "IdentityRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
+        "ClaimTopicsRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
+        "TrustedIssuersRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
+        "Compliance": "ERC-3643-Implementation/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
+        "IdentityRegistryStorage": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
       }
     }
   ],
@@ -126,7 +126,7 @@
       "snippet": "function identityStorage() external view returns (address);\nevent IdentityStored(address indexed investor, address indexed identity);\nevent IdentityUnstored(address indexed investor, address indexed identity);",
       "policyRef": "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk",
       "pass": true,
-      "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true; Event on irs:IdentityRegistryBound present: true",
+      "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true; Event on irs:IdentityRegistryBound present: true",
       "details": [
         {
           "op": "hasabifn",
@@ -138,7 +138,7 @@
         {
           "op": "nonzeroaddress",
           "field": "data.idrIdentityStorageAddr",
-          "actual": "0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0",
+          "actual": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
           "expected": "!= ZERO",
           "ok": true
         },
@@ -238,86 +238,83 @@
   },
   "metrics": null,
   "llm": {
-    "generatedAt": "2025-10-23T16:43:56.097Z",
-    "model": "gpt-4.1-nano-2025-04-14",
+    "generatedAt": "2025-10-23T16:43:22.928Z",
+    "model": "gpt-4.1-nano",
     "disabled": false,
     "reason": null,
     "error": null,
-    "overallAssessment": "The virtual-asset platform demonstrates comprehensive compliance with HKMA AML/CFT requirements and ERC-3643 standards, with all key controls passing the review. No critical or high-severity issues identified; controls are effectively enforced and documented.",
+    "overallAssessment": "The ERC-3643 implementation demonstrates comprehensive compliance with HKMA AMLO requirements, with all critical controls passing. No immediate deficiencies are identified; however, ongoing operational vigilance and documentation are recommended to maintain audit readiness.",
     "findings": [
       {
         "id": "F-001",
-        "title": "Identity gating effectively prevents transfers to unverified addresses",
-        "severity": "HIGH",
-        "severity_label": "High",
+        "title": "Identity gating enforcement during transfers",
+        "severity": "CRITICAL",
+        "severity_label": "Critical",
         "phase2_verdict": "Pass",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The system successfully reverted transfer attempts to unverified addresses, indicating that identity gating controls are operational and enforced as per ERC-3643 and HKMA AML regulations (Cap.615 Schedule 2 §2). This mitigates the risk of illicit transfers and supports regulatory compliance.",
+        "explanation": "The transfer to an unverified address was successfully reverted, indicating that identity gating controls are operational and enforced as per ERC-3643 and HKMA AMLO Schedule 2 §2. This prevents misuse of tokens by unverified entities, supporting regulatory compliance and market integrity.",
         "compliance_refs": [
-          "ERC-3643",
-          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+          "ERC-3643: https://erc-3643.org",
+          "HKMA AMLO Schedule 2 §2 https://www.elegislation.gov.hk"
         ],
         "evidence_paths": [
           "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
         ],
-        "recommendation": "Maintain current gating logic; implement periodic regression testing to ensure transfer reversion remains effective against evolving attack vectors. Document control procedures and retain event logs as evidence for audit purposes."
+        "recommendation": "Maintain current identity gating logic; implement automated monitoring and logging of transfer reverts due to identity verification failures. Conduct periodic regression testing to ensure gating remains effective after contract updates."
       },
       {
         "id": "F-002",
-        "title": "Robust record-keeping of identity data and events",
+        "title": "Record keeping of identity data",
         "severity": "MEDIUM",
         "severity_label": "Medium",
         "phase2_verdict": "Pass",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The platform maintains on-chain evidence of identity storage, modification, unstoring, and registry binding, aligning with AML record-keeping requirements (Cap.615 Schedule 2 §2). This supports transparency and auditability of customer identity data.",
+        "explanation": "The contract's identity storage address (0xdc64a140aa3e981100a9beca4e685f962f0cf6c9) is non-zero, and relevant identity events (Stored, Modified, Unstored, RegistryBound) are present. This supports compliance with HKMA record-keeping requirements under Schedule 2 §2, ensuring traceability of identity data.",
         "compliance_refs": [
-          "ERC-3643",
-          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+          "HKMA AMLO Schedule 2 §2 https://www.elegislation.gov.hk"
         ],
         "evidence_paths": [
           "identityStorage() returns true; data.idrIdentityStorageAddr is non-zero",
           "Events: IdentityStored, IdentityModified, IdentityUnstored, IdentityRegistryBound are present"
         ],
-        "recommendation": "Enhance on-chain record-keeping by implementing automated event logging and periodic off-chain reconciliation. Develop internal audit procedures to verify event integrity and data retention, supported by comprehensive logs and snapshots."
+        "recommendation": "Ensure off-chain identity data is securely stored and retained for the required period. Implement automated event logging and periodic audits of identity event sequences to confirm ongoing compliance and facilitate audit trail verification."
       },
       {
         "id": "F-003",
-        "title": "Effective sanctions and blacklist controls prevent transfers to pseudo-sanctioned addresses",
+        "title": "Sanctions and blacklist enforcement",
         "severity": "HIGH",
         "severity_label": "High",
         "phase2_verdict": "Pass",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "Transfer attempts to pseudo-sanctioned addresses were reverted, indicating that blacklist or gating controls are operational, aligning with HKMA AML sanctions requirements (Cap.615 Schedule 2 §15). This reduces the risk of facilitating sanctioned transactions.",
+        "explanation": "Transfers to pseudo-sanctioned addresses were successfully reverted, indicating effective blacklist or gating controls are in place, aligning with HKMA Schedule 2 §15. This mitigates the risk of facilitating sanctioned transactions and supports regulatory compliance.",
         "compliance_refs": [
-          "ERC-3643",
-          "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk"
+          "HKMA AMLO Schedule 2 §15 https://www.elegislation.gov.hk"
         ],
         "evidence_paths": [
           "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
         ],
-        "recommendation": "Regularly update and review blacklist data; implement automated monitoring and alerting for attempted transfers to sanctioned addresses. Document control procedures and retain logs of blocked transactions for audit trail."
+        "recommendation": "Regularly update and review blacklist data sources; implement automated alerts for attempted transactions to blacklisted addresses. Maintain detailed logs of reverts for audit purposes and conduct periodic testing of sanctions controls."
       },
       {
         "id": "F-004",
-        "title": "Ongoing compliance monitoring supports regulatory requirements",
+        "title": "Ongoing compliance monitoring",
         "severity": "HIGH",
         "severity_label": "High",
         "phase2_verdict": "Pass",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The platform's modular compliance modules responded appropriately to country restrictions and monthly limits, ensuring ongoing adherence to AML and CFT policies (Cap.615 Schedule 2 §5(1)(b)–§6). This supports proactive compliance management.",
+        "explanation": "The contract's modules responded appropriately to country restrictions and monthly limits, with the CountryRestrictModule and ExchangeMonthlyLimitsModule functioning as intended. This supports HKMA Schedule 2 §5(1)(b)–§6, ensuring ongoing compliance and risk mitigation.",
         "compliance_refs": [
-          "ERC-3643",
-          "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk"
+          "HKMA AMLO Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk"
         ],
         "evidence_paths": [
           "CountryRestrictModule responded to batchRestrictCountries",
           "ExchangeMonthlyLimitsModule accepted monthly limit configuration"
         ],
-        "recommendation": "Implement continuous monitoring and periodic testing of compliance modules; establish operational run-books for response to alerts. Maintain detailed logs of module responses and configuration changes for audit readiness."
+        "recommendation": "Implement continuous monitoring and periodic testing of these modules. Maintain detailed logs of configuration changes and responses to ensure traceability and facilitate audits. Integrate real-time alerts for any non-compliance events."
       }
     ],
     "payload": {
@@ -363,7 +360,7 @@
           "phase2_verdict": "PASS",
           "pass": true,
           "run": "rule.AMLO",
-          "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true; Event on irs:IdentityRegistryBound present: true",
+          "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true; Event on irs:IdentityRegistryBound present: true",
           "evidence": [
             "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
             "nonzeroaddress:data.idrIdentityStorageAddr:",
@@ -434,7 +431,7 @@
               "id": "R-HKMA-AMLO-RECORDKEEPING",
               "ran": true,
               "pass": true,
-              "evidence": "AMLO record-keeping probe: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0 returned an empty linkedIdentityRegistries() list; manual confirmation of off-chain retention is required."
+              "evidence": "AMLO record-keeping probe: identityStorage=0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9 returned an empty linkedIdentityRegistries() list; manual confirmation of off-chain retention is required."
             },
             {
               "id": "R-HKMA-AMLO-Sanctions",
@@ -454,7 +451,7 @@
     }
   },
   "report": {
-    "textPath": "reports/amlo-results.txt"
+    "textPath": "reports/boulder-amlo-results.txt"
   },
   "coverageDistribution": {
     "SUPPORT": 4,

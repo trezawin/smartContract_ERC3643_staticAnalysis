@@ -72,5 +72,369 @@
         "recommendation": "Continue to enhance the modular compliance framework to ensure adaptability to changing regulatory requirements and effective ongoing monitoring."
       }
     ]
+  },
+  "5d5dc741f711fbb8aaa42662db235a4fddb61421d63d23510e978cc62239a693": {
+    "overall_assessment": "The virtual-asset platform demonstrates comprehensive compliance with HKMA AML/CFT requirements and ERC-3643 standards, with all key controls passing the audit. No critical or high severity issues identified, indicating effective operational controls and regulatory adherence.",
+    "findings": [
+      {
+        "id": "F-001",
+        "title": "Identity gating enforcement during transfers",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The system successfully reverted transfers to unverified addresses, confirming that identity gating controls are operational and enforced as per ERC-3643 clause on identity verification (https://elegislation.gov.hk). This prevents misuse of the token for illicit activities.",
+        "compliance_refs": [
+          "ERC-3643"
+        ],
+        "evidence_paths": [
+          "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+        ],
+        "recommendation": "Maintain current identity gating logic; implement automated logging of all transfer reverts due to identity verification failures. Conduct periodic regression testing to ensure gating remains effective after system updates."
+      },
+      {
+        "id": "F-002",
+        "title": "Record-keeping of identity data",
+        "severity": "MEDIUM",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "Event logs confirm that identity storage, modification, unstoring, and registry binding events are recorded on-chain, supporting compliance with HKMA record-keeping requirements (https://www.elegislation.gov.hk). However, the linkedIdentityRegistries list is empty, indicating off-chain data retention is necessary.",
+        "compliance_refs": [
+          "HKMA AMLO Schedule 2 §2"
+        ],
+        "evidence_paths": [
+          "identityStorage() returns non-zero address",
+          "Events: IdentityStored, IdentityModified, IdentityUnstored, IdentityRegistryBound present"
+        ],
+        "recommendation": "Implement a formal off-chain record-keeping process for identity data, including secure storage and audit trails. Add on-chain event logging for off-chain data references to enhance audit readiness. Conduct periodic reviews to verify data integrity and retention compliance."
+      },
+      {
+        "id": "F-003",
+        "title": "Sanctions and blacklist controls",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "Transfers to pseudo-sanctioned addresses were reverted, indicating effective blacklist enforcement aligned with HKMA AML regulations (https://www.elegislation.gov.hk). This reduces the risk of facilitating sanctioned entities.",
+        "compliance_refs": [
+          "HKMA AMLO Schedule 2 §15"
+        ],
+        "evidence_paths": [
+          "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+        ],
+        "recommendation": "Enhance monitoring by integrating real-time blacklist alerts and maintaining an audit log of blocked transactions. Regularly update the blacklist database and perform periodic testing of blacklist enforcement to ensure ongoing effectiveness."
+      },
+      {
+        "id": "F-004",
+        "title": "Ongoing compliance monitoring",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "Modules responding to country restrictions and monthly limits demonstrate active ongoing monitoring, aligning with HKMA Schedule 2 §5(1)(b)–§6 (https://www.elegislation.gov.hk). This supports proactive compliance management.",
+        "compliance_refs": [
+          "HKMA AMLO Schedule 2 §5(1)(b)–§6"
+        ],
+        "evidence_paths": [
+          "CountryRestrictModule responded to batchRestrictCountries",
+          "ExchangeMonthlyLimitsModule accepted monthly limit configuration"
+        ],
+        "recommendation": "Implement automated alerts for threshold breaches and periodic review of country restrictions and limits. Document operational procedures for ongoing monitoring activities and conduct regular training for compliance staff to ensure sustained adherence."
+      }
+    ]
+  },
+  "601c5e7fb57d00bb7a6aa2ad2ab6db0eb9536210f2bb8d786133dbbfe1a25d8c": {
+    "overall_assessment": "The system demonstrates strong compliance with key AML controls, with notable gaps in ongoing monitoring configuration. The controls for identity verification, sanctions screening, and record-keeping are effectively enforced, supporting regulatory expectations. However, the absence of a configured compliance address for ongoing monitoring poses a potential supervisory concern that needs remediation.",
+    "findings": [
+      {
+        "id": "F-HKMA-001",
+        "title": "Effective Identity Verification via AMLO CDD Gatekeeping",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The transfer to an unverified address was successfully reverted, indicating that identity gating controls are operational and enforced in accordance with HKMA AML Ordinance (Cap.615) Schedule 2 §2. This helps prevent misuse through unverified counterparties, supporting market integrity and client asset protection.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+        ],
+        "recommendation": "Maintain current control logic; periodically review and update identity verification procedures. Implement automated event logging for all transfer rejections to ensure audit trail completeness."
+      },
+      {
+        "id": "F-HKMA-002",
+        "title": "Record Keeping Support Confirmed, Off-Chain Data Verification Needed",
+        "severity": "MEDIUM",
+        "phase2_verdict": "Medium",
+        "verdict": "CHALLENGE",
+        "position": "SUPPORT",
+        "explanation": "The system's identityStorage() returns true, but the linkedIdentityRegistries() list is empty, indicating that off-chain identity records are not stored or accessible via the contract. This may hinder regulatory review and auditability of customer due diligence records, as required by HKMA AML guidelines.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
+          "nonzeroaddress:data.idrIdentityStorageAddr:"
+        ],
+        "recommendation": "Implement and document a robust off-chain identity record storage solution linked to the contract. Add event emissions upon record creation and access to facilitate audit trail verification. Conduct periodic reconciliation between on-chain and off-chain records."
+      },
+      {
+        "id": "F-HKMA-003",
+        "title": "Sanctions and Blacklist Screening Effectively Enforced",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The transfer to a pseudo-sanctioned address was reverted, indicating that blacklist or gating mechanisms are operational and effectively prevent transactions with sanctioned entities, aligning with HKMA AML requirements and supporting market integrity.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+        ],
+        "recommendation": "Continue monitoring sanctions lists for updates; enhance logging of blocked transactions for audit purposes. Periodically test sanctions gating with simulated addresses."
+      },
+      {
+        "id": "F-HKMA-004",
+        "title": "Ongoing Monitoring Configuration Missing",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "No compliance() address is configured for ongoing monitoring, rendering modular compliance checks unavailable. This gap could allow illicit activities to go undetected, contravening HKMA AML expectations and potentially exposing the institution to supervisory action.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Ongoing monitoring: no compliance() address configured; modular checks unavailable."
+        ],
+        "recommendation": "Configure and activate a compliance() address dedicated to ongoing monitoring. Develop and implement operational procedures for regular modular checks, including event logging and alerting. Conduct regression testing to ensure monitoring functions trigger appropriately."
+      }
+    ]
+  },
+  "fddff1f318c3b22fa10bce4223a085673f52f1559696ca092bf1f9d8be5fe2d5": {
+    "overall_assessment": "The system demonstrates comprehensive compliance with HKMA AMLO requirements, with all key controls passing the audit. No critical or high severity issues identified, indicating effective identity verification, record-keeping, sanctions screening, and ongoing monitoring.",
+    "findings": [
+      {
+        "id": "F-001",
+        "title": "Identity gating enforcement during transfers",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The system successfully reverted a transfer attempt to an unverified address, confirming that identity gating controls are operational and enforced as per ERC-3643 and HKMA AMLO Schedule 2 §2. This prevents misuse of virtual assets and supports regulatory compliance.",
+        "compliance_refs": [
+          "ERC-3643",
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+        ],
+        "recommendation": "Maintain current gating logic; implement automated monitoring to log all transfer rejections due to identity verification failures. Add event logs for audit trail and conduct periodic regression testing of gating conditions."
+      },
+      {
+        "id": "F-002",
+        "title": "Record-keeping of identity data",
+        "severity": "MEDIUM",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The contract's identityStorage() returns a non-zero address, and relevant identity events (Stored, Modified, Unstored, RegistryBound) are present, indicating proper record-keeping support aligned with HKMA AMLO Schedule 2 §2. This ensures traceability and compliance with record retention obligations.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
+          "nonzeroaddress:data.idrIdentityStorageAddr:",
+          "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityStored\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityModified\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityUnstored\",\"present\":true,\"ok\":true}",
+          "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityRegistryBound\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "Ensure off-chain identity data is securely stored and periodically audited. Implement automated checks to verify the integrity and completeness of identity event logs. Document data retention policies and conduct regular compliance reviews."
+      },
+      {
+        "id": "F-003",
+        "title": "Sanctions and blacklist screening enforcement",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "Transfer attempts to pseudo-sanctioned addresses were reverted, indicating that blacklist or gating mechanisms are operational, aligning with HKMA AMLO Schedule 2 §15. This mitigates risks of facilitating sanctioned transactions and supports regulatory expectations.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+        ],
+        "recommendation": "Regularly update sanction lists and address blacklists. Integrate automated alerts for attempted transactions to blacklisted addresses. Conduct periodic testing of sanctions controls to ensure continued enforcement."
+      },
+      {
+        "id": "F-004",
+        "title": "Ongoing monitoring via compliance modules",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The country restriction and monthly limits modules responded appropriately to batch restrictions and configuration updates, demonstrating effective ongoing monitoring aligned with HKMA Schedule 2 §5(1)(b)–§6. This supports proactive compliance management and risk mitigation.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "CountryRestrictModule responded to batchRestrictCountries; country flagged for compliance.",
+          "ExchangeMonthlyLimitsModule accepted monthly limit configuration via compliance."
+        ],
+        "recommendation": "Enhance monitoring dashboards to flag non-compliance events in real-time. Conduct quarterly reviews of module configurations and update thresholds as needed. Document operational run-books for module management and incident response."
+      }
+    ]
+  },
+  "374a459c27b7c4584651d3aff82378d41f3e3d0d3345e55471a650933296b388": {
+    "overall_assessment": "The ERC-3643 implementation demonstrates comprehensive compliance with HKMA AMLO requirements, with all critical controls passing. No immediate deficiencies are identified; however, ongoing operational vigilance and documentation are recommended to maintain audit readiness.",
+    "findings": [
+      {
+        "id": "F-001",
+        "title": "Identity gating enforcement during transfers",
+        "severity": "CRITICAL",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The transfer to an unverified address was successfully reverted, indicating that identity gating controls are operational and enforced as per ERC-3643 and HKMA AMLO Schedule 2 §2. This prevents misuse of tokens by unverified entities, supporting regulatory compliance and market integrity.",
+        "compliance_refs": [
+          "ERC-3643: https://erc-3643.org",
+          "HKMA AMLO Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+        ],
+        "recommendation": "Maintain current identity gating logic; implement automated monitoring and logging of transfer reverts due to identity verification failures. Conduct periodic regression testing to ensure gating remains effective after contract updates."
+      },
+      {
+        "id": "F-002",
+        "title": "Record keeping of identity data",
+        "severity": "MEDIUM",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The contract's identity storage address (0xdc64a140aa3e981100a9beca4e685f962f0cf6c9) is non-zero, and relevant identity events (Stored, Modified, Unstored, RegistryBound) are present. This supports compliance with HKMA record-keeping requirements under Schedule 2 §2, ensuring traceability of identity data.",
+        "compliance_refs": [
+          "HKMA AMLO Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "identityStorage() returns true; data.idrIdentityStorageAddr is non-zero",
+          "Events: IdentityStored, IdentityModified, IdentityUnstored, IdentityRegistryBound are present"
+        ],
+        "recommendation": "Ensure off-chain identity data is securely stored and retained for the required period. Implement automated event logging and periodic audits of identity event sequences to confirm ongoing compliance and facilitate audit trail verification."
+      },
+      {
+        "id": "F-003",
+        "title": "Sanctions and blacklist enforcement",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "Transfers to pseudo-sanctioned addresses were successfully reverted, indicating effective blacklist or gating controls are in place, aligning with HKMA Schedule 2 §15. This mitigates the risk of facilitating sanctioned transactions and supports regulatory compliance.",
+        "compliance_refs": [
+          "HKMA AMLO Schedule 2 §15 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+        ],
+        "recommendation": "Regularly update and review blacklist data sources; implement automated alerts for attempted transactions to blacklisted addresses. Maintain detailed logs of reverts for audit purposes and conduct periodic testing of sanctions controls."
+      },
+      {
+        "id": "F-004",
+        "title": "Ongoing compliance monitoring",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The contract's modules responded appropriately to country restrictions and monthly limits, with the CountryRestrictModule and ExchangeMonthlyLimitsModule functioning as intended. This supports HKMA Schedule 2 §5(1)(b)–§6, ensuring ongoing compliance and risk mitigation.",
+        "compliance_refs": [
+          "HKMA AMLO Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "CountryRestrictModule responded to batchRestrictCountries",
+          "ExchangeMonthlyLimitsModule accepted monthly limit configuration"
+        ],
+        "recommendation": "Implement continuous monitoring and periodic testing of these modules. Maintain detailed logs of configuration changes and responses to ensure traceability and facilitate audits. Integrate real-time alerts for any non-compliance events."
+      }
+    ]
+  },
+  "e01c36c83b67333936899ebe1960a85b4e6d4d33ae54a958f0ec21714e114ba8": {
+    "overall_assessment": "The virtual-asset platform demonstrates comprehensive compliance with HKMA AML/CFT requirements and ERC-3643 standards, with all key controls passing the review. No critical or high-severity issues identified; controls are effectively enforced and documented.",
+    "findings": [
+      {
+        "id": "F-001",
+        "title": "Identity gating effectively prevents transfers to unverified addresses",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The system successfully reverted transfer attempts to unverified addresses, indicating that identity gating controls are operational and enforced as per ERC-3643 and HKMA AML regulations (Cap.615 Schedule 2 §2). This mitigates the risk of illicit transfers and supports regulatory compliance.",
+        "compliance_refs": [
+          "ERC-3643",
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+        ],
+        "recommendation": "Maintain current gating logic; implement periodic regression testing to ensure transfer reversion remains effective against evolving attack vectors. Document control procedures and retain event logs as evidence for audit purposes."
+      },
+      {
+        "id": "F-002",
+        "title": "Robust record-keeping of identity data and events",
+        "severity": "MEDIUM",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The platform maintains on-chain evidence of identity storage, modification, unstoring, and registry binding, aligning with AML record-keeping requirements (Cap.615 Schedule 2 §2). This supports transparency and auditability of customer identity data.",
+        "compliance_refs": [
+          "ERC-3643",
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "identityStorage() returns true; data.idrIdentityStorageAddr is non-zero",
+          "Events: IdentityStored, IdentityModified, IdentityUnstored, IdentityRegistryBound are present"
+        ],
+        "recommendation": "Enhance on-chain record-keeping by implementing automated event logging and periodic off-chain reconciliation. Develop internal audit procedures to verify event integrity and data retention, supported by comprehensive logs and snapshots."
+      },
+      {
+        "id": "F-003",
+        "title": "Effective sanctions and blacklist controls prevent transfers to pseudo-sanctioned addresses",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "Transfer attempts to pseudo-sanctioned addresses were reverted, indicating that blacklist or gating controls are operational, aligning with HKMA AML sanctions requirements (Cap.615 Schedule 2 §15). This reduces the risk of facilitating sanctioned transactions.",
+        "compliance_refs": [
+          "ERC-3643",
+          "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+        ],
+        "recommendation": "Regularly update and review blacklist data; implement automated monitoring and alerting for attempted transfers to sanctioned addresses. Document control procedures and retain logs of blocked transactions for audit trail."
+      },
+      {
+        "id": "F-004",
+        "title": "Ongoing compliance monitoring supports regulatory requirements",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The platform's modular compliance modules responded appropriately to country restrictions and monthly limits, ensuring ongoing adherence to AML and CFT policies (Cap.615 Schedule 2 §5(1)(b)–§6). This supports proactive compliance management.",
+        "compliance_refs": [
+          "ERC-3643",
+          "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "CountryRestrictModule responded to batchRestrictCountries",
+          "ExchangeMonthlyLimitsModule accepted monthly limit configuration"
+        ],
+        "recommendation": "Implement continuous monitoring and periodic testing of compliance modules; establish operational run-books for response to alerts. Maintain detailed logs of module responses and configuration changes for audit readiness."
+      }
+    ]
   }
 }

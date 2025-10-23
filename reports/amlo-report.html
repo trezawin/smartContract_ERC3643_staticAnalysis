@@ -13,7 +13,7 @@
 <body>
   <h1>ERC-3643 Compliance Report</h1>
   <div class="sub">
-    Generated: 2025-10-23T13:32:42.193Z — Deterministic checks + LLM reasoning
+    Generated: 2025-10-23T16:43:44.514Z — Deterministic checks + LLM reasoning
   </div>
 
 
@@ -23,30 +23,6 @@
 
 <div style="margin:8px 0 20px 0">
   <div style="display:flex;gap:20px;flex-wrap:wrap">
-    <div style="min-width:220px;flex:1 1 220px">
-      <div style="font-weight:700;margin-bottom:6px">Metrics vs Ground Truth</div>
-      <table style="border-collapse:collapse;font-size:13px">
-        <thead>
-          <tr style="background:#F9FAFB;text-align:left">
-            <th style="padding:6px 10px;border:1px solid #E5E7EB">Metric</th>
-            <th style="padding:6px 10px;border:1px solid #E5E7EB">Value</th>
-          </tr>
-        </thead>
-        <tbody>
-                    <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Status</td><td style="padding:6px 10px;border:1px solid #E5E7EB">PASS</td></tr>
-<tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Compared</td><td style="padding:6px 10px;border:1px solid #E5E7EB">0</td></tr>
-          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Precision</td><td style="padding:6px 10px;border:1px solid #E5E7EB">0.0%</td></tr>
-          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Recall</td><td style="padding:6px 10px;border:1px solid #E5E7EB">0.0%</td></tr>
-          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">F1</td><td style="padding:6px 10px;border:1px solid #E5E7EB">0.0%</td></tr>
-          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Accuracy</td><td style="padding:6px 10px;border:1px solid #E5E7EB">0.0%</td></tr>
-          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">TP</td><td style="padding:6px 10px;border:1px solid #E5E7EB">0</td></tr>
-          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">FP</td><td style="padding:6px 10px;border:1px solid #E5E7EB">0</td></tr>
-          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">TN</td><td style="padding:6px 10px;border:1px solid #E5E7EB">0</td></tr>
-          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">FN</td><td style="padding:6px 10px;border:1px solid #E5E7EB">0</td></tr>
-        </tbody>
-      </table>
-    </div>
-    
     <div style="min-width:220px;flex:1 1 220px">
       <div style="font-weight:700;margin-bottom:6px">Coverage Expansion</div>
       <table style="border-collapse:collapse;font-size:13px">
@@ -116,70 +92,70 @@
 </div>
   
 <h2 style="margin:28px 0 12px 0;font-size:20px;border-bottom:1px solid #E5E7EB;padding-bottom:6px">LLM Compliance Assessment</h2>
-<div style="font-size:12px;color:#6B7280">Model: gpt-4o-mini-2024-07-18</div>
+<div style="font-size:12px;color:#6B7280">Model: gpt-4.1-nano-2025-04-14</div>
 
-<div style="margin:12px 0;font-size:14px;line-height:1.6"><strong>Summary:</strong> All compliance checks have passed with no critical or high severity issues identified. The system demonstrates effective identity controls, record-keeping, sanctions screening, and ongoing monitoring.</div>
+<div style="margin:12px 0;font-size:14px;line-height:1.6"><strong>Summary:</strong> The virtual-asset platform demonstrates comprehensive compliance with HKMA AML/CFT requirements and ERC-3643 standards, with all key controls passing the review. No critical or high-severity issues identified; controls are effectively enforced and documented.</div>
 <div style="display:flex;flex-direction:column;gap:16px">
   
     <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
       <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
-        <div style="font-size:16px;font-weight:600">1. <code>R-HKMA-AMLO-CDD</code> — AMLO CDD identity controls</div>
+        <div style="font-size:16px;font-weight:600">1. <code>F-001</code> — Identity gating effectively prevents transfers to unverified addresses</div>
         <span style="font-weight:600;color:#F97316">High</span>
         <span style="font-weight:600;color:#10B981">Support</span>
-        <span style="font-weight:600;color:#10B981">Pass</span>
+        
       </div>
-      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The system successfully enforced identity controls as evidenced by the reversion of a transfer to an unverified address, indicating that identity gating is operational.</div>
-      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk</div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The system successfully reverted transfer attempts to unverified addresses, indicating that identity gating controls are operational and enforced as per ERC-3643 and HKMA AML regulations (Cap.615 Schedule 2 §2). This mitigates the risk of illicit transfers and supports regulatory compliance.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> ERC-3643; AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk</div>
       
       <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
         <ul style="margin:6px 0 0 16px"><li><code>AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.</code></li></ul>
       </div>
-      <div style="font-size:13px"><strong>Recommendation:</strong> Continue to monitor and test identity verification processes regularly to ensure compliance with AMLO requirements.</div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Maintain current gating logic; implement periodic regression testing to ensure transfer reversion remains effective against evolving attack vectors. Document control procedures and retain event logs as evidence for audit purposes.</div>
     </div>
     <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
       <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
-        <div style="font-size:16px;font-weight:600">2. <code>R-HKMA-AMLO-RecordKeeping</code> — AMLO record keeping support</div>
+        <div style="font-size:16px;font-weight:600">2. <code>F-002</code> — Robust record-keeping of identity data and events</div>
         <span style="font-weight:600;color:#FACC15">Medium</span>
         <span style="font-weight:600;color:#10B981">Support</span>
-        <span style="font-weight:600;color:#10B981">Pass</span>
+        
       </div>
-      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The system demonstrates adequate record-keeping capabilities with multiple events confirming identity storage and modifications, ensuring compliance with AMLO record-keeping requirements.</div>
-      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk</div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The platform maintains on-chain evidence of identity storage, modification, unstoring, and registry binding, aligning with AML record-keeping requirements (Cap.615 Schedule 2 §2). This supports transparency and auditability of customer identity data.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> ERC-3643; AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk</div>
       
       <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
-        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"idr","sig":"identityStorage()","present":true,"ok":true}</code></li><li><code>nonzeroaddress:data.idrIdentityStorageAddr:</code></li><li><code>{"op":"hasevent","where":"irs","name":"IdentityStored","present":true,"ok":true}</code></li><li><code>{"op":"hasevent","where":"irs","name":"IdentityModified","present":true,"ok":true}</code></li><li><code>{"op":"hasevent","where":"irs","name":"IdentityUnstored","present":true,"ok":true}</code></li><li><code>{"op":"hasevent","where":"irs","name":"IdentityRegistryBound","present":true,"ok":true}</code></li></ul>
+        <ul style="margin:6px 0 0 16px"><li><code>identityStorage() returns true; data.idrIdentityStorageAddr is non-zero</code></li><li><code>Events: IdentityStored, IdentityModified, IdentityUnstored, IdentityRegistryBound are present</code></li></ul>
       </div>
-      <div style="font-size:13px"><strong>Recommendation:</strong> Implement a manual confirmation process for off-chain retention of identity records to enhance compliance with AMLO record-keeping standards.</div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Enhance on-chain record-keeping by implementing automated event logging and periodic off-chain reconciliation. Develop internal audit procedures to verify event integrity and data retention, supported by comprehensive logs and snapshots.</div>
     </div>
     <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
       <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
-        <div style="font-size:16px;font-weight:600">3. <code>R-HKMA-AMLO-Sanctions</code> — Sanctions and Blacklist Screening</div>
+        <div style="font-size:16px;font-weight:600">3. <code>F-003</code> — Effective sanctions and blacklist controls prevent transfers to pseudo-sanctioned addresses</div>
         <span style="font-weight:600;color:#F97316">High</span>
         <span style="font-weight:600;color:#10B981">Support</span>
-        <span style="font-weight:600;color:#10B981">Pass</span>
+        
       </div>
-      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The system effectively prevented transactions to a pseudo-sanctioned address, indicating that sanctions screening mechanisms are in place and functioning correctly.</div>
-      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk</div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Transfer attempts to pseudo-sanctioned addresses were reverted, indicating that blacklist or gating controls are operational, aligning with HKMA AML sanctions requirements (Cap.615 Schedule 2 §15). This reduces the risk of facilitating sanctioned transactions.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> ERC-3643; AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk</div>
       
       <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
         <ul style="margin:6px 0 0 16px"><li><code>Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced.</code></li></ul>
       </div>
-      <div style="font-size:13px"><strong>Recommendation:</strong> Maintain and regularly update the sanctions screening lists to ensure ongoing compliance with AMLO requirements.</div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Regularly update and review blacklist data; implement automated monitoring and alerting for attempted transfers to sanctioned addresses. Document control procedures and retain logs of blocked transactions for audit trail.</div>
     </div>
     <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
       <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
-        <div style="font-size:16px;font-weight:600">4. <code>R-HKMA-AMLO-OngoingMonitoring</code> — Ongoing Monitoring via Modular Compliance</div>
+        <div style="font-size:16px;font-weight:600">4. <code>F-004</code> — Ongoing compliance monitoring supports regulatory requirements</div>
         <span style="font-weight:600;color:#F97316">High</span>
         <span style="font-weight:600;color:#10B981">Support</span>
-        <span style="font-weight:600;color:#10B981">Pass</span>
+        
       </div>
-      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The system's ongoing monitoring capabilities are validated by the response of the CountryRestrictModule and the acceptance of monthly limit configurations, ensuring compliance with AMLO ongoing monitoring requirements.</div>
-      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk</div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The platform's modular compliance modules responded appropriately to country restrictions and monthly limits, ensuring ongoing adherence to AML and CFT policies (Cap.615 Schedule 2 §5(1)(b)–§6). This supports proactive compliance management.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> ERC-3643; AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk</div>
       
       <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
-        <ul style="margin:6px 0 0 16px"><li><code>CountryRestrictModule responded to batchRestrictCountries; country flagged for compliance. ExchangeMonthlyLimitsModule accepted monthly limit configuration via compliance.</code></li></ul>
+        <ul style="margin:6px 0 0 16px"><li><code>CountryRestrictModule responded to batchRestrictCountries</code></li><li><code>ExchangeMonthlyLimitsModule accepted monthly limit configuration</code></li></ul>
       </div>
-      <div style="font-size:13px"><strong>Recommendation:</strong> Continue to enhance the modular compliance framework to ensure adaptability to changing regulatory requirements and effective ongoing monitoring.</div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Implement continuous monitoring and periodic testing of compliance modules; establish operational run-books for response to alerts. Maintain detailed logs of module responses and configuration changes for audit readiness.</div>
     </div>
 </div>
 

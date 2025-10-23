@@ -1,6 +1,8 @@
 import fs from "fs";
+import hardhat from "hardhat";
 import type { HardhatRuntimeEnvironment } from "hardhat/types";
-import { ethers as hardhatEthers } from "hardhat";
+
+const { ethers: hardhatEthers } = hardhat;
 
 export interface BootstrapAddresses {
   networkRpc: string;
