@@ -50,7 +50,7 @@
     "title": "Ongoing Monitoring via Modular Compliance",
     "desc": "Smart contracts must enable modular compliance checks to enforce transaction surveillance, including country restrictions and monthly transfer limits.",
     "snippet": "require(canTransfer(from, to, value), \"Compliance: transfer not allowed\");\naddModule(CountryRestrictModule);\naddModule(ExchangeMonthlyLimitsModule);",
-    "policyRef": "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §5(1)(b)-§6 https://www.elegislation.gov.hk",
     "severity": "High",
     "allOf": [
       { "op": "hasabifn", "where": "compliance", "sig": "canTransfer(address,address,uint256)" },
@@ -59,6 +59,95 @@
       { "op": "hasmodule", "where": "compliance", "name": "CountryRestrictModule" },
       { "op": "phase2" },
       { "op": "runtxrevert", "desc": "Transfer from blocked country or over monthly limits should revert due to active monitoring module" }
+    ]
+  },
+  {
+    "id": "R-HKMA-AMLO-OwnershipControl",
+    "title": "Ownership and Control Tracking",
+    "desc": "Identity onboarding must require a Beneficial Owner claim topic and at least one trusted issuer so beneficial ownership can be evidenced via OnchainID claims.",
+    "snippet": "claimTopicsRegistry.addClaimTopic(BENEFICIAL_OWNER_TOPIC);\\ntrustedIssuersRegistry.addTrustedIssuer(beneficialOwnerAuditor, [BENEFICIAL_OWNER_TOPIC]);",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasclaimtopic", "topic": 2001 },
+      { "op": "phase2" }
+    ]
+  },
+  {
+    "id": "R-HKMA-AMLO-RiskClassification",
+    "title": "Risk Classification Hooks",
+    "desc": "Smart contracts should expose hooks to retrieve or assign a user’s risk category for ongoing monitoring.",
+    "snippet": "function riskLevel(address investor) external view returns (uint8);",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk",
+    "severity": "Low",
+    "allOf": [
+      { "op": "hasabifn", "where": "idr", "sig": "riskLevel(address)" }
+    ]
+  },
+  {
+    "id": "R-HKMA-AMLO-AddressResolution",
+    "title": "Identity Resolution Interface",
+    "desc": "Contracts should support mapping from investor wallet address to identity contract for audit traceability.",
+    "snippet": "function identity(address investor) external view returns (address);",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §2(1)(a) https://www.elegislation.gov.hk",
+    "severity": "Medium",
+    "allOf": [
+      { "op": "hasabifn", "where": "idr", "sig": "identity(address)" }
+    ]
+  },
+  {
+    "id": "R-HKMA-AMLO-DualControl",
+    "title": "Dual Control for Critical Actions",
+    "desc": "Administrative smart contract actions such as freezing should require multiple signatures or roles.",
+    "snippet": "require(hasRole(FREEZE_ADMIN, msg.sender), \"Not authorized\");",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §7(2)(b) https://www.elegislation.gov.hk",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "control", "sig": "hasRole(bytes32,address)" },
+      { "op": "hasabifn", "where": "control", "sig": "grantRole(bytes32,address)" },
+      { "op": "hasabifn", "where": "control", "sig": "revokeRole(bytes32,address)" },
+      { "op": "phase2" },
+      { "op": "runtxrevert", "desc": "Freeze should fail if caller lacks proper role" }
+    ]
+  },
+  {
+    "id": "R-HKMA-AMLO-FreezeUnfreeze",
+    "title": "Freeze and Unfreeze Capability",
+    "desc": "Contracts must support freezing and unfreezing investor accounts in real time.",
+    "snippet": "function freeze(address investor);",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §7 https://www.elegislation.gov.hk",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "control", "sig": "freeze(address)" },
+      { "op": "hasabifn", "where": "control", "sig": "unfreeze(address)" },
+      { "op": "runtxrevert", "desc": "Frozen address should not be able to transfer" },
+      { "op": "phase2" }
+    ]
+  },
+  {
+    "id": "R-HKMA-AMLO-KYCStatusRecheck",
+    "title": "KYC Status Revalidation",
+    "desc": "System should revalidate investor KYC claims during runtime to avoid stale access.",
+    "snippet": "require(isVerified(msg.sender));",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §6 https://www.elegislation.gov.hk",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasabifn", "where": "idr", "sig": "isVerified(address)" },
+      { "op": "phase2" },
+      { "op": "runtxrevert", "desc": "Transfer by unverified user should fail" }
+    ]
+  },
+  {
+    "id": "R-HKMA-AMLO-InvestorJurisdiction",
+    "title": "Jurisdiction Screening",
+    "desc": "Compliance module should reject transfers from investors in blocked countries.",
+    "snippet": "CountryRestrictModule blocks based on msg.sender location.",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §5(1)(b) https://www.elegislation.gov.hk",
+    "severity": "High",
+    "allOf": [
+      { "op": "hasmodule", "where": "compliance", "name": "CountryRestrictModule" },
+      { "op": "phase2" },
+      { "op": "runtxrevert", "desc": "Transfer from blocked country should revert" }
     ]
   }
 ]

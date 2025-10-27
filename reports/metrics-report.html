@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ERC-3643 Metric Report</title>
+  <style>
+    body { font-family: Arial; padding: 30px; background: #f9f9f9; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background-color: #2c3e50; color: white; }
+  </style>
+</head>
+<body>
+  <h1>ERC-3643 Metrics Comparison</h1>
+  <h2>Metrics Summary</h2>
+  <table>
+    <thead>
+      <tr><th>Metric</th><th>Value</th><th>Formula / Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Total Rules Evaluated</td><td>11</td><td>Manual Count of Rules</td></tr>
+      <tr><td>True Positives (TP)</td><td>9</td><td>Buggy = Fail, TREX = Fail</td></tr>
+      <tr><td>True Negatives (TN)</td><td>0</td><td>Buggy = Pass, TREX = Pass</td></tr>
+      <tr><td>False Positives (FP)</td><td>0</td><td>Buggy = Fail, TREX = Pass</td></tr>
+      <tr><td>False Negatives (FN)</td><td>2</td><td>Buggy = Pass, TREX = Fail</td></tr>
+      <tr><td>Precision</td><td>100.00%</td><td>TP / (TP + FP)</td></tr>
+      <tr><td>Recall</td><td>81.82%</td><td>TP / (TP + FN)</td></tr>
+      <tr><td>F1 Score</td><td>90.00%</td><td>2 * (P * R) / (P + R)</td></tr>
+      <tr><td>Accuracy</td><td>81.82%</td><td>(TP + TN) / Total</td></tr>
+      <tr><td>Rule Coverage</td><td>100%</td><td>All Rules Evaluated</td></tr>
+      <tr><td>Failure Detection Rate</td><td>81.82%</td><td>Detected Fails / True Fails</td></tr>
+      <tr><td>Consistency</td><td>81.82%</td><td>Matching Outcomes / Total</td></tr>
+    </tbody>
+  </table>
+  
+    <h2>Disagreements (2)</h2>
+    <ul><li><code>R-HKMA-AMLO-DualControl</code>: expected <b>Fail</b>, got <b>Pass</b></li><li><code>R-HKMA-AMLO-FreezeUnfreeze</code>: expected <b>Fail</b>, got <b>Pass</b></li></ul>
+</body>
+</html>

@@ -1,0 +1,97 @@
+Compliance Report
+Generated: 2025-10-24T14:57:36.219Z
+Deterministic Summary: PASS=5 | CRITICAL=0 | HIGH=3 | MEDIUM=2 | LOW=1
+LLM Model: gpt-4.1-nano
+
+LLM disabled (missing API key)
+
+Findings:
+
+High
+1. AMLO CDD identity controls
+Runtime hint: AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+
+High
+2. Sanctions and Blacklist Screening
+Runtime hint: Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced.. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+
+High
+3. Ongoing Monitoring via Modular Compliance
+Runtime hint: Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule.. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.
+Paths:
+- Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk
+Recommendation: Align the implementation with AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+4. Dual Control for Critical Actions
+Runtime hint: Dual-control probe: non-authorized signer froze address successfully (state restored).. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §7(2)(b) https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.
+Paths:
+- Dual-control probe: non-authorized signer froze address successfully (state restored).
+Compliance Ref: AMLO (Cap.615) Schedule 2 §7(2)(b) https://www.elegislation.gov.hk
+Recommendation: Align the implementation with AMLO (Cap.615) Schedule 2 §7(2)(b) https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+5. Freeze and Unfreeze Capability
+Runtime hint: Freeze succeeded. Unfreeze succeeded.. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §7 https://www.elegislation.gov.hk prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- Freeze succeeded. Unfreeze succeeded.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §7 https://www.elegislation.gov.hk
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+
+High
+6. KYC Status Revalidation
+Runtime hint: KYC revalidation probe: transfer by unverified actor reverted, indicating runtime checks are enforced.. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §6 https://www.elegislation.gov.hk prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- KYC revalidation probe: transfer by unverified actor reverted, indicating runtime checks are enforced.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §6 https://www.elegislation.gov.hk
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+
+High
+7. Jurisdiction Screening
+Runtime hint: Jurisdiction screening probe: required module missing (CountryRestrictModule, ExchangeMonthlyLimitsModule).. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §5(1)(b) https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.
+Paths:
+- Jurisdiction screening probe: required module missing (CountryRestrictModule, ExchangeMonthlyLimitsModule).
+Compliance Ref: AMLO (Cap.615) Schedule 2 §5(1)(b) https://www.elegislation.gov.hk
+Recommendation: Align the implementation with AMLO (Cap.615) Schedule 2 §5(1)(b) https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Medium
+8. AMLO record keeping support
+Runtime hint: ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0x0000000000000000000000000000000000000000. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"identityStorage()","present":true,"ok":true}
+- nonzeroaddress:data.idrIdentityStorageAddr:
+Compliance Ref: AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk
+Recommendation: Align the implementation with AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Medium
+9. Ownership and Control Tracking
+Runtime hint: ABI has idr.beneficialOwners(address): false. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"beneficialOwners(address)","present":false,"ok":false}
+Compliance Ref: AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk
+Recommendation: Align the implementation with AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Medium
+10. Identity Resolution Interface
+Runtime hint: ABI has idr.identity(address): true. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §2(1)(a) https://www.elegislation.gov.hk prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"identity(address)","present":true,"ok":true}
+Compliance Ref: AMLO (Cap.615) Schedule 2 §2(1)(a) https://www.elegislation.gov.hk
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+
+Low
+11. Risk Classification Hooks
+Runtime hint: ABI has idr.riskLevel(address): false. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"riskLevel(address)","present":false,"ok":false}
+Compliance Ref: AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk
+Recommendation: Align the implementation with AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.

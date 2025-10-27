@@ -1,0 +1,16 @@
+Compliance Report
+Generated: 2025-10-25T11:04:12.135Z
+Deterministic Summary: PASS=9 | CRITICAL=0 | HIGH=0 | MEDIUM=1 | LOW=1
+LLM Model: gpt-4.1-nano-2025-04-14
+
+The audited ERC-3643 token contract demonstrates strong compliance with HKMA and SFC regulatory requirements, with most critical controls effectively enforced. However, a notable deficiency exists in ownership and control tracking, which warrants immediate remediation to ensure comprehensive regulatory adherence and operational integrity.
+
+Findings:
+
+Medium
+1. Ownership and Control Tracking Deficiency
+The ownership probe indicates that claim topic 2001 is not configured, suggesting incomplete ownership and control tracking mechanisms. This gap impairs the ability to verify ultimate ownership, which is essential for regulatory transparency, anti-money laundering (AML) controls, and safeguarding client assets.
+Paths:
+- runtime: Ownership probe: claim topic 2001 not configured.
+Compliance Ref: ERC-3643 (https://erc-3643.readthedocs.io/en/latest/); HKMA AMLO Schedule 2 §3(2) https://www.elegislation.gov.hk
+Recommendation: Implement comprehensive ownership and control tracking by configuring claim topic 2001 within the ERC-3643 contract. Develop and deploy unit tests to verify correct configuration and retrieval of ownership claims. Establish operational procedures for regular off-chain and on-chain reconciliation of ownership data. Document the control process in operational run-books to facilitate audit readiness and ensure ongoing compliance.

@@ -436,5 +436,888 @@
         "recommendation": "Implement continuous monitoring and periodic testing of compliance modules; establish operational run-books for response to alerts. Maintain detailed logs of module responses and configuration changes for audit readiness."
       }
     ]
+  },
+  "9a2c0477eff1d68faf64c764f080e7ff81449ad6a0fe3983f69797832d6c9ce7": {
+    "overall_assessment": "The audit reveals multiple critical and high-risk deficiencies in the ERC-3643 token implementation and operational controls, indicating significant compliance and security gaps that require immediate remediation to meet HKMA/SFC supervisory standards.",
+    "findings": [
+      {
+        "id": "F-001",
+        "title": "Transfer to Unverified Address Without Identity Verification",
+        "severity": "CRITICAL",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The system permitted a transfer to an unverified address without enforcing identity gating, violating the AML/CFT requirements under ERC-3643 and HKMA AML Ordinance (Cap. 615) Schedule 2 §2. This exposes the platform to misuse for illicit activities, risking regulatory sanctions and reputational damage.",
+        "compliance_refs": [
+          "https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
+        ],
+        "recommendation": "Implement strict identity verification checks within the transfer logic, ensuring transfers to unverified addresses are blocked unless proper identity gating is in place. Add event logging for transfer attempts to unverified addresses for audit trail validation. Conduct regression testing to confirm enforcement. Develop operational run-books for real-time monitoring of transfer attempts to unverified addresses."
+      },
+      {
+        "id": "F-002",
+        "title": "Missing Identity Storage Configuration",
+        "severity": "MEDIUM",
+        "phase2_verdict": "Medium",
+        "verdict": "MEDIUM",
+        "position": "SUPPORT",
+        "explanation": "The identity registry's storage address is set to zero (0x0), indicating that identity data is not being stored or referenced correctly. This undermines the AML record-keeping requirement under ERC-3643 and HKMA regulations, impairing traceability and compliance.",
+        "compliance_refs": [
+          "https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
+          "nonzeroaddress:data.idrIdentityStorageAddr:"
+        ],
+        "recommendation": "Update the smart contract configuration to set a valid, non-zero identity storage address. Add unit tests to verify correct storage address initialization and access. Document the configuration process and include in operational run-books. Validate storage address deployment in a test environment before production."
+      },
+      {
+        "id": "F-003",
+        "title": "Sanctions and Blacklist Control Lacking",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Transfers succeeded despite the presence of a compliance module, indicating that blacklist or sanctions controls are likely absent or ineffective. This contravenes AML/CFT obligations under HKMA AML Ordinance Schedule 2 §15, risking regulatory penalties and facilitating illicit financial flows.",
+        "compliance_refs": [
+          "https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent."
+        ],
+        "recommendation": "Integrate and activate blacklist and sanctions screening modules within the transfer process. Implement event logging for screening outcomes and transfer attempts. Conduct comprehensive testing of compliance checks. Establish operational procedures for ongoing monitoring and periodic review of sanctions lists."
+      },
+      {
+        "id": "F-004",
+        "title": "Missing Ongoing Monitoring Modules",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Key ongoing monitoring modules such as CountryRestrictModule and ExchangeMonthlyLimitsModule are absent, impairing the platform’s ability to detect suspicious activity and enforce compliance policies as required under ERC-3643 and HKMA standards. This increases the risk of regulatory non-compliance and market abuse.",
+        "compliance_refs": [
+          "https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
+        ],
+        "recommendation": "Develop and deploy the missing monitoring modules, ensuring they are integrated into the transaction workflow. Implement event logging for module activity and violations. Conduct regression testing to verify module functionality. Document operational procedures for ongoing monitoring and exception handling."
+      }
+    ]
+  },
+  "fa17b51eed57156f5ea6ea07e7e7b86996059721f1005dbb25d6f6a0c667a6c5": {
+    "overall_assessment": "The system demonstrates strong compliance with key AML controls, with effective identity gating and sanctions enforcement. However, there is a notable gap in ongoing monitoring configuration, which could impair continuous compliance oversight.",
+    "findings": [
+      {
+        "id": "F-HKMA-001",
+        "title": "Effective Identity Gating on Transfers",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The transfer to an unverified address was successfully reverted, indicating that identity gating controls are operational and enforce AML requirements as per ERC-3643 clause on identity verification (https://www.elegislation.gov.hk). This supports the prevention of illicit transfers and aligns with HKMA AML/CFT obligations.",
+        "compliance_refs": [
+          "ERC-3643: Identity gating clause",
+          "AMLO (Cap.615) Schedule 2 §2"
+        ],
+        "evidence_paths": [
+          "AMLO CDD probe: transfer to an unverified address reverted"
+        ],
+        "recommendation": "Maintain current identity gating controls and implement regular automated testing to verify gating effectiveness. Document and retain evidence of these tests for audit purposes."
+      },
+      {
+        "id": "F-HKMA-002",
+        "title": "Record-Keeping Support Not Fully Implemented",
+        "severity": "MEDIUM",
+        "phase2_verdict": "Medium",
+        "verdict": "FAIL",
+        "position": "CHALLENGE",
+        "explanation": "The identity storage address (idr.identityStorage()) is active but points to a zero address (0x000...000), and the linkedIdentityRegistries() list is empty. This indicates incomplete record-keeping, which hampers traceability and compliance verification as required by HKMA AML regulations (https://www.elegislation.gov.hk).",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2"
+        ],
+        "evidence_paths": [
+          "identityStorage() presence",
+          "linkedIdentityRegistries() list empty"
+        ],
+        "recommendation": "Configure and operationalize the identity storage address to a secure, non-zero address. Implement automated checks to verify the presence and integrity of identity records, and retain off-chain evidence of record-keeping activities for audit review."
+      },
+      {
+        "id": "F-HKMA-003",
+        "title": "Sanctions and Blacklist Enforcement Confirmed",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "Transfers to pseudo-sanctioned addresses were successfully reverted, indicating that sanctions screening and blacklist gating are effectively enforced, aligning with AML/CFT controls mandated by HKMA (https://www.elegislation.gov.hk). This reduces the risk of facilitating sanctioned transactions.",
+        "compliance_refs": [
+          "ERC-3643: Sanctions screening clause",
+          "AMLO (Cap.615) Schedule 2 §15"
+        ],
+        "evidence_paths": [
+          "Sanctions probe: transfer reverted"
+        ],
+        "recommendation": "Continue to monitor sanctions lists regularly and enhance automated detection of sanctioned addresses. Maintain detailed logs of enforcement actions for audit trail purposes."
+      },
+      {
+        "id": "F-HKMA-004",
+        "title": "Ongoing Monitoring Configuration Missing",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "FAIL",
+        "position": "CHALLENGE",
+        "explanation": "No compliance() address has been configured for ongoing monitoring, rendering modular checks unavailable. This gap impairs continuous AML oversight, potentially allowing undetected suspicious activity, contrary to HKMA AML supervision standards (https://www.elegislation.gov.hk).",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6"
+        ],
+        "evidence_paths": [
+          "no compliance() address configured"
+        ],
+        "recommendation": "Configure a dedicated compliance() address for ongoing monitoring. Develop operational procedures and automated checks to ensure continuous AML oversight, and document these controls for audit readiness. Conduct periodic testing of monitoring functions."
+      }
+    ]
+  },
+  "41e6029a1b7ce5905dd2a42b44163dfa26626c9a0fd18ff4f2217430b5b6ce8f": {
+    "overall_assessment": "The system exhibits multiple critical and high-risk compliance deficiencies related to AML/CFT controls, with significant gaps in identity verification, record keeping, sanctions screening, and ongoing monitoring. Immediate remediation is required to align with regulatory standards and mitigate supervisory risks.",
+    "findings": [
+      {
+        "id": "F-AML-001",
+        "title": "Transfer to Unverified Address Without Identity Gating",
+        "severity": "CRITICAL",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The system permitted a transfer to an unverified address without enforcing identity verification controls, violating the AMLO CDD requirements. This exposes the platform to potential misuse, money laundering, and terrorist financing risks, contravening HKMA AML/CFT standards as per AMLO Schedule 2 §2.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
+        ],
+        "recommendation": "Implement strict identity gating controls within the transfer function to prevent transactions to unverified addresses. Conduct regression testing to verify enforcement. Document control logic changes and update operational run-books to ensure ongoing compliance and audit readiness."
+      },
+      {
+        "id": "F-AML-002",
+        "title": "Missing Record Keeping for Identity Storage",
+        "severity": "MEDIUM",
+        "phase2_verdict": "Medium",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The platform's identity storage address is zero, indicating that identity records are not being stored or accessible, breaching record-keeping obligations under AMLO Schedule 2 §2. This impairs audit trail integrity and supervisory oversight.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
+          "nonzeroaddress:data.idrIdentityStorageAddr:"
+        ],
+        "recommendation": "Configure and wire the identityStorage() function to a valid storage contract address. Add unit tests to verify correct storage address assignment. Maintain detailed logs of identity storage configuration changes and periodically audit storage accessibility to ensure compliance."
+      },
+      {
+        "id": "F-AML-003",
+        "title": "Lack of Sanctions and Blacklist Controls",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The system allowed a transfer to proceed without performing sanctions screening or referencing a compliance module, violating AMLO Schedule 2 §15. This creates a risk of facilitating sanctioned transactions and regulatory non-compliance.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Sanctions probe: transfer succeeded and no compliance module present; blacklist control not evidenced."
+        ],
+        "recommendation": "Integrate sanctions screening and blacklist checks into the transaction process, referencing a compliant module. Add event logging for screening outcomes and conduct regular regression tests. Document operational procedures for sanctions compliance and establish periodic review cycles."
+      },
+      {
+        "id": "F-AML-004",
+        "title": "Ongoing Monitoring via Modular Compliance Not Configured",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Ongoing AML monitoring is not operational due to missing configuration of the compliance address, contravening AMLO Schedule 2 §5(1)(b)–§6. This hampers the platform's ability to detect suspicious activities proactively, risking regulatory sanctions.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Ongoing monitoring: no compliance() address configured; modular checks unavailable."
+        ],
+        "recommendation": "Configure and deploy a compliant monitoring module address. Develop and run integration tests to confirm operational status. Establish operational run-books for ongoing monitoring and implement periodic review and testing of the monitoring controls to ensure continuous effectiveness."
+      }
+    ]
+  },
+  "a85a867d8e959b99cb24eea2548c9740254d8e998f94a2d09dd109bd68905f1b": {
+    "overall_assessment": "The audited ERC-3643 implementation demonstrates comprehensive compliance with HKMA AMLO requirements, with most controls effectively enforced and verified through runtime probes. Minor gaps identified in ownership and risk classification tracking should be addressed to enhance supervisory readiness.",
+    "findings": [
+      {
+        "id": "F-HKMA-OWNERSHIP-TRACKING",
+        "title": "Ownership and Control Tracking Gap",
+        "severity": "MEDIUM",
+        "phase2_verdict": "FAIL",
+        "verdict": "MEDIUM",
+        "position": "CHALLENGE",
+        "explanation": "ABI's method 'idr.beneficialOwners(address)' returns false, indicating the system does not currently support beneficial ownership tracking as required by Schedule 2 §3(2) of Cap.615. This impairs the ability to verify ultimate ownership, posing potential regulatory and supervisory risks.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Runtime probe: 'hasabifn' for 'beneficialOwners(address)' returned false."
+        ],
+        "recommendation": "Implement and integrate beneficial ownership retrieval logic within the identity registry interface. Develop unit and integration tests to verify correct data retrieval. Maintain detailed event logs of ownership queries. Conduct periodic audits of ownership data and establish operational run-books for ownership verification procedures."
+      },
+      {
+        "id": "F-HKMA-RISK-CLASSIFICATION",
+        "title": "Risk Classification Hooks Missing",
+        "severity": "LOW",
+        "phase2_verdict": "FAIL",
+        "verdict": "LOW",
+        "position": "CHALLENGE",
+        "explanation": "ABI's 'idr.riskLevel(address)' method returns false, indicating the system does not currently support risk level classification as mandated by Schedule 2 §5(2)(b). This limits the ability to perform risk-based monitoring and compliance assessments.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Runtime probe: 'hasabifn' for 'riskLevel(address)' returned false."
+        ],
+        "recommendation": "Develop and deploy risk classification logic within the identity registry. Add corresponding event emissions and data storage for risk levels. Enhance testing coverage to include risk level assignment and retrieval. Integrate risk data into ongoing monitoring and reporting workflows to support supervisory oversight."
+      }
+    ]
+  },
+  "7b3dd72dd9c918881017c4971749c9be829bf595380c3c1a02ca90261877cc41": {
+    "overall_assessment": "The audit reveals multiple high and medium severity control gaps in the ERC-3643 implementation, indicating significant compliance and operational risks. Immediate remediation is required to align with regulatory standards and enhance system robustness.",
+    "findings": [
+      {
+        "id": "F-001",
+        "title": "Transfer to Unverified Address Without Identity Gating",
+        "severity": "CRITICAL",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The system permitted a token transfer to an unverified address without enforcing identity verification controls, contravening ERC-3643 and HKMA AML regulations (AMLO Cap.615 Schedule 2 §2). This creates a risk of misuse for illicit activities and regulatory non-compliance.",
+        "compliance_refs": [
+          "ERC-3643",
+          "HKMA AMLO Cap.615 Schedule 2 §2"
+        ],
+        "evidence_paths": [
+          "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
+        ],
+        "recommendation": "Implement strict identity gating in the transfer function to prevent transfers to unverified addresses. Add event logging for transfer attempts to unverified addresses for audit trail. Conduct regression testing to verify enforcement and document operational run-books for identity verification procedures."
+      },
+      {
+        "id": "F-002",
+        "title": "Missing Record-Keeping Support for Identity Storage",
+        "severity": "HIGH",
+        "phase2_verdict": "Medium",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The identity storage address is zero, indicating that identity records are not being stored or retrieved properly, violating record-keeping requirements under ERC-3643 and HKMA AML standards (AMLO Cap.615 Schedule 2 §2). This impairs auditability and compliance verification.",
+        "compliance_refs": [
+          "ERC-3643",
+          "HKMA AMLO Cap.615 Schedule 2 §2"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
+          "nonzeroaddress:data.idrIdentityStorageAddr:"
+        ],
+        "recommendation": "Wire the identity storage address correctly in the contract. Add event logs for identity storage updates. Develop unit tests to verify correct storage address assignment and retrieval. Maintain detailed records of identity storage operations for audit purposes."
+      },
+      {
+        "id": "F-003",
+        "title": "Sanctions and Blacklist Control Likely Absent",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Transfers succeeded despite the presence of a compliance module, suggesting blacklist or sanctions controls are not enforced, violating ERC-3643 standards and HKMA AML requirements (AMLO Cap.615 Schedule 2 §15). This exposes the system to sanctions violations and reputational risk.",
+        "compliance_refs": [
+          "ERC-3643",
+          "HKMA AMLO Cap.615 Schedule 2 §15"
+        ],
+        "evidence_paths": [
+          "Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent."
+        ],
+        "recommendation": "Integrate and enforce blacklist and sanctions screening modules within the transfer process. Log all screening results and transfer attempts. Conduct comprehensive testing to ensure controls are active and effective. Maintain audit trails for compliance verification."
+      },
+      {
+        "id": "F-004",
+        "title": "Missing Ongoing Monitoring Modules",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Key modules such as CountryRestrictModule and ExchangeMonthlyLimitsModule are missing, undermining ongoing AML and jurisdiction screening controls mandated by ERC-3643 and HKMA regulations (AMLO Cap.615 Schedule 2 §5(1)(b)–§6). This increases the risk of unmonitored suspicious activities.",
+        "compliance_refs": [
+          "ERC-3643",
+          "HKMA AMLO Cap.615 Schedule 2 §5(1)(b)–§6"
+        ],
+        "evidence_paths": [
+          "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
+        ],
+        "recommendation": "Deploy and configure the missing monitoring modules. Log their activation and operational status. Develop operational run-books for ongoing AML monitoring procedures. Conduct integration tests to verify real-time monitoring capabilities."
+      },
+      {
+        "id": "F-005",
+        "title": "Ownership and Control Tracking Not Implemented",
+        "severity": "MEDIUM",
+        "phase2_verdict": "Medium",
+        "verdict": "MEDIUM",
+        "position": "CHALLENGE",
+        "explanation": "The system does not support beneficial ownership tracking, with idr.beneficialOwners(address) returning false, contravening ERC-3643 and HKMA requirements for ownership transparency (AMLO Cap.615 Schedule 2 §3(2)). This hampers effective risk assessment and control.",
+        "compliance_refs": [
+          "ERC-3643",
+          "HKMA AMLO Cap.615 Schedule 2 §3(2)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"beneficialOwners(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Implement beneficial ownership tracking functions within the identity registry. Log ownership data updates and access. Conduct unit tests to verify ownership data retrieval. Ensure ownership information is integrated into risk assessment workflows."
+      },
+      {
+        "id": "F-006",
+        "title": "Risk Level Classification Not Supported",
+        "severity": "LOW",
+        "phase2_verdict": "Low",
+        "verdict": "LOW",
+        "position": "EXTEND",
+        "explanation": "The system does not support risk level classification via idr.riskLevel(address), limiting risk-based controls and compliance reporting, as per ERC-3643 and HKMA standards (AMLO Cap.615 Schedule 2 §5(2)(b)).",
+        "compliance_refs": [
+          "ERC-3643",
+          "HKMA AMLO Cap.615 Schedule 2 §5(2)(b)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"riskLevel(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Develop and integrate risk classification functions. Log risk level assignments and updates. Add unit tests to verify correct risk level retrieval. Use risk data in transaction controls and reporting."
+      },
+      {
+        "id": "F-007",
+        "title": "Identity Resolution Interface Missing",
+        "severity": "MEDIUM",
+        "phase2_verdict": "Medium",
+        "verdict": "MEDIUM",
+        "position": "CHALLENGE",
+        "explanation": "The identity resolution interface (idr.identity(address)) is not implemented, impairing identity verification and compliance checks, contrary to ERC-3643 and HKMA AML standards (AMLO Cap.615 Schedule 2 §2(1)(a)).",
+        "compliance_refs": [
+          "ERC-3643",
+          "HKMA AMLO Cap.615 Schedule 2 §2(1)(a)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identity(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Implement identity resolution functions. Log identity verification events. Conduct unit tests to ensure proper identity resolution. Integrate with AML screening workflows."
+      },
+      {
+        "id": "F-008",
+        "title": "Lack of Dual Control for Critical Actions",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "HIGH",
+        "position": "SUPPORT",
+        "explanation": "Dual control mechanisms are in place for critical actions such as freeze/unfreeze, aligning with ERC-3643 and HKMA control objectives to prevent misuse. The revert of unauthorized freeze actions indicates effective control.",
+        "compliance_refs": [
+          "ERC-3643",
+          "HKMA AMLO Cap.615 Schedule 2 §7(2)(b)"
+        ],
+        "evidence_paths": [
+          "Dual-control probe: unauthorized freeze reverted (cannot estimate gas; transaction may fail or may require manual gas limit [ See: https://links.ethers.org/v5-errors-UNPREDICTABLE_GAS_LIMIT ] (reason=\"VM Exception while process...)."
+        ],
+        "recommendation": "Maintain dual-control procedures for all critical actions. Document control workflows and roles. Conduct periodic testing of control effectiveness. Log all critical action attempts and outcomes."
+      },
+      {
+        "id": "F-009",
+        "title": "Successful Freeze and Unfreeze Operations",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "HIGH",
+        "position": "SUPPORT",
+        "explanation": "The system successfully executed freeze and unfreeze operations, with status updates indicating proper state management, supporting operational integrity and compliance with ERC-3643 standards.",
+        "compliance_refs": [
+          "ERC-3643",
+          "HKMA AMLO Cap.615 Schedule 2 §7"
+        ],
+        "evidence_paths": [
+          "Freeze succeeded. Unfreeze succeeded. Post-freeze status: true Restored status: false"
+        ],
+        "recommendation": "Continue monitoring freeze/unfreeze operations. Log status changes and access controls. Develop operational run-books for freeze/unfreeze procedures. Conduct periodic testing to ensure consistent functionality."
+      },
+      {
+        "id": "F-010",
+        "title": "KYC Status Revalidation Missing",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Transfers by unverified actors succeeded without runtime KYC revalidation, violating AML controls mandated by ERC-3643 and HKMA standards (AMLO Cap.615 Schedule 2 §6). This exposes the system to AML risks and regulatory sanctions.",
+        "compliance_refs": [
+          "ERC-3643",
+          "HKMA AMLO Cap.615 Schedule 2 §6"
+        ],
+        "evidence_paths": [
+          "KYC revalidation probe: transfer by unverified actor succeeded, runtime identity recheck missing."
+        ],
+        "recommendation": "Implement runtime KYC revalidation checks before transfer execution. Log all revalidation attempts and outcomes. Develop operational procedures for KYC verification. Conduct testing to verify enforcement."
+      },
+      {
+        "id": "F-011",
+        "title": "Jurisdiction Screening Module Missing",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The absence of jurisdiction screening modules (CountryRestrictModule, ExchangeMonthlyLimitsModule) impairs compliance with AML jurisdiction controls, violating ERC-3643 and HKMA AML standards (AMLO Cap.615 Schedule 2 §5(1)(b)). This increases exposure to jurisdictional risks.",
+        "compliance_refs": [
+          "ERC-3643",
+          "HKMA AMLO Cap.615 Schedule 2 §5(1)(b)"
+        ],
+        "evidence_paths": [
+          "Jurisdiction screening probe: required module missing (CountryRestrictModule, ExchangeMonthlyLimitsModule)."
+        ],
+        "recommendation": "Integrate jurisdiction screening modules into transaction workflows. Log their activation and operational status. Conduct tests to verify jurisdiction checks are enforced prior to transfers. Document operational procedures for jurisdiction compliance."
+      }
+    ]
+  },
+  "e8c2666464309838ae53f560ac83d3c8288e0debe7380f5f1695a67347bd6f9a": {
+    "overall_assessment": "The token contract exhibits multiple critical and high-risk control deficiencies related to identity verification, sanctions screening, ongoing monitoring, and operational controls, indicating significant supervisory concerns. Several key controls are missing or bypassed, posing risks to regulatory compliance, market integrity, and client asset protection.",
+    "findings": [
+      {
+        "id": "F-001",
+        "title": "Transfer to Unverified Address Bypasses Identity Gating",
+        "severity": "CRITICAL",
+        "phase2_verdict": "High",
+        "verdict": "CRITICAL",
+        "position": "CHALLENGE",
+        "explanation": "The transfer probe confirmed that tokens can be transferred to an unverified address without triggering identity verification controls, violating AML regulations (ERC-3643 clause: https://www.elegislation.gov.hk). This undermines the core AML safeguard of identity gating, risking misuse for illicit activities.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
+        ],
+        "recommendation": "Implement strict identity gating logic within the transfer function to prevent transfers to unverified addresses. Add event logs for all transfer attempts to unverified addresses and conduct regression testing to verify enforcement. Document operational procedures for ongoing monitoring of transfer anomalies."
+      },
+      {
+        "id": "F-002",
+        "title": "Missing Record-Keeping Support for Identity Storage",
+        "severity": "HIGH",
+        "phase2_verdict": "Medium",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The record-keeping probe indicates that the identity storage address is zero, and the storage is not wired, contravening AML record-keeping requirements (ERC-3643 clause: https://www.elegislation.gov.hk). This impairs audit trail integrity and regulatory compliance.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
+          "nonzeroaddress:data.idrIdentityStorageAddr:"
+        ],
+        "recommendation": "Wire the identity storage address correctly in the contract and implement event logging for storage updates. Add unit tests to verify correct wiring and storage access. Maintain detailed change logs and conduct periodic audits of storage wiring."
+      },
+      {
+        "id": "F-003",
+        "title": "Sanctions and Blacklist Control Likely Absent",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The transfer succeeded despite the presence of a compliance module, indicating that blacklist controls are likely absent or ineffective, violating AML sanctions screening obligations (ERC-3643 clause: https://www.elegislation.gov.hk). This exposes the platform to sanctions violations and reputational risk.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent."
+        ],
+        "recommendation": "Integrate and enforce blacklist and sanctions screening within the transfer logic, with explicit event logging. Conduct comprehensive unit and integration tests to verify control effectiveness. Establish operational procedures for regular sanctions list updates and monitoring."
+      },
+      {
+        "id": "F-004",
+        "title": "Missing Ongoing Monitoring Modules",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The absence of modules such as CountryRestrictModule and ExchangeMonthlyLimitsModule indicates that ongoing jurisdiction and volume monitoring are not operational, contravening AML requirements (ERC-3643 clause: https://www.elegislation.gov.hk). This increases the risk of non-compliance and market abuse.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
+        ],
+        "recommendation": "Deploy and wire the missing monitoring modules, with event logging for monitoring activities. Develop operational run-books for continuous oversight and establish regression tests to verify module activation and data collection."
+      },
+      {
+        "id": "F-005",
+        "title": "Ownership and Control Tracking Not Implemented",
+        "severity": "MEDIUM",
+        "phase2_verdict": "Medium",
+        "verdict": "MEDIUM",
+        "position": "CHALLENGE",
+        "explanation": "The contract does not support beneficial ownership tracking, as indicated by the false response from 'beneficialOwners(address)', violating AML ownership transparency obligations (ERC-3643 clause: https://www.elegislation.gov.hk). This hampers effective customer due diligence.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"beneficialOwners(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Implement ownership and control tracking functions, with event logs for ownership changes. Add unit tests to verify correct ownership data retrieval and storage. Ensure periodic review and reconciliation of ownership data."
+      },
+      {
+        "id": "F-006",
+        "title": "Risk Level and Identity Resolution Not Supported",
+        "severity": "LOW",
+        "phase2_verdict": "Low",
+        "verdict": "LOW",
+        "position": "CHALLENGE",
+        "explanation": "The contract lacks support for risk classification and identity resolution functions, which are important for comprehensive AML risk assessment (ERC-3643 clause: https://www.elegislation.gov.hk). While not critical, their absence limits risk management capabilities.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"riskLevel(address)\",\"present\":false,\"ok\":false}",
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identity(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Develop and wire risk level and identity resolution functions, with event logging. Add unit tests to verify correct data retrieval and processing. Integrate these functions into the AML monitoring workflow."
+      },
+      {
+        "id": "F-007",
+        "title": "Identity Resolution Interface Missing",
+        "severity": "MEDIUM",
+        "phase2_verdict": "Medium",
+        "verdict": "MEDIUM",
+        "position": "CHALLENGE",
+        "explanation": "The absence of an identity resolution interface ('idr.identity(address)') impairs the platform’s ability to verify and reconcile identities, contravening AML standards (ERC-3643 clause: https://www.elegislation.gov.hk).",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2(1)(a) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identity(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Implement the identity resolution interface with proper wiring and event logging. Conduct unit tests to verify identity retrieval accuracy. Document procedures for identity reconciliation and periodic validation."
+      },
+      {
+        "id": "F-008",
+        "title": "Dual Control for Critical Actions Demonstrated",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The dual-control probe confirmed that a non-authorized signer was able to freeze an address successfully, demonstrating effective dual-control procedures for critical actions, aligning with AML control objectives (ERC-3643 clause: https://www.elegislation.gov.hk).",
+        "compliance_refs": [],
+        "evidence_paths": [
+          "Dual-control probe: non-authorized signer froze address successfully (state restored)."
+        ],
+        "recommendation": "Maintain dual-control procedures, document operational run-books, and conduct periodic testing of control effectiveness. Log all critical actions with signer roles for audit trail."
+      },
+      {
+        "id": "F-009",
+        "title": "Freeze and Unfreeze Operations Functional",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The freeze and unfreeze functions successfully executed, confirming operational capability for asset control, which is essential for client asset protection (ERC-3643 clause: https://www.elegislation.gov.hk).",
+        "compliance_refs": [],
+        "evidence_paths": [
+          "Freeze succeeded. Unfreeze succeeded."
+        ],
+        "recommendation": "Regularly test freeze/unfreeze functions, log all operations, and include these events in operational run-books for audit readiness."
+      },
+      {
+        "id": "F-010",
+        "title": "KYC Status Revalidation Missing for Transfers",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The transfer probe confirmed that a transfer by an unverified actor succeeded without runtime KYC revalidation, violating AML requirements (ERC-3643 clause: https://www.elegislation.gov.hk). This exposes the platform to money laundering risks.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §6 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "KYC revalidation probe: transfer by unverified actor succeeded, runtime identity recheck missing."
+        ],
+        "recommendation": "Implement runtime KYC revalidation checks during transfers, with event logging. Add unit tests to verify revalidation triggers and outcomes. Establish operational procedures for ongoing KYC compliance monitoring."
+      },
+      {
+        "id": "F-011",
+        "title": "Jurisdiction Screening Modules Missing",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The absence of jurisdiction screening modules (CountryRestrictModule, ExchangeMonthlyLimitsModule) means jurisdiction checks are not enforced, violating AML and AML-related controls (ERC-3643 clause: https://www.elegislation.gov.hk). This increases the risk of transactions from restricted jurisdictions.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §5(1)(b) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Jurisdiction screening probe: required module missing (CountryRestrictModule, ExchangeMonthlyLimitsModule)."
+        ],
+        "recommendation": "Deploy jurisdiction screening modules, wire them into the transaction flow, and log all screening events. Conduct regression tests to verify correct jurisdiction enforcement and maintain operational oversight."
+      }
+    ]
+  },
+  "5e773f510d0c0d13a036bb63f115998072df523bf7f5dff72a3312d88c79bb14": {
+    "overall_assessment": "The audit reveals significant compliance gaps with AMLO requirements, particularly in customer due diligence, sanctions screening, and ongoing monitoring. Immediate remediation is necessary to mitigate regulatory risks.",
+    "findings": [
+      {
+        "id": "R-HKMA-AMLO-CDD",
+        "title": "AMLO CDD identity controls",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "A transfer to an unverified address was allowed, indicating a failure in identity verification controls.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
+        ],
+        "recommendation": "Implement mandatory identity verification for all transfers, ensuring that only verified addresses can receive funds. Conduct a review of the identity verification process and update the smart contract logic accordingly."
+      },
+      {
+        "id": "R-HKMA-AMLO-RecordKeeping",
+        "title": "AMLO record keeping support",
+        "severity": "MEDIUM",
+        "phase2_verdict": "Medium",
+        "verdict": "MEDIUM",
+        "position": "CHALLENGE",
+        "explanation": "The identity storage address returned zero, indicating that identity records are not being properly maintained.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
+          "nonzeroaddress:data.idrIdentityStorageAddr:"
+        ],
+        "recommendation": "Ensure that the identity storage mechanism is correctly implemented and that it points to a valid address. Conduct a thorough audit of the identity storage functionality."
+      },
+      {
+        "id": "R-HKMA-AMLO-Sanctions",
+        "title": "Sanctions and Blacklist Screening",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Transfers succeeded despite the presence of a compliance module, indicating a likely absence of effective blacklist controls.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent."
+        ],
+        "recommendation": "Integrate robust sanctions screening mechanisms to ensure that transactions are blocked if they involve sanctioned entities. Update the compliance module to include blacklist checks."
+      },
+      {
+        "id": "R-HKMA-AMLO-OngoingMonitoring",
+        "title": "Ongoing Monitoring via Modular Compliance",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Missing ongoing monitoring modules indicate a failure to continuously assess risk associated with transactions.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
+        ],
+        "recommendation": "Implement the required ongoing monitoring modules to ensure continuous risk assessment. Conduct a risk assessment to identify potential vulnerabilities."
+      },
+      {
+        "id": "R-HKMA-AMLO-KYCStatusRecheck",
+        "title": "KYC Status Revalidation",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "A transfer by an unverified actor succeeded, indicating a lack of runtime identity recheck.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §6 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "KYC revalidation probe: transfer by unverified actor succeeded, runtime identity recheck missing."
+        ],
+        "recommendation": "Implement a runtime identity recheck for all transactions to ensure compliance with KYC requirements. Update the contract logic to enforce this check."
+      },
+      {
+        "id": "R-HKMA-AMLO-InvestorJurisdiction",
+        "title": "Jurisdiction Screening",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The required jurisdiction screening module is missing, which could expose the organization to regulatory risks.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §5(1)(b) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Jurisdiction screening probe: required module missing (CountryRestrictModule, ExchangeMonthlyLimitsModule)."
+        ],
+        "recommendation": "Integrate the necessary jurisdiction screening modules to comply with AMLO requirements. Conduct a review of jurisdictional risks associated with current operations."
+      },
+      {
+        "id": "R-HKMA-AMLO-OwnershipControl",
+        "title": "Ownership and Control Tracking",
+        "severity": "MEDIUM",
+        "phase2_verdict": "Medium",
+        "verdict": "MEDIUM",
+        "position": "CHALLENGE",
+        "explanation": "The absence of beneficial ownership tracking indicates a gap in understanding the control structure of clients.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"beneficialOwners(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Implement beneficial ownership tracking to ensure compliance with AMLO requirements. Update the contract to include functionality for tracking beneficial owners."
+      },
+      {
+        "id": "R-HKMA-AMLO-RiskClassification",
+        "title": "Risk Classification Hooks",
+        "severity": "LOW",
+        "phase2_verdict": "Low",
+        "verdict": "LOW",
+        "position": "CHALLENGE",
+        "explanation": "The absence of risk classification hooks limits the ability to assess and manage client risk effectively.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"riskLevel(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Integrate risk classification hooks into the compliance framework to facilitate effective risk management. Update the contract to include risk classification functionality."
+      },
+      {
+        "id": "R-HKMA-AMLO-AddressResolution",
+        "title": "Identity Resolution Interface",
+        "severity": "MEDIUM",
+        "phase2_verdict": "Medium",
+        "verdict": "MEDIUM",
+        "position": "CHALLENGE",
+        "explanation": "The absence of an identity resolution interface limits the ability to verify client identities effectively.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2(1)(a) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identity(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Implement an identity resolution interface to enhance identity verification processes. Update the contract to include this functionality."
+      }
+    ]
+  },
+  "03ab262f3c8ee1be81d786d3e80f8efd789c0ee5feb17189e85afe877b93b3b7": {
+    "overall_assessment": "The token contract exhibits multiple critical and high-risk compliance deficiencies related to identity verification, sanctions screening, ongoing monitoring, and record-keeping, which pose significant regulatory and operational risks. Immediate remediation is required to align with ERC-3643 standards and HKMA/SFC regulatory expectations.",
+    "findings": [
+      {
+        "id": "F-001",
+        "title": "Transfer to Unverified Address Without Identity Gating",
+        "severity": "CRITICAL",
+        "phase2_verdict": "High",
+        "verdict": "FAIL",
+        "position": "SUPPORT",
+        "explanation": "The contract permitted a transfer to an unverified address without enforcing identity verification controls, violating the AML/CFT requirements under HKMA AMLO Schedule 2 §2 and ERC-3643 clause 4.1. This exposes the platform to misuse, money laundering, and terrorist financing risks.",
+        "compliance_refs": [
+          "ERC-3643 https://erc-3643.org",
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "runtime: AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
+        ],
+        "recommendation": "Implement strict identity gating controls within the transfer function, ensuring that transfers to unverified addresses are blocked unless proper KYC/AML checks are completed. Add event logging for failed transfers and conduct regression testing to verify enforcement. Develop operational run-books for manual review of suspicious transfers."
+      },
+      {
+        "id": "F-002",
+        "title": "Missing Record-Keeping Support for Identity Storage",
+        "severity": "HIGH",
+        "phase2_verdict": "Medium",
+        "verdict": "FAIL",
+        "position": "SUPPORT",
+        "explanation": "The contract's identity storage address is zero, indicating that identity records are not being stored or referenced correctly, contravening HKMA AMLO Schedule 2 §2 and ERC-3643 requirements for proper record-keeping, which impairs auditability and compliance verification.",
+        "compliance_refs": [
+          "ERC-3643 https://erc-3643.org",
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "runtime: identityRegistry.identityStorage() returned zero address; storage is not wired."
+        ],
+        "recommendation": "Configure and wire the identity storage address correctly in the smart contract. Add event logs for identity storage updates and implement unit tests to verify correct storage referencing. Maintain audit logs for all identity-related transactions to facilitate compliance audits."
+      },
+      {
+        "id": "F-003",
+        "title": "Sanctions and Blacklist Control Likely Absent",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "FAIL",
+        "position": "SUPPORT",
+        "explanation": "Transfers succeeded despite the presence of a compliance module, indicating that blacklist or sanctions screening controls are not effectively enforced, violating HKMA AMLO Schedule 2 §15 and ERC-3643 standards for sanctions compliance, risking regulatory sanctions and reputational damage.",
+        "compliance_refs": [
+          "ERC-3643 https://erc-3643.org",
+          "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "runtime: Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent."
+        ],
+        "recommendation": "Integrate and enforce blacklist and sanctions screening controls within the transfer logic, ensuring transactions are rejected if the counterparty is sanctioned. Add event logs for screening failures and conduct integration testing. Establish operational procedures for regular sanctions list updates and monitoring."
+      },
+      {
+        "id": "F-004",
+        "title": "Missing Ongoing Monitoring Modules",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "FAIL",
+        "position": "SUPPORT",
+        "explanation": "The contract lacks key ongoing monitoring modules such as CountryRestrictModule and ExchangeMonthlyLimitsModule, which are essential for continuous AML/CFT compliance per HKMA Schedule 2 §5(1)(b)–§6 and ERC-3643 standards, increasing the risk of unmonitored suspicious activity.",
+        "compliance_refs": [
+          "ERC-3643 https://erc-3643.org",
+          "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "runtime: Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
+        ],
+        "recommendation": "Develop and deploy the missing monitoring modules, ensuring they are integrated into the transaction flow. Add event logs for module activity and establish operational procedures for regular monitoring and reporting. Conduct regression testing to verify module activation and effectiveness."
+      },
+      {
+        "id": "F-005",
+        "title": "Ownership and Control Tracking Not Configured",
+        "severity": "MEDIUM",
+        "phase2_verdict": "Medium",
+        "verdict": "FAIL",
+        "position": "SUPPORT",
+        "explanation": "Ownership claim topic 2001 is not configured, impairing the ability to track ownership and control as required by HKMA AMLO Schedule 2 §3(2) and ERC-3643, which could hinder effective customer due diligence and risk assessment.",
+        "compliance_refs": [
+          "ERC-3643 https://erc-3643.org",
+          "AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "runtime: Ownership probe: claim topic 2001 not configured."
+        ],
+        "recommendation": "Configure ownership and control claim topics within the smart contract, ensuring proper linkage to customer identities. Add event logs for ownership claims and conduct unit tests to verify configuration. Maintain documentation for ownership control processes."
+      }
+    ]
+  },
+  "222307e87f1868977960a75c911fba3d721a13ff52c65bee4bca17700e5f69e4": {
+    "overall_assessment": "The audited ERC-3643 token contract demonstrates strong compliance with HKMA and SFC regulatory requirements, with most critical controls effectively enforced. However, a notable deficiency exists in ownership and control tracking, which warrants immediate remediation to ensure comprehensive regulatory adherence and operational integrity.",
+    "findings": [
+      {
+        "id": "F-001",
+        "title": "Ownership and Control Tracking Deficiency",
+        "severity": "MEDIUM",
+        "phase2_verdict": "FAIL",
+        "verdict": "MEDIUM",
+        "position": "CHALLENGE",
+        "explanation": "The ownership probe indicates that claim topic 2001 is not configured, suggesting incomplete ownership and control tracking mechanisms. This gap impairs the ability to verify ultimate ownership, which is essential for regulatory transparency, anti-money laundering (AML) controls, and safeguarding client assets.",
+        "compliance_refs": [
+          "ERC-3643 (https://erc-3643.readthedocs.io/en/latest/)",
+          "HKMA AMLO Schedule 2 §3(2) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "runtime: Ownership probe: claim topic 2001 not configured."
+        ],
+        "recommendation": "Implement comprehensive ownership and control tracking by configuring claim topic 2001 within the ERC-3643 contract. Develop and deploy unit tests to verify correct configuration and retrieval of ownership claims. Establish operational procedures for regular off-chain and on-chain reconciliation of ownership data. Document the control process in operational run-books to facilitate audit readiness and ensure ongoing compliance."
+      }
+    ]
   }
 }

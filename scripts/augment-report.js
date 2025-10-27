@@ -13,9 +13,27 @@ const {
   normalizeArray,
   buildRulePayload,
   buildRuntimePayload,
-  detectHintFromTexts,
   safeDiv
 } = helpers;
+
+function loadLocalEnv(root) {
+  const envPath = path.join(root, ".env");
+  if (!fs.existsSync(envPath)) return;
+  try {
+    const raw = fs.readFileSync(envPath, "utf8");
+    for (const line of raw.split(/\r?\n/)) {
+      if (!line || line.trim().startsWith("#")) continue;
+      const idx = line.indexOf("=");
+      if (idx === -1) continue;
+      const key = line.slice(0, idx).trim();
+      if (!key || process.env[key]) continue;
+      const value = line.slice(idx + 1).trim();
+      process.env[key] = value;
+    }
+  } catch (err) {
+    console.warn(`[augment-llm] Failed to load .env: ${err.message}`);
+  }
+}
 
 function parseArgs() {
   const args = process.argv.slice(2);
@@ -93,9 +111,8 @@ function fallbackFindings(items) {
     const evidence = flattenDetails(it.details || []);
     const evidencePaths = evidence.slice(0, 3);
     const noteText = it.note ? String(it.note) : "";
-    const hint = detectHintFromTexts([noteText, ...evidence]);
-    const verdict = hint || (it.pass ? "PASS" : severityInfo.label);
-    const position = hint || (it.pass ? "SUPPORT" : "CHALLENGE");
+    const verdict = it.pass ? "PASS" : severityInfo.label;
+    const position = "";
     const clauseRefs = normalizeArray(it.policyRef || it.policy_refs);
     const clauseRaw = clauseRefs.length ? clauseRefs[0] : "ERC-3643";
     const clauseDescriptor = describeClause(clauseRaw);
@@ -105,14 +122,8 @@ function fallbackFindings(items) {
 
     let explanation;
     let recommendation;
-    if (hint === "CHALLENGE") {
-      explanation = `${evidenceNarrative}Deterministic testing reported a pass, yet the observed behaviour conflicts with ${clauseDescriptor}. Leaving that branch open could let investors who have not completed the mandated onboarding receive tokens, exposing the issuer to a breach of the identity-gating requirement.`;
-      recommendation = `Rework the transfer logic so every execution path consults identityRegistry.isVerified before tokens move, add a regression test that reproduces the failing probe, and retain documentation tying the control back to ${clauseDescriptor}.`;
-    } else if (hint === "EXTEND") {
-      explanation = `${evidenceNarrative}The control succeeds in the primary path, but that branch is not logged or enforced consistently. ${clauseDescriptor} expects every denial branch to be traceable so compliance officers can demonstrate the rule was applied.`;
-      recommendation = `Instrument the contract to record and honour compliance.canTransfer for the uncovered branch, extend automated tests and monitoring to cover that scenario, and update run-books so the control remains aligned with ${clauseDescriptor}.`;
-    } else if (noteText) {
-      if (position === "SUPPORT") {
+    if (noteText) {
+      if (it.pass) {
         explanation = `${evidenceNarrative}Deterministic testing shows the control behaves exactly as ${clauseDescriptor} prescribes, giving non-technical sponsors assurance that the required safeguard is active.`;
         recommendation = `Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.`;
       } else {
@@ -120,7 +131,7 @@ function fallbackFindings(items) {
         recommendation = `Align the implementation with ${clauseDescriptor}, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.`;
       }
     } else {
-      if (position === "SUPPORT") {
+      if (it.pass) {
         explanation = `Deterministic testing confirmed the control currently meets the obligations in ${clauseDescriptor}.`;
         recommendation = `Preserve the implementation and maintain regression tests that demonstrate compliance after each upgrade.`;
       } else {
@@ -141,6 +152,37 @@ function fallbackFindings(items) {
       evidence_paths: evidencePaths,
       recommendation
     };
+  });
+}
+
+function alignFindingsWithDeterministic(items, findings) {
+  if (!Array.isArray(findings) || findings.length === 0) return [];
+  const map = new Map();
+  for (const it of (Array.isArray(items) ? items : [])) {
+    if (!it || !it.id) continue;
+    const key = String(it.id).toUpperCase();
+    const sev = String(it.severityCode || it.severity || it.severityLabel || "MEDIUM").toUpperCase();
+    map.set(key, {
+      pass: !!it.pass,
+      severity: sev
+    });
+  }
+  return findings.map((f) => {
+    if (!f || !f.id) return f;
+    const key = String(f.id).toUpperCase();
+    const base = map.get(key);
+    if (!base) return f;
+    const severityCode = base.pass ? "PASS" : base.severity;
+    const severityInfo = severityCode === "PASS"
+      ? { code: "PASS", label: "Pass" }
+      : normalizeSeverityValue(severityCode);
+    return Object.assign({}, f, {
+      severity: severityCode === "PASS" ? "PASS" : severityInfo.code,
+      severity_label: severityInfo.label,
+      phase2_verdict: severityInfo.label,
+      verdict: severityCode === "PASS" ? "PASS" : severityInfo.code,
+      pass: base.pass
+    });
   });
 }
 
@@ -219,11 +261,8 @@ function normalizeLlmFinding(finding) {
   const severityInfo = normalizeSeverityValue(finding.severity || finding.severity_code || finding.severity_label);
   const severity = severityInfo.code;
   const severityLabelText = severityInfo.label;
-  const phase2VerdictRaw = finding.phase2_verdict || finding.phase2_verdict_label || finding.phase2Severity;
-  const phase2Verdict = phase2VerdictRaw ? severityLabel(phase2VerdictRaw) : severityLabelText;
-  const verdictRaw = finding.verdict || finding.suggested_verdict || severityLabelText;
-  const verdict = String(verdictRaw || "").toUpperCase();
-  const position = String(finding.position || "EXTEND").toUpperCase();
+  const phase2Verdict = severityLabelText;
+  const position = "";
   const explanation = String(finding.explanation || "").trim();
   const complianceRefs = normalizeArray(finding.compliance_refs || finding.policy_refs);
   const evidencePaths = normalizeArray(finding.evidence_paths || finding.evidence);
@@ -234,7 +273,8 @@ function normalizeLlmFinding(finding) {
     severity,
     severity_label: severityLabelText,
     phase2_verdict: phase2Verdict,
-    verdict,
+    verdict: severity,
+    pass: false,
     position,
     explanation,
     compliance_refs: complianceRefs,
@@ -335,6 +375,7 @@ function hasOnChainData(runsMeta) {
 }
 
 async function augment(inputPath, outputPath, textPath, root) {
+  loadLocalEnv(root);
   if (!fs.existsSync(inputPath)) {
     console.error(`[augment-llm] Input not found: ${inputPath}`);
     process.exit(1);
@@ -344,6 +385,7 @@ async function augment(inputPath, outputPath, textPath, root) {
   const summary = obj.summary || { total: items.length, pass: 0, critical: 0, high: 0, medium: 0, low: 0, fail: 0, warn: 0, info: 0 };
   const runsMeta = Array.isArray(obj.runs) ? obj.runs : [];
 
+  const payload = buildLlmInput(summary, items, runsMeta);
   let llmResult;
   if (!hasOnChainData(runsMeta)) {
     console.warn("[augment-llm] Skipping LLM: no on-chain data available.");
@@ -353,10 +395,9 @@ async function augment(inputPath, outputPath, textPath, root) {
       reason: "LLM skipped: deterministic data only (no on-chain evidence).",
       overallAssessment: "LLM skipped: deterministic data only (no on-chain evidence).",
       findings: fallbackFindings(items),
-      payload: buildLlmInput(summary, items, runsMeta)
+      payload
     };
   } else {
-    const payload = buildLlmInput(summary, items, runsMeta);
     const llm = await callPhase2Llm(payload);
     if (llm.disabled) {
       console.warn(`[augment-llm] ${llm.message || "LLM disabled"}`);
@@ -389,6 +430,8 @@ async function augment(inputPath, outputPath, textPath, root) {
       };
     }
   }
+
+  llmResult.findings = alignFindingsWithDeterministic(items, llmResult.findings);
 
   const generatedAt = new Date().toISOString();
   obj.llm = {

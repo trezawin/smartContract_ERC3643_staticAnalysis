@@ -29,8 +29,8 @@ export async function bootstrap(hre?: HardhatRuntimeEnvironment): Promise<Bootst
 
   const ClaimTopicsRegistryArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json");
   const TrustedIssuersRegistryArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json");
-  const IdentityRegistryStorageArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json");
   const IdentityRegistryArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json");
+  const IdentityRegistryStorageArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json");
   const TokenArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json");
   const ModularComplianceArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json");
   const CountryRestrictModuleArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/modules/CountryRestrictModule.sol/CountryRestrictModule.json");

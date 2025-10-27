@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ERC-3643 Compliance Comparison Report</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 30px; background: #f9f9f9; color:#2c3e50 }
+    h1, h2 { color: #2c3e50; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 2em; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
+    th { background-color: #2c3e50; color: white; }
+    tr:nth-child(even) { background-color: #f2f2f2; }
+    .small { font-size:0.9em; color:#7f8c8d }
+    .center { text-align:center }
+    .rules-table th, .rules-table td { text-align:center }
+    .legend { display:flex; gap:12px; align-items:center }
+    .legend span { display:inline-block; width:12px; height:12px }
+    td.notes { text-align:left; max-width:520px; }
+    .summary-layout {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 2em;
+    }
+  </style>
+</head>
+<body>
+  <h1>ERC-3643 Audit Framework Evaluation</h1>
+  <h2>Comparison: <em>amlo-buggy.json</em> vs Ground Truth <em>amlo-trex.json</em></h2>
+
+  <div class="summary-layout">
+    <div style="flex:1;">
+      <h2>Metrics Summary</h2>
+      <table id="overall-metrics">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+            <th>Formula / Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Total Rules Evaluated</td><td>11</td><td>Manual Count of Rules</td></tr>
+          <tr><td>True Positives (TP)</td><td>2</td><td>Buggy = Fail, TREX = Fail</td></tr>
+          <tr><td>True Negatives (TN)</td><td>2</td><td>Buggy = Pass, TREX = Pass</td></tr>
+          <tr><td>False Positives (FP)</td><td>7</td><td>Buggy = Fail, TREX = Pass</td></tr>
+          <tr><td>False Negatives (FN)</td><td>0</td><td>Buggy = Pass, TREX = Fail</td></tr>
+          <tr><td>Precision</td><td>22.22%</td><td>TP / (TP + FP)</td></tr>
+          <tr><td>Recall</td><td>100.00%</td><td>TP / (TP + FN)</td></tr>
+          <tr><td>F1 Score</td><td>36.36%</td><td>2 * (P * R) / (P + R)</td></tr>
+          <tr><td>Accuracy</td><td>36.36%</td><td>(TP + TN) / Total</td></tr>
+          <tr><td>Rule Coverage</td><td>100%</td><td>All Rules Evaluated</td></tr>
+          <tr><td>Failure Detection Rate</td><td>100.00%</td><td>Detected Fails / True Fails</td></tr>
+          <tr><td>Consistency</td><td>36.36%</td><td>Matching Outcomes / Total</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="flex:1;">
+      <h2>Confusion Matrix</h2>
+      <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px;">
+        <canvas id="confMatrix" width="300" height="300"></canvas>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Predicted: Fail</th>
+              <th>Predicted: Pass</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Actual: Fail</th>
+              <td>TP = 2</td>
+              <td>FN = 0</td>
+            </tr>
+            <tr>
+              <th>Actual: Pass</th>
+              <td>FP = 7</td>
+              <td>TN = 2</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="small">Interpretation: <strong>Positive</strong> = rule flagged as <strong>Fail</strong> (violation). <strong>Negative</strong> = rule flagged as <strong>Pass</strong>.</div>
+
+  <h2>Detailed per-rule table</h2>
+  <table class="rules-table">
+    <thead>
+      <tr>
+        <th>Rule ID</th>
+        <th>Title</th>
+        <th>Ground Truth (TREX)</th>
+        <th>Buggy Output</th>
+        <th>Correct?</th>
+        <th>Notes / Evidence</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>R-HKMA-AMLO-CDD</td>
+        <td>AMLO CDD identity controls</td>
+        <td class="ok">Pass</td>
+        <td class="bad">Fail</td>
+        <td class="bad">✗</td>
+        <td class="notes small">TREX: transfer to an unverified address reverted (identity gating enforced). Buggy: transfer to unverified address succeeded — indicates missing identity gating in buggy run.</td>
+      </tr>
+      <tr>
+        <td>R-HKMA-AMLO-RecordKeeping</td>
+        <td>AMLO record keeping support</td>
+        <td class="ok">Pass</td>
+        <td class="bad">Fail</td>
+        <td class="bad">✗</td>
+        <td class="notes small">TREX: identityStorage bound (non-zero address, events present). Buggy: identityStorage addr = zero — storage not wired.</td>
+      </tr>
+      <tr>
+        <td>R-HKMA-AMLO-Sanctions</td>
+        <td>Sanctions and Blacklist Screening</td>
+        <td class="ok">Pass</td>
+        <td class="bad">Fail</td>
+        <td class="bad">✗</td>
+        <td class="notes small">TREX: transfer to pseudo-sanctioned address reverted. Buggy: transfer succeeded, suggesting blacklist not enforced.</td>
+      </tr>
+      <tr>
+        <td>R-HKMA-AMLO-OngoingMonitoring</td>
+        <td>Ongoing Monitoring</td>
+        <td class="ok">Pass</td>
+        <td class="bad">Fail</td>
+        <td class="bad">✗</td>
+        <td class="notes small">TREX: CountryRestrictModule & ExchangeMonthlyLimitsModule present. Buggy: monitoring modules missing.</td>
+      </tr>
+      <tr>
+        <td>R-HKMA-AMLO-KYCStatusRecheck</td>
+        <td>KYC Status Revalidation</td>
+        <td class="ok">Pass</td>
+        <td class="bad">Fail</td>
+        <td class="bad">✗</td>
+        <td class="notes small">TREX: runtime KYC revalidation enforces transfer revert. Buggy: runtime recheck missing (transfer by unverified actor succeeded).</td>
+      </tr>
+      <tr>
+        <td>R-HKMA-AMLO-InvestorJurisdiction</td>
+        <td>Jurisdiction Screening</td>
+        <td class="ok">Pass</td>
+        <td class="bad">Fail</td>
+        <td class="bad">✗</td>
+        <td class="notes small">TREX: CountryRestrictModule flagged countries. Buggy: required module absent.</td>
+      </tr>
+      <tr>
+        <td>R-HKMA-AMLO-DualControl</td>
+        <td>Dual Control for Critical Actions</td>
+        <td class="ok">Pass</td>
+        <td class="ok">Pass</td>
+        <td class="ok">✓</td>
+        <td class="notes small">Both: unauthorized freeze reverted (dual control enforced).</td>
+      </tr>
+      <tr>
+        <td>R-HKMA-AMLO-FreezeUnfreeze</td>
+        <td>Freeze and Unfreeze Capability</td>
+        <td class="ok">Pass</td>
+        <td class="ok">Pass</td>
+        <td class="ok">✓</td>
+        <td class="notes small">Both: freeze & unfreeze succeed with expected statuses.</td>
+      </tr>
+      <tr>
+        <td>R-HKMA-AMLO-OwnershipControl</td>
+        <td>Ownership and Control Tracking</td>
+        <td class="bad">Fail</td>
+        <td class="bad">Fail</td>
+        <td class="ok">✓</td>
+        <td class="notes small">Both: claim topic 2001 not configured → ownership tracking missing.</td>
+      </tr>
+      <tr>
+        <td>R-HKMA-AMLO-RiskClassification</td>
+        <td>Risk Classification Hooks</td>
+        <td class="bad">Fail</td>
+        <td class="bad">Fail</td>
+        <td class="ok">✓</td>
+        <td class="notes small">Both: ABI lacks riskLevel(address) hook; risk classification unavailable.</td>
+      </tr>
+      <tr>
+        <td>R-HKMA-AMLO-AddressResolution</td>
+        <td>Identity Resolution Interface</td>
+        <td class="ok">Pass</td>
+        <td class="bad">Fail</td>
+        <td class="bad">✗</td>
+        <td class="notes small">TREX: identity(address) API present. Buggy: identity(address) missing.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Notes & methodology</h2>
+  <p class="small">
+    Metrics definitions used:
+  </p>
+  <ul class="small">
+    <li><strong>Positive</strong> = rule labeled as <em>Fail</em> (a detected violation).</li>
+    <li><strong>TP</strong> = Buggy flagged Fail and TREX flagged Fail.</li>
+    <li><strong>FP</strong> = Buggy flagged Fail but TREX flagged Pass.</li>
+    <li><strong>FN</strong> = Buggy flagged Pass but TREX flagged Fail.</li>
+    <li><strong>TN</strong> = Buggy flagged Pass and TREX flagged Pass.</li>
+  </ul>
+
+  <p class="small">Computed using the uploaded JSON reports: <strong>amlo-trex.json</strong> (ground truth) and <strong>amlo-buggy.json</strong> (system under test). Positive/Negative is defined relative to rule violation (Fail). </p>
+
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.1.0/dist/chartjs-chart-matrix.min.js"></script>
+  <script>
+    const matrixData = {
+      datasets: [{
+        label: 'Confusion Matrix',
+        data: [
+          { x: 'Predicted: Fail', y: 'Actual: Fail', v: 2 },
+          { x: 'Predicted: Pass', y: 'Actual: Fail', v: 0 },
+          { x: 'Predicted: Fail', y: 'Actual: Pass', v: 7 },
+          { x: 'Predicted: Pass', y: 'Actual: Pass', v: 2 },
+        ],
+        backgroundColor(context) {
+          const value = context.dataset.data[context.dataIndex].v;
+          const alpha = value / 7;
+          return `rgba(52, 152, 219, ${alpha})`;
+        },
+        borderWidth: 1,
+        width: ({ chart }) => (chart.chartArea || {}).width / 2 - 1,
+        height: ({ chart }) => (chart.chartArea || {}).height / 2 - 1,
+      }]
+    };
+
+    const matrixOptions = {
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title() { return ''; },
+            label(context) {
+              const d = context.raw;
+              return `${d.y} / ${d.x}: ${d.v}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          type: 'category',
+          labels: ['Predicted: Fail', 'Predicted: Pass'],
+          offset: true,
+          grid: { display: false }
+        },
+        y: {
+          type: 'category',
+          labels: ['Actual: Fail', 'Actual: Pass'],
+          offset: true,
+          grid: { display: false }
+        }
+      }
+    };
+
+    const ctx = document.getElementById('confMatrix').getContext('2d');
+    new Chart(ctx, {
+      type: 'matrix',
+      data: matrixData,
+      options: matrixOptions
+    });
+  </script>
+
+  <p class="small">Generated on 2025-10-25 — suitable for thesis appendix or reproducible audit artifact.</p>
+</body>
+</html>

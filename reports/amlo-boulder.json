@@ -1,0 +1,895 @@
+{
+  "generatedAt": "2025-10-24T14:57:36.048Z",
+  "inputs": {
+    "addressesPath": "/Users/treza/Documents/staticAnalysis/.cre.addresses.json",
+    "addresses": {
+      "networkRpc": "http://127.0.0.1:8545",
+      "token": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+    },
+    "ruleFiles": [
+      "cre/rules/rule.AMLO.json"
+    ],
+    "abiArtifacts": {
+      "Token": "ERC-3643-Implementation/artifacts/contracts/token/Token.sol/Token.json",
+      "IdentityRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
+      "ClaimTopicsRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
+      "TrustedIssuersRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
+      "Compliance": "ERC-3643-Implementation/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
+      "IdentityRegistryStorage": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
+    }
+  },
+  "runs": [
+    {
+      "label": "rule.AMLO",
+      "rulesPath": "cre/rules/rule.AMLO.json",
+      "addressesPath": ".cre.addresses.json",
+      "summary": {
+        "total": 11,
+        "pass": 5,
+        "critical": 0,
+        "high": 3,
+        "medium": 2,
+        "low": 1,
+        "fail": 0,
+        "warn": 5,
+        "info": 1
+      },
+      "addresses": {
+        "networkRpc": "http://127.0.0.1:8545",
+        "token": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+        "identityRegistry": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+        "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "trustedIssuersRegistry": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+        "compliance": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
+      },
+      "data": {
+        "tokenIdentity": "0x0000000000000000000000000000000000000000",
+        "tokenCompliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+        "tokenOwner": "0x0000000000000000000000000000000000000000",
+        "ctrOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "idrClaimTopicsAddr": "0x0000000000000000000000000000000000000000",
+        "idrTrustedIssuersAddr": "0x0000000000000000000000000000000000000000",
+        "idrIdentityStorageAddr": "0x0000000000000000000000000000000000000000",
+        "topicsCount": 1,
+        "complianceBoundToken": "0x0000000000000000000000000000000000000000",
+        "controlAddress": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "executionMode": "hardhat",
+        "tokenName": "",
+        "tokenSymbol": "",
+        "tokenDecimals": 0,
+        "tirOwner": "0x0000000000000000000000000000000000000000",
+        "irsOwner": "0x0000000000000000000000000000000000000000"
+      },
+      "probes": {
+        "R-HKMA-AMLO-CDD": {
+          "ran": true,
+          "pass": true,
+          "evidence": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+        },
+        "R-HKMA-AMLO-RECORDKEEPING": {
+          "ran": true,
+          "pass": true,
+          "evidence": "AMLO record-keeping probe: identityStorage=0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9 returned an empty linkedIdentityRegistries() list; manual confirmation of off-chain retention is required."
+        },
+        "R-HKMA-AMLO-Sanctions": {
+          "ran": true,
+          "pass": true,
+          "evidence": "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+        },
+        "R-HKMA-AMLO-OngoingMonitoring": {
+          "ran": true,
+          "pass": false,
+          "evidence": "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
+        },
+        "R-HKMA-AMLO-KYCStatusRecheck": {
+          "ran": true,
+          "pass": true,
+          "evidence": "KYC revalidation probe: transfer by unverified actor reverted, indicating runtime checks are enforced."
+        },
+        "R-HKMA-AMLO-InvestorJurisdiction": {
+          "ran": true,
+          "pass": false,
+          "evidence": "Jurisdiction screening probe: required module missing (CountryRestrictModule, ExchangeMonthlyLimitsModule)."
+        },
+        "R-HKMA-AMLO-DualControl": {
+          "ran": true,
+          "pass": false,
+          "evidence": "Dual-control probe: non-authorized signer froze address successfully (state restored)."
+        },
+        "R-HKMA-AMLO-FreezeUnfreeze": {
+          "ran": true,
+          "pass": true,
+          "evidence": "Freeze succeeded. Unfreeze succeeded."
+        }
+      },
+      "abiArtifacts": {
+        "Token": "ERC-3643-Implementation/artifacts/contracts/token/Token.sol/Token.json",
+        "IdentityRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
+        "ClaimTopicsRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
+        "TrustedIssuersRegistry": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
+        "Compliance": "ERC-3643-Implementation/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
+        "IdentityRegistryStorage": "ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "R-HKMA-AMLO-CDD",
+      "title": "AMLO CDD identity controls",
+      "desc": "Token and Identity Registry must expose the hooks necessary to perform customer and beneficial owner due diligence before onboarding.",
+      "snippet": "require(identityRegistry.isVerified(to), \"CDD\");\nfunction identity(address investor) external view returns (address);\nfunction batchRegisterIdentity(address[] calldata investors, address[] calldata identities, uint16[] calldata countries);",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk",
+      "pass": true,
+      "note": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": true,
+          "evidence": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-AMLO-RecordKeeping",
+      "title": "AMLO record keeping support",
+      "desc": "Identity Registry Storage must be wired and emit lifecycle events so identity evidence can be retained for at least seven years.",
+      "snippet": "function identityStorage() external view returns (address);\nevent IdentityStored(address indexed investor, address indexed identity);\nevent IdentityUnstored(address indexed investor, address indexed identity);",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk",
+      "pass": false,
+      "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0x0000000000000000000000000000000000000000",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "identityStorage()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "nonzeroaddress",
+          "field": "data.idrIdentityStorageAddr",
+          "actual": "0x0000000000000000000000000000000000000000",
+          "expected": "!= ZERO",
+          "ok": false
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-HKMA-AMLO-Sanctions",
+      "title": "Sanctions and Blacklist Screening",
+      "desc": "Smart contracts must enforce sanctions compliance by reverting transfers to addresses flagged by blacklist logic.",
+      "snippet": "require(!blacklisted[to], \"Sanctioned address\");",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk",
+      "pass": true,
+      "note": "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": true,
+          "evidence": "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-AMLO-OngoingMonitoring",
+      "title": "Ongoing Monitoring via Modular Compliance",
+      "desc": "Smart contracts must enable modular compliance checks to enforce transaction surveillance, including country restrictions and monthly transfer limits.",
+      "snippet": "require(canTransfer(from, to, value), \"Compliance: transfer not allowed\");\naddModule(CountryRestrictModule);\naddModule(ExchangeMonthlyLimitsModule);",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk",
+      "pass": false,
+      "note": "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-AMLO-OwnershipControl",
+      "title": "Ownership and Control Tracking",
+      "desc": "Identity contracts must allow querying of beneficial owners and linked control relationships.",
+      "snippet": "function beneficialOwners(address identity) external view returns (address[] memory);",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk",
+      "pass": false,
+      "note": "ABI has idr.beneficialOwners(address): false",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "beneficialOwners(address)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-HKMA-AMLO-RiskClassification",
+      "title": "Risk Classification Hooks",
+      "desc": "Smart contracts should expose hooks to retrieve or assign a user’s risk category for ongoing monitoring.",
+      "snippet": "function riskLevel(address investor) external view returns (uint8);",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk",
+      "pass": false,
+      "note": "ABI has idr.riskLevel(address): false",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "riskLevel(address)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "LOW",
+      "severityCode": "LOW",
+      "severityLabel": "Low",
+      "severityOriginal": "Low",
+      "severityWeight": 1
+    },
+    {
+      "id": "R-HKMA-AMLO-AddressResolution",
+      "title": "Identity Resolution Interface",
+      "desc": "Contracts should support mapping from investor wallet address to identity contract for audit traceability.",
+      "snippet": "function identity(address investor) external view returns (address);",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §2(1)(a) https://www.elegislation.gov.hk",
+      "pass": true,
+      "note": "ABI has idr.identity(address): true",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "identity(address)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-HKMA-AMLO-DualControl",
+      "title": "Dual Control for Critical Actions",
+      "desc": "Administrative smart contract actions such as freezing should require multiple signatures or roles.",
+      "snippet": "require(hasRole(FREEZE_ADMIN, msg.sender), \"Not authorized\");",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §7(2)(b) https://www.elegislation.gov.hk",
+      "pass": false,
+      "note": "Dual-control probe: non-authorized signer froze address successfully (state restored).",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "Dual-control probe: non-authorized signer froze address successfully (state restored)."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-AMLO-FreezeUnfreeze",
+      "title": "Freeze and Unfreeze Capability",
+      "desc": "Contracts must support freezing and unfreezing investor accounts in real time.",
+      "snippet": "function freeze(address investor);",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §7 https://www.elegislation.gov.hk",
+      "pass": true,
+      "note": "Freeze succeeded. Unfreeze succeeded.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": true,
+          "evidence": "Freeze succeeded. Unfreeze succeeded."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-AMLO-KYCStatusRecheck",
+      "title": "KYC Status Revalidation",
+      "desc": "System should revalidate investor KYC claims during runtime to avoid stale access.",
+      "snippet": "require(isVerified(msg.sender));",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §6 https://www.elegislation.gov.hk",
+      "pass": true,
+      "note": "KYC revalidation probe: transfer by unverified actor reverted, indicating runtime checks are enforced.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": true,
+          "evidence": "KYC revalidation probe: transfer by unverified actor reverted, indicating runtime checks are enforced."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-AMLO-InvestorJurisdiction",
+      "title": "Jurisdiction Screening",
+      "desc": "Compliance module should reject transfers from investors in blocked countries.",
+      "snippet": "CountryRestrictModule blocks based on msg.sender location.",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §5(1)(b) https://www.elegislation.gov.hk",
+      "pass": false,
+      "note": "Jurisdiction screening probe: required module missing (CountryRestrictModule, ExchangeMonthlyLimitsModule).",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "Jurisdiction screening probe: required module missing (CountryRestrictModule, ExchangeMonthlyLimitsModule)."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    }
+  ],
+  "summary": {
+    "total": 11,
+    "pass": 5,
+    "critical": 0,
+    "high": 3,
+    "medium": 2,
+    "low": 1,
+    "fail": 0,
+    "warn": 5,
+    "info": 1
+  },
+  "metrics": null,
+  "llm": {
+    "generatedAt": "2025-10-24T14:57:36.218Z",
+    "model": "gpt-4.1-nano",
+    "disabled": true,
+    "reason": "LLM disabled (missing API key)",
+    "error": null,
+    "overallAssessment": "LLM disabled (missing API key)",
+    "findings": [
+      {
+        "id": "R-HKMA-AMLO-CDD",
+        "title": "AMLO CDD identity controls",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "Runtime hint: AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk prescribes, giving non-technical sponsors assurance that the required safeguard is active.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+        ],
+        "recommendation": "Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change."
+      },
+      {
+        "id": "R-HKMA-AMLO-Sanctions",
+        "title": "Sanctions and Blacklist Screening",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "Runtime hint: Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced.. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk prescribes, giving non-technical sponsors assurance that the required safeguard is active.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+        ],
+        "recommendation": "Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change."
+      },
+      {
+        "id": "R-HKMA-AMLO-OngoingMonitoring",
+        "title": "Ongoing Monitoring via Modular Compliance",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "High",
+        "verdict": "High",
+        "position": "CHALLENGE",
+        "explanation": "Runtime hint: Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule.. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
+        ],
+        "recommendation": "Align the implementation with AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence."
+      },
+      {
+        "id": "R-HKMA-AMLO-DualControl",
+        "title": "Dual Control for Critical Actions",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "High",
+        "verdict": "High",
+        "position": "CHALLENGE",
+        "explanation": "Runtime hint: Dual-control probe: non-authorized signer froze address successfully (state restored).. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §7(2)(b) https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §7(2)(b) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Dual-control probe: non-authorized signer froze address successfully (state restored)."
+        ],
+        "recommendation": "Align the implementation with AMLO (Cap.615) Schedule 2 §7(2)(b) https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence."
+      },
+      {
+        "id": "R-HKMA-AMLO-FreezeUnfreeze",
+        "title": "Freeze and Unfreeze Capability",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "Runtime hint: Freeze succeeded. Unfreeze succeeded.. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §7 https://www.elegislation.gov.hk prescribes, giving non-technical sponsors assurance that the required safeguard is active.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §7 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Freeze succeeded. Unfreeze succeeded."
+        ],
+        "recommendation": "Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change."
+      },
+      {
+        "id": "R-HKMA-AMLO-KYCStatusRecheck",
+        "title": "KYC Status Revalidation",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "Runtime hint: KYC revalidation probe: transfer by unverified actor reverted, indicating runtime checks are enforced.. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §6 https://www.elegislation.gov.hk prescribes, giving non-technical sponsors assurance that the required safeguard is active.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §6 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "KYC revalidation probe: transfer by unverified actor reverted, indicating runtime checks are enforced."
+        ],
+        "recommendation": "Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change."
+      },
+      {
+        "id": "R-HKMA-AMLO-InvestorJurisdiction",
+        "title": "Jurisdiction Screening",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "High",
+        "verdict": "High",
+        "position": "CHALLENGE",
+        "explanation": "Runtime hint: Jurisdiction screening probe: required module missing (CountryRestrictModule, ExchangeMonthlyLimitsModule).. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §5(1)(b) https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §5(1)(b) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "Jurisdiction screening probe: required module missing (CountryRestrictModule, ExchangeMonthlyLimitsModule)."
+        ],
+        "recommendation": "Align the implementation with AMLO (Cap.615) Schedule 2 §5(1)(b) https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence."
+      },
+      {
+        "id": "R-HKMA-AMLO-RecordKeeping",
+        "title": "AMLO record keeping support",
+        "severity": "MEDIUM",
+        "severity_label": "Medium",
+        "phase2_verdict": "Medium",
+        "verdict": "Medium",
+        "position": "CHALLENGE",
+        "explanation": "Runtime hint: ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0x0000000000000000000000000000000000000000. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
+          "nonzeroaddress:data.idrIdentityStorageAddr:"
+        ],
+        "recommendation": "Align the implementation with AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence."
+      },
+      {
+        "id": "R-HKMA-AMLO-OwnershipControl",
+        "title": "Ownership and Control Tracking",
+        "severity": "MEDIUM",
+        "severity_label": "Medium",
+        "phase2_verdict": "Medium",
+        "verdict": "Medium",
+        "position": "CHALLENGE",
+        "explanation": "Runtime hint: ABI has idr.beneficialOwners(address): false. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"beneficialOwners(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence."
+      },
+      {
+        "id": "R-HKMA-AMLO-AddressResolution",
+        "title": "Identity Resolution Interface",
+        "severity": "MEDIUM",
+        "severity_label": "Medium",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "Runtime hint: ABI has idr.identity(address): true. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §2(1)(a) https://www.elegislation.gov.hk prescribes, giving non-technical sponsors assurance that the required safeguard is active.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2(1)(a) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identity(address)\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change."
+      },
+      {
+        "id": "R-HKMA-AMLO-RiskClassification",
+        "title": "Risk Classification Hooks",
+        "severity": "LOW",
+        "severity_label": "Low",
+        "phase2_verdict": "Low",
+        "verdict": "Low",
+        "position": "CHALLENGE",
+        "explanation": "Runtime hint: ABI has idr.riskLevel(address): false. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"riskLevel(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence."
+      }
+    ],
+    "payload": {
+      "summary": {
+        "total": 11,
+        "pass": 5,
+        "critical": 0,
+        "high": 3,
+        "medium": 2,
+        "low": 1,
+        "fail": 0,
+        "warn": 5,
+        "info": 1
+      },
+      "rules": [
+        {
+          "id": "R-HKMA-AMLO-CDD",
+          "title": "AMLO CDD identity controls",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO",
+          "note": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.",
+          "evidence": [
+            "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-RecordKeeping",
+          "title": "AMLO record keeping support",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "Medium",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0x0000000000000000000000000000000000000000",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
+            "nonzeroaddress:data.idrIdentityStorageAddr:"
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-Sanctions",
+          "title": "Sanctions and Blacklist Screening",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO",
+          "note": "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced.",
+          "evidence": [
+            "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-OngoingMonitoring",
+          "title": "Ongoing Monitoring via Modular Compliance",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule.",
+          "evidence": [
+            "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-OwnershipControl",
+          "title": "Ownership and Control Tracking",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "Medium",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI has idr.beneficialOwners(address): false",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"beneficialOwners(address)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-RiskClassification",
+          "title": "Risk Classification Hooks",
+          "severity": "Low",
+          "severity_code": "LOW",
+          "severity_label": "Low",
+          "severity_original": "Low",
+          "phase2_verdict": "Low",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI has idr.riskLevel(address): false",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"riskLevel(address)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-AddressResolution",
+          "title": "Identity Resolution Interface",
+          "severity": "Medium",
+          "severity_code": "MEDIUM",
+          "severity_label": "Medium",
+          "severity_original": "Medium",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO",
+          "note": "ABI has idr.identity(address): true",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identity(address)\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §2(1)(a) https://www.elegislation.gov.hk"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-DualControl",
+          "title": "Dual Control for Critical Actions",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "Dual-control probe: non-authorized signer froze address successfully (state restored).",
+          "evidence": [
+            "Dual-control probe: non-authorized signer froze address successfully (state restored)."
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §7(2)(b) https://www.elegislation.gov.hk"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-FreezeUnfreeze",
+          "title": "Freeze and Unfreeze Capability",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO",
+          "note": "Freeze succeeded. Unfreeze succeeded.",
+          "evidence": [
+            "Freeze succeeded. Unfreeze succeeded."
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §7 https://www.elegislation.gov.hk"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-KYCStatusRecheck",
+          "title": "KYC Status Revalidation",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO",
+          "note": "KYC revalidation probe: transfer by unverified actor reverted, indicating runtime checks are enforced.",
+          "evidence": [
+            "KYC revalidation probe: transfer by unverified actor reverted, indicating runtime checks are enforced."
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §6 https://www.elegislation.gov.hk"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-InvestorJurisdiction",
+          "title": "Jurisdiction Screening",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "Jurisdiction screening probe: required module missing (CountryRestrictModule, ExchangeMonthlyLimitsModule).",
+          "evidence": [
+            "Jurisdiction screening probe: required module missing (CountryRestrictModule, ExchangeMonthlyLimitsModule)."
+          ],
+          "policy_refs": [
+            "AMLO (Cap.615) Schedule 2 §5(1)(b) https://www.elegislation.gov.hk"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        }
+      ],
+      "runtime": [
+        {
+          "run": "rule.AMLO",
+          "executionMode": "hardhat",
+          "probes": [
+            {
+              "id": "R-HKMA-AMLO-CDD",
+              "ran": true,
+              "pass": true,
+              "evidence": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+            },
+            {
+              "id": "R-HKMA-AMLO-RECORDKEEPING",
+              "ran": true,
+              "pass": true,
+              "evidence": "AMLO record-keeping probe: identityStorage=0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9 returned an empty linkedIdentityRegistries() list; manual confirmation of off-chain retention is required."
+            },
+            {
+              "id": "R-HKMA-AMLO-Sanctions",
+              "ran": true,
+              "pass": true,
+              "evidence": "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+            },
+            {
+              "id": "R-HKMA-AMLO-OngoingMonitoring",
+              "ran": true,
+              "pass": false,
+              "evidence": "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
+            },
+            {
+              "id": "R-HKMA-AMLO-KYCStatusRecheck",
+              "ran": true,
+              "pass": true,
+              "evidence": "KYC revalidation probe: transfer by unverified actor reverted, indicating runtime checks are enforced."
+            },
+            {
+              "id": "R-HKMA-AMLO-InvestorJurisdiction",
+              "ran": true,
+              "pass": false,
+              "evidence": "Jurisdiction screening probe: required module missing (CountryRestrictModule, ExchangeMonthlyLimitsModule)."
+            },
+            {
+              "id": "R-HKMA-AMLO-DualControl",
+              "ran": true,
+              "pass": false,
+              "evidence": "Dual-control probe: non-authorized signer froze address successfully (state restored)."
+            },
+            {
+              "id": "R-HKMA-AMLO-FreezeUnfreeze",
+              "ran": true,
+              "pass": true,
+              "evidence": "Freeze succeeded. Unfreeze succeeded."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "report": {
+    "textPath": "reports/amlo-boulder.txt"
+  },
+  "coverageDistribution": {
+    "SUPPORT": 5,
+    "CHALLENGE": 6,
+    "EXTEND": 0
+  }
+}

@@ -26,12 +26,6 @@ const STATUS_COLORS = {
   META: "#374151"
 };
 
-const POSITION_COLORS = {
-  SUPPORT: "#10B981",
-  CHALLENGE: "#B91C1C",
-  EXTEND: "#6366F1"
-};
-
 const PROBE_STATUS_COLORS = {
   PASS: "#10B981",
   FAIL: "#B91C1C",
@@ -41,14 +35,6 @@ const PROBE_STATUS_COLORS = {
 function statText(label, value, kind) {
   const color = STATUS_COLORS[kind] || "#374151";
   return `<span style="font-weight:600;color:${color}">${esc(label)} ${esc(String(value))}</span>`;
-}
-
-function positionText(kind) {
-  const key = String(kind || "").toUpperCase();
-  const map = { SUPPORT: "Support", CHALLENGE: "Challenge", EXTEND: "Extend", PASS: "Support" };
-  const label = map[key] || (key ? key.charAt(0) + key.slice(1).toLowerCase() : "");
-  const color = POSITION_COLORS[key] || (key === "PASS" ? POSITION_COLORS.SUPPORT : STATUS_COLORS.META);
-  return label ? `<span style="font-weight:600;color:${color}">${esc(label)}</span>` : "";
 }
 
 function ruleStatusTag(status) {
@@ -74,6 +60,22 @@ function severityTag(kind) {
   const color = STATUS_COLORS[key] || STATUS_COLORS.META;
   return `<span style="font-weight:600;color:${color}">${esc(label)}</span>`;
 }
+
+function badge(label, color) {
+  if (!label) return "";
+  const borderColor = color || STATUS_COLORS.META;
+  return `<span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid ${borderColor};color:${borderColor};background:#FFFFFF">${esc(label)}</span>`;
+}
+
+function deterministicBadge(status) {
+  const key = String(status || "").toUpperCase();
+  if (!key) return "";
+  const isPass = key === "PASS";
+  const color = isPass ? STATUS_COLORS.PASS : STATUS_COLORS.CRITICAL;
+  const label = isPass ? "Pass" : "Fail";
+  return badge(label, color);
+}
+
 
 function sectionTitle(text) {
   return `<h2 style="margin:28px 0 12px 0;font-size:20px;border-bottom:1px solid #E5E7EB;padding-bottom:6px">${esc(text)}</h2>`;
@@ -136,6 +138,7 @@ function normalizeItem(it) {
   const note = it.note || it.message || it.details || "";
   const id = it.id || it.ruleId || it.code || "";
   const title = it.title || it.name || it.rule || "";
+  const desc = it.desc || it.description || "";
   const source = it.source || it.rulesFile || it.file || "";
   const run = it.run || it.label || "";
   const policyRef = it.policyRef || it.policy_refs || "";
@@ -144,6 +147,7 @@ function normalizeItem(it) {
   return {
     id,
     title,
+    desc,
     severity: severityInfo.code,
     severityCode: severityInfo.code,
     severityLabel: severityInfo.label,
@@ -201,17 +205,40 @@ function computeSummary(items) {
   return summary;
 }
 
-function renderSummary(summary, metrics, coverageCounts) {
-  const statLine = [
-    statText("Total", summary.total || 0, "TOTAL"),
-    statText("Pass", summary.pass || 0, "PASS"),
-    statText("Critical", summary.critical || 0, "CRITICAL"),
-    statText("High", summary.high || 0, "HIGH"),
-    statText("Medium", summary.medium || 0, "MEDIUM"),
-    statText("Low", summary.low || 0, "LOW")
-  ].join('<span style="width:8px;display:inline-block"></span>');
+function renderSummary(summary, metrics, coverageCounts, generatedAt) {
+  const reviewDate = generatedAt
+    ? (() => {
+        const date = new Date(generatedAt);
+        return Number.isNaN(date.getTime()) ? generatedAt : date.toISOString().slice(0, 10);
+      })()
+    : "—";
 
-const metricsLine = (() => {
+  const violationTable = `
+  <div style="font-weight:700;margin:16px 0 4px 0">Summary of distribution</div>
+  <table style="border-collapse:collapse;font-size:13px;margin:12px 0;width:100%;max-width:640px">
+    <thead>
+      <tr style="text-align:left">
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#F3F4F6">Review date</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:${STATUS_COLORS.PASS ? STATUS_COLORS.PASS : "#10B981"};color:#FFFFFF">Pass</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:${STATUS_COLORS.LOW || "#6B7280"};color:#FFFFFF">Low</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:${STATUS_COLORS.MEDIUM};color:#111827">Medium</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:${STATUS_COLORS.HIGH};color:#111827">High</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:${STATUS_COLORS.CRITICAL};color:#FFFFFF">Critical</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(reviewDate)}</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(summary.pass || 0)}</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(summary.low || 0)}</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(summary.medium || 0)}</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(summary.high || 0)}</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(summary.critical || 0)}</td>
+      </tr>
+    </tbody>
+  </table>`;
+
+  const metricsLine = (() => {
   const sections = [];
   if (metrics) {
     sections.push(`
@@ -240,26 +267,6 @@ const metricsLine = (() => {
     </div>
     `);
   }
-  if (coverageCounts) {
-    sections.push(`
-    <div style="min-width:220px;flex:1 1 220px">
-      <div style="font-weight:700;margin-bottom:6px">Coverage Expansion</div>
-      <table style="border-collapse:collapse;font-size:13px">
-        <thead>
-          <tr style="background:#F9FAFB;text-align:left">
-            <th style="padding:6px 10px;border:1px solid #E5E7EB">Verdict</th>
-            <th style="padding:6px 10px;border:1px solid #E5E7EB">Count</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Support</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(coverageCounts.SUPPORT || 0)}</td></tr>
-          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Challenge</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(coverageCounts.CHALLENGE || 0)}</td></tr>
-          <tr><td style="padding:6px 10px;border:1px solid #E5E7EB">Extend</td><td style="padding:6px 10px;border:1px solid #E5E7EB">${esc(coverageCounts.EXTEND || 0)}</td></tr>
-        </tbody>
-      </table>
-    </div>
-    `);
-  }
   if (!sections.length) return "";
   const disagreementsBlock = (metrics && metrics.disagreements && metrics.disagreements.length) ? `
   <details style="margin:10px 0"><summary style="cursor:pointer">Disagreements (${metrics.disagreements.length})</summary>
@@ -275,9 +282,7 @@ const metricsLine = (() => {
 })();
 
   return `
-<div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0">
-  ${statLine}
-</div>
+${violationTable}
 ${metricsLine}`;
 }
 
@@ -309,47 +314,65 @@ function renderSources(inputs, sources, fallbackRulesPath) {
 
 function renderRunDetails(runs) {
   if (!Array.isArray(runs) || runs.length === 0) return "";
-  return `
-${sectionTitle("Per-Rulebook Execution")}
-<div style="display:flex;flex-direction:column;gap:16px">
-  ${runs.map(run => {
-    const summary = run.summary || {};
-    const metrics = run.metrics || {};
-    const probes = run.probes || {};
-    const probeKeys = Object.keys(probes);
+  return "<!-- Per-Rulebook Execution intentionally hidden -->";
+}
+
+function renderValidatedTable(items, llm, ruleStatuses) {
+  const itemList = Array.isArray(items) ? items : [];
+  const findings = Array.isArray(llm?.findings) ? llm.findings : [];
+  const findingMap = new Map();
+  for (const f of findings) {
+    if (!f || !f.id) continue;
+    findingMap.set(String(f.id).toUpperCase(), f);
+  }
+
+  const rows = itemList.filter((it) => it && it.id && it.pass).map((it) => {
+    const key = String(it.id).toUpperCase();
+    const lf = findingMap.get(key);
+    const severityOverride = lf && typeof lf.severity === "string" ? lf.severity : null;
+    const severity = String(severityOverride || it.severityCode || it.severity || "").toUpperCase() || "MEDIUM";
+    const severityLabelText = severityDisplay(severity);
+    const severityColor = STATUS_COLORS[severity] || STATUS_COLORS.META;
+    const explanation = lf?.explanation || it.note || "";
+    const ruleStatus = ruleStatuses && typeof ruleStatuses.get === "function" ? ruleStatuses.get(it.id) : (it.pass ? "PASS" : "FAIL");
+    const statusLabel = String(ruleStatus || "PASS").toUpperCase() === "PASS" ? "Passed" : "Off-chain";
+    const title = esc(it.title || it.id || "Rule");
+    const desc = esc(it.desc || "");
     return `
-    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#FFFFFF">
-      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
-        <div>
-          <div style="font-size:16px;font-weight:600">${esc(run.label||run.rulesPath||"Unnamed Ruleset")}</div>
-          <div style="font-size:13px;color:#6B7280">${run.rulesPath?`Rules: <code>${esc(run.rulesPath)}</code>`:""}${run.addressesPath?` · Addresses: <code>${esc(run.addressesPath)}</code>`:""}</div>
-          ${run.data && run.data.executionMode ? `<div style="font-size:12px;color:#6B7280">Execution: ${esc(run.data.executionMode)}</div>` : ""}
-        </div>
-        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-          ${statText("Pass", summary.pass || 0, "PASS")}
-          ${statText("Critical", summary.critical || 0, "CRITICAL")}
-          ${statText("High", summary.high || 0, "HIGH")}
-          ${statText("Medium", summary.medium || 0, "MEDIUM")}
-          ${statText("Low", summary.low || 0, "LOW")}
-        </div>
-      </div>
-      ${(metrics && metrics.compared) ? `
-      <div style="margin-top:10px;font-size:12px;color:#4B5563">
-        GT precision ${(metrics.precision*100||0).toFixed(1)}% · recall ${(metrics.recall*100||0).toFixed(1)}% · accuracy ${(metrics.accuracy*100||0).toFixed(1)}%
-      </div>` : ""}
-      ${probeKeys.length ? `
-      <details style="margin-top:12px;font-size:13px">
-        <summary style="cursor:pointer">Runtime probes (${probeKeys.length})</summary>
-        <ul style="margin-top:8px">
-          ${probeKeys.map(id => {
-            const pr = probes[id] || {};
-            const status = pr.pass === true ? "PASS" : pr.pass === false ? "FAIL" : "INFO";
-            return `<li style="margin-bottom:4px">${probeBadge(id, status)} <span style="margin-left:6px">${esc(pr.evidence||"")}</span></li>`;
-          }).join("")}
-        </ul>
-      </details>` : ""}
-    </div>`;
-  }).join("")}
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">${title}</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">${desc}</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:${severityColor}">${esc(severityLabelText)}</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(explanation)}</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:${statusLabel === "Passed" ? STATUS_COLORS.PASS : STATUS_COLORS.META}">${statusLabel}</td>
+      </tr>`;
+  });
+
+  if (!rows.length) {
+    return `
+<div style="margin:24px 0">
+  <div style="font-weight:700;margin-bottom:8px">Assessed rules</div>
+  <div style="font-size:13px;color:#6B7280">No assessed rules recorded.</div>
+</div>`;
+  }
+
+  return `
+<div style="margin:24px 0">
+  <div style="font-weight:700;margin-bottom:8px">Assessed rules</div>
+  <table style="border-collapse:collapse;font-size:13px;width:100%">
+    <thead>
+      <tr style="background:#F3F4F6;text-align:left">
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Rule title</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Rule description</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Severity</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Explanation</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${rows.join("\n")}
+    </tbody>
+  </table>
 </div>`;
 }
 
@@ -358,34 +381,38 @@ function renderLlmSection(llm, ruleStatuses) {
   const failed = llm.error ? `<div style="color:#B91C1C;margin-bottom:8px">${esc(llm.error)}</div>` : "";
   const disabled = llm.disabled ? `<div style="color:#2563EB;margin-bottom:8px">${esc(llm.reason || "LLM disabled.")}</div>` : "";
   const modelLine = llm.model ? `<div style="font-size:12px;color:#6B7280">Model: ${esc(llm.model)}</div>` : "";
-  const cards = (Array.isArray(llm.findings) ? llm.findings : []).map((f, idx) => {
-    const severityCode = String(f.severity || f.severity_code || "").toUpperCase();
-    const verdict = String(f.verdict || f.phase2_verdict || "").toUpperCase();
-    const position = String(f.position || "").toUpperCase();
-    const verdictKind = position || verdict || "PASS";
+  const findings = Array.isArray(llm.findings) ? llm.findings.map((f, idx) => ({ ...f, __idx: idx })) : [];
+  const severityOrder = ["CRITICAL", "HIGH", "MEDIUM", "LOW"];
+  const grouped = new Map();
+  for (const entry of findings) {
+    const rawSeverity = String(entry.severity || entry.severity_code || "").toUpperCase();
+    const bucket = severityOrder.includes(rawSeverity) ? rawSeverity : (rawSeverity || "LOW");
+    if (!grouped.has(bucket)) grouped.set(bucket, []);
+    grouped.get(bucket).push(entry);
+  }
+  let counter = 0;
+  const renderCard = (f) => {
     const deterministicStatus = (() => {
       if (!ruleStatuses) return "";
       if (typeof ruleStatuses.get === "function") return ruleStatuses.get(f.id);
       if (f.id && Object.prototype.hasOwnProperty.call(ruleStatuses, f.id)) return ruleStatuses[f.id];
       return "";
     })();
+    const severityCode = String(f.severity || f.severity_code || "").toUpperCase() || "MEDIUM";
+    const headingColor = STATUS_COLORS[severityCode] || STATUS_COLORS.META;
     const refs = Array.isArray(f.compliance_refs) ? f.compliance_refs.filter(Boolean) : [];
     const codeRefs = Array.isArray(f.code_refs) ? f.code_refs.filter(Boolean) : [];
     const evidence = Array.isArray(f.evidence_paths) ? f.evidence_paths.filter(Boolean) : [];
-    const heading = (() => {
-      if (f.id) {
-        const titlePart = f.title ? ` — ${esc(f.title)}` : "";
-        return `<code>${esc(f.id)}</code>${titlePart}`;
-      }
-      return esc(f.title || "Rule");
-    })();
+    const heading = esc(f.title || "Rule");
+    counter += 1;
+    const badges = [
+      deterministicBadge(deterministicStatus)
+    ].filter(Boolean).join(" ");
     return `
     <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
       <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
-        <div style="font-size:16px;font-weight:600">${esc(idx+1)}. ${heading}</div>
-        ${severityTag(severityCode || "MEDIUM")}
-        ${positionText(verdictKind)}
-        ${deterministicStatus ? ruleStatusTag(deterministicStatus) : ""}
+        <div style="font-size:16px;font-weight:600;color:${headingColor}">${esc(counter)}. ${heading}</div>
+        ${badges}
       </div>
       ${f.explanation ? `<div style="font-size:14px;line-height:1.6;margin-bottom:10px">${esc(f.explanation)}</div>` : ""}
       ${refs.length ? `<div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> ${joinList(refs, "; ")}</div>` : ""}
@@ -397,7 +424,29 @@ function renderLlmSection(llm, ruleStatuses) {
       </div>` : ""}
       ${f.recommendation ? `<div style="font-size:13px"><strong>Recommendation:</strong> ${esc(f.recommendation)}</div>` : ""}
     </div>`;
-  }).join("");
+  };
+  const sectionBlocks = [];
+  for (const sev of severityOrder) {
+    if (!grouped.has(sev)) continue;
+    const cards = grouped.get(sev).map(renderCard).join("\n");
+    if (!cards) continue;
+    sectionBlocks.push(`
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:${STATUS_COLORS[sev] || STATUS_COLORS.META}">${esc(severityDisplay(sev))}</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">${cards}</div>
+      </div>`);
+  }
+  const remainingKeys = Array.from(grouped.keys()).filter((key) => !severityOrder.includes(key));
+  for (const sev of remainingKeys) {
+    const cards = grouped.get(sev).map(renderCard).join("\n");
+    if (!cards) continue;
+    sectionBlocks.push(`
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:${STATUS_COLORS[sev] || STATUS_COLORS.META}">${esc(severityDisplay(sev))} Findings</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">${cards}</div>
+      </div>`);
+  }
+  const cardsHtml = sectionBlocks.length ? sectionBlocks.join("\n") : `<div style="color:#6B7280">No LLM findings available.</div>`;
   const summaryLine = llm.overallAssessment
     ? `<div style="margin:12px 0;font-size:14px;line-height:1.6"><strong>Summary:</strong> ${esc(llm.overallAssessment)}</div>`
     : "";
@@ -406,9 +455,7 @@ ${sectionTitle("LLM Compliance Assessment")}
 ${modelLine}
 ${failed || disabled || ""}
 ${summaryLine}
-<div style="display:flex;flex-direction:column;gap:16px">
-  ${cards || `<div style="color:#6B7280">No LLM findings available.</div>`}
-</div>`;
+${cardsHtml}`;
 }
 
 function renderArtifacts(reportInfo) {
@@ -499,9 +546,10 @@ const coverageCounts = raw.coverageDistribution || (llm ? computeCoverageDistrib
     Generated: ${esc(raw.generatedAt||"")} — Deterministic checks + LLM reasoning
   </div>
 
-${renderSummary(summary, metrics, coverageCounts)}
-  ${renderArtifacts(reportInfo)}
   ${renderSources(inputsBlock, sources, fallbackRulesPath)}
+${renderSummary(summary, metrics, coverageCounts, raw.generatedAt || "")}
+${renderValidatedTable(items, llm, ruleStatuses)}
+  ${renderArtifacts(reportInfo)}
   ${renderRunDetails(runs)}
   ${renderLlmSection(llm, ruleStatuses)}
 

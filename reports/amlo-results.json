@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-10-23T16:43:44.514Z",
+  "generatedAt": "2025-10-24T08:43:50.099Z",
   "inputs": {
     "addressesPath": "/Users/treza/Documents/staticAnalysis/.cre.addresses.json",
     "addresses": {
@@ -29,13 +29,13 @@
       "addressesPath": ".cre.addresses.json",
       "summary": {
         "total": 4,
-        "pass": 4,
+        "pass": 0,
         "critical": 0,
-        "high": 0,
-        "medium": 0,
+        "high": 3,
+        "medium": 1,
         "low": 0,
         "fail": 0,
-        "warn": 0,
+        "warn": 4,
         "info": 0
       },
       "addresses": {
@@ -53,7 +53,7 @@
         "ctrOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
         "idrClaimTopicsAddr": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
         "idrTrustedIssuersAddr": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-        "idrIdentityStorageAddr": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+        "idrIdentityStorageAddr": "0x0000000000000000000000000000000000000000",
         "topicsCount": 1,
         "complianceBoundToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
         "executionMode": "hardhat",
@@ -61,28 +61,28 @@
         "tokenSymbol": "HKGB",
         "tokenDecimals": 18,
         "tirOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-        "irsOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+        "irsOwner": "0x0000000000000000000000000000000000000000"
       },
       "probes": {
         "R-HKMA-AMLO-CDD": {
           "ran": true,
-          "pass": true,
-          "evidence": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+          "pass": false,
+          "evidence": "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
         },
         "R-HKMA-AMLO-RECORDKEEPING": {
           "ran": true,
-          "pass": true,
-          "evidence": "AMLO record-keeping probe: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0 returned an empty linkedIdentityRegistries() list; manual confirmation of off-chain retention is required."
+          "pass": false,
+          "evidence": "AMLO record-keeping probe: identityRegistry.identityStorage() returned zero address; storage is not wired."
         },
         "R-HKMA-AMLO-Sanctions": {
           "ran": true,
-          "pass": true,
-          "evidence": "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+          "pass": false,
+          "evidence": "Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent."
         },
         "R-HKMA-AMLO-OngoingMonitoring": {
           "ran": true,
-          "pass": true,
-          "evidence": "CountryRestrictModule responded to batchRestrictCountries; country flagged for compliance. ExchangeMonthlyLimitsModule accepted monthly limit configuration via compliance."
+          "pass": false,
+          "evidence": "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
         }
       },
       "abiArtifacts": {
@@ -102,14 +102,14 @@
       "desc": "Token and Identity Registry must expose the hooks necessary to perform customer and beneficial owner due diligence before onboarding.",
       "snippet": "require(identityRegistry.isVerified(to), \"CDD\");\nfunction identity(address investor) external view returns (address);\nfunction batchRegisterIdentity(address[] calldata investors, address[] calldata identities, uint16[] calldata countries);",
       "policyRef": "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk",
-      "pass": true,
-      "note": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.",
+      "pass": false,
+      "note": "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating.",
       "details": [
         {
           "probe": true,
           "ran": true,
-          "pass": true,
-          "evidence": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+          "pass": false,
+          "evidence": "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
         }
       ],
       "run": "rule.AMLO",
@@ -125,8 +125,8 @@
       "desc": "Identity Registry Storage must be wired and emit lifecycle events so identity evidence can be retained for at least seven years.",
       "snippet": "function identityStorage() external view returns (address);\nevent IdentityStored(address indexed investor, address indexed identity);\nevent IdentityUnstored(address indexed investor, address indexed identity);",
       "policyRef": "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk",
-      "pass": true,
-      "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true; Event on irs:IdentityRegistryBound present: true",
+      "pass": false,
+      "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0x0000000000000000000000000000000000000000",
       "details": [
         {
           "op": "hasabifn",
@@ -138,37 +138,9 @@
         {
           "op": "nonzeroaddress",
           "field": "data.idrIdentityStorageAddr",
-          "actual": "0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0",
+          "actual": "0x0000000000000000000000000000000000000000",
           "expected": "!= ZERO",
-          "ok": true
-        },
-        {
-          "op": "hasevent",
-          "where": "irs",
-          "name": "IdentityStored",
-          "present": true,
-          "ok": true
-        },
-        {
-          "op": "hasevent",
-          "where": "irs",
-          "name": "IdentityModified",
-          "present": true,
-          "ok": true
-        },
-        {
-          "op": "hasevent",
-          "where": "irs",
-          "name": "IdentityUnstored",
-          "present": true,
-          "ok": true
-        },
-        {
-          "op": "hasevent",
-          "where": "irs",
-          "name": "IdentityRegistryBound",
-          "present": true,
-          "ok": true
+          "ok": false
         }
       ],
       "run": "rule.AMLO",
@@ -184,14 +156,14 @@
       "desc": "Smart contracts must enforce sanctions compliance by reverting transfers to addresses flagged by blacklist logic.",
       "snippet": "require(!blacklisted[to], \"Sanctioned address\");",
       "policyRef": "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk",
-      "pass": true,
-      "note": "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced.",
+      "pass": false,
+      "note": "Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent.",
       "details": [
         {
           "probe": true,
           "ran": true,
-          "pass": true,
-          "evidence": "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+          "pass": false,
+          "evidence": "Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent."
         }
       ],
       "run": "rule.AMLO",
@@ -207,14 +179,14 @@
       "desc": "Smart contracts must enable modular compliance checks to enforce transaction surveillance, including country restrictions and monthly transfer limits.",
       "snippet": "require(canTransfer(from, to, value), \"Compliance: transfer not allowed\");\naddModule(CountryRestrictModule);\naddModule(ExchangeMonthlyLimitsModule);",
       "policyRef": "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk",
-      "pass": true,
-      "note": "CountryRestrictModule responded to batchRestrictCountries; country flagged for compliance. ExchangeMonthlyLimitsModule accepted monthly limit configuration via compliance.",
+      "pass": false,
+      "note": "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule.",
       "details": [
         {
           "probe": true,
           "ran": true,
-          "pass": true,
-          "evidence": "CountryRestrictModule responded to batchRestrictCountries; country flagged for compliance. ExchangeMonthlyLimitsModule accepted monthly limit configuration via compliance."
+          "pass": false,
+          "evidence": "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
         }
       ],
       "run": "rule.AMLO",
@@ -227,109 +199,104 @@
   ],
   "summary": {
     "total": 4,
-    "pass": 4,
+    "pass": 0,
     "critical": 0,
-    "high": 0,
-    "medium": 0,
+    "high": 3,
+    "medium": 1,
     "low": 0,
     "fail": 0,
-    "warn": 0,
+    "warn": 4,
     "info": 0
   },
   "metrics": null,
   "llm": {
-    "generatedAt": "2025-10-23T16:43:56.097Z",
+    "generatedAt": "2025-10-24T08:44:00.446Z",
     "model": "gpt-4.1-nano-2025-04-14",
     "disabled": false,
     "reason": null,
     "error": null,
-    "overallAssessment": "The virtual-asset platform demonstrates comprehensive compliance with HKMA AML/CFT requirements and ERC-3643 standards, with all key controls passing the review. No critical or high-severity issues identified; controls are effectively enforced and documented.",
+    "overallAssessment": "The audit reveals multiple critical and high-risk deficiencies in the ERC-3643 token implementation and operational controls, indicating significant compliance and security gaps that require immediate remediation to meet HKMA/SFC supervisory standards.",
     "findings": [
       {
         "id": "F-001",
-        "title": "Identity gating effectively prevents transfers to unverified addresses",
-        "severity": "HIGH",
-        "severity_label": "High",
-        "phase2_verdict": "Pass",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The system successfully reverted transfer attempts to unverified addresses, indicating that identity gating controls are operational and enforced as per ERC-3643 and HKMA AML regulations (Cap.615 Schedule 2 §2). This mitigates the risk of illicit transfers and supports regulatory compliance.",
+        "title": "Transfer to Unverified Address Without Identity Verification",
+        "severity": "CRITICAL",
+        "severity_label": "Critical",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The system permitted a transfer to an unverified address without enforcing identity gating, violating the AML/CFT requirements under ERC-3643 and HKMA AML Ordinance (Cap. 615) Schedule 2 §2. This exposes the platform to misuse for illicit activities, risking regulatory sanctions and reputational damage.",
         "compliance_refs": [
-          "ERC-3643",
-          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+          "https://www.elegislation.gov.hk"
         ],
         "evidence_paths": [
-          "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+          "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
         ],
-        "recommendation": "Maintain current gating logic; implement periodic regression testing to ensure transfer reversion remains effective against evolving attack vectors. Document control procedures and retain event logs as evidence for audit purposes."
+        "recommendation": "Implement strict identity verification checks within the transfer logic, ensuring transfers to unverified addresses are blocked unless proper identity gating is in place. Add event logging for transfer attempts to unverified addresses for audit trail validation. Conduct regression testing to confirm enforcement. Develop operational run-books for real-time monitoring of transfer attempts to unverified addresses."
       },
       {
         "id": "F-002",
-        "title": "Robust record-keeping of identity data and events",
+        "title": "Missing Identity Storage Configuration",
         "severity": "MEDIUM",
         "severity_label": "Medium",
-        "phase2_verdict": "Pass",
-        "verdict": "PASS",
+        "phase2_verdict": "Medium",
+        "verdict": "MEDIUM",
         "position": "SUPPORT",
-        "explanation": "The platform maintains on-chain evidence of identity storage, modification, unstoring, and registry binding, aligning with AML record-keeping requirements (Cap.615 Schedule 2 §2). This supports transparency and auditability of customer identity data.",
+        "explanation": "The identity registry's storage address is set to zero (0x0), indicating that identity data is not being stored or referenced correctly. This undermines the AML record-keeping requirement under ERC-3643 and HKMA regulations, impairing traceability and compliance.",
         "compliance_refs": [
-          "ERC-3643",
-          "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
+          "https://www.elegislation.gov.hk"
         ],
         "evidence_paths": [
-          "identityStorage() returns true; data.idrIdentityStorageAddr is non-zero",
-          "Events: IdentityStored, IdentityModified, IdentityUnstored, IdentityRegistryBound are present"
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
+          "nonzeroaddress:data.idrIdentityStorageAddr:"
         ],
-        "recommendation": "Enhance on-chain record-keeping by implementing automated event logging and periodic off-chain reconciliation. Develop internal audit procedures to verify event integrity and data retention, supported by comprehensive logs and snapshots."
+        "recommendation": "Update the smart contract configuration to set a valid, non-zero identity storage address. Add unit tests to verify correct storage address initialization and access. Document the configuration process and include in operational run-books. Validate storage address deployment in a test environment before production."
       },
       {
         "id": "F-003",
-        "title": "Effective sanctions and blacklist controls prevent transfers to pseudo-sanctioned addresses",
+        "title": "Sanctions and Blacklist Control Lacking",
         "severity": "HIGH",
         "severity_label": "High",
-        "phase2_verdict": "Pass",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "Transfer attempts to pseudo-sanctioned addresses were reverted, indicating that blacklist or gating controls are operational, aligning with HKMA AML sanctions requirements (Cap.615 Schedule 2 §15). This reduces the risk of facilitating sanctioned transactions.",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Transfers succeeded despite the presence of a compliance module, indicating that blacklist or sanctions controls are likely absent or ineffective. This contravenes AML/CFT obligations under HKMA AML Ordinance Schedule 2 §15, risking regulatory penalties and facilitating illicit financial flows.",
         "compliance_refs": [
-          "ERC-3643",
-          "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk"
+          "https://www.elegislation.gov.hk"
         ],
         "evidence_paths": [
-          "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+          "Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent."
         ],
-        "recommendation": "Regularly update and review blacklist data; implement automated monitoring and alerting for attempted transfers to sanctioned addresses. Document control procedures and retain logs of blocked transactions for audit trail."
+        "recommendation": "Integrate and activate blacklist and sanctions screening modules within the transfer process. Implement event logging for screening outcomes and transfer attempts. Conduct comprehensive testing of compliance checks. Establish operational procedures for ongoing monitoring and periodic review of sanctions lists."
       },
       {
         "id": "F-004",
-        "title": "Ongoing compliance monitoring supports regulatory requirements",
+        "title": "Missing Ongoing Monitoring Modules",
         "severity": "HIGH",
         "severity_label": "High",
-        "phase2_verdict": "Pass",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The platform's modular compliance modules responded appropriately to country restrictions and monthly limits, ensuring ongoing adherence to AML and CFT policies (Cap.615 Schedule 2 §5(1)(b)–§6). This supports proactive compliance management.",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Key ongoing monitoring modules such as CountryRestrictModule and ExchangeMonthlyLimitsModule are absent, impairing the platform’s ability to detect suspicious activity and enforce compliance policies as required under ERC-3643 and HKMA standards. This increases the risk of regulatory non-compliance and market abuse.",
         "compliance_refs": [
-          "ERC-3643",
-          "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk"
+          "https://www.elegislation.gov.hk"
         ],
         "evidence_paths": [
-          "CountryRestrictModule responded to batchRestrictCountries",
-          "ExchangeMonthlyLimitsModule accepted monthly limit configuration"
+          "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
         ],
-        "recommendation": "Implement continuous monitoring and periodic testing of compliance modules; establish operational run-books for response to alerts. Maintain detailed logs of module responses and configuration changes for audit readiness."
+        "recommendation": "Develop and deploy the missing monitoring modules, ensuring they are integrated into the transaction workflow. Implement event logging for module activity and violations. Conduct regression testing to verify module functionality. Document operational procedures for ongoing monitoring and exception handling."
       }
     ],
     "payload": {
       "summary": {
         "total": 4,
-        "pass": 4,
+        "pass": 0,
         "critical": 0,
-        "high": 0,
-        "medium": 0,
+        "high": 3,
+        "medium": 1,
         "low": 0,
         "fail": 0,
-        "warn": 0,
+        "warn": 4,
         "info": 0
       },
       "rules": [
@@ -340,12 +307,12 @@
           "severity_code": "HIGH",
           "severity_label": "High",
           "severity_original": "High",
-          "phase2_verdict": "PASS",
-          "pass": true,
+          "phase2_verdict": "High",
+          "pass": false,
           "run": "rule.AMLO",
-          "note": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.",
+          "note": "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating.",
           "evidence": [
-            "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+            "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
           ],
           "policy_refs": [
             "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
@@ -360,17 +327,13 @@
           "severity_code": "MEDIUM",
           "severity_label": "Medium",
           "severity_original": "Medium",
-          "phase2_verdict": "PASS",
-          "pass": true,
+          "phase2_verdict": "Medium",
+          "pass": false,
           "run": "rule.AMLO",
-          "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true; Event on irs:IdentityRegistryBound present: true",
+          "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0x0000000000000000000000000000000000000000",
           "evidence": [
             "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
-            "nonzeroaddress:data.idrIdentityStorageAddr:",
-            "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityStored\",\"present\":true,\"ok\":true}",
-            "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityModified\",\"present\":true,\"ok\":true}",
-            "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityUnstored\",\"present\":true,\"ok\":true}",
-            "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityRegistryBound\",\"present\":true,\"ok\":true}"
+            "nonzeroaddress:data.idrIdentityStorageAddr:"
           ],
           "policy_refs": [
             "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk"
@@ -385,12 +348,12 @@
           "severity_code": "HIGH",
           "severity_label": "High",
           "severity_original": "High",
-          "phase2_verdict": "PASS",
-          "pass": true,
+          "phase2_verdict": "High",
+          "pass": false,
           "run": "rule.AMLO",
-          "note": "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced.",
+          "note": "Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent.",
           "evidence": [
-            "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+            "Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent."
           ],
           "policy_refs": [
             "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk"
@@ -405,12 +368,12 @@
           "severity_code": "HIGH",
           "severity_label": "High",
           "severity_original": "High",
-          "phase2_verdict": "PASS",
-          "pass": true,
+          "phase2_verdict": "High",
+          "pass": false,
           "run": "rule.AMLO",
-          "note": "CountryRestrictModule responded to batchRestrictCountries; country flagged for compliance. ExchangeMonthlyLimitsModule accepted monthly limit configuration via compliance.",
+          "note": "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule.",
           "evidence": [
-            "CountryRestrictModule responded to batchRestrictCountries; country flagged for compliance. ExchangeMonthlyLimitsModule accepted monthly limit configuration via compliance."
+            "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
           ],
           "policy_refs": [
             "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk"
@@ -427,26 +390,26 @@
             {
               "id": "R-HKMA-AMLO-CDD",
               "ran": true,
-              "pass": true,
-              "evidence": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+              "pass": false,
+              "evidence": "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
             },
             {
               "id": "R-HKMA-AMLO-RECORDKEEPING",
               "ran": true,
-              "pass": true,
-              "evidence": "AMLO record-keeping probe: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0 returned an empty linkedIdentityRegistries() list; manual confirmation of off-chain retention is required."
+              "pass": false,
+              "evidence": "AMLO record-keeping probe: identityRegistry.identityStorage() returned zero address; storage is not wired."
             },
             {
               "id": "R-HKMA-AMLO-Sanctions",
               "ran": true,
-              "pass": true,
-              "evidence": "Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced."
+              "pass": false,
+              "evidence": "Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent."
             },
             {
               "id": "R-HKMA-AMLO-OngoingMonitoring",
               "ran": true,
-              "pass": true,
-              "evidence": "CountryRestrictModule responded to batchRestrictCountries; country flagged for compliance. ExchangeMonthlyLimitsModule accepted monthly limit configuration via compliance."
+              "pass": false,
+              "evidence": "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
             }
           ]
         }
@@ -457,8 +420,8 @@
     "textPath": "reports/amlo-results.txt"
   },
   "coverageDistribution": {
-    "SUPPORT": 4,
-    "CHALLENGE": 0,
+    "SUPPORT": 1,
+    "CHALLENGE": 3,
     "EXTEND": 0
   }
 }

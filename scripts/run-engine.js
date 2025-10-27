@@ -3,10 +3,26 @@ const fs = require("fs");
 const path = require("path");
 const { ethers: rpcEthers } = require("ethers");
 
-// Optional ABI artifact loader (if present via abipaths.json)
+// Optional ABI artifact loader (supports overrides via env/impl-specific files)
+function resolveAbiPathsFile(root) {
+  const explicit = process.env.ABIPATHS_FILE;
+  if (explicit) {
+    const resolved = path.isAbsolute(explicit) ? explicit : path.join(root, explicit);
+    if (fs.existsSync(resolved)) return resolved;
+  }
+  const impl = String(process.env.BOOTSTRAP_IMPL || "").toLowerCase();
+  if (impl) {
+    const candidate = path.join(root, `abipaths.${impl}.json`);
+    if (fs.existsSync(candidate)) return candidate;
+  }
+  const fallback = path.join(root, "abipaths.json");
+  return fs.existsSync(fallback) ? fallback : null;
+}
+
+// Optional ABI artifact loader (if present via abipaths.json or overrides)
 function loadAbiArtifacts(root) {
-  const abipathsPath = path.join(root, "abipaths.json");
-  if (!fs.existsSync(abipathsPath)) return null;
+  const abipathsPath = resolveAbiPathsFile(root);
+  if (!abipathsPath) return null;
   try {
     const map = JSON.parse(fs.readFileSync(abipathsPath, "utf8"));
     const loadOne = (p) => {
@@ -61,11 +77,18 @@ function makeAbiIndex(abi) {
   return { bySig, byName, hasEvent };
 }
 
+function resolveWhereAlias(where) {
+  const key = String(where || "").toLowerCase();
+  if (key === "control" || key === "controller") return "token";
+  return key;
+}
+
 // =====================
 // Shared helpers
 // =====================
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 const ZERO = ZERO_ADDRESS.toLowerCase();
+let BENEFICIAL_OWNER_TOPIC = Number(process.env.BENEFICIAL_OWNER_TOPIC || "2001");
 
 function loadJson(p) {
   return JSON.parse(fs.readFileSync(p, "utf8"));
@@ -287,7 +310,10 @@ const TokenABI = [
 const IdentityRegistryABI = [
   "function topicsRegistry() view returns (address)",
   "function issuersRegistry() view returns (address)",
-  "function identityStorage() view returns (address)"
+  "function identityStorage() view returns (address)",
+  "function identity(address) view returns (address)",                  // Identity Resolution
+  "function riskLevel(address) view returns (uint8)",                   // Risk Classification
+  "function beneficialOwners(address) view returns (address[])"         // Ownership and Control Tracking
 ];
 const ClaimTopicsRegistryABI = [
   "function getClaimTopics() view returns (uint256[])",
@@ -330,6 +356,9 @@ async function createHardhatContext() {
   if (impl === "boulder") {
     const { bootstrapBoulder } = require("./bootstrap-boulder.ts");
     await bootstrapBoulder(hre, ".cre.addresses.json");
+  } else if (impl === "buggy") {
+    const { bootstrapBuggy } = require("./bootstrap-buggy.ts");
+    await bootstrapBuggy(hre, process.env.BUGGY_OUTPUT || ".cre.addresses.json");
   } else {
     const { bootstrap } = require("./bootstrap-clean.ts");
     await bootstrap(hre);
@@ -395,10 +424,12 @@ async function collectData(ctx, cfg) {
   
   const tirOwner = tir ? await tryCall(() => tir.owner(), constants.AddressZero) : constants.AddressZero;
   const irsOwner = irs ? await tryCall(() => irs.owner(), constants.AddressZero) : constants.AddressZero;
+  const controlAddress = normalizeAddress(cfg.control) !== ZERO ? cfg.control : cfg.token;
 
   return {
     tokenIdentity,
-    tokenCompliance,
+    tokenCompliance: resolvedComplianceAddr,
+    tokenComplianceRaw: tokenCompliance,
     tokenOwner,
     idrTopicsRegistryAddr,
     idrTrustedIssuersAddr,
@@ -414,6 +445,7 @@ async function collectData(ctx, cfg) {
     tirOwner,
     irsOwner,
     idrIdentityStorageAddr: resolvedIrsAddr,
+    controlAddress,
   };
 }
 
@@ -438,6 +470,11 @@ async function runRuntimeProbes(context, cfg, data, rules) {
   const sanctionsKeyUpper = ruleIds.has("R-HKMA-AMLO-SANCTIONS") ? "R-HKMA-AMLO-SANCTIONS" : "R-HKMA-SANCTIONS";
   const sanctionsKey = ruleIdMap.get(sanctionsKeyUpper) || sanctionsKeyUpper;
   const needsOngoing = ruleIds.has("R-HKMA-AMLO-ONGOINGMONITORING");
+  const needsKycRecheck = ruleIds.has("R-HKMA-AMLO-KYCSTATUSRECHECK");
+  const needsJurisdiction = ruleIds.has("R-HKMA-AMLO-INVESTORJURISDICTION");
+  const needsDualControl = ruleIds.has("R-HKMA-AMLO-DUALCONTROL");
+  const needsFreeze = ruleIds.has("R-HKMA-AMLO-FREEZEUNFREEZE");
+  const needsOwnership = ruleIds.has("R-HKMA-AMLO-OWNERSHIPCONTROL");
 
   const ensureProbe = (id) => {
     if (!probes[id]) probes[id] = { ran: false, pass: null, evidence: "skipped (no runtime)" };
@@ -450,6 +487,14 @@ async function runRuntimeProbes(context, cfg, data, rules) {
   if (needsSanctions) ensureProbe(sanctionsKey);
   const ongoingKey = ruleIdMap.get("R-HKMA-AMLO-ONGOINGMONITORING") || "R-HKMA-AMLO-ONGOINGMONITORING";
   if (needsOngoing) ensureProbe(ongoingKey);
+  const jurisdictionKey = ruleIdMap.get("R-HKMA-AMLO-INVESTORJURISDICTION") || "R-HKMA-AMLO-INVESTORJURISDICTION";
+  if (needsKycRecheck) ensureProbe(ruleIdMap.get("R-HKMA-AMLO-KYCSTATUSRECHECK") || "R-HKMA-AMLO-KYCSTATUSRECHECK");
+  if (needsJurisdiction) ensureProbe(jurisdictionKey);
+  const dualControlKey = ruleIdMap.get("R-HKMA-AMLO-DUALCONTROL") || "R-HKMA-AMLO-DUALCONTROL";
+  const freezeKey = ruleIdMap.get("R-HKMA-AMLO-FREEZEUNFREEZE") || "R-HKMA-AMLO-FREEZEUNFREEZE";
+  if (needsDualControl) ensureProbe(dualControlKey);
+  if (needsFreeze) ensureProbe(freezeKey);
+  if (needsOwnership) ensureProbe(ruleIdMap.get("R-HKMA-AMLO-OWNERSHIPCONTROL") || "R-HKMA-AMLO-OWNERSHIPCONTROL");
 
   if (!context || context.mode !== "hardhat") {
     return probes;
@@ -462,6 +507,15 @@ async function runRuntimeProbes(context, cfg, data, rules) {
   const complianceAddr = normalizeAddress(data.tokenCompliance);
   const hasCompliance = complianceAddr !== ZERO;
   const compliance = hasCompliance ? new Contract(complianceAddr, ComplianceABI, signer) : null;
+  const claimTopicsRegistryAddr = cfg.claimTopicsRegistry ? normalizeAddress(cfg.claimTopicsRegistry) : ZERO;
+  const claimTopicsRegistry = (needsOwnership || needsAmloCdd || needsOngoing) && claimTopicsRegistryAddr !== ZERO
+    ? new Contract(cfg.claimTopicsRegistry, ClaimTopicsRegistryABI, signer)
+    : null;
+  const trustedIssuersRegistryAddr = cfg.trustedIssuersRegistry ? normalizeAddress(cfg.trustedIssuersRegistry) : ZERO;
+  const trustedIssuersRegistry = (needsOwnership || needsAmloCdd) && trustedIssuersRegistryAddr !== ZERO
+    ? new Contract(cfg.trustedIssuersRegistry, TrustedIssuersRegistryABI, signer)
+    : null;
+  const primaryAddress = await signer.getAddress();
 
   const complianceModules = [];
   if (hasCompliance) {
@@ -484,6 +538,21 @@ async function runRuntimeProbes(context, cfg, data, rules) {
   const identityRegistry = (needsAmloRecord || needsAmloCdd || needsOngoing)
     ? new Contract(cfg.identityRegistry, IdentityRegistryABI, signer)
     : null;
+
+  const allSigners = (context && context.ethers && typeof context.ethers.getSigners === "function")
+    ? await context.ethers.getSigners()
+    : [signer];
+  const secondarySigner = allSigners[1] || signer;
+  const controlAddr = normalizeAddress(data.controlAddress || cfg.control || cfg.token);
+  const ControlABI = [
+    "function setAddressFrozen(address,bool) external",
+    "function isFrozen(address) view returns (bool)",
+    "function freeze(address) external",
+    "function unfreeze(address) external",
+    "function freezePartialTokens(address,uint256) external",
+    "function unfreezePartialTokens(address,uint256) external"
+  ];
+  const control = controlAddr !== ZERO ? new Contract(controlAddr, ControlABI, signer) : null;
 
   const tryTx = async (fn) => {
     try {
@@ -514,10 +583,21 @@ async function runRuntimeProbes(context, cfg, data, rules) {
           : "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating.";
         probes["R-HKMA-AMLO-CDD"] = { ran: true, pass, evidence: amloEvidence };
       }
+      if (needsKycRecheck) {
+        const key = ruleIdMap.get("R-HKMA-AMLO-KYCSTATUSRECHECK") || "R-HKMA-AMLO-KYCSTATUSRECHECK";
+        const evidence = pass
+          ? "KYC revalidation probe: transfer by unverified actor reverted, indicating runtime checks are enforced."
+          : "KYC revalidation probe: transfer by unverified actor succeeded, runtime identity recheck missing.";
+        probes[key] = { ran: true, pass, evidence };
+      }
     } catch (e) {
       const failure = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
       if (needs3643_01) probes["R-ERC3643-01"] = { ...failure };
       if (needsAmloCdd) probes["R-HKMA-AMLO-CDD"] = { ...failure };
+      if (needsKycRecheck) {
+        const key = ruleIdMap.get("R-HKMA-AMLO-KYCSTATUSRECHECK") || "R-HKMA-AMLO-KYCSTATUSRECHECK";
+        probes[key] = { ...failure };
+      }
     }
   }
 
@@ -657,30 +737,44 @@ async function runRuntimeProbes(context, cfg, data, rules) {
     }
 
     // --- Probe for ongoing monitoring capability (R-HKMA-AMLO-ONGOINGMONITORING) ---
-    if (needsOngoing) {
-      if (!hasCompliance) {
+  if (needsOngoing) {
+    if (!hasCompliance) {
+      probes[ongoingKey] = {
+        ran: true,
+        pass: false,
+        evidence: "Ongoing monitoring: no compliance() address configured; modular checks unavailable."
+      };
+      if (needsJurisdiction) {
+        probes[jurisdictionKey] = {
+          ran: true,
+          pass: false,
+          evidence: "Jurisdiction screening probe: compliance contract missing; cannot enforce country restrictions."
+        };
+      }
+    } else {
+      const countryModuleInfo = complianceModules.find((m) => m.name === "CountryRestrictModule");
+      const exchangeModuleInfo = complianceModules.find((m) => m.name === "ExchangeMonthlyLimitsModule");
+      if (!countryModuleInfo || !exchangeModuleInfo) {
+        const missing = [
+          countryModuleInfo ? null : "CountryRestrictModule",
+          exchangeModuleInfo ? null : "ExchangeMonthlyLimitsModule"
+        ].filter(Boolean).join(", ");
         probes[ongoingKey] = {
           ran: true,
           pass: false,
-          evidence: "Ongoing monitoring: no compliance() address configured; modular checks unavailable."
+          evidence: `Ongoing monitoring modules missing: ${missing || "unknown"}.`
         };
-      } else {
-        const countryModuleInfo = complianceModules.find((m) => m.name === "CountryRestrictModule");
-        const exchangeModuleInfo = complianceModules.find((m) => m.name === "ExchangeMonthlyLimitsModule");
-        if (!countryModuleInfo || !exchangeModuleInfo) {
-          const missing = [
-            countryModuleInfo ? null : "CountryRestrictModule",
-            exchangeModuleInfo ? null : "ExchangeMonthlyLimitsModule"
-          ].filter(Boolean).join(", ");
-          probes[ongoingKey] = {
+        if (needsJurisdiction) {
+          probes[jurisdictionKey] = {
             ran: true,
             pass: false,
-            evidence: `Ongoing monitoring modules missing: ${missing || "unknown"}.`
+            evidence: `Jurisdiction screening probe: required module missing (${missing || "CountryRestrictModule"}).`
           };
-        } else {
-          let pass = true;
-          const parts = [];
-          const admin = new Contract(complianceAddr, ComplianceAdminABI, signer);
+        }
+      } else {
+        let pass = true;
+        const parts = [];
+        const admin = new Contract(complianceAddr, ComplianceAdminABI, signer);
 
           // Country restrict module configuration check
           try {
@@ -731,7 +825,7 @@ async function runRuntimeProbes(context, cfg, data, rules) {
             const exchangeIdentity = ethers.Wallet.createRandom().address;
             try {
               const modOwner = await exchangeModule.owner().catch(() => ZERO);
-              if (normalizeAddress(modOwner) === normalizeAddress(await signer.getAddress())) {
+              if (normalizeAddress(modOwner) === normalizeAddress(primaryAddress)) {
                 await (await exchangeModule.addExchangeID(exchangeIdentity)).wait();
               }
             } catch {}
@@ -754,18 +848,194 @@ async function runRuntimeProbes(context, cfg, data, rules) {
               parts.push("ExchangeMonthlyLimitsModule limit readback mismatch after configuration.");
             }
           } catch (err) {
-            pass = false;
-            parts.push(`ExchangeMonthlyLimitsModule configuration failed: ${String(err && err.message || err)}`);
-          }
+          pass = false;
+          parts.push(`ExchangeMonthlyLimitsModule configuration failed: ${String(err && err.message || err)}`);
+        }
 
-          probes[ongoingKey] = {
+        probes[ongoingKey] = {
+          ran: true,
+          pass,
+          evidence: parts.join(" ")
+        };
+        if (needsJurisdiction) {
+          const countryEvidence = parts.find((segment) => segment.includes("CountryRestrictModule"))
+            || (countryModuleInfo ? "CountryRestrictModule executed." : "CountryRestrictModule not exercised.");
+          const jurisdictionPass = pass && countryModuleInfo && parts.some((segment) => segment.includes("CountryRestrictModule"));
+          probes[jurisdictionKey] = {
             ran: true,
-            pass,
-            evidence: parts.join(" ")
+            pass: jurisdictionPass,
+            evidence: countryEvidence
           };
         }
       }
     }
+  }
+
+  if (needsDualControl) {
+    if (controlAddr === ZERO) {
+      probes[dualControlKey] = {
+        ran: true,
+        pass: false,
+        evidence: "Dual-control probe: control contract address not configured."
+      };
+    } else if (!control || typeof control.setAddressFrozen !== "function") {
+      probes[dualControlKey] = {
+        ran: true,
+        pass: false,
+        evidence: "Dual-control probe: setAddressFrozen function unavailable on control contract."
+      };
+    } else if (secondarySigner.address === primaryAddress) {
+      probes[dualControlKey] = {
+        ran: true,
+        pass: false,
+        evidence: "Dual-control probe: secondary signer unavailable to test role separation."
+      };
+    } else {
+      const target = secondarySigner.address;
+      let restored = false;
+      const beforeState = typeof control.isFrozen === "function"
+        ? await control.isFrozen(target).catch(() => null)
+        : null;
+      const attempt = await tryTx(() => control.connect(secondarySigner).setAddressFrozen(target, true));
+      if (!attempt.ok) {
+        const errMsgRaw = attempt.err && attempt.err.message ? attempt.err.message : String(attempt.err || "revert");
+        const errMsg = shorten(errMsgRaw, 180);
+        probes[dualControlKey] = {
+          ran: true,
+          pass: true,
+          evidence: `Dual-control probe: unauthorized freeze reverted (${errMsg}).`
+        };
+      } else {
+        if (beforeState !== null) {
+          try {
+            await (await control.setAddressFrozen(target, beforeState)).wait();
+            restored = true;
+          } catch {}
+        } else {
+          try {
+            await (await control.setAddressFrozen(target, false)).wait();
+            restored = true;
+          } catch {}
+        }
+        probes[dualControlKey] = {
+          ran: true,
+          pass: false,
+          evidence: `Dual-control probe: non-authorized signer froze address successfully${restored ? " (state restored)" : ""}.`
+        };
+      }
+    }
+  }
+
+  if (needsFreeze) {
+    if (controlAddr === ZERO) {
+      probes[freezeKey] = {
+        ran: true,
+        pass: false,
+        evidence: "Freeze probe: control contract address not configured."
+      };
+    } else if (!control || typeof control.setAddressFrozen !== "function") {
+      probes[freezeKey] = {
+        ran: true,
+        pass: false,
+        evidence: "Freeze probe: setAddressFrozen function unavailable on control contract."
+      };
+    } else {
+      const target = secondarySigner.address;
+      const canCheck = typeof control.isFrozen === "function";
+      let before = null;
+      if (canCheck) {
+        before = await control.isFrozen(target).catch(() => null);
+      }
+      const freezeTx = await tryTx(() => control.setAddressFrozen(target, true));
+      if (!freezeTx.ok) {
+        const errMsgRaw = freezeTx.err && freezeTx.err.message ? freezeTx.err.message : String(freezeTx.err || "revert");
+        const errMsg = shorten(errMsgRaw, 180);
+        probes[freezeKey] = {
+          ran: true,
+          pass: false,
+          evidence: `Freeze probe: authorized freeze failed (${errMsg}).`
+        };
+      } else {
+        let afterFreeze = null;
+        if (canCheck) {
+          afterFreeze = await control.isFrozen(target).catch(() => null);
+        }
+        const unfreezeTargetState = before === null ? false : before;
+        const unfreezeTx = await tryTx(() => control.setAddressFrozen(target, unfreezeTargetState));
+        if (!unfreezeTx.ok) {
+          if (before !== null) {
+            try { await (await control.setAddressFrozen(target, before)).wait(); } catch {}
+          } else {
+            try { await (await control.setAddressFrozen(target, false)).wait(); } catch {}
+          }
+        }
+        const unfreezeOk = unfreezeTx.ok;
+        const restored = canCheck ? await control.isFrozen(target).catch(() => null) : null;
+        const pass = freezeTx.ok && unfreezeOk && (afterFreeze === null || afterFreeze === true) && (restored === null || restored === unfreezeTargetState);
+        const evidenceParts = [];
+        evidenceParts.push(freezeTx.ok ? "Freeze succeeded." : "Freeze failed.");
+        evidenceParts.push(unfreezeOk ? "Unfreeze succeeded." : "Unfreeze failed.");
+        if (afterFreeze !== null) evidenceParts.push(`Post-freeze status: ${afterFreeze}`);
+        if (restored !== null) evidenceParts.push(`Restored status: ${restored}`);
+        probes[freezeKey] = {
+          ran: true,
+          pass,
+          evidence: evidenceParts.join(" ")
+        };
+      }
+    }
+  }
+
+  if (needsOwnership) {
+    const ownershipKey = ruleIdMap.get("R-HKMA-AMLO-OWNERSHIPCONTROL") || "R-HKMA-AMLO-OWNERSHIPCONTROL";
+    try {
+      if (!claimTopicsRegistry) {
+        probes[ownershipKey] = {
+          ran: true,
+          pass: false,
+          evidence: "Ownership probe: claim topics registry address missing."
+        };
+      } else if (!trustedIssuersRegistry) {
+        probes[ownershipKey] = {
+          ran: true,
+          pass: false,
+          evidence: "Ownership probe: trusted issuers registry address missing."
+        };
+      } else {
+        const topics = await claimTopicsRegistry.getClaimTopics().catch(() => []);
+        const topicPresent = Array.isArray(topics) && topics.some((topic) => Number(topic) === Number(BENEFICIAL_OWNER_TOPIC));
+        if (!topicPresent) {
+          probes[ownershipKey] = {
+            ran: true,
+            pass: false,
+            evidence: `Ownership probe: claim topic ${BENEFICIAL_OWNER_TOPIC} not configured.`
+          };
+        } else {
+          const issuers = await trustedIssuersRegistry.getTrustedIssuersForClaimTopic(BENEFICIAL_OWNER_TOPIC).catch(() => []);
+          const issuerCount = Array.isArray(issuers) ? issuers.filter((addr) => normalizeAddress(addr) !== ZERO).length : 0;
+          if (issuerCount === 0) {
+            probes[ownershipKey] = {
+              ran: true,
+              pass: false,
+              evidence: `Ownership probe: no trusted issuer configured for claim topic ${BENEFICIAL_OWNER_TOPIC}.`
+            };
+          } else {
+            probes[ownershipKey] = {
+              ran: true,
+              pass: true,
+              evidence: `Ownership probe: claim topic ${BENEFICIAL_OWNER_TOPIC} present with ${issuerCount} trusted issuer(s).`
+            };
+          }
+        }
+      }
+    } catch (e) {
+      probes[ownershipKey] = {
+        ran: true,
+        pass: false,
+        evidence: `Ownership probe error: ${String(e && e.message || e)}`
+      };
+    }
+  }
 
   return probes;
 }
@@ -899,6 +1169,16 @@ function evalCheck(chk, data, cfg, helpers) {
     const name = String(chk.name || "");
     return helpers && typeof helpers.hasEvent === "function" ? helpers.hasEvent(where, name) : true;
   }
+  if (op === "hasmodule") {
+    const modules = Array.isArray(data?.complianceModules) ? data.complianceModules : [];
+    const target = String(chk.name || chk.module || chk.value || "").toLowerCase();
+    return modules.some((mod) => String(mod?.name || "").toLowerCase() === target);
+  }
+  if (op === "hasclaimtopic") {
+    const topicList = Array.isArray(data?.topics) ? data.topics.map((t) => Number(t)) : [];
+    const target = Number(chk.topic || chk.value || chk.id || 0);
+    return topicList.includes(target);
+  }
   // default: unknown op -> pass to avoid false negatives for forward-compat rules
   return true;
 }
@@ -950,6 +1230,19 @@ function evalDeclarativeRule(r, data, cfg, helpers) {
       ok = !!present;
       notes.push(`Event on ${c.where}:${c.name} present: ${present}`);
       details.push({ op, where: (c.where||"").toLowerCase(), name: String(c.name||""), present, ok });
+    } else if (op === "hasmodule") {
+      const target = String(c.name || c.module || c.value || "").toLowerCase();
+      const modules = Array.isArray(data?.complianceModules) ? data.complianceModules : [];
+      const present = modules.some((mod) => String(mod?.name || "").toLowerCase() === target);
+      ok = present;
+      notes.push(`Compliance module ${target} present: ${present}`);
+      details.push({ op, module: target, present, ok });
+    } else if (op === "hasclaimtopic") {
+      const topicList = Array.isArray(data?.topics) ? data.topics.map((t) => Number(t)) : [];
+      const target = Number(c.topic || c.value || c.id || 0);
+      ok = topicList.includes(target);
+      notes.push(`Claim topic ${target} present: ${ok}`);
+      details.push({ op, topic: target, present: ok, ok });
     } else {
       // unknown op -> treat as pass but record
       ok = true;
@@ -977,6 +1270,7 @@ function evalDeclarativeRule(r, data, cfg, helpers) {
 async function main() {
   const root = process.cwd();
   loadLocalEnv(root);
+  BENEFICIAL_OWNER_TOPIC = Number(process.env.BENEFICIAL_OWNER_TOPIC || "2001");
   const argv = process.argv.slice(2);
   let rulesArg = null;
   let addressesArg = null;
@@ -1209,14 +1503,28 @@ async function evaluateRun(root, def, rules, abiArtifactsArg) {
     ctr: makeAbiIndex(abiArtifacts?.ctrAbi),
     tir: makeAbiIndex(abiArtifacts?.tirAbi),
     compliance: makeAbiIndex(abiArtifacts?.complianceAbi),
-    irs: makeAbiIndex(abiArtifacts?.irsAbi),
+    irs: makeAbiIndex(abiArtifacts?.irsAbi)
   };
-  // Guard against missing ABI indices
-  for (const k of ["token","idr","ctr","tir","compliance","irs"]) {
+  for (const k of ["token", "idr", "ctr", "tir", "compliance", "irs"]) {
     if (!idx[k]) idx[k] = { bySig: new Set(), byName: new Set(), hasEvent: new Set() };
   }
-  const hasFn = (where, sigOrName) => idx[where] && (idx[where].bySig.has(sigOrName) || idx[where].byName.has(sigOrName));
-  const hasEvent = (where, name) => idx[where] && idx[where].hasEvent.has(name);
+  idx.control = idx.token || { bySig: new Set(), byName: new Set(), hasEvent: new Set() };
+
+  const getAbiIndex = (where) => {
+    const key = resolveWhereAlias(where);
+    return idx[key] || { bySig: new Set(), byName: new Set(), hasEvent: new Set() };
+  };
+
+  const hasFn = (where, sigOrName) => {
+    const record = getAbiIndex(where);
+    if (!record) return false;
+    return record.bySig.has(sigOrName) || record.byName.has(sigOrName);
+  };
+  const hasEvent = (where, name) => {
+    const record = getAbiIndex(where);
+    if (!record) return false;
+    return record.hasEvent.has(name);
+  };
 
   let context = await tryCreateRpcContext(cfg);
   let data = null;
@@ -1322,6 +1630,7 @@ async function evaluateRun(root, def, rules, abiArtifactsArg) {
       idrIdentityStorageAddr: data?.idrIdentityStorageAddr ?? null,
       topicsCount: Array.isArray(data?.topics) ? data.topics.length : 0,
       complianceBoundToken: data?.complianceBoundToken ?? null,
+      controlAddress: data?.controlAddress ?? null,
       executionMode: context?.mode ?? null,
       tokenName: data?.tokenName ?? null,
       tokenSymbol: data?.tokenSymbol ?? null,

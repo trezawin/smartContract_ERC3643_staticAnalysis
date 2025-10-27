@@ -32,9 +32,9 @@ contract ComplianceProbeModule is AbstractModule {
     }
 
     function moduleCheck(
-        address,
-        address,
-        uint256,
+        address from,
+        address to,
+        uint256 amount,
         address compliance
     ) external view override returns (bool) {
         if (!_initialized[compliance]) {

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ERC-3643 Severity Summary</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --panel-bg: #fff;
+      --border: #e2e9f3;
+      --text-muted: #7b8a9a;
+      --accent: #2980b9;
+      --shadow: 0 15px 35px rgba(15, 34, 58, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body { font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; background: var(--bg); padding: 32px; color:#1f2d3d; }
+    h1 { margin: 0; font-size: 2.4rem; letter-spacing:-0.5px; }
+    .subtitle { color: var(--text-muted); margin-top: 8px; }
+    .grid { display: grid; gap: 28px; margin-top: 30px; }
+    .panel { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 18px; padding: 24px 28px; box-shadow: var(--shadow); }
+    .panel h2 { margin: 0 0 12px; font-size: 1.4rem; color: var(--accent); letter-spacing: -0.2px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 12px 14px; text-align: center; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+    thead th { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    th.dataset, td.dataset { text-align: left; font-weight: 600; color:#132a45; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:nth-child(even) { background: #fdfefe; }
+    .metrics-table td { font-variant-numeric: tabular-nums; }
+    .muted { color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <h1>ERC-3643 Severity & Accuracy Overview</h1>
+  <p class="subtitle">Severity distribution plus precision/recall metrics against curated AMLO ground truths.</p>
+
+  <div class="grid">
+    <section class="panel">
+      <h2>Severity Distribution</h2>
+      <table>
+        <thead><tr><th class="dataset">Dataset</th><th style="background:#c0392b;color:#fff">Critical</th><th style="background:#f39c12;color:#fff">High</th><th style="background:#f1c40f;color:#fff">Medium</th><th style="background:#7f8c8d;color:#fff">Low</th><th style="background:#2980b9;color:#fff">Total</th></tr></thead>
+        <tbody>
+          <tr><td class="dataset">T-REX (reference)</td><td>(0, 0)</td><td>(7, 0)</td><td>(2, 1)</td><td>(0, 1)</td><td>(9, 2)</td></tr>
+          <tr><td class="dataset">Mutated (buggy)</td><td>(0, 0)</td><td>(2, 5)</td><td>(0, 3)</td><td>(0, 1)</td><td>(2, 9)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h2>Detection Metrics vs Ground Truth</h2>
+      <table class="metrics-table">
+        <thead>
+          <tr>
+            <th class="dataset">Dataset</th>
+            <th>Rule Coverage</th>
+            <th>Accuracy</th>
+            <th>Precision</th>
+            <th>Recall</th>
+            <th>F1-Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+    <td class="dataset">T-REX (reference)</td>
+    <td>11/11 (100.0%)</td>
+    <td>90.9%</td>
+    <td>50.0%</td>
+    <td>100.0%</td>
+    <td>66.7%</td>
+  </tr>
+          <tr>
+    <td class="dataset">Mutated (buggy)</td>
+    <td>11/11 (100.0%)</td>
+    <td>81.8%</td>
+    <td>100.0%</td>
+    <td>81.8%</td>
+    <td>90.0%</td>
+  </tr>
+        </tbody>
+      </table>
+      <p class="muted" style="margin-top:12px;font-size:0.85rem;">
+        Precision/Recall/F1 treat detected failures as the positive class. Coverage indicates how many ground-truth rules were evaluated in each run.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>Evaluation Criteria Deep-Dive</h2>
+      <table class="criteria-table">
+    <thead>
+      <tr>
+        <th class="dataset">Criteria</th>
+        <th>T-REX (reference)</th>
+        <th>Mutated (buggy)</th>
+      </tr>
+    </thead>
+    <tbody><tr>
+    <td class="dataset">Failure Detection</td>
+    <td>1</td>
+    <td>9</td>
+  </tr><tr>
+    <td class="dataset">Consistency</td>
+    <td>90.9%</td>
+    <td>81.8%</td>
+  </tr><tr>
+    <td class="dataset">Detection Accuracy</td>
+    <td>1/1 (100.0%)</td>
+    <td>9/11 (81.8%)</td>
+  </tr><tr>
+    <td class="dataset">False Negatives Count</td>
+    <td>0</td>
+    <td>2</td>
+  </tr><tr>
+    <td class="dataset">Rule Robustness</td>
+    <td>1/1 (100.0%)</td>
+    <td>9/11 (81.8%)</td>
+  </tr></tbody>
+  </table>
+      <p class="muted" style="margin-top:12px;font-size:0.85rem;">
+        Failure-centric criteria highlight how well each dataset surfaces intentional compliance breaks within the mutation suite.
+      </p>
+    </section>
+  </div>
+
+  <p style="color:#94a3b8;font-size:12px;margin-top:22px;">Generated automatically on 10/26/2025, 4:53:10 PM</p>
+</body>
+</html>

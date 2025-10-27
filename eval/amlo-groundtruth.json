@@ -1,0 +1,48 @@
+{
+  "rules": [
+    {
+      "id": "R-HKMA-AMLO-CDD",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-AMLO-RecordKeeping",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-AMLO-Sanctions",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-AMLO-OngoingMonitoring",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-AMLO-OwnershipControl",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-AMLO-RiskClassification",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-AMLO-AddressResolution",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-AMLO-DualControl",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-AMLO-FreezeUnfreeze",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-AMLO-KYCStatusRecheck",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-AMLO-InvestorJurisdiction",
+      "status": "Pass"
+    }
+  ]
+}

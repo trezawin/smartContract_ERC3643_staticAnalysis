@@ -1,0 +1,214 @@
+{
+  "generatedAt": "2025-10-23T21:24:52.555Z",
+  "inputs": {
+    "addressesPath": "/Users/treza/Documents/staticAnalysis/.cre.addresses.json",
+    "addresses": {
+      "networkRpc": "http://127.0.0.1:8545",
+      "token": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+    },
+    "ruleFiles": [
+      "cre/rules/rule.AMLO.json"
+    ],
+    "abiArtifacts": {
+      "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
+      "IdentityRegistry": "artifacts/contracts/buggy/BuggyIdentityRegistry.sol/BuggyIdentityRegistry.json",
+      "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
+      "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
+      "Compliance": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
+      "IdentityRegistryStorage": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
+    }
+  },
+  "runs": [
+    {
+      "label": "rule.AMLO",
+      "rulesPath": "cre/rules/rule.AMLO.json",
+      "addressesPath": ".cre.addresses.json",
+      "summary": {
+        "total": 4,
+        "pass": 0,
+        "critical": 0,
+        "high": 3,
+        "medium": 1,
+        "low": 0,
+        "fail": 0,
+        "warn": 4,
+        "info": 0
+      },
+      "addresses": {
+        "networkRpc": "http://127.0.0.1:8545",
+        "token": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+        "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+      },
+      "data": {
+        "tokenIdentity": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+        "tokenCompliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+        "tokenOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "ctrOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "idrClaimTopicsAddr": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "idrTrustedIssuersAddr": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "idrIdentityStorageAddr": "0x0000000000000000000000000000000000000000",
+        "topicsCount": 1,
+        "complianceBoundToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "executionMode": "hardhat",
+        "tokenName": "HK Green Bond",
+        "tokenSymbol": "HKGB",
+        "tokenDecimals": 18,
+        "tirOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "irsOwner": "0x0000000000000000000000000000000000000000"
+      },
+      "probes": {
+        "R-HKMA-AMLO-CDD": {
+          "ran": true,
+          "pass": false,
+          "evidence": "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
+        },
+        "R-HKMA-AMLO-RECORDKEEPING": {
+          "ran": true,
+          "pass": false,
+          "evidence": "AMLO record-keeping probe: identityRegistry.identityStorage() returned zero address; storage is not wired."
+        },
+        "R-HKMA-AMLO-Sanctions": {
+          "ran": true,
+          "pass": false,
+          "evidence": "Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent."
+        },
+        "R-HKMA-AMLO-OngoingMonitoring": {
+          "ran": true,
+          "pass": false,
+          "evidence": "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
+        }
+      },
+      "abiArtifacts": {
+        "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
+        "IdentityRegistry": "artifacts/contracts/buggy/BuggyIdentityRegistry.sol/BuggyIdentityRegistry.json",
+        "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
+        "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
+        "Compliance": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
+        "IdentityRegistryStorage": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "R-HKMA-AMLO-CDD",
+      "title": "AMLO CDD identity controls",
+      "desc": "Token and Identity Registry must expose the hooks necessary to perform customer and beneficial owner due diligence before onboarding.",
+      "snippet": "require(identityRegistry.isVerified(to), \"CDD\");\nfunction identity(address investor) external view returns (address);\nfunction batchRegisterIdentity(address[] calldata investors, address[] calldata identities, uint16[] calldata countries);",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk",
+      "pass": false,
+      "note": "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-AMLO-RecordKeeping",
+      "title": "AMLO record keeping support",
+      "desc": "Identity Registry Storage must be wired and emit lifecycle events so identity evidence can be retained for at least seven years.",
+      "snippet": "function identityStorage() external view returns (address);\nevent IdentityStored(address indexed investor, address indexed identity);\nevent IdentityUnstored(address indexed investor, address indexed identity);",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk",
+      "pass": false,
+      "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0x0000000000000000000000000000000000000000",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "identityStorage()",
+          "present": true,
+          "ok": true
+        },
+        {
+          "op": "nonzeroaddress",
+          "field": "data.idrIdentityStorageAddr",
+          "actual": "0x0000000000000000000000000000000000000000",
+          "expected": "!= ZERO",
+          "ok": false
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "MEDIUM",
+      "severityCode": "MEDIUM",
+      "severityLabel": "Medium",
+      "severityOriginal": "Medium",
+      "severityWeight": 2
+    },
+    {
+      "id": "R-HKMA-AMLO-Sanctions",
+      "title": "Sanctions and Blacklist Screening",
+      "desc": "Smart contracts must enforce sanctions compliance by reverting transfers to addresses flagged by blacklist logic.",
+      "snippet": "require(!blacklisted[to], \"Sanctioned address\");",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk",
+      "pass": false,
+      "note": "Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-AMLO-OngoingMonitoring",
+      "title": "Ongoing Monitoring via Modular Compliance",
+      "desc": "Smart contracts must enable modular compliance checks to enforce transaction surveillance, including country restrictions and monthly transfer limits.",
+      "snippet": "require(canTransfer(from, to, value), \"Compliance: transfer not allowed\");\naddModule(CountryRestrictModule);\naddModule(ExchangeMonthlyLimitsModule);",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk",
+      "pass": false,
+      "note": "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    }
+  ],
+  "summary": {
+    "total": 4,
+    "pass": 0,
+    "critical": 0,
+    "high": 3,
+    "medium": 1,
+    "low": 0,
+    "fail": 0,
+    "warn": 4,
+    "info": 0
+  },
+  "metrics": null,
+  "llm": null,
+  "report": null
+}

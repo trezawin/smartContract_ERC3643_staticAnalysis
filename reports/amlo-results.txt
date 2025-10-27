@@ -1,42 +1,41 @@
 Compliance Report
-Generated: 2025-10-23T16:43:56.098Z
-Deterministic Summary: PASS=4 | CRITICAL=0 | HIGH=0 | MEDIUM=0 | LOW=0
+Generated: 2025-10-24T08:44:00.447Z
+Deterministic Summary: PASS=0 | CRITICAL=0 | HIGH=3 | MEDIUM=1 | LOW=0
 LLM Model: gpt-4.1-nano-2025-04-14
 
-The virtual-asset platform demonstrates comprehensive compliance with HKMA AML/CFT requirements and ERC-3643 standards, with all key controls passing the review. No critical or high-severity issues identified; controls are effectively enforced and documented.
+The audit reveals multiple critical and high-risk deficiencies in the ERC-3643 token implementation and operational controls, indicating significant compliance and security gaps that require immediate remediation to meet HKMA/SFC supervisory standards.
 
 Findings:
 
-High
-1. Identity gating effectively prevents transfers to unverified addresses
-The system successfully reverted transfer attempts to unverified addresses, indicating that identity gating controls are operational and enforced as per ERC-3643 and HKMA AML regulations (Cap.615 Schedule 2 §2). This mitigates the risk of illicit transfers and supports regulatory compliance.
+Critical
+1. Transfer to Unverified Address Without Identity Verification
+The system permitted a transfer to an unverified address without enforcing identity gating, violating the AML/CFT requirements under ERC-3643 and HKMA AML Ordinance (Cap. 615) Schedule 2 §2. This exposes the platform to misuse for illicit activities, risking regulatory sanctions and reputational damage.
 Paths:
-- AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.
-Compliance Ref: ERC-3643; AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk
-Recommendation: Maintain current gating logic; implement periodic regression testing to ensure transfer reversion remains effective against evolving attack vectors. Document control procedures and retain event logs as evidence for audit purposes.
+- AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating.
+Compliance Ref: https://www.elegislation.gov.hk
+Recommendation: Implement strict identity verification checks within the transfer logic, ensuring transfers to unverified addresses are blocked unless proper identity gating is in place. Add event logging for transfer attempts to unverified addresses for audit trail validation. Conduct regression testing to confirm enforcement. Develop operational run-books for real-time monitoring of transfer attempts to unverified addresses.
 
 High
-2. Effective sanctions and blacklist controls prevent transfers to pseudo-sanctioned addresses
-Transfer attempts to pseudo-sanctioned addresses were reverted, indicating that blacklist or gating controls are operational, aligning with HKMA AML sanctions requirements (Cap.615 Schedule 2 §15). This reduces the risk of facilitating sanctioned transactions.
+2. Sanctions and Blacklist Control Lacking
+Transfers succeeded despite the presence of a compliance module, indicating that blacklist or sanctions controls are likely absent or ineffective. This contravenes AML/CFT obligations under HKMA AML Ordinance Schedule 2 §15, risking regulatory penalties and facilitating illicit financial flows.
 Paths:
-- Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced.
-Compliance Ref: ERC-3643; AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk
-Recommendation: Regularly update and review blacklist data; implement automated monitoring and alerting for attempted transfers to sanctioned addresses. Document control procedures and retain logs of blocked transactions for audit trail.
+- Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent.
+Compliance Ref: https://www.elegislation.gov.hk
+Recommendation: Integrate and activate blacklist and sanctions screening modules within the transfer process. Implement event logging for screening outcomes and transfer attempts. Conduct comprehensive testing of compliance checks. Establish operational procedures for ongoing monitoring and periodic review of sanctions lists.
 
 High
-3. Ongoing compliance monitoring supports regulatory requirements
-The platform's modular compliance modules responded appropriately to country restrictions and monthly limits, ensuring ongoing adherence to AML and CFT policies (Cap.615 Schedule 2 §5(1)(b)–§6). This supports proactive compliance management.
+3. Missing Ongoing Monitoring Modules
+Key ongoing monitoring modules such as CountryRestrictModule and ExchangeMonthlyLimitsModule are absent, impairing the platform’s ability to detect suspicious activity and enforce compliance policies as required under ERC-3643 and HKMA standards. This increases the risk of regulatory non-compliance and market abuse.
 Paths:
-- CountryRestrictModule responded to batchRestrictCountries
-- ExchangeMonthlyLimitsModule accepted monthly limit configuration
-Compliance Ref: ERC-3643; AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk
-Recommendation: Implement continuous monitoring and periodic testing of compliance modules; establish operational run-books for response to alerts. Maintain detailed logs of module responses and configuration changes for audit readiness.
+- Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule.
+Compliance Ref: https://www.elegislation.gov.hk
+Recommendation: Develop and deploy the missing monitoring modules, ensuring they are integrated into the transaction workflow. Implement event logging for module activity and violations. Conduct regression testing to verify module functionality. Document operational procedures for ongoing monitoring and exception handling.
 
 Medium
-4. Robust record-keeping of identity data and events
-The platform maintains on-chain evidence of identity storage, modification, unstoring, and registry binding, aligning with AML record-keeping requirements (Cap.615 Schedule 2 §2). This supports transparency and auditability of customer identity data.
+4. Missing Identity Storage Configuration
+The identity registry's storage address is set to zero (0x0), indicating that identity data is not being stored or referenced correctly. This undermines the AML record-keeping requirement under ERC-3643 and HKMA regulations, impairing traceability and compliance.
 Paths:
-- identityStorage() returns true; data.idrIdentityStorageAddr is non-zero
-- Events: IdentityStored, IdentityModified, IdentityUnstored, IdentityRegistryBound are present
-Compliance Ref: ERC-3643; AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk
-Recommendation: Enhance on-chain record-keeping by implementing automated event logging and periodic off-chain reconciliation. Develop internal audit procedures to verify event integrity and data retention, supported by comprehensive logs and snapshots.
+- {"op":"hasabifn","where":"idr","sig":"identityStorage()","present":true,"ok":true}
+- nonzeroaddress:data.idrIdentityStorageAddr:
+Compliance Ref: https://www.elegislation.gov.hk
+Recommendation: Update the smart contract configuration to set a valid, non-zero identity storage address. Add unit tests to verify correct storage address initialization and access. Document the configuration process and include in operational run-books. Validate storage address deployment in a test environment before production.

@@ -1,0 +1,48 @@
+Compliance Report
+Generated: 2025-10-25T11:03:28.655Z
+Deterministic Summary: PASS=2 | CRITICAL=0 | HIGH=5 | MEDIUM=3 | LOW=1
+LLM Model: gpt-4.1-nano-2025-04-14
+
+The token contract exhibits multiple critical and high-risk compliance deficiencies related to identity verification, sanctions screening, ongoing monitoring, and record-keeping, which pose significant regulatory and operational risks. Immediate remediation is required to align with ERC-3643 standards and HKMA/SFC regulatory expectations.
+
+Findings:
+
+Critical
+1. Transfer to Unverified Address Without Identity Gating
+The contract permitted a transfer to an unverified address without enforcing identity verification controls, violating the AML/CFT requirements under HKMA AMLO Schedule 2 §2 and ERC-3643 clause 4.1. This exposes the platform to misuse, money laundering, and terrorist financing risks.
+Paths:
+- runtime: AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating.
+Compliance Ref: ERC-3643 https://erc-3643.org; AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk
+Recommendation: Implement strict identity gating controls within the transfer function, ensuring that transfers to unverified addresses are blocked unless proper KYC/AML checks are completed. Add event logging for failed transfers and conduct regression testing to verify enforcement. Develop operational run-books for manual review of suspicious transfers.
+
+High
+2. Missing Record-Keeping Support for Identity Storage
+The contract's identity storage address is zero, indicating that identity records are not being stored or referenced correctly, contravening HKMA AMLO Schedule 2 §2 and ERC-3643 requirements for proper record-keeping, which impairs auditability and compliance verification.
+Paths:
+- runtime: identityRegistry.identityStorage() returned zero address; storage is not wired.
+Compliance Ref: ERC-3643 https://erc-3643.org; AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk
+Recommendation: Configure and wire the identity storage address correctly in the smart contract. Add event logs for identity storage updates and implement unit tests to verify correct storage referencing. Maintain audit logs for all identity-related transactions to facilitate compliance audits.
+
+High
+3. Sanctions and Blacklist Control Likely Absent
+Transfers succeeded despite the presence of a compliance module, indicating that blacklist or sanctions screening controls are not effectively enforced, violating HKMA AMLO Schedule 2 §15 and ERC-3643 standards for sanctions compliance, risking regulatory sanctions and reputational damage.
+Paths:
+- runtime: Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent.
+Compliance Ref: ERC-3643 https://erc-3643.org; AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk
+Recommendation: Integrate and enforce blacklist and sanctions screening controls within the transfer logic, ensuring transactions are rejected if the counterparty is sanctioned. Add event logs for screening failures and conduct integration testing. Establish operational procedures for regular sanctions list updates and monitoring.
+
+High
+4. Missing Ongoing Monitoring Modules
+The contract lacks key ongoing monitoring modules such as CountryRestrictModule and ExchangeMonthlyLimitsModule, which are essential for continuous AML/CFT compliance per HKMA Schedule 2 §5(1)(b)–§6 and ERC-3643 standards, increasing the risk of unmonitored suspicious activity.
+Paths:
+- runtime: Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule.
+Compliance Ref: ERC-3643 https://erc-3643.org; AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk
+Recommendation: Develop and deploy the missing monitoring modules, ensuring they are integrated into the transaction flow. Add event logs for module activity and establish operational procedures for regular monitoring and reporting. Conduct regression testing to verify module activation and effectiveness.
+
+Medium
+5. Ownership and Control Tracking Not Configured
+Ownership claim topic 2001 is not configured, impairing the ability to track ownership and control as required by HKMA AMLO Schedule 2 §3(2) and ERC-3643, which could hinder effective customer due diligence and risk assessment.
+Paths:
+- runtime: Ownership probe: claim topic 2001 not configured.
+Compliance Ref: ERC-3643 https://erc-3643.org; AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk
+Recommendation: Configure ownership and control claim topics within the smart contract, ensuring proper linkage to customer identities. Add event logs for ownership claims and conduct unit tests to verify configuration. Maintain documentation for ownership control processes.
