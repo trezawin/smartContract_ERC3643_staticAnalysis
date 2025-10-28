@@ -13,7 +13,7 @@
 <body>
   <h1>ERC-3643 Compliance Report</h1>
   <div class="sub">
-    Generated: 2025-10-25T11:03:15.750Z — Deterministic checks + LLM reasoning
+    Generated: 2025-10-28T17:59:45.686Z — Deterministic checks + LLM reasoning
   </div>
 
   
@@ -39,20 +39,20 @@
       <tr style="text-align:left">
         <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#F3F4F6">Review date</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#10B981;color:#FFFFFF">Pass</th>
-        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#6B7280;color:#FFFFFF">Low</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#FACC15;color:#111827">Medium</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#F97316;color:#111827">High</th>
-        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#B91C1C;color:#FFFFFF">Critical</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#B91C1C;color:#FFFFFF">Very High</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#374151;color:#FFFFFF">Total</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">2025-10-25</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">2</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">1</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">3</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">5</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">2025-10-28</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">7</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">0</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">4</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">2</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">13</td>
       </tr>
     </tbody>
   </table>
@@ -63,8 +63,10 @@
   <table style="border-collapse:collapse;font-size:13px;width:100%">
     <thead>
       <tr style="background:#F3F4F6;text-align:left">
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">#</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB">Rule title</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB">Rule description</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Ordinance</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB">Severity</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB">Explanation</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB">Status</th>
@@ -73,18 +75,132 @@
     <tbody>
       
       <tr>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Dual Control for Critical Actions</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Administrative smart contract actions such as freezing should require multiple signatures or roles.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">1</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO CDD identity controls</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Token and Identity Registry must expose the hooks necessary to perform customer and beneficial owner due diligence before onboarding.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.615) Schedule 2 §2</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Dual-control probe: unauthorized freeze reverted (cannot estimate gas; transaction may fail or may require manual gas limit [ See: https://links.ethers.org/v5-errors-UNPREDICTABLE_GAS_LIMIT ] (reason="VM Exception while process...).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">2</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO record keeping support</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity Registry Storage must be wired and emit lifecycle events so identity evidence can be retained for at least seven years.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.615) Schedule 2 §2</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is zero</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">3</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Maintain on-chain register of licensed persons</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(1)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has token.identityRegistry(): true; ABI has idr.registerIdentity(address,address,uint16[]): false</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">4</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Anchor name and business address data</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity records must support anchoring of name and business address metadata with auditable storage events.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(i)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has idr.identityStorage(): true; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
       </tr>
 
       <tr>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Freeze and Unfreeze Capability</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Contracts must support freezing and unfreezing investor accounts in real time.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">5</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Record licence conditions with effective dates</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence conditions must be represented as claim topics that can be versioned on-chain.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(ii)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Freeze succeeded. Unfreeze succeeded. Post-freeze status: true Restored status: false</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has ctr.addClaimTopic(uint256): true; ABI has ctr.removeClaimTopic(uint256): true; ABI has ctr.getClaimTopics(): true; Event on ctr:ClaimTopicAdded present: true; Event on ctr:ClaimTopicRemoved present: true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">6</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identification claim</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identifiers must be retrievable via identity resolution and enforced through claims.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has idr.identity(address): false</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">7</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Capture licence grant timestamp</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence issuance must be observable on-chain with timestamped events for audit trail.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iv)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event on idr:IdentityRegistered present: false</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">8</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Encode VA service scope and effective date</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The compliance module must expose modular hooks to reflect permitted service scope with activation controls.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(v)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has compliance.bindToken(address): true; ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.getModules(): true; Event on compliance:ModuleAdded present: true; Event on compliance:ModuleRemoved present: true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">9</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Represent suspension status on-chain</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(vi)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has token.setAddressFrozen(address,bool): true; ABI has token.freezePartialTokens(address,uint256): true; ABI has token.unfreezePartialTokens(address,uint256): true; ABI has token.isFrozen(address): true; Event on token:AddressFrozen present: true; Event on token:TokensUnfrozen present: true; Event on token:TokensFrozen present: true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">10</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Representative principal linkage</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(c)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has tir.updateIssuerClaimTopics(address,uint256[]): true; ABI has tir.getTrustedIssuers(): true; ABI has ctr.getClaimTopics(): true; Event on tir:TrustedIssuerAdded present: true; Event on tir:TrustedIssuerRemoved present: true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">11</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Client asset safeguards via modular compliance</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRK(5)(e)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.callModuleFunction(bytes,address): true; ABI has compliance.unbindToken(address): true; Event on compliance:ModuleInteraction present: true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">12</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ongoing record of customer identity and activity</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity evidence and transactional metadata must remain queryable for historical monitoring.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §6</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has idr.isVerified(address): true; ABI has idr.identity(address): false</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">13</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Virtual asset transfer role gating</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §13A(1)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has token.compliance(): true; data.tokenCompliance is non-zero; ABI has compliance.canTransfer(address,address,uint256): true; ABI has idr.isVerified(address): true; ABI has tir.isTrustedIssuer(address): true</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
       </tr>
     </tbody>
@@ -97,91 +213,10 @@
   <!-- Per-Rulebook Execution intentionally hidden -->
   
 <h2 style="margin:28px 0 12px 0;font-size:20px;border-bottom:1px solid #E5E7EB;padding-bottom:6px">LLM Compliance Assessment</h2>
-<div style="font-size:12px;color:#6B7280">Model: gpt-4.1-nano-2025-04-14</div>
+<div style="font-size:12px;color:#6B7280">Model: gpt-4.1-mini</div>
 
-<div style="margin:12px 0;font-size:14px;line-height:1.6"><strong>Summary:</strong> The token contract exhibits multiple critical and high-risk compliance deficiencies related to identity verification, sanctions screening, ongoing monitoring, and record-keeping, which pose significant regulatory and operational risks. Immediate remediation is required to align with ERC-3643 standards and HKMA/SFC regulatory expectations.</div>
-
-      <div style="margin-top:16px">
-        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#B91C1C">Critical</h3>
-        <div style="display:flex;flex-direction:column;gap:16px">
-    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
-      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
-        <div style="font-size:16px;font-weight:600;color:#B91C1C">1. Transfer to Unverified Address Without Identity Gating</div>
-        
-      </div>
-      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The contract permitted a transfer to an unverified address without enforcing identity verification controls, violating the AML/CFT requirements under HKMA AMLO Schedule 2 §2 and ERC-3643 clause 4.1. This exposes the platform to misuse, money laundering, and terrorist financing risks.</div>
-      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> ERC-3643 https://erc-3643.org; AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk</div>
-      
-      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
-        <ul style="margin:6px 0 0 16px"><li><code>runtime: AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating.</code></li></ul>
-      </div>
-      <div style="font-size:13px"><strong>Recommendation:</strong> Implement strict identity gating controls within the transfer function, ensuring that transfers to unverified addresses are blocked unless proper KYC/AML checks are completed. Add event logging for failed transfers and conduct regression testing to verify enforcement. Develop operational run-books for manual review of suspicious transfers.</div>
-    </div></div>
-      </div>
-
-      <div style="margin-top:16px">
-        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#F97316">High</h3>
-        <div style="display:flex;flex-direction:column;gap:16px">
-    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
-      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
-        <div style="font-size:16px;font-weight:600;color:#F97316">2. Missing Record-Keeping Support for Identity Storage</div>
-        
-      </div>
-      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The contract's identity storage address is zero, indicating that identity records are not being stored or referenced correctly, contravening HKMA AMLO Schedule 2 §2 and ERC-3643 requirements for proper record-keeping, which impairs auditability and compliance verification.</div>
-      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> ERC-3643 https://erc-3643.org; AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk</div>
-      
-      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
-        <ul style="margin:6px 0 0 16px"><li><code>runtime: identityRegistry.identityStorage() returned zero address; storage is not wired.</code></li></ul>
-      </div>
-      <div style="font-size:13px"><strong>Recommendation:</strong> Configure and wire the identity storage address correctly in the smart contract. Add event logs for identity storage updates and implement unit tests to verify correct storage referencing. Maintain audit logs for all identity-related transactions to facilitate compliance audits.</div>
-    </div>
-
-    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
-      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
-        <div style="font-size:16px;font-weight:600;color:#F97316">3. Sanctions and Blacklist Control Likely Absent</div>
-        
-      </div>
-      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Transfers succeeded despite the presence of a compliance module, indicating that blacklist or sanctions screening controls are not effectively enforced, violating HKMA AMLO Schedule 2 §15 and ERC-3643 standards for sanctions compliance, risking regulatory sanctions and reputational damage.</div>
-      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> ERC-3643 https://erc-3643.org; AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk</div>
-      
-      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
-        <ul style="margin:6px 0 0 16px"><li><code>runtime: Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent.</code></li></ul>
-      </div>
-      <div style="font-size:13px"><strong>Recommendation:</strong> Integrate and enforce blacklist and sanctions screening controls within the transfer logic, ensuring transactions are rejected if the counterparty is sanctioned. Add event logs for screening failures and conduct integration testing. Establish operational procedures for regular sanctions list updates and monitoring.</div>
-    </div>
-
-    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
-      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
-        <div style="font-size:16px;font-weight:600;color:#F97316">4. Missing Ongoing Monitoring Modules</div>
-        
-      </div>
-      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The contract lacks key ongoing monitoring modules such as CountryRestrictModule and ExchangeMonthlyLimitsModule, which are essential for continuous AML/CFT compliance per HKMA Schedule 2 §5(1)(b)–§6 and ERC-3643 standards, increasing the risk of unmonitored suspicious activity.</div>
-      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> ERC-3643 https://erc-3643.org; AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk</div>
-      
-      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
-        <ul style="margin:6px 0 0 16px"><li><code>runtime: Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule.</code></li></ul>
-      </div>
-      <div style="font-size:13px"><strong>Recommendation:</strong> Develop and deploy the missing monitoring modules, ensuring they are integrated into the transaction flow. Add event logs for module activity and establish operational procedures for regular monitoring and reporting. Conduct regression testing to verify module activation and effectiveness.</div>
-    </div></div>
-      </div>
-
-      <div style="margin-top:16px">
-        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#FACC15">Medium</h3>
-        <div style="display:flex;flex-direction:column;gap:16px">
-    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
-      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
-        <div style="font-size:16px;font-weight:600;color:#FACC15">5. Ownership and Control Tracking Not Configured</div>
-        
-      </div>
-      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Ownership claim topic 2001 is not configured, impairing the ability to track ownership and control as required by HKMA AMLO Schedule 2 §3(2) and ERC-3643, which could hinder effective customer due diligence and risk assessment.</div>
-      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> ERC-3643 https://erc-3643.org; AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk</div>
-      
-      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
-        <ul style="margin:6px 0 0 16px"><li><code>runtime: Ownership probe: claim topic 2001 not configured.</code></li></ul>
-      </div>
-      <div style="font-size:13px"><strong>Recommendation:</strong> Configure ownership and control claim topics within the smart contract, ensuring proper linkage to customer identities. Add event logs for ownership claims and conduct unit tests to verify configuration. Maintain documentation for ownership control processes.</div>
-    </div></div>
-      </div>
+<div style="margin:12px 0;font-size:14px;line-height:1.6"><strong>Summary:</strong> The audited ERC-3643 implementation demonstrates partial compliance with HKMA and SFC virtual asset regulatory requirements. Key controls for identity anchoring, license condition recording, suspension status, and modular compliance are implemented and verifiable on-chain. However, critical gaps exist in identity verification gating on transfers, identity registry storage wiring, and comprehensive identity resolution functions. These deficiencies expose the system to regulatory non-compliance, client asset protection risks, and supervisory challenges.</div>
+<div style="color:#6B7280">No LLM findings available.</div>
 
   <div style="margin-top:28px;color:#6B7280;font-size:12px">
     Evidence combines deterministic probes (Hardhat fallback when available) and policy-grounded LLM analysis.

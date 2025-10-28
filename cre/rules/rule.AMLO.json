@@ -23,7 +23,7 @@
     "desc": "Identity Registry Storage must be wired and emit lifecycle events so identity evidence can be retained for at least seven years.",
     "snippet": "function identityStorage() external view returns (address);\nevent IdentityStored(address indexed investor, address indexed identity);\nevent IdentityUnstored(address indexed investor, address indexed identity);",
     "policyRef": "AMLO (Cap.615) Schedule 2 §2",
-    "severity": "Medium",
+    "severity": "Very High",
     "allOf": [
       { "op": "hasabifn", "where": "idr", "sig": "identityStorage()" },
       { "op": "nonzeroaddress", "field": "data.idrIdentityStorageAddr" },

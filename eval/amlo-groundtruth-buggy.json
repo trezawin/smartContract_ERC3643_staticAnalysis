@@ -1,48 +1,17 @@
 {
   "rules": [
-    {
-      "id": "R-HKMA-AMLO-CDD",
-      "status": "Fail"
-    },
-    {
-      "id": "R-HKMA-AMLO-RecordKeeping",
-      "status": "Fail"
-    },
-    {
-      "id": "R-HKMA-AMLO-Sanctions",
-      "status": "Fail"
-    },
-    {
-      "id": "R-HKMA-AMLO-OngoingMonitoring",
-      "status": "Fail"
-    },
-    {
-      "id": "R-HKMA-AMLO-OwnershipControl",
-      "status": "Fail"
-    },
-    {
-      "id": "R-HKMA-AMLO-RiskClassification",
-      "status": "Fail"
-    },
-    {
-      "id": "R-HKMA-AMLO-AddressResolution",
-      "status": "Fail"
-    },
-    {
-      "id": "R-HKMA-AMLO-DualControl",
-      "status": "Fail"
-    },
-    {
-      "id": "R-HKMA-AMLO-FreezeUnfreeze",
-      "status": "Fail"
-    },
-    {
-      "id": "R-HKMA-AMLO-KYCStatusRecheck",
-      "status": "Fail"
-    },
-    {
-      "id": "R-HKMA-AMLO-InvestorJurisdiction",
-      "status": "Fail"
-    }
+    { "id": "R-HKMA-AMLO-CDD", "status": "Fail" },
+    { "id": "R-HKMA-AMLO-RecordKeeping", "status": "Fail" },
+    { "id": "R-HKMA-53ZRH-REGISTER", "status": "Fail" },
+    { "id": "R-HKMA-53ZRH-2A-I", "status": "Fail" },
+    { "id": "R-HKMA-53ZRH-2A-II", "status": "Fail" },
+    { "id": "R-HKMA-53ZRH-2A-III", "status": "Fail" },
+    { "id": "R-HKMA-53ZRH-2A-IV", "status": "Fail" },
+    { "id": "R-HKMA-53ZRH-2A-V", "status": "Fail" },
+    { "id": "R-HKMA-53ZRH-2A-VI", "status": "Fail" },
+    { "id": "R-HKMA-53ZRH-2C", "status": "Fail" },
+    { "id": "R-HKMA-53ZRK-5E", "status": "Fail" },
+    { "id": "R-HKMA-AMLO-S6", "status": "Fail" },
+    { "id": "R-HKMA-AMLO-13A-ROLE", "status": "Fail" }
   ]
 }

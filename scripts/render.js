@@ -19,10 +19,9 @@ function ensureDir(p) { fs.mkdirSync(p, { recursive: true }); }
 const STATUS_COLORS = {
   TOTAL: "#374151",
   PASS: "#10B981",
-  CRITICAL: "#B91C1C",
+  VERY_HIGH: "#B91C1C",
   HIGH: "#F97316",
   MEDIUM: "#FACC15",
-  LOW: "#6B7280",
   META: "#374151"
 };
 
@@ -42,7 +41,7 @@ function ruleStatusTag(status) {
   const key = String(status).trim().toUpperCase();
   if (!key) return "";
   const label = key === "PASS" ? "Pass" : key === "FAIL" ? "Fail" : key.charAt(0) + key.slice(1).toLowerCase();
-  const color = key === "PASS" ? STATUS_COLORS.PASS : key === "FAIL" ? STATUS_COLORS.CRITICAL : STATUS_COLORS.META;
+  const color = key === "PASS" ? STATUS_COLORS.PASS : key === "FAIL" ? STATUS_COLORS.VERY_HIGH : STATUS_COLORS.META;
   return `<span style="font-weight:600;color:${color}">${esc(label)}</span>`;
 }
 
@@ -71,7 +70,7 @@ function deterministicBadge(status) {
   const key = String(status || "").toUpperCase();
   if (!key) return "";
   const isPass = key === "PASS";
-  const color = isPass ? STATUS_COLORS.PASS : STATUS_COLORS.CRITICAL;
+  const color = isPass ? STATUS_COLORS.PASS : STATUS_COLORS.VERY_HIGH;
   const label = isPass ? "Pass" : "Fail";
   return badge(label, color);
 }
@@ -86,18 +85,26 @@ function joinList(values, separator = ", ") {
   return values.map((v) => esc(v)).join(separator);
 }
 
+function extractOrdinance(refs) {
+  const list = Array.isArray(refs) ? refs.filter(Boolean) : (refs ? [refs] : []);
+  if (!list.length) return "";
+  return list.map((ref) => String(ref)).join("; ");
+}
+
 const SEVERITY_SCALE = {
-  CRITICAL: { label: "Critical", weight: 4 },
+  VERY_HIGH: { label: "Very High", weight: 4 },
   HIGH: { label: "High", weight: 3 },
-  MEDIUM: { label: "Medium", weight: 2 },
-  LOW: { label: "Low", weight: 1 }
+  MEDIUM: { label: "Medium", weight: 2 }
 };
 
 const SEVERITY_ALIASES = new Map([
-  ["CRITICAL", "CRITICAL"],
+  ["VERY_HIGH", "VERY_HIGH"],
+  ["VERY HIGH", "VERY_HIGH"],
+  ["VERYHIGH", "VERY_HIGH"],
+  ["CRITICAL", "VERY_HIGH"],
   ["HIGH", "HIGH"],
   ["MEDIUM", "MEDIUM"],
-  ["LOW", "LOW"]
+  ["LOW", "MEDIUM"]
 ]);
 
 function normalizeSeverityValue(rawSeverity) {
@@ -179,10 +186,9 @@ function computeSummary(items) {
   const summary = {
     total: Array.isArray(items) ? items.length : 0,
     pass: 0,
-    critical: 0,
+    veryHigh: 0,
     high: 0,
     medium: 0,
-    low: 0,
     fail: 0,
     warn: 0,
     info: 0
@@ -194,14 +200,13 @@ function computeSummary(items) {
       continue;
     }
     const sev = String(it?.severityCode || it?.severity || "").toUpperCase();
-    if (sev === "CRITICAL") summary.critical += 1;
+    if (sev === "VERY_HIGH") summary.veryHigh += 1;
     else if (sev === "HIGH") summary.high += 1;
-    else if (sev === "MEDIUM") summary.medium += 1;
-    else summary.low += 1;
+    else summary.medium += 1;
   }
-  summary.fail = summary.critical;
+  summary.fail = summary.veryHigh;
   summary.warn = summary.high + summary.medium;
-  summary.info = summary.low;
+  summary.info = 0;
   return summary;
 }
 
@@ -220,20 +225,20 @@ function renderSummary(summary, metrics, coverageCounts, generatedAt) {
       <tr style="text-align:left">
         <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#F3F4F6">Review date</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB;background:${STATUS_COLORS.PASS ? STATUS_COLORS.PASS : "#10B981"};color:#FFFFFF">Pass</th>
-        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:${STATUS_COLORS.LOW || "#6B7280"};color:#FFFFFF">Low</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB;background:${STATUS_COLORS.MEDIUM};color:#111827">Medium</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB;background:${STATUS_COLORS.HIGH};color:#111827">High</th>
-        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:${STATUS_COLORS.CRITICAL};color:#FFFFFF">Critical</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:${STATUS_COLORS.VERY_HIGH};color:#FFFFFF">Very High</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:${STATUS_COLORS.TOTAL};color:#FFFFFF">Total</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(reviewDate)}</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(summary.pass || 0)}</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(summary.low || 0)}</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(summary.medium || 0)}</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(summary.high || 0)}</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(summary.critical || 0)}</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(summary.veryHigh || 0)}</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(summary.total || 0)}</td>
       </tr>
     </tbody>
   </table>`;
@@ -326,10 +331,12 @@ function renderValidatedTable(items, llm, ruleStatuses) {
     findingMap.set(String(f.id).toUpperCase(), f);
   }
 
-  const rows = itemList.filter((it) => it && it.id).map((it) => {
+  const rows = itemList.filter((it) => it && it.id).map((it, idx) => {
     const key = String(it.id).toUpperCase();
     const lf = findingMap.get(key);
-    const severityOverride = lf && typeof lf.severity === "string" ? lf.severity : null;
+    const severityOverride = lf && typeof lf.severity === "string" && lf.severity.toUpperCase() !== "PASS"
+      ? lf.severity
+      : null;
     const severity = String(severityOverride || it.severityCode || it.severity || "").toUpperCase() || "MEDIUM";
     const severityLabelText = severityDisplay(severity);
     const severityColor = STATUS_COLORS[severity] || STATUS_COLORS.META;
@@ -339,10 +346,18 @@ function renderValidatedTable(items, llm, ruleStatuses) {
     const statusLabel = String(ruleStatus || (it.pass ? "PASS" : "FAIL")).toUpperCase() === "PASS" ? "Passed" : "Failed";
     const title = esc(it.title || it.id || "Rule");
     const desc = esc(it.desc || "");
+    const policyRefs = Array.isArray(it.policyRef) ? it.policyRef.filter(Boolean) : (it.policyRef ? [it.policyRef] : []);
+    const ordinanceText = extractOrdinance(policyRefs);
+    const ordinanceCell = ordinanceText
+      ? `<td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(ordinanceText)}</td>`
+      : `<td style="padding:8px 12px;border:1px solid #E5E7EB">—</td>`;
+    const ordinalCell = `<td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(idx + 1)}</td>`;
     return `
       <tr>
+        ${ordinalCell}
         <td style="padding:8px 12px;border:1px solid #E5E7EB">${title}</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">${desc}</td>
+        ${ordinanceCell}
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:${severityColor}">${esc(severityLabelText)}</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">${esc(explanation)}</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:${statusLabel === "Passed" ? STATUS_COLORS.PASS : STATUS_COLORS.META}">${statusLabel}</td>
@@ -363,8 +378,10 @@ function renderValidatedTable(items, llm, ruleStatuses) {
   <table style="border-collapse:collapse;font-size:13px;width:100%">
     <thead>
       <tr style="background:#F3F4F6;text-align:left">
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">#</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB">Rule title</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB">Rule description</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Ordinance</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB">Severity</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB">Explanation</th>
         <th style="padding:8px 12px;border:1px solid #E5E7EB">Status</th>
@@ -382,12 +399,26 @@ function renderLlmSection(llm, ruleStatuses) {
   const failed = llm.error ? `<div style="color:#B91C1C;margin-bottom:8px">${esc(llm.error)}</div>` : "";
   const disabled = llm.disabled ? `<div style="color:#2563EB;margin-bottom:8px">${esc(llm.reason || "LLM disabled.")}</div>` : "";
   const modelLine = llm.model ? `<div style="font-size:12px;color:#6B7280">Model: ${esc(llm.model)}</div>` : "";
-  const findings = Array.isArray(llm.findings) ? llm.findings.map((f, idx) => ({ ...f, __idx: idx })) : [];
-  const severityOrder = ["CRITICAL", "HIGH", "MEDIUM", "LOW"];
+  const findingsRaw = Array.isArray(llm.findings) ? llm.findings.map((f, idx) => ({ ...f, __idx: idx })) : [];
+  const findings = (() => {
+    if (!ruleStatuses) return findingsRaw;
+    const hasFn = typeof ruleStatuses.has === "function";
+    const keysSet = new Set();
+    if (hasFn) {
+      for (const key of ruleStatuses.keys()) keysSet.add(String(key));
+    }
+    return findingsRaw.filter((entry) => {
+      const id = String(entry?.id || "");
+      if (!id) return false;
+      if (!hasFn) return Object.prototype.hasOwnProperty.call(ruleStatuses, id);
+      return keysSet.has(id);
+    });
+  })();
+  const severityOrder = ["VERY_HIGH", "HIGH", "MEDIUM"];
   const grouped = new Map();
   for (const entry of findings) {
     const rawSeverity = String(entry.severity || entry.severity_code || "").toUpperCase();
-    const bucket = severityOrder.includes(rawSeverity) ? rawSeverity : (rawSeverity || "LOW");
+    const bucket = severityOrder.includes(rawSeverity) ? rawSeverity : (rawSeverity || "MEDIUM");
     if (!grouped.has(bucket)) grouped.set(bucket, []);
     grouped.get(bucket).push(entry);
   }
@@ -502,9 +533,12 @@ function main(){
     const outcome = String(item.outcome || "").toUpperCase();
     if (item.pass === true || outcome === "PASS") {
       ruleStatuses.set(item.id, "PASS");
-    } else if (item.pass === false || outcome === "FAIL" || outcome === "CRITICAL" || outcome === "HIGH" || outcome === "MEDIUM" || outcome === "LOW") {
-      // Treat non-pass outcomes as fail for status tagging
-      ruleStatuses.set(item.id, "FAIL");
+    } else {
+      const failingOutcomes = new Set(["FAIL", "VERY_HIGH", "CRITICAL", "HIGH", "MEDIUM", "LOW"]);
+      if (item.pass === false || failingOutcomes.has(outcome)) {
+        // Treat non-pass outcomes as fail for status tagging
+        ruleStatuses.set(item.id, "FAIL");
+      }
     }
   }
 
@@ -514,14 +548,24 @@ function main(){
   const summary = Object.assign({
     total: items.length,
     pass: 0,
-    critical: 0,
+    veryHigh: 0,
     high: 0,
     medium: 0,
-    low: 0,
     fail: 0,
     warn: 0,
     info: 0
   }, summaryRaw);
+  const rawVeryHigh = summaryRaw && (Object.prototype.hasOwnProperty.call(summaryRaw, "veryHigh")
+    ? summaryRaw.veryHigh
+    : summaryRaw.critical);
+  summary.veryHigh = Number(rawVeryHigh != null ? rawVeryHigh : summary.veryHigh || 0);
+  summary.high = Number((summaryRaw && summaryRaw.high != null) ? summaryRaw.high : summary.high || 0);
+  summary.medium = Number((summaryRaw && summaryRaw.medium != null) ? summaryRaw.medium : summary.medium || 0);
+  summary.fail = Number(summary.fail || summary.veryHigh);
+  summary.warn = Number(summary.warn || summary.high + summary.medium);
+  summary.info = Number(summary.info || 0);
+  if ("critical" in summary) delete summary.critical;
+  if ("low" in summary) delete summary.low;
 const metrics = raw.metrics || null;
 const sources = raw.sources || null;
 const runs = raw.runs || null;

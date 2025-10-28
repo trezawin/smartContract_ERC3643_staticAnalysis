@@ -60,10 +60,9 @@ function buildLlmInput(summary, items, runsMeta) {
     summary: {
       total: Number(summary.total || items.length || 0),
       pass: Number(summary.pass || 0),
-      critical: Number(summary.critical || 0),
+      very_high: Number(summary.veryHigh ?? summary.critical ?? 0),
       high: Number(summary.high || 0),
       medium: Number(summary.medium || 0),
-      low: Number(summary.low || 0),
       fail: Number(summary.fail || 0),
       warn: Number(summary.warn || 0),
       info: Number(summary.info || 0)
@@ -188,7 +187,7 @@ function alignFindingsWithDeterministic(items, findings) {
 
 async function callPhase2Llm(payload) {
   const apiKey = process.env.LLM_API_KEY || process.env.OPENAI_API_KEY || "";
-  const model = process.env.LLM_MODEL || "gpt-4.1-nano";
+  const model = process.env.LLM_MODEL || "gpt-4.1-mini";
   const baseUrl = process.env.LLM_BASE_URL || "https://api.openai.com/v1";
   if (!apiKey) {
     return {
@@ -217,7 +216,7 @@ async function callPhase2Llm(payload) {
     "Paraphrase runtime hints; avoid pasting raw probe strings or internal artefacts.",
     "Self-check before finalizing: clarity, correctness (matches payload), policy alignment, and actionability must all be satisfied.",
     "Recommendations should be specific and testable (update contract logic, wire controls, add events/monitoring, add regression tests, operational run-books) and, where helpful, include a brief validation plan (what unit/integration tests to add).",
-    "Respond strictly with JSON:{\"overall_assessment\":string,\"findings\":[{\"id\":string,\"title\":string,\"severity\":\"CRITICAL\"|\"HIGH\"|\"MEDIUM\"|\"LOW\",\"phase2_verdict\":string,\"verdict\":\"PASS\"|\"CRITICAL\"|\"HIGH\"|\"MEDIUM\"|\"LOW\",\"position\":\"SUPPORT\"|\"CHALLENGE\"|\"EXTEND\",\"explanation\":string,\"compliance_refs\":string[],\"evidence_paths\":string[],\"recommendation\":string}]}",
+    "Respond strictly with JSON:{\"overall_assessment\":string,\"findings\":[{\"id\":string,\"title\":string,\"severity\":\"VERY_HIGH\"|\"HIGH\"|\"MEDIUM\",\"phase2_verdict\":string,\"verdict\":\"PASS\"|\"VERY_HIGH\"|\"HIGH\"|\"MEDIUM\",\"position\":\"SUPPORT\"|\"CHALLENGE\"|\"EXTEND\",\"explanation\":string,\"compliance_refs\":string[],\"evidence_paths\":string[],\"recommendation\":string}]}",
     "Keep tone professional and supervisory (HKMA/SFC)."
   ].join(" ");
 
@@ -316,7 +315,7 @@ function renderPhase2Report(summary, llmResult) {
   lines.push("Compliance Report");
   lines.push(`Generated: ${now}`);
   lines.push(
-    `Deterministic Summary: PASS=${summary.pass} | CRITICAL=${summary.critical || 0} | HIGH=${summary.high || 0} | MEDIUM=${summary.medium || 0} | LOW=${summary.low || 0}`
+    `Deterministic Summary: PASS=${summary.pass} | VERY_HIGH=${summary.veryHigh ?? summary.critical ?? 0} | HIGH=${summary.high || 0} | MEDIUM=${summary.medium || 0}`
   );
   if (llmResult.model) {
     lines.push(`LLM Model: ${llmResult.model}`);

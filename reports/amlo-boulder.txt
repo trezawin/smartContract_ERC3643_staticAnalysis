@@ -1,97 +1,86 @@
 Compliance Report
-Generated: 2025-10-24T14:57:36.219Z
-Deterministic Summary: PASS=5 | CRITICAL=0 | HIGH=3 | MEDIUM=2 | LOW=1
-LLM Model: gpt-4.1-nano
+Generated: 2025-10-28T20:37:48.869Z
+Deterministic Summary: PASS=12 | VERY_HIGH=0 | HIGH=1 | MEDIUM=0
+LLM Model: gpt-4.1-mini
 
-LLM disabled (missing API key)
+The ERC-3643 implementation demonstrates strong compliance with HKMA AMLO and SFC licensing requirements for virtual asset service providers, with one notable gap in on-chain registration capabilities for licensed persons.
 
 Findings:
 
-High
-1. AMLO CDD identity controls
-Runtime hint: AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk prescribes, giving non-technical sponsors assurance that the required safeguard is active.
-Paths:
-- AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.
-Compliance Ref: AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk
-Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+Very High
+1. AMLO Record Keeping Support for Customer Identity
+The system supports record keeping by exposing identityStorage() and emitting key events such as IdentityStored, IdentityModified, IdentityUnstored, and IdentityRegistryBound. The identity storage address is non-zero, indicating on-chain identity data management.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §2
+Recommendation: Ensure off-chain retention of identity records complements on-chain events as required by AMLO. Implement operational run-books for audit trail preservation and periodic reconciliation between on-chain events and off-chain records.
+
+Very High
+2. Client Asset Safeguards via Modular Compliance
+The compliance contract supports modular compliance with addModule, removeModule, callModuleFunction, and unbindToken functions, and emits ModuleInteraction events, providing strong client asset safeguards.
+Compliance Ref: SFO (Cap.571) §53ZRK(5)(e)
+Recommendation: Maintain strict controls on module management and interactions. Implement monitoring and alerting on ModuleInteraction events for suspicious activity detection.
+
+Very High
+3. Ongoing Record of Customer Identity and Activity
+The identity registry supports isVerified and identity functions, and the compliance contract supports transferred events. The token emits Transfer events and compliance emits ModuleInteraction events, enabling ongoing record keeping of customer identity and activity.
+Compliance Ref: AMLO Schedule 2 §6
+Recommendation: Ensure continuous logging and off-chain retention of these events. Implement audit trails and periodic reviews to detect anomalies.
 
 High
-2. Sanctions and Blacklist Screening
-Runtime hint: Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced.. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk prescribes, giving non-technical sponsors assurance that the required safeguard is active.
-Paths:
-- Sanctions probe: transfer to pseudo-sanctioned address reverted; blacklist or gating likely enforced.
-Compliance Ref: AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk
-Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+4. AMLO Customer Due Diligence (CDD) Identity Controls Enforced
+The token contract enforces identity gating by reverting transfers to unverified addresses, ensuring that only verified customers can transact. This is evidenced by the probe where a transfer to an unverified address was reverted.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §2
+Recommendation: Maintain and regularly test identity gating logic to ensure continued enforcement. Include unit and integration tests that simulate transfers to unverified addresses to confirm reversion behavior.
 
 High
-3. Ongoing Monitoring via Modular Compliance
-Runtime hint: Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule.. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.
-Paths:
-- Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule.
-Compliance Ref: AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk
-Recommendation: Align the implementation with AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+5. Lack of On-Chain Register Function to Maintain Licensed Persons
+While the token exposes an identityRegistry() function, the identity registry contract lacks the registerIdentity(address,address,uint16[]) function necessary to maintain an on-chain register of licensed persons as required by SFO (Cap.571) §53ZRH(1). This gap limits the ability to prove on-chain that persons are licensed.
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Extend the identity registry contract to implement registerIdentity(address,address,uint16[]) with appropriate access controls. Add unit tests to verify registration functionality and event emission. This will enable on-chain proof of licensed persons and support supervisory oversight.
 
 High
-4. Dual Control for Critical Actions
-Runtime hint: Dual-control probe: non-authorized signer froze address successfully (state restored).. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §7(2)(b) https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.
-Paths:
-- Dual-control probe: non-authorized signer froze address successfully (state restored).
-Compliance Ref: AMLO (Cap.615) Schedule 2 §7(2)(b) https://www.elegislation.gov.hk
-Recommendation: Align the implementation with AMLO (Cap.615) Schedule 2 §7(2)(b) https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+6. Anchoring Name and Business Address Data On-Chain
+The identity registry supports identityStorage() and emits IdentityStored, IdentityModified, and IdentityUnstored events, anchoring name and business address data on-chain as required.
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(i)
+Recommendation: Continue to monitor and log these events. Include integration tests to confirm data anchoring during identity lifecycle operations.
 
 High
-5. Freeze and Unfreeze Capability
-Runtime hint: Freeze succeeded. Unfreeze succeeded.. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §7 https://www.elegislation.gov.hk prescribes, giving non-technical sponsors assurance that the required safeguard is active.
-Paths:
-- Freeze succeeded. Unfreeze succeeded.
-Compliance Ref: AMLO (Cap.615) Schedule 2 §7 https://www.elegislation.gov.hk
-Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+7. Recording Licence Conditions with Effective Dates
+The contract supports adding and removing claim topics with effective dates via addClaimTopic(uint256) and removeClaimTopic(uint256), and emits ClaimTopicAdded and ClaimTopicRemoved events, fulfilling licence condition recording requirements.
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(ii)
+Recommendation: Maintain comprehensive test coverage for claim topic management functions and event emissions.
 
 High
-6. KYC Status Revalidation
-Runtime hint: KYC revalidation probe: transfer by unverified actor reverted, indicating runtime checks are enforced.. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §6 https://www.elegislation.gov.hk prescribes, giving non-technical sponsors assurance that the required safeguard is active.
-Paths:
-- KYC revalidation probe: transfer by unverified actor reverted, indicating runtime checks are enforced.
-Compliance Ref: AMLO (Cap.615) Schedule 2 §6 https://www.elegislation.gov.hk
-Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+8. Central Entity Identification Claim Present
+The identity registry exposes identity(address), and the compliance module supports canTransfer(address,address,uint256), while the trusted issuer registry supports isTrustedIssuer(address), enabling central entity identification claims as required.
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iii)
+Recommendation: Ensure these functions are secured and access-controlled. Include tests verifying correct identity resolution and transfer permission logic.
 
 High
-7. Jurisdiction Screening
-Runtime hint: Jurisdiction screening probe: required module missing (CountryRestrictModule, ExchangeMonthlyLimitsModule).. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §5(1)(b) https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.
-Paths:
-- Jurisdiction screening probe: required module missing (CountryRestrictModule, ExchangeMonthlyLimitsModule).
-Compliance Ref: AMLO (Cap.615) Schedule 2 §5(1)(b) https://www.elegislation.gov.hk
-Recommendation: Align the implementation with AMLO (Cap.615) Schedule 2 §5(1)(b) https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+9. Capture Licence Grant Timestamp On-Chain
+Events IdentityRegistered, IdentityUpdated, and IdentityRemoved are present on the identity registry contract, supporting capture of licence grant timestamps on-chain.
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iv)
+Recommendation: Maintain event logging and ensure timestamp accuracy. Add monitoring to detect anomalies in identity lifecycle events.
 
-Medium
-8. AMLO record keeping support
-Runtime hint: ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero: 0x0000000000000000000000000000000000000000. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.
-Paths:
-- {"op":"hasabifn","where":"idr","sig":"identityStorage()","present":true,"ok":true}
-- nonzeroaddress:data.idrIdentityStorageAddr:
-Compliance Ref: AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk
-Recommendation: Align the implementation with AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+High
+10. Encoding Virtual Asset Service Scope and Effective Date
+The compliance contract supports binding tokens and managing modules (addModule, removeModule, getModules) and emits ModuleAdded and ModuleRemoved events, enabling encoding of service scope and effective dates.
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(v)
+Recommendation: Continue to validate module management and event emission. Implement regression tests covering module lifecycle.
 
-Medium
-9. Ownership and Control Tracking
-Runtime hint: ABI has idr.beneficialOwners(address): false. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.
-Paths:
-- {"op":"hasabifn","where":"idr","sig":"beneficialOwners(address)","present":false,"ok":false}
-Compliance Ref: AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk
-Recommendation: Align the implementation with AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+High
+11. On-Chain Representation of Suspension Status
+The token contract supports freezing and unfreezing addresses and partial tokens, with functions setAddressFrozen, freezePartialTokens, unfreezePartialTokens, isFrozen, and emits AddressFrozen, TokensFrozen, and TokensUnfrozen events, representing suspension status on-chain.
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(vi)
+Recommendation: Maintain comprehensive tests for freezing logic and event generation. Monitor frozen status changes for compliance reporting.
 
-Medium
-10. Identity Resolution Interface
-Runtime hint: ABI has idr.identity(address): true. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §2(1)(a) https://www.elegislation.gov.hk prescribes, giving non-technical sponsors assurance that the required safeguard is active.
-Paths:
-- {"op":"hasabifn","where":"idr","sig":"identity(address)","present":true,"ok":true}
-Compliance Ref: AMLO (Cap.615) Schedule 2 §2(1)(a) https://www.elegislation.gov.hk
-Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+High
+12. Representative Principal Linkage via Trusted Issuers
+The trusted issuer registry supports updating issuer claim topics and retrieving trusted issuers, with events TrustedIssuerAdded and TrustedIssuerRemoved, enabling representative principal linkage as required.
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(c)
+Recommendation: Ensure access control on trusted issuer management. Add tests for issuer accreditation and revocation.
 
-Low
-11. Risk Classification Hooks
-Runtime hint: ABI has idr.riskLevel(address): false. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk and could undermine investor protections if left unresolved.
-Paths:
-- {"op":"hasabifn","where":"idr","sig":"riskLevel(address)","present":false,"ok":false}
-Compliance Ref: AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk
-Recommendation: Align the implementation with AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+High
+13. Virtual Asset Transfer Role Gating Enforced
+The token exposes compliance() returning a non-zero address, and the compliance contract supports canTransfer. The identity registry supports isVerified and the trusted issuer registry supports isTrustedIssuer, enforcing role gating on transfers.
+Compliance Ref: AMLO Schedule 2 §13A(1)
+Recommendation: Maintain role gating logic and conduct regular tests simulating transfers with various identity and issuer statuses to ensure correct enforcement.
