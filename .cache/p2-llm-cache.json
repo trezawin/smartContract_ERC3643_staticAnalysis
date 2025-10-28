@@ -1319,5 +1319,90 @@
         "recommendation": "Implement comprehensive ownership and control tracking by configuring claim topic 2001 within the ERC-3643 contract. Develop and deploy unit tests to verify correct configuration and retrieval of ownership claims. Establish operational procedures for regular off-chain and on-chain reconciliation of ownership data. Document the control process in operational run-books to facilitate audit readiness and ensure ongoing compliance."
       }
     ]
+  },
+  "923fe790181a4aa806192907320d4a4aa1271fd6c0445960a554f5c281703c29": {
+    "overall_assessment": "The smart contract implementation demonstrates strong compliance with HKMA AMLO and SFO regulations, with critical controls effectively enforced. However, a notable high-severity deficiency exists in maintaining an on-chain register of licensed persons, which poses significant regulatory and operational risks. Additional controls are recommended to enhance audit readiness and ensure ongoing compliance.",
+    "findings": [
+      {
+        "id": "F-001",
+        "title": "On-chain registration of licensed persons missing",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "FAIL",
+        "position": "CHALLENGE",
+        "explanation": "The contract does not implement the required 'identityRegistry()' function in 'idr' to support on-chain registration of licensed persons, as evidenced by the absence of 'registerIdentity(address,address,uint16[])' in the 'idr' interface. This contravenes SFO Cap.571 §53ZRH(1), which mandates maintaining an on-chain register of licensed entities. The lack of this functionality impairs regulatory oversight, increases the risk of unverified or unregistered entities operating, and hampers auditability.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [
+          "Contract ABI inspection: 'idr' interface missing 'registerIdentity(address,address,uint16[])' function"
+        ],
+        "recommendation": "Implement the 'registerIdentity' function within the 'idr' interface and ensure it is invoked during the licensing process. Develop comprehensive unit and integration tests to verify registration logic, and establish operational run-books for ongoing registration management. Maintain detailed event logs for all registration activities to support audit trail requirements."
+      },
+      {
+        "id": "F-002",
+        "title": "Event logging for identity registration missing",
+        "severity": "MEDIUM",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "While the current implementation logs events such as 'IdentityStored', 'IdentityModified', 'IdentityUnstored', and 'IdentityRegistryBound', these are only effective if the registration function is present and invoked. Without the registration function, these events cannot be emitted, reducing transparency and auditability of licensing activities.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [
+          "Event logs: 'IdentityStored', 'IdentityModified', 'IdentityUnstored', 'IdentityRegistryBound' are present but only meaningful if registration occurs."
+        ],
+        "recommendation": "Ensure that the registration process triggers these events appropriately. Add event emission within the 'registerIdentity' implementation and verify event logs during testing. Maintain a registry of event logs for audit purposes."
+      },
+      {
+        "id": "F-003",
+        "title": "Identity verification and record-keeping controls are adequate",
+        "severity": "MEDIUM",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The contract successfully enforces identity controls through 'identityStorage()' and related event logs, aligning with HKMA AMLO Schedule 2 §2. The presence of identity storage, modification, unstoring, and registry binding events indicates effective record-keeping support.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2"
+        ],
+        "evidence_paths": [
+          "ABI functions: 'identityStorage()', 'IdentityStored', 'IdentityModified', 'IdentityUnstored', 'IdentityRegistryBound' events"
+        ],
+        "recommendation": "Maintain current implementation; consider adding automated off-chain record retention mechanisms and periodic audits to ensure ongoing compliance."
+      },
+      {
+        "id": "F-004",
+        "title": "Control over virtual asset transfer roles verified",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The contract enforces role gating for VA transfers via 'compliance()' and 'canTransfer()' functions, with verification of 'isVerified' and 'isTrustedIssuer' functions. This aligns with AML requirements to prevent misuse and ensure proper authorization.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §13A(1)"
+        ],
+        "evidence_paths": [
+          "ABI functions: 'compliance()', 'canTransfer()', 'isVerified()', 'isTrustedIssuer()'"
+        ],
+        "recommendation": "Continue monitoring role gating controls; consider implementing real-time event alerts for role changes and transfer attempts to enhance operational oversight."
+      },
+      {
+        "id": "F-005",
+        "title": "Suspension controls for token addresses are properly implemented",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The contract supports suspension and partial freeze controls through 'setAddressFrozen()', 'freezePartialTokens()', 'unfreezePartialTokens()', and related events, fulfilling HKMA control objectives to prevent misuse and preserve market integrity.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(vi)"
+        ],
+        "evidence_paths": [
+          "ABI functions: 'setAddressFrozen()', 'freezePartialTokens()', 'unfreezePartialTokens()', 'isFrozen()' and corresponding events"
+        ],
+        "recommendation": "Maintain suspension controls; periodically test freeze/unfreeze functions and verify event logs for audit readiness."
+      }
+    ]
   }
 }

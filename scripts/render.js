@@ -326,7 +326,7 @@ function renderValidatedTable(items, llm, ruleStatuses) {
     findingMap.set(String(f.id).toUpperCase(), f);
   }
 
-  const rows = itemList.filter((it) => it && it.id && it.pass).map((it) => {
+  const rows = itemList.filter((it) => it && it.id).map((it) => {
     const key = String(it.id).toUpperCase();
     const lf = findingMap.get(key);
     const severityOverride = lf && typeof lf.severity === "string" ? lf.severity : null;
@@ -334,8 +334,9 @@ function renderValidatedTable(items, llm, ruleStatuses) {
     const severityLabelText = severityDisplay(severity);
     const severityColor = STATUS_COLORS[severity] || STATUS_COLORS.META;
     const explanation = lf?.explanation || it.note || "";
-    const ruleStatus = ruleStatuses && typeof ruleStatuses.get === "function" ? ruleStatuses.get(it.id) : (it.pass ? "PASS" : "FAIL");
-    const statusLabel = String(ruleStatus || "PASS").toUpperCase() === "PASS" ? "Passed" : "Off-chain";
+    const ruleStatus = ruleStatuses && typeof ruleStatuses.get === "function" ? ruleStatuses.get(it.id)
+      : (it.pass ? "PASS" : "FAIL");
+    const statusLabel = String(ruleStatus || (it.pass ? "PASS" : "FAIL")).toUpperCase() === "PASS" ? "Passed" : "Failed";
     const title = esc(it.title || it.id || "Rule");
     const desc = esc(it.desc || "");
     return `

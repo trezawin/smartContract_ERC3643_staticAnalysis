@@ -4,7 +4,7 @@
     "title": "AMLO CDD identity controls",
     "desc": "Token and Identity Registry must expose the hooks necessary to perform customer and beneficial owner due diligence before onboarding.",
     "snippet": "require(identityRegistry.isVerified(to), \"CDD\");\nfunction identity(address investor) external view returns (address);\nfunction batchRegisterIdentity(address[] calldata investors, address[] calldata identities, uint16[] calldata countries);",
-    "policyRef": "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §2",
     "severity": "High",
     "allOf": [
       { "op": "hasabifn", "where": "token", "sig": "identityRegistry()" },
@@ -22,7 +22,7 @@
     "title": "AMLO record keeping support",
     "desc": "Identity Registry Storage must be wired and emit lifecycle events so identity evidence can be retained for at least seven years.",
     "snippet": "function identityStorage() external view returns (address);\nevent IdentityStored(address indexed investor, address indexed identity);\nevent IdentityUnstored(address indexed investor, address indexed identity);",
-    "policyRef": "AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk",
+    "policyRef": "AMLO (Cap.615) Schedule 2 §2",
     "severity": "Medium",
     "allOf": [
       { "op": "hasabifn", "where": "idr", "sig": "identityStorage()" },
@@ -32,122 +32,205 @@
       { "op": "hasevent", "where": "irs", "name": "IdentityUnstored" },
       { "op": "hasevent", "where": "irs", "name": "IdentityRegistryBound" }
     ]
-  }, 
+  },
   {
-    "id": "R-HKMA-AMLO-Sanctions",
-    "title": "Sanctions and Blacklist Screening",
-    "desc": "Smart contracts must enforce sanctions compliance by reverting transfers to addresses flagged by blacklist logic.",
-    "snippet": "require(!blacklisted[to], \"Sanctioned address\");",
-    "policyRef": "AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk",
+    "id": "R-HKMA-53ZRH-REGISTER",
+    "title": "Maintain on-chain register of licensed persons",
+    "desc": "The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.",
+    "policyRef": "SFO (Cap.571) §53ZRH(1)",
     "severity": "High",
-    "allOf": [
-      { "op": "phase2" },
-      { "op": "runtxrevert", "desc": "Transfer to a random address should revert if blacklist logic is enforced" }
-    ]
+    "controls": {
+      "role": "registry",
+      "phase": "governance",
+      "allOf": [
+        { "op": "hasabifn", "where": "token", "sig": "identityRegistry()" },
+        { "op": "hasabifn", "where": "idr", "sig": "registerIdentity(address,address,uint16[])" },
+        { "op": "hasabifn", "where": "idr", "sig": "updateIdentity(address,address,uint16[])" },
+        { "op": "hasabifn", "where": "idr", "sig": "deleteIdentity(address)" },
+        { "op": "hasabifn", "where": "idr", "sig": "batchRegisterIdentity(address[],address[],uint16[])" },
+        { "op": "hasabifn", "where": "ctr", "sig": "addClaimTopic(uint256)" },
+        { "op": "hasabifn", "where": "tir", "sig": "addTrustedIssuer(address)" },
+        { "op": "hasabifn", "where": "tir", "sig": "removeTrustedIssuer(address)" },
+        { "op": "hasabifn", "where": "compliance", "sig": "canTransfer(address,address,uint256)" }
+      ]
+    }
   },
   {
-    "id": "R-HKMA-AMLO-OngoingMonitoring",
-    "title": "Ongoing Monitoring via Modular Compliance",
-    "desc": "Smart contracts must enable modular compliance checks to enforce transaction surveillance, including country restrictions and monthly transfer limits.",
-    "snippet": "require(canTransfer(from, to, value), \"Compliance: transfer not allowed\");\naddModule(CountryRestrictModule);\naddModule(ExchangeMonthlyLimitsModule);",
-    "policyRef": "AMLO (Cap.615) Schedule 2 §5(1)(b)-§6 https://www.elegislation.gov.hk",
+    "id": "R-HKMA-53ZRH-2A-I",
+    "title": "Anchor name and business address data",
+    "desc": "Identity records must support anchoring of name and business address metadata with auditable storage events.",
+    "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(i)",
     "severity": "High",
-    "allOf": [
-      { "op": "hasabifn", "where": "compliance", "sig": "canTransfer(address,address,uint256)" },
-      { "op": "hasevent", "where": "compliance", "name": "ModuleAdded" },
-      { "op": "hasmodule", "where": "compliance", "name": "ExchangeMonthlyLimitsModule" },
-      { "op": "hasmodule", "where": "compliance", "name": "CountryRestrictModule" },
-      { "op": "phase2" },
-      { "op": "runtxrevert", "desc": "Transfer from blocked country or over monthly limits should revert due to active monitoring module" }
-    ]
+    "controls": {
+      "role": "registry",
+      "phase": "data-capture",
+      "allOf": [
+        { "op": "hasabifn", "where": "idr", "sig": "identityStorage()" },
+        { "op": "hasevent", "where": "irs", "name": "IdentityStored" },
+        { "op": "hasevent", "where": "irs", "name": "IdentityModified" },
+        { "op": "hasevent", "where": "irs", "name": "IdentityUnstored" }
+      ]
+    }
   },
   {
-    "id": "R-HKMA-AMLO-OwnershipControl",
-    "title": "Ownership and Control Tracking",
-    "desc": "Identity onboarding must require a Beneficial Owner claim topic and at least one trusted issuer so beneficial ownership can be evidenced via OnchainID claims.",
-    "snippet": "claimTopicsRegistry.addClaimTopic(BENEFICIAL_OWNER_TOPIC);\\ntrustedIssuersRegistry.addTrustedIssuer(beneficialOwnerAuditor, [BENEFICIAL_OWNER_TOPIC]);",
-    "policyRef": "AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk",
-    "severity": "Medium",
-    "allOf": [
-      { "op": "hasclaimtopic", "topic": 2001 },
-      { "op": "phase2" }
-    ]
-  },
-  {
-    "id": "R-HKMA-AMLO-RiskClassification",
-    "title": "Risk Classification Hooks",
-    "desc": "Smart contracts should expose hooks to retrieve or assign a user’s risk category for ongoing monitoring.",
-    "snippet": "function riskLevel(address investor) external view returns (uint8);",
-    "policyRef": "AMLO (Cap.615) Schedule 2 §5(2)(b) https://www.elegislation.gov.hk",
-    "severity": "Low",
-    "allOf": [
-      { "op": "hasabifn", "where": "idr", "sig": "riskLevel(address)" }
-    ]
-  },
-  {
-    "id": "R-HKMA-AMLO-AddressResolution",
-    "title": "Identity Resolution Interface",
-    "desc": "Contracts should support mapping from investor wallet address to identity contract for audit traceability.",
-    "snippet": "function identity(address investor) external view returns (address);",
-    "policyRef": "AMLO (Cap.615) Schedule 2 §2(1)(a) https://www.elegislation.gov.hk",
-    "severity": "Medium",
-    "allOf": [
-      { "op": "hasabifn", "where": "idr", "sig": "identity(address)" }
-    ]
-  },
-  {
-    "id": "R-HKMA-AMLO-DualControl",
-    "title": "Dual Control for Critical Actions",
-    "desc": "Administrative smart contract actions such as freezing should require multiple signatures or roles.",
-    "snippet": "require(hasRole(FREEZE_ADMIN, msg.sender), \"Not authorized\");",
-    "policyRef": "AMLO (Cap.615) Schedule 2 §7(2)(b) https://www.elegislation.gov.hk",
+    "id": "R-HKMA-53ZRH-2A-II",
+    "title": "Record licence conditions with effective dates",
+    "desc": "Licence conditions must be represented as claim topics that can be versioned on-chain.",
+    "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(ii)",
     "severity": "High",
-    "allOf": [
-      { "op": "hasabifn", "where": "control", "sig": "hasRole(bytes32,address)" },
-      { "op": "hasabifn", "where": "control", "sig": "grantRole(bytes32,address)" },
-      { "op": "hasabifn", "where": "control", "sig": "revokeRole(bytes32,address)" },
-      { "op": "phase2" },
-      { "op": "runtxrevert", "desc": "Freeze should fail if caller lacks proper role" }
-    ]
+    "controls": {
+      "role": "registry",
+      "phase": "conditions",
+      "allOf": [
+        { "op": "hasabifn", "where": "ctr", "sig": "addClaimTopic(uint256)" },
+        { "op": "hasabifn", "where": "ctr", "sig": "removeClaimTopic(uint256)" },
+        { "op": "hasabifn", "where": "ctr", "sig": "getClaimTopics()" },
+        { "op": "hasevent", "where": "ctr", "name": "ClaimTopicAdded" },
+        { "op": "hasevent", "where": "ctr", "name": "ClaimTopicRemoved" }
+      ]
+    }
   },
   {
-    "id": "R-HKMA-AMLO-FreezeUnfreeze",
-    "title": "Freeze and Unfreeze Capability",
-    "desc": "Contracts must support freezing and unfreezing investor accounts in real time.",
-    "snippet": "function freeze(address investor);",
-    "policyRef": "AMLO (Cap.615) Schedule 2 §7 https://www.elegislation.gov.hk",
+    "id": "R-HKMA-53ZRH-2A-III",
+    "title": "Central entity identification claim",
+    "desc": "Central entity identifiers must be retrievable via identity resolution and enforced through claims.",
+    "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(iii)",
     "severity": "High",
-    "allOf": [
-      { "op": "hasabifn", "where": "control", "sig": "freeze(address)" },
-      { "op": "hasabifn", "where": "control", "sig": "unfreeze(address)" },
-      { "op": "runtxrevert", "desc": "Frozen address should not be able to transfer" },
-      { "op": "phase2" }
-    ]
+    "controls": {
+      "role": "registry",
+      "phase": "identity-resolution",
+      "allOf": [
+        { "op": "hasabifn", "where": "idr", "sig": "identity(address)" },
+        { "op": "hasabifn", "where": "compliance", "sig": "canTransfer(address,address,uint256)" },
+        { "op": "hasabifn", "where": "tir", "sig": "isTrustedIssuer(address)" }
+      ]
+    }
   },
   {
-    "id": "R-HKMA-AMLO-KYCStatusRecheck",
-    "title": "KYC Status Revalidation",
-    "desc": "System should revalidate investor KYC claims during runtime to avoid stale access.",
-    "snippet": "require(isVerified(msg.sender));",
-    "policyRef": "AMLO (Cap.615) Schedule 2 §6 https://www.elegislation.gov.hk",
+    "id": "R-HKMA-53ZRH-2A-IV",
+    "title": "Capture licence grant timestamp",
+    "desc": "Licence issuance must be observable on-chain with timestamped events for audit trail.",
+    "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(iv)",
     "severity": "High",
-    "allOf": [
-      { "op": "hasabifn", "where": "idr", "sig": "isVerified(address)" },
-      { "op": "phase2" },
-      { "op": "runtxrevert", "desc": "Transfer by unverified user should fail" }
-    ]
+    "controls": {
+      "role": "registry",
+      "phase": "grant",
+      "allOf": [
+        { "op": "hasevent", "where": "idr", "name": "IdentityRegistered" },
+        { "op": "hasevent", "where": "idr", "name": "IdentityUpdated" },
+        { "op": "hasevent", "where": "idr", "name": "IdentityRemoved" }
+      ]
+    }
   },
   {
-    "id": "R-HKMA-AMLO-InvestorJurisdiction",
-    "title": "Jurisdiction Screening",
-    "desc": "Compliance module should reject transfers from investors in blocked countries.",
-    "snippet": "CountryRestrictModule blocks based on msg.sender location.",
-    "policyRef": "AMLO (Cap.615) Schedule 2 §5(1)(b) https://www.elegislation.gov.hk",
+    "id": "R-HKMA-53ZRH-2A-V",
+    "title": "Encode VA service scope and effective date",
+    "desc": "The compliance module must expose modular hooks to reflect permitted service scope with activation controls.",
+    "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(v)",
     "severity": "High",
-    "allOf": [
-      { "op": "hasmodule", "where": "compliance", "name": "CountryRestrictModule" },
-      { "op": "phase2" },
-      { "op": "runtxrevert", "desc": "Transfer from blocked country should revert" }
-    ]
+    "controls": {
+      "role": "compliance",
+      "phase": "scope",
+      "allOf": [
+        { "op": "hasabifn", "where": "compliance", "sig": "bindToken(address)" },
+        { "op": "hasabifn", "where": "compliance", "sig": "addModule(address)" },
+        { "op": "hasabifn", "where": "compliance", "sig": "removeModule(address)" },
+        { "op": "hasabifn", "where": "compliance", "sig": "getModules()" },
+        { "op": "hasevent", "where": "compliance", "name": "ModuleAdded" },
+        { "op": "hasevent", "where": "compliance", "name": "ModuleRemoved" }
+      ]
+    }
+  },
+  {
+    "id": "R-HKMA-53ZRH-2A-VI",
+    "title": "Represent suspension status on-chain",
+    "desc": "Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.",
+    "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(vi)",
+    "severity": "High",
+    "controls": {
+      "role": "token",
+      "phase": "suspension",
+      "allOf": [
+        { "op": "hasabifn", "where": "token", "sig": "setAddressFrozen(address,bool)" },
+        { "op": "hasabifn", "where": "token", "sig": "freezePartialTokens(address,uint256)" },
+        { "op": "hasabifn", "where": "token", "sig": "unfreezePartialTokens(address,uint256)" },
+        { "op": "hasabifn", "where": "token", "sig": "isFrozen(address)" },
+        { "op": "hasevent", "where": "token", "name": "AddressFrozen" },
+        { "op": "hasevent", "where": "token", "name": "TokensUnfrozen" },
+        { "op": "hasevent", "where": "token", "name": "TokensFrozen" }
+      ]
+    }
+  },
+  {
+    "id": "R-HKMA-53ZRH-2C",
+    "title": "Representative principal linkage",
+    "desc": "Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.",
+    "policyRef": "SFO (Cap.571) §53ZRH(2)(c)",
+    "severity": "High",
+    "controls": {
+      "role": "representation",
+      "phase": "accreditation",
+      "allOf": [
+        { "op": "hasabifn", "where": "tir", "sig": "updateIssuerClaimTopics(address,uint256[])" },
+        { "op": "hasabifn", "where": "tir", "sig": "getTrustedIssuers()" },
+        { "op": "hasabifn", "where": "ctr", "sig": "getClaimTopics()" },
+        { "op": "hasevent", "where": "tir", "name": "TrustedIssuerAdded" },
+        { "op": "hasevent", "where": "tir", "name": "TrustedIssuerRemoved" }
+      ]
+    }
+  },
+  {
+    "id": "R-HKMA-53ZRK-5E",
+    "title": "Client asset safeguards via modular compliance",
+    "desc": "Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.",
+    "policyRef": "SFO (Cap.571) §53ZRK(5)(e)",
+    "severity": "Critical",
+    "controls": {
+      "role": "compliance",
+      "phase": "custody",
+      "allOf": [
+        { "op": "hasabifn", "where": "compliance", "sig": "addModule(address)" },
+        { "op": "hasabifn", "where": "compliance", "sig": "removeModule(address)" },
+        { "op": "hasabifn", "where": "compliance", "sig": "callModuleFunction(bytes,address)" },
+        { "op": "hasabifn", "where": "compliance", "sig": "unbindToken(address)" },
+        { "op": "hasevent", "where": "compliance", "name": "ModuleInteraction" }
+      ]
+    }
+  },
+  {
+    "id": "R-HKMA-AMLO-S6",
+    "title": "Ongoing record of customer identity and activity",
+    "desc": "Identity evidence and transactional metadata must remain queryable for historical monitoring.",
+    "policyRef": "AMLO Schedule 2 §6",
+    "severity": "Critical",
+    "controls": {
+      "role": "monitoring",
+      "phase": "retention",
+      "allOf": [
+        { "op": "hasabifn", "where": "idr", "sig": "isVerified(address)" },
+        { "op": "hasabifn", "where": "idr", "sig": "identity(address)" },
+        { "op": "hasabifn", "where": "compliance", "sig": "transferred(address,address,uint256)" },
+        { "op": "hasevent", "where": "token", "name": "Transfer" },
+        { "op": "hasevent", "where": "compliance", "name": "ModuleInteraction" }
+      ]
+    }
+  },
+  {
+    "id": "R-HKMA-AMLO-13A-ROLE",
+    "title": "Virtual asset transfer role gating",
+    "desc": "Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.",
+    "policyRef": "AMLO Schedule 2 §13A(1)",
+    "severity": "High",
+    "controls": {
+      "role": "va-transfer",
+      "phase": "pre-transfer",
+      "allOf": [
+        { "op": "hasabifn", "where": "token", "sig": "compliance()" },
+        { "op": "nonzeroaddress", "field": "data.tokenCompliance" },
+        { "op": "hasabifn", "where": "compliance", "sig": "canTransfer(address,address,uint256)" },
+        { "op": "hasabifn", "where": "idr", "sig": "isVerified(address)" },
+        { "op": "hasabifn", "where": "tir", "sig": "isTrustedIssuer(address)" }
+      ]
+    }
   }
 ]

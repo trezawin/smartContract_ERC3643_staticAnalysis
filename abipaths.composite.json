@@ -1,0 +1,8 @@
+{
+  "Token": "artifacts/contracts/test/CompositeToken.sol/CompositeToken.json",
+  "IdentityRegistry": "artifacts/contracts/test/CompositeIdentityRegistry.sol/CompositeIdentityRegistry.json",
+  "ClaimTopicsRegistry": "artifacts/contracts/test/CompositeClaimTopicsRegistry.sol/CompositeClaimTopicsRegistry.json",
+  "TrustedIssuersRegistry": "artifacts/contracts/test/CompositeTrustedIssuersRegistry.sol/CompositeTrustedIssuersRegistry.json",
+  "Compliance": "artifacts/contracts/test/CompositeCompliance.sol/CompositeCompliance.json",
+  "IdentityRegistryStorage": "artifacts/contracts/test/CompositeIdentityRegistryStorage.sol/CompositeIdentityRegistryStorage.json"
+}

@@ -2,6 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 const { ethers: rpcEthers } = require("ethers");
+const { createRuleEngine, defaultOperationHandlers } = require("./lib/rule-engine");
 
 // Optional ABI artifact loader (supports overrides via env/impl-specific files)
 function resolveAbiPathsFile(root) {
@@ -46,6 +47,7 @@ function loadAbiArtifacts(root) {
       tirAbi: tir.abi,
       complianceAbi: compliance.abi,
       irsAbi: irs.abi,
+      source: abipathsPath,
       paths: {
         Token: token.path,
         IdentityRegistry: idr.path,
@@ -1118,150 +1120,77 @@ function defaultDeclarativeFor(ruleId) {
 // Normalize possible declarative shapes coming from rules JSON
 function normalizeDeclarativeSpec(r) {
   if (!r || typeof r !== "object") return null;
-  // direct keys
-  if (r.check || r.allOf || r.anyOf) {
-    return { check: r.check || null, allOf: r.allOf || null, anyOf: r.anyOf || null };
-  }
-  // common aliases used in some files
-  if (Array.isArray(r.checks)) {
-    return { allOf: r.checks };
-  }
-  if (Array.isArray(r.conditions)) {
-    return { allOf: r.conditions };
-  }
-  if (r.declarative && (r.declarative.check || r.declarative.allOf || r.declarative.anyOf)) {
-    const d = r.declarative;
-    return { check: d.check || null, allOf: d.allOf || null, anyOf: d.anyOf || null };
-  }
-  return null;
-}
-// =====================
-// Declarative rule engine
-// =====================
-function evalCheck(chk, data, cfg, helpers) {
-  const op = (chk.op || "").toLowerCase();
-  if (op === "nonzeroaddress") {
-    const v = asAddr(chk.field && chk.field.startsWith("data.") ? chk.field : `data.${chk.field}`, cfg, data);
-    return v !== ZERO;
-  }
-  if (op === "equalsaddress") {
-    const left = asAddr(chk.field && chk.field.startsWith("data.") ? chk.field : `data.${chk.field}`, cfg, data);
-    const right = asAddr(chk.equals ?? chk.value, cfg, data);
-    return left === right;
-  }
-  if (op === "lengthgte") {
-    const arr = getByPath(data, chk.field && chk.field.startsWith("data.") ? chk.field.slice(5) : chk.field);
-    const n = typeof chk.value === "number" ? chk.value : 0;
-    return Array.isArray(arr) && arr.length >= n;
-  }
-  if (op === "oneofaddress") {
-    const left = asAddr(chk.field && chk.field.startsWith("data.") ? chk.field : `data.${chk.field}`, cfg, data);
-    const list = Array.isArray(chk.values) ? chk.values.map(v => asAddr(v, cfg, data)) : [];
-    return list.includes(left);
-  }
-  if (op === "hasabifn") { // expects { where: "token|idr|ctr|tir", sig: "transfer(address,uint256)" or name }
-    const where = (chk.where || "").toLowerCase();
-    const sig = String(chk.sig || chk.name || "");
-    return helpers && typeof helpers.hasFn === "function" ? helpers.hasFn(where, sig) : true;
-  }
-  if (op === "hasevent") { // expects { where: "token|idr|ctr|tir", name: "IdentityRegistered" }
-    const where = (chk.where || "").toLowerCase();
-    const name = String(chk.name || "");
-    return helpers && typeof helpers.hasEvent === "function" ? helpers.hasEvent(where, name) : true;
-  }
-  if (op === "hasmodule") {
-    const modules = Array.isArray(data?.complianceModules) ? data.complianceModules : [];
-    const target = String(chk.name || chk.module || chk.value || "").toLowerCase();
-    return modules.some((mod) => String(mod?.name || "").toLowerCase() === target);
-  }
-  if (op === "hasclaimtopic") {
-    const topicList = Array.isArray(data?.topics) ? data.topics.map((t) => Number(t)) : [];
-    const target = Number(chk.topic || chk.value || chk.id || 0);
-    return topicList.includes(target);
-  }
-  // default: unknown op -> pass to avoid false negatives for forward-compat rules
-  return true;
-}
+  const baseMeta = { role: r.role || null, phase: r.phase || null };
 
-function evalDeclarativeRule(r, data, cfg, helpers) {
-  if (!r.check && !r.allOf && !r.anyOf) return null; // not declarative
-  const notes = [];
-  const details = [];
-  const normField = (field) => (field && field.startsWith("data.")) ? field : (field ? `data.${field}` : field);
-
-  const run = (c) => {
-    const op = (c.op || "").toLowerCase();
-    let ok = true;
-
-    if (op === "nonzeroaddress") {
-      const f = normField(c.field);
-      const v = asAddr(f, cfg, data);
-      ok = v !== ZERO;
-      notes.push(`${f} is non-zero: ${v}`);
-      details.push({ op, field: f, actual: v, expected: "!= ZERO", ok });
-    } else if (op === "equalsaddress") {
-      const f = normField(c.field);
-      const left = asAddr(f, cfg, data);
-      const right = asAddr(c.equals ?? c.value, cfg, data);
-      ok = left === right;
-      notes.push(`${f} equals ${c.equals || c.value} → (${left} vs ${right})`);
-      details.push({ op, field: f, left, right, ok });
-    } else if (op === "lengthgte") {
-      const f = normField(c.field);
-      const arr = getByPath(data, f.slice(5));
-      const n = typeof c.value === "number" ? c.value : 0;
-      ok = Array.isArray(arr) && arr.length >= n;
-      notes.push(`${f}.length>=${n} (actual ${Array.isArray(arr) ? arr.length : "n/a"})`);
-      details.push({ op, field: f, min: n, actual: Array.isArray(arr) ? arr.length : null, ok });
-    } else if (op === "oneofaddress") {
-      const f = normField(c.field);
-      const left = asAddr(f, cfg, data);
-      const list = Array.isArray(c.values) ? c.values.map(v => asAddr(v, cfg, data)) : [];
-      ok = list.includes(left);
-      notes.push(`${f} in [${(c.values||[]).join(",")}] actual=${left}`);
-      details.push({ op, field: f, actual: left, allowed: list, ok });
-    } else if (op === "hasabifn") {
-      const present = helpers && helpers.hasFn ? helpers.hasFn((c.where||"").toLowerCase(), String(c.sig || c.name || "")) : false;
-      ok = !!present;
-      notes.push(`ABI has ${c.where}.${c.sig || c.name}: ${present}`);
-      details.push({ op, where: (c.where||"").toLowerCase(), sig: String(c.sig || c.name || ""), present, ok });
-    } else if (op === "hasevent") {
-      const present = helpers && helpers.hasEvent ? helpers.hasEvent((c.where||"").toLowerCase(), String(c.name||"")) : false;
-      ok = !!present;
-      notes.push(`Event on ${c.where}:${c.name} present: ${present}`);
-      details.push({ op, where: (c.where||"").toLowerCase(), name: String(c.name||""), present, ok });
-    } else if (op === "hasmodule") {
-      const target = String(c.name || c.module || c.value || "").toLowerCase();
-      const modules = Array.isArray(data?.complianceModules) ? data.complianceModules : [];
-      const present = modules.some((mod) => String(mod?.name || "").toLowerCase() === target);
-      ok = present;
-      notes.push(`Compliance module ${target} present: ${present}`);
-      details.push({ op, module: target, present, ok });
-    } else if (op === "hasclaimtopic") {
-      const topicList = Array.isArray(data?.topics) ? data.topics.map((t) => Number(t)) : [];
-      const target = Number(c.topic || c.value || c.id || 0);
-      ok = topicList.includes(target);
-      notes.push(`Claim topic ${target} present: ${ok}`);
-      details.push({ op, topic: target, present: ok, ok });
-    } else {
-      // unknown op -> treat as pass but record
-      ok = true;
-      notes.push(`unknown op ${op} (treated as pass)`);
-      details.push({ op, ok: true, unknown: true });
-    }
-    return ok;
+  const applyMeta = (node, override) => {
+    if (!node || typeof node !== "object") return null;
+    const merged = Object.assign({}, node);
+    if (override?.role && merged.role == null) merged.role = override.role;
+    if (override?.phase && merged.phase == null) merged.phase = override.phase;
+    if (baseMeta.role && merged.role == null) merged.role = baseMeta.role;
+    if (baseMeta.phase && merged.phase == null) merged.phase = baseMeta.phase;
+    return merged;
   };
 
-  let pass = true;
-  if (r.check) {
-    pass = run(r.check);
-  } else if (Array.isArray(r.allOf)) {
-    pass = r.allOf.every(run);
-  } else if (Array.isArray(r.anyOf)) {
-    pass = r.anyOf.some(run);
+  if (r.controls) {
+    const ctrls = Array.isArray(r.controls) ? r.controls : [r.controls];
+    const nodes = [];
+    for (const ctrl of ctrls) {
+      if (!ctrl || typeof ctrl !== "object") continue;
+      const meta = { role: ctrl.role || baseMeta.role, phase: ctrl.phase || baseMeta.phase };
+      if (ctrl.check) {
+        const wrapped = applyMeta(ctrl.check, meta);
+        if (wrapped) nodes.push(wrapped);
+      }
+      if (Array.isArray(ctrl.allOf)) {
+        for (const item of ctrl.allOf) {
+          const wrapped = applyMeta(item, meta);
+          if (wrapped) nodes.push(wrapped);
+        }
+      }
+      if (Array.isArray(ctrl.anyOf)) {
+        // Treat anyOf groups as pseudo nodes with marker
+        const wrappedGroup = ctrl.anyOf
+          .map((item) => applyMeta(item, meta))
+          .filter(Boolean);
+        if (wrappedGroup.length) nodes.push({ anyOf: wrappedGroup });
+      }
+    }
+    return { check: null, allOf: nodes, anyOf: null, meta: baseMeta };
   }
 
-  return { pass, note: notes.join("; "), details };
+  if (r.check || r.allOf || r.anyOf) {
+    const wrapArray = (arr) => Array.isArray(arr) ? arr.map((item) => applyMeta(item, null)).filter(Boolean) : null;
+    return {
+      check: r.check ? applyMeta(r.check, null) : null,
+      allOf: wrapArray(r.allOf),
+      anyOf: wrapArray(r.anyOf),
+      meta: baseMeta
+    };
+  }
+
+  if (Array.isArray(r.checks)) {
+    const nodes = r.checks.map((item) => applyMeta(item, null)).filter(Boolean);
+    return { check: null, allOf: nodes, anyOf: null, meta: baseMeta };
+  }
+
+  if (Array.isArray(r.conditions)) {
+    const nodes = r.conditions.map((item) => applyMeta(item, null)).filter(Boolean);
+    return { check: null, allOf: nodes, anyOf: null, meta: baseMeta };
+  }
+
+  if (r.declarative && (r.declarative.check || r.declarative.allOf || r.declarative.anyOf)) {
+    const d = r.declarative;
+    const wrapArray = (arr) => Array.isArray(arr) ? arr.map((item) => applyMeta(item, null)).filter(Boolean) : null;
+    return {
+      check: d.check ? applyMeta(d.check, null) : null,
+      allOf: wrapArray(d.allOf),
+      anyOf: wrapArray(d.anyOf),
+      meta: baseMeta
+    };
+  }
+
+  return null;
 }
 
 // =====================
@@ -1276,6 +1205,7 @@ async function main() {
   let addressesArg = null;
   let outputArg = null;
   let groundArg = null;
+  let abipathsArg = null;
   for (let i = 0; i < argv.length; i += 1) {
     const token = argv[i];
     if (!token) continue;
@@ -1299,6 +1229,13 @@ async function main() {
       i += 1;
     } else if (token.startsWith("--groundtruth=")) {
       groundArg = token.slice("--groundtruth=".length);
+    } else if (token === "--abipaths" && argv[i + 1]) {
+      abipathsArg = argv[i + 1];
+      process.env.ABIPATHS_FILE = abipathsArg;
+      i += 1;
+    } else if (token.startsWith("--abipaths=")) {
+      abipathsArg = token.slice("--abipaths=".length);
+      process.env.ABIPATHS_FILE = abipathsArg;
     }
   }
 
@@ -1380,6 +1317,7 @@ async function main() {
     addressesPath,
     addresses: loadJson(addressesPath),
     ruleFiles: ruleFilesUsed,
+    abipathsPath: abiArtifacts?.source ? path.relative(root, abiArtifacts.source) : null,
     abiArtifacts: Object.fromEntries(
       Object.entries(abiArtifacts?.paths || {}).map(
         ([k,v]) => [k, v ? path.relative(root, v) : null]
@@ -1526,6 +1464,28 @@ async function evaluateRun(root, def, rules, abiArtifactsArg) {
     return record.hasEvent.has(name);
   };
 
+  const helperContext = {
+    asAddr: (field, cfgRef, dataRef) => asAddr(field, cfgRef, dataRef),
+    getByPath,
+    hasFn,
+    hasEvent,
+    findAbiSupport: () => null,
+    findAbiEvent: () => null
+  };
+
+  const ruleEngine = createRuleEngine({ operations: defaultOperationHandlers });
+
+  const evaluateSpec = (candidate) => {
+    if (!candidate) return null;
+    const normalized = normalizeDeclarativeSpec(candidate);
+    if (!normalized) return null;
+    const { meta: specMeta = {}, check, allOf, anyOf } = normalized;
+    return ruleEngine.evaluate(
+      { check, allOf, anyOf },
+      { data, cfg, helpers: helperContext, meta: specMeta }
+    );
+  };
+
   let context = await tryCreateRpcContext(cfg);
   let data = null;
   if (context) data = await collectData(context, cfg);
@@ -1578,21 +1538,16 @@ async function evaluateRun(root, def, rules, abiArtifactsArg) {
         continue; // skip declarative path if runtime evidence exists
       }
     }
-    // Prefer explicit declarative checks from the rule object
-    // e.g. static rules such as R-ERC3643-30 (compliance address check) or
-    // R-HKMA-AMLO-RecordKeeping rely on JSON allOf/check declarations evaluated here.
-    const spec = normalizeDeclarativeSpec(r);
-    let dec = spec ? evalDeclarativeRule(spec, data, cfg, { hasFn, hasEvent })
-                   : evalDeclarativeRule(r, data, cfg, { hasFn, hasEvent });
-
-    // If still nothing, try auto-mapping for well-known IDs
+    // Evaluate declarative rule specification when available
+    let dec = evaluateSpec(r);
     if (!dec) {
       const auto = defaultDeclarativeFor(r.id);
-      if (auto) dec = evalDeclarativeRule(auto, data, cfg, { hasFn, hasEvent });
+      if (auto) dec = evaluateSpec(auto);
     }
 
     if (dec) {
-      pass = dec.pass; note = dec.note;
+      pass = dec.pass;
+      note = dec.note;
     } else {
       pass = true;
       note = `no checks: rule '${r.id}' has no declarative section (check/allOf/anyOf) and no default mapping`;

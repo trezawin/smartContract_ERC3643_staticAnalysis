@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-10-28T13:16:56.837Z",
+  "generatedAt": "2025-10-28T15:08:54.428Z",
   "inputs": {
     "addressesPath": "/Users/weizicheng/Downloads/smartContract_ERC3643_staticAnalysis/.cre.addresses.json",
     "addresses": {
@@ -13,14 +13,14 @@
     "ruleFiles": [
       "cre/rules/rule.AMLO.json"
     ],
-    "abipathsPath": "abipaths.json",
+    "abipathsPath": "abipaths.composite.json",
     "abiArtifacts": {
-      "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
-      "IdentityRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
-      "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
-      "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
-      "Compliance": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
-      "IdentityRegistryStorage": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
+      "Token": "artifacts/contracts/test/CompositeToken.sol/CompositeToken.json",
+      "IdentityRegistry": "artifacts/contracts/test/CompositeIdentityRegistry.sol/CompositeIdentityRegistry.json",
+      "ClaimTopicsRegistry": "artifacts/contracts/test/CompositeClaimTopicsRegistry.sol/CompositeClaimTopicsRegistry.json",
+      "TrustedIssuersRegistry": "artifacts/contracts/test/CompositeTrustedIssuersRegistry.sol/CompositeTrustedIssuersRegistry.json",
+      "Compliance": "artifacts/contracts/test/CompositeCompliance.sol/CompositeCompliance.json",
+      "IdentityRegistryStorage": "artifacts/contracts/test/CompositeIdentityRegistryStorage.sol/CompositeIdentityRegistryStorage.json"
     }
   },
   "runs": [
@@ -78,12 +78,12 @@
         }
       },
       "abiArtifacts": {
-        "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
-        "IdentityRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
-        "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
-        "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
-        "Compliance": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
-        "IdentityRegistryStorage": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
+        "Token": "artifacts/contracts/test/CompositeToken.sol/CompositeToken.json",
+        "IdentityRegistry": "artifacts/contracts/test/CompositeIdentityRegistry.sol/CompositeIdentityRegistry.json",
+        "ClaimTopicsRegistry": "artifacts/contracts/test/CompositeClaimTopicsRegistry.sol/CompositeClaimTopicsRegistry.json",
+        "TrustedIssuersRegistry": "artifacts/contracts/test/CompositeTrustedIssuersRegistry.sol/CompositeTrustedIssuersRegistry.json",
+        "Compliance": "artifacts/contracts/test/CompositeCompliance.sol/CompositeCompliance.json",
+        "IdentityRegistryStorage": "artifacts/contracts/test/CompositeIdentityRegistryStorage.sol/CompositeIdentityRegistryStorage.json"
       }
     }
   ],
@@ -821,8 +821,8 @@
   },
   "metrics": null,
   "llm": {
-    "generatedAt": "2025-10-28T13:17:11.355Z",
-    "model": "gpt-4.1-nano-2025-04-14",
+    "generatedAt": "2025-10-28T15:08:54.532Z",
+    "model": "gpt-4.1-nano",
     "disabled": false,
     "reason": null,
     "error": null,
@@ -1260,7 +1260,7 @@
     }
   },
   "report": {
-    "textPath": "reports/amlo-results.txt"
+    "textPath": "reports/amlo-composite.txt"
   },
   "coverageDistribution": {
     "SUPPORT": 0,

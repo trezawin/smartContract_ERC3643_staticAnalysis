@@ -1,7 +1,7 @@
 Compliance Report
-Generated: 2025-10-28T13:17:11.356Z
+Generated: 2025-10-28T15:08:54.532Z
 Deterministic Summary: PASS=12 | CRITICAL=0 | HIGH=1 | MEDIUM=0 | LOW=0
-LLM Model: gpt-4.1-nano-2025-04-14
+LLM Model: gpt-4.1-nano
 
 The smart contract implementation demonstrates strong compliance with HKMA AMLO and SFO regulations, with critical controls effectively enforced. However, a notable high-severity deficiency exists in maintaining an on-chain register of licensed persons, which poses significant regulatory and operational risks. Additional controls are recommended to enhance audit readiness and ensure ongoing compliance.
 
