@@ -4,7 +4,9 @@ pragma solidity ^0.8.17;
 /// @title CompositeClaimTopicsRegistry
 /// @notice Minimal implementation that exposes the ERC-3643 Claim Topics interface.
 contract CompositeClaimTopicsRegistry {
+    // 存储所有已经登记的主题 ID
     uint256[] private topics;
+    // 辅助快速判断主题是否存在
     mapping(uint256 => bool) private exists;
 
     event ClaimTopicAdded(uint256 indexed topic);

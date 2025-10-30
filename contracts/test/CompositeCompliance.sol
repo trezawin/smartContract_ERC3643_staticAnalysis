@@ -4,8 +4,11 @@ pragma solidity ^0.8.17;
 /// @title CompositeCompliance
 /// @notice Modular compliance stub exposing the ERC-3643 interface surface.
 contract CompositeCompliance {
+    // 被绑定的可转代币地址
     address private boundToken;
+    // 已登记的合规模块列表
     address[] private modules;
+    // 模块激活状态缓存
     mapping(address => bool) private moduleActive;
 
     event ModuleAdded(address indexed module);
@@ -61,11 +64,12 @@ contract CompositeCompliance {
         return data;
     }
 
+    // canTransfer 恒返回 true，用于验证规则是否检测到宽松实现
     function canTransfer(address, address, uint256) external view returns (bool) {
         return true;
     }
 
     function transferred(address, address, uint256) external pure {
-        // noop
+        // 空操作，占位实现接口
     }
 }

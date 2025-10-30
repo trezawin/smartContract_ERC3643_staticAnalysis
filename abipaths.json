@@ -1,8 +1,8 @@
 {
-  "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
-  "IdentityRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json",
-  "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
-  "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
-  "Compliance": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
-  "IdentityRegistryStorage": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
+  "Token": "artifacts/contracts/test/CompositeTestSuite.sol/CompositeToken.json",
+  "IdentityRegistry": "artifacts/contracts/test/CompositeTestSuite.sol/CompositeIdentityRegistry.json",
+  "ClaimTopicsRegistry": "artifacts/contracts/test/CompositeTestSuite.sol/CompositeClaimTopicsRegistry.json",
+  "TrustedIssuersRegistry": "artifacts/contracts/test/CompositeTestSuite.sol/CompositeTrustedIssuersRegistry.json",
+  "Compliance": "artifacts/contracts/test/CompositeTestSuite.sol/CompositeCompliance.json",
+  "IdentityRegistryStorage": "artifacts/contracts/test/CompositeTestSuite.sol/CompositeIdentityRegistryStorage.json"
 }

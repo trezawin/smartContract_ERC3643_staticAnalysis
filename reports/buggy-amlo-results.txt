@@ -1,0 +1,129 @@
+Compliance Report
+Generated: 2025-10-29T14:17:33.225Z
+Deterministic Summary: PASS=7 | CRITICAL=1 | HIGH=4 | MEDIUM=1 | LOW=0
+LLM Model: gpt-4.1-nano
+
+LLM call failed: fetch failed
+
+Findings:
+
+Critical
+1. Ongoing record of customer identity and activity
+Runtime hint: ABI has idr.isVerified(address): true; ABI has idr.identity(address): false. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"isVerified(address)","present":true,"ok":true,"role":"monitoring","phase":"retention"}
+- {"op":"hasabifn","where":"idr","sig":"identity(address)","present":false,"ok":false,"role":"monitoring","phase":"retention"}
+Compliance Ref: AMLO Schedule 2 §6
+Recommendation: Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+2. AMLO CDD identity controls
+Runtime hint: AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating.. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §2 and could undermine investor protections if left unresolved.
+Paths:
+- AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §2
+Recommendation: Align the implementation with AMLO (Cap.615) Schedule 2 §2, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+3. Maintain on-chain register of licensed persons
+Runtime hint: ABI has token.identityRegistry(): true; ABI has idr.registerIdentity(address,address,uint16[]): false. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"token","sig":"identityRegistry()","present":true,"ok":true,"role":"registry","phase":"governance"}
+- {"op":"hasabifn","where":"idr","sig":"registerIdentity(address,address,uint16[])","present":false,"ok":false,"role":"registry","phase":"governance"}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+4. Central entity identification claim
+Runtime hint: ABI has idr.identity(address): false. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(a)(iii) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"identity(address)","present":false,"ok":false,"role":"registry","phase":"identity-resolution"}
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iii)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(2)(a)(iii), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+5. Capture licence grant timestamp
+Runtime hint: Event on idr:IdentityRegistered present: false. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(a)(iv) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasevent","where":"idr","name":"IdentityRegistered","present":false,"ok":false,"role":"registry","phase":"grant"}
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iv)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(2)(a)(iv), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Medium
+6. AMLO record keeping support
+Runtime hint: ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is zero. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §2 and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"identityStorage()","present":true,"ok":true}
+- nonzeroaddress:data.idrIdentityStorageAddr:
+Compliance Ref: AMLO (Cap.615) Schedule 2 §2
+Recommendation: Align the implementation with AMLO (Cap.615) Schedule 2 §2, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Pass
+7. Client asset safeguards via modular compliance
+Runtime hint: ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.callModuleFunction(bytes,address): true; ABI has compliance.unbindToken(address): true; Event on compliance:ModuleInteraction present: true. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRK(5)(e) prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- {"op":"hasabifn","where":"compliance","sig":"addModule(address)","present":true,"ok":true,"role":"compliance","phase":"custody"}
+- {"op":"hasabifn","where":"compliance","sig":"removeModule(address)","present":true,"ok":true,"role":"compliance","phase":"custody"}
+- {"op":"hasabifn","where":"compliance","sig":"callModuleFunction(bytes,address)","present":true,"ok":true,"role":"compliance","phase":"custody"}
+Compliance Ref: SFO (Cap.571) §53ZRK(5)(e)
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+
+Pass
+8. Anchor name and business address data
+Runtime hint: ABI has idr.identityStorage(): true; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(i) prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"identityStorage()","present":true,"ok":true,"role":"registry","phase":"data-capture"}
+- {"op":"hasevent","where":"irs","name":"IdentityStored","present":true,"ok":true,"role":"registry","phase":"data-capture"}
+- {"op":"hasevent","where":"irs","name":"IdentityModified","present":true,"ok":true,"role":"registry","phase":"data-capture"}
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(i)
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+
+Pass
+9. Record licence conditions with effective dates
+Runtime hint: ABI has ctr.addClaimTopic(uint256): true; ABI has ctr.removeClaimTopic(uint256): true; ABI has ctr.getClaimTopics(): true; Event on ctr:ClaimTopicAdded present: true; Event on ctr:ClaimTopicRemoved present: true. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(ii) prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- {"op":"hasabifn","where":"ctr","sig":"addClaimTopic(uint256)","present":true,"ok":true,"role":"registry","phase":"conditions"}
+- {"op":"hasabifn","where":"ctr","sig":"removeClaimTopic(uint256)","present":true,"ok":true,"role":"registry","phase":"conditions"}
+- {"op":"hasabifn","where":"ctr","sig":"getClaimTopics()","present":true,"ok":true,"role":"registry","phase":"conditions"}
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(ii)
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+
+Pass
+10. Encode VA service scope and effective date
+Runtime hint: ABI has compliance.bindToken(address): true; ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.getModules(): true; Event on compliance:ModuleAdded present: true; Event on compliance:ModuleRemoved present: true. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(v) prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- {"op":"hasabifn","where":"compliance","sig":"bindToken(address)","present":true,"ok":true,"role":"compliance","phase":"scope"}
+- {"op":"hasabifn","where":"compliance","sig":"addModule(address)","present":true,"ok":true,"role":"compliance","phase":"scope"}
+- {"op":"hasabifn","where":"compliance","sig":"removeModule(address)","present":true,"ok":true,"role":"compliance","phase":"scope"}
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(v)
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+
+Pass
+11. Represent suspension status on-chain
+Runtime hint: ABI has token.setAddressFrozen(address,bool): true; ABI has token.freezePartialTokens(address,uint256): true; ABI has token.unfreezePartialTokens(address,uint256): true; ABI has token.isFrozen(address): true; Event on token:AddressFrozen present: true; Event on token:TokensUnf.... Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(vi) prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- {"op":"hasabifn","where":"token","sig":"setAddressFrozen(address,bool)","present":true,"ok":true,"role":"token","phase":"suspension"}
+- {"op":"hasabifn","where":"token","sig":"freezePartialTokens(address,uint256)","present":true,"ok":true,"role":"token","phase":"suspension"}
+- {"op":"hasabifn","where":"token","sig":"unfreezePartialTokens(address,uint256)","present":true,"ok":true,"role":"token","phase":"suspension"}
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(vi)
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+
+Pass
+12. Representative principal linkage
+Runtime hint: ABI has tir.updateIssuerClaimTopics(address,uint256[]): true; ABI has tir.getTrustedIssuers(): true; ABI has ctr.getClaimTopics(): true; Event on tir:TrustedIssuerAdded present: true; Event on tir:TrustedIssuerRemoved present: true. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(c) prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- {"op":"hasabifn","where":"tir","sig":"updateIssuerClaimTopics(address,uint256[])","present":true,"ok":true,"role":"representation","phase":"accreditation"}
+- {"op":"hasabifn","where":"tir","sig":"getTrustedIssuers()","present":true,"ok":true,"role":"representation","phase":"accreditation"}
+- {"op":"hasabifn","where":"ctr","sig":"getClaimTopics()","present":true,"ok":true,"role":"representation","phase":"accreditation"}
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(c)
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+
+Pass
+13. Virtual asset transfer role gating
+Runtime hint: ABI has token.compliance(): true; data.tokenCompliance is non-zero; ABI has compliance.canTransfer(address,address,uint256): true; ABI has idr.isVerified(address): true; ABI has tir.isTrustedIssuer(address): true. Deterministic testing shows the control behaves exactly as AMLO Schedule 2 §13A(1) prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- {"op":"hasabifn","where":"token","sig":"compliance()","present":true,"ok":true,"role":"va-transfer","phase":"pre-transfer"}
+- nonzeroaddress:data.tokenCompliance:
+- {"op":"hasabifn","where":"compliance","sig":"canTransfer(address,address,uint256)","present":true,"ok":true,"role":"va-transfer","phase":"pre-transfer"}
+Compliance Ref: AMLO Schedule 2 §13A(1)
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.

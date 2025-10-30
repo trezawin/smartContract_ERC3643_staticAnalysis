@@ -1,0 +1,394 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif; color:#111827; margin:24px; }
+  h1 { font-size:24px; margin:0 0 4px 0; }
+  .sub { color:#6B7280; font-size:13px; }
+</style>
+</head>
+<body>
+  <h1>ERC-3643 Compliance Report</h1>
+  <div class="sub">
+    Generated: 2025-10-30T10:26:37.310Z — Deterministic checks + LLM reasoning
+  </div>
+
+  
+<div style="margin:16px 0">
+  <div style="font-weight:700;margin-bottom:6px">Inputs</div>
+  <div style="font-size:13px;color:#374151">
+    <div>Addresses file: <code>/Users/weizicheng/Downloads/smartContract_ERC3643_staticAnalysis/.cre.addresses.json</code></div>
+    <div>Rules: <code>cre/rules/rule.AMLO.json</code></div>
+    <div>ABI artifacts: <code>Token: artifacts/contracts/test/CompositeTestSuite.sol/CompositeToken.json</code>, <code>IdentityRegistry: artifacts/contracts/test/CompositeTestSuite.sol/CompositeIdentityRegistry.json</code>, <code>ClaimTopicsRegistry: artifacts/contracts/test/CompositeTestSuite.sol/CompositeClaimTopicsRegistry.json</code>, <code>TrustedIssuersRegistry: artifacts/contracts/test/CompositeTestSuite.sol/CompositeTrustedIssuersRegistry.json</code>, <code>Compliance: artifacts/contracts/test/CompositeTestSuite.sol/CompositeCompliance.json</code>, <code>IdentityRegistryStorage: artifacts/contracts/test/CompositeTestSuite.sol/CompositeIdentityRegistryStorage.json</code></div>
+  </div>
+  <ul style="margin-top:8px">
+    <li>cre/rules/rule.AMLO.json</li>
+  </ul>
+  <details style="margin-top:10px;font-size:13px"><summary style="cursor:pointer">Resolved addresses</summary>
+    <ul style="margin-top:8px"><li><code>networkRpc</code> → <code>http://127.0.0.1:8545</code></li><li><code>token</code> → <code>0x5FC8d32690cc91D4c39d9d3abcBD16989F875707</code></li><li><code>identityRegistry</code> → <code>0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9</code></li><li><code>claimTopicsRegistry</code> → <code>0x5FbDB2315678afecb367f032d93F642f64180aa3</code></li><li><code>trustedIssuersRegistry</code> → <code>0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512</code></li><li><code>compliance</code> → <code>0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9</code></li><li><code>identityRegistryStorage</code> → <code>0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0</code></li></ul>
+  </details>
+</div>
+
+
+  <div style="font-weight:700;margin:16px 0 4px 0">Summary of distribution</div>
+  <table style="border-collapse:collapse;font-size:13px;margin:12px 0;width:100%;max-width:640px">
+    <thead>
+      <tr style="text-align:left">
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#F3F4F6">Review date</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#10B981;color:#FFFFFF">Pass</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#6B7280;color:#FFFFFF">Low</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#FACC15;color:#111827">Medium</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#F97316;color:#111827">High</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#B91C1C;color:#FFFFFF">Critical</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">2025-10-30</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">5</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">0</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">1</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">6</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">1</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<div style="margin:24px 0">
+  <div style="font-weight:700;margin-bottom:8px">Assessed rules</div>
+  <table style="border-collapse:collapse;font-size:13px;width:100%">
+    <thead>
+      <tr style="background:#F3F4F6;text-align:left">
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Rule title</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Rule description</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Severity</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Explanation</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO CDD identity controls</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Token and Identity Registry must expose the hooks necessary to perform customer and beneficial owner due diligence before onboarding.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Medium</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §2 prescribes, giving non-technical sponsors assurance that the required safeguard is active.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO record keeping support</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity Registry Storage must be wired and emit lifecycle events so identity evidence can be retained for at least seven years.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#FACC15">Medium</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: false. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §2 and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Maintain on-chain register of licensed persons</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; claimTopics=1; trusted issuers list empty; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Anchor name and business address data</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity records must support anchoring of name and business address metadata with auditable storage events.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Medium</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; linkedRegistries=1. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(i) prescribes, giving non-technical sponsors assurance that the required safeguard is active.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Record licence conditions with effective dates</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence conditions must be represented as claim topics that can be versioned on-chain.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Medium</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: Claim topics registry returned 1 topic(s).. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(ii) prescribes, giving non-technical sponsors assurance that the required safeguard is active.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identification claim</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identifiers must be retrievable via identity resolution and enforced through claims.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: identity(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266) returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; no trusted issuer confirmation. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(a)(iii) and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Capture licence grant timestamp</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence issuance must be observable on-chain with timestamped events for audit trail.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: IdentityRegistered events: 0; IdentityUpdated events: 0; IdentityRemoved events: 0. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(a)(iv) and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Encode VA service scope and effective date</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The compliance module must expose modular hooks to reflect permitted service scope with activation controls.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Medium</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: Compliance modules registered: 2.. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(v) prescribes, giving non-technical sponsors assurance that the required safeguard is active.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Represent suspension status on-chain</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: setAddressFrozen missing. isFrozen call failed.. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(a)(vi) and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Representative principal linkage</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: claimTopics=1; trusted issuers list empty. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(c) and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Client asset safeguards via modular compliance</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Medium</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: Compliance modules registered: 2.. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRK(5)(e) prescribes, giving non-technical sponsors assurance that the required safeguard is active.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ongoing record of customer identity and activity</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity evidence and transactional metadata must remain queryable for historical monitoring.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Critical</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; identity() returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Virtual asset transfer role gating</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; modules=2; claimTopics=1; trusted issuer list empty.. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §13A(1) and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+  
+<div style="margin:16px 0;font-size:13px;color:#4B5563">
+  Additional artifacts: <code>reports/composite-amlo-results.txt</code>
+</div>
+  <!-- Per-Rulebook Execution intentionally hidden -->
+  
+<h2 style="margin:28px 0 12px 0;font-size:20px;border-bottom:1px solid #E5E7EB;padding-bottom:6px">LLM Compliance Assessment</h2>
+<div style="font-size:12px;color:#6B7280">Model: gpt-4.1-nano</div>
+<div style="color:#2563EB;margin-bottom:8px">LLM disabled (missing API key)</div>
+<div style="margin:12px 0;font-size:14px;line-height:1.6"><strong>Summary:</strong> LLM disabled (missing API key)</div>
+
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#B91C1C">Critical</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">1. Ongoing record of customer identity and activity</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; identity() returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO Schedule 2 §6</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; identity() returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div></div>
+      </div>
+
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#F97316">High</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">2. Maintain on-chain register of licensed persons</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; claimTopics=1; trusted issuers list empty; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(1)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; claimTopics=1; trusted issuers list empty; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">3. Central entity identification claim</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: identity(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266) returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; no trusted issuer confirmation. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(a)(iii) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(iii)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>identity(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266) returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; no trusted issuer confirmation</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRH(2)(a)(iii), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">4. Capture licence grant timestamp</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: IdentityRegistered events: 0; IdentityUpdated events: 0; IdentityRemoved events: 0. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(a)(iv) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(iv)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>IdentityRegistered events: 0; IdentityUpdated events: 0; IdentityRemoved events: 0</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRH(2)(a)(iv), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">5. Represent suspension status on-chain</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: setAddressFrozen missing. isFrozen call failed.. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(a)(vi) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(vi)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>setAddressFrozen missing. isFrozen call failed.</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRH(2)(a)(vi), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">6. Representative principal linkage</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: claimTopics=1; trusted issuers list empty. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(c) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(c)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>claimTopics=1; trusted issuers list empty</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRH(2)(c), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">7. Virtual asset transfer role gating</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; modules=2; claimTopics=1; trusted issuer list empty.. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §13A(1) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO Schedule 2 §13A(1)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; modules=2; claimTopics=1; trusted issuer list empty.</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with AMLO Schedule 2 §13A(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div></div>
+      </div>
+
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#FACC15">Medium</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#FACC15">8. AMLO record keeping support</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: false. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §2 and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.615) Schedule 2 §2</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"idr","sig":"identityStorage()","present":true,"ok":true}</code></li><li><code>nonzeroaddress:data.idrIdentityStorageAddr:</code></li><li><code>{"op":"hasevent","where":"irs","name":"IdentityStored","present":true,"ok":true}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with AMLO (Cap.615) Schedule 2 §2, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div></div>
+      </div>
+
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#10B981">Medium Findings</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">9. Client asset safeguards via modular compliance</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: Compliance modules registered: 2.. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRK(5)(e) prescribes, giving non-technical sponsors assurance that the required safeguard is active.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRK(5)(e)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>Compliance modules registered: 2.</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">10. AMLO CDD identity controls</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.. Deterministic testing shows the control behaves exactly as AMLO (Cap.615) Schedule 2 §2 prescribes, giving non-technical sponsors assurance that the required safeguard is active.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.615) Schedule 2 §2</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">11. Anchor name and business address data</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; linkedRegistries=1. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(i) prescribes, giving non-technical sponsors assurance that the required safeguard is active.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(i)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; linkedRegistries=1</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">12. Record licence conditions with effective dates</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: Claim topics registry returned 1 topic(s).. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(ii) prescribes, giving non-technical sponsors assurance that the required safeguard is active.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(ii)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>Claim topics registry returned 1 topic(s).</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">13. Encode VA service scope and effective date</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: Compliance modules registered: 2.. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(v) prescribes, giving non-technical sponsors assurance that the required safeguard is active.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(v)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>Compliance modules registered: 2.</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.</div>
+    </div></div>
+      </div>
+
+  <div style="margin-top:28px;color:#6B7280;font-size:12px">
+    Evidence combines deterministic probes (Hardhat fallback when available) and policy-grounded LLM analysis.
+  </div>
+</body>
+</html>

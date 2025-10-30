@@ -13,7 +13,7 @@
 <body>
   <h1>ERC-3643 Compliance Report</h1>
   <div class="sub">
-    Generated: 2025-10-28T13:16:56.837Z — Deterministic checks + LLM reasoning
+    Generated: 2025-10-29T16:02:48.890Z — Deterministic checks + LLM reasoning
   </div>
 
   
@@ -47,7 +47,7 @@
     </thead>
     <tbody>
       <tr>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">2025-10-28</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">2025-10-29</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">12</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">0</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">0</td>
@@ -86,6 +86,14 @@
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#FACC15">Medium</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true; Event on irs:IdentityRegistryBound present: true</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Maintain on-chain register of licensed persons</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has token.identityRegistry(): true; ABI has idr.registerIdentity(address,address,uint16[]): false</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
@@ -177,7 +185,7 @@
   <!-- Per-Rulebook Execution intentionally hidden -->
   
 <h2 style="margin:28px 0 12px 0;font-size:20px;border-bottom:1px solid #E5E7EB;padding-bottom:6px">LLM Compliance Assessment</h2>
-<div style="font-size:12px;color:#6B7280">Model: gpt-4.1-nano-2025-04-14</div>
+<div style="font-size:12px;color:#6B7280">Model: gpt-4.1-nano</div>
 
 <div style="margin:12px 0;font-size:14px;line-height:1.6"><strong>Summary:</strong> The smart contract implementation demonstrates strong compliance with HKMA AMLO and SFO regulations, with critical controls effectively enforced. However, a notable high-severity deficiency exists in maintaining an on-chain register of licensed persons, which poses significant regulatory and operational risks. Additional controls are recommended to enhance audit readiness and ensure ongoing compliance.</div>
 

@@ -9,7 +9,9 @@ contract CompositeTrustedIssuersRegistry {
         uint256[] topics;
     }
 
+    // 保存添加顺序，便于遍历
     address[] private issuerList;
+    // issuer 到其状态/主题的映射
     mapping(address => IssuerInfo) private issuers;
 
     event TrustedIssuerAdded(address indexed issuer, uint256[] topics);
