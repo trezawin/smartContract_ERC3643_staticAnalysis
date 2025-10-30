@@ -14,18 +14,18 @@ contract CompositeIdentityRegistryStorage {
     event IdentityUnstored(address indexed investor, address indexed identity);
     event IdentityRegistryBound(address indexed registry);
 
-    function storeIdentity(address investor, address identityContract) external {
+    function addIdentityToStorage(address investor, address identityContract) external {
         storedIdentities[investor] = identityContract;
         emit IdentityStored(investor, identityContract);
     }
 
     // 为测试方便，同一地址的再次写入视为修改
-    function modifyIdentity(address investor, address identityContract) external {
+    function modifyStoredIdentity(address investor, address identityContract) external {
         storedIdentities[investor] = identityContract;
         emit IdentityModified(investor, identityContract);
     }
 
-    function unstoreIdentity(address investor) external {
+    function removeIdentityFromStorage(address investor) external {
         address previous = storedIdentities[investor];
         delete storedIdentities[investor];
         emit IdentityUnstored(investor, previous);
