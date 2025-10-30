@@ -362,6 +362,9 @@ async function createHardhatContext() {
   if (impl === "boulder") {
     const { bootstrapBoulder } = require("./bootstrap-boulder.ts");
     await bootstrapBoulder(hre, ".cre.addresses.json");
+  } else if (impl === "regulated") {
+    const { bootstrapRegulated } = require("./bootstrap-regulated.ts");
+    await bootstrapRegulated(hre, ".cre.addresses.json");
   } else if (impl === "buggy") {
     const { bootstrapBuggy } = require("./bootstrap-buggy.ts");
     await bootstrapBuggy(hre, process.env.BUGGY_OUTPUT || ".cre.addresses.json");

@@ -1,0 +1,460 @@
+{
+  "generatedAt": "2025-10-30T15:06:45.856Z",
+  "inputs": {
+    "addressesPath": "/Users/weizicheng/Downloads/smartContract_ERC3643_staticAnalysis/.cre.addresses.json",
+    "addresses": {
+      "networkRpc": "http://127.0.0.1:8545",
+      "token": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+    },
+    "ruleFiles": [
+      "cre/rules/rule.AMLO.json"
+    ],
+    "abipathsPath": "abipaths.regulated.json",
+    "abiArtifacts": {
+      "Token": "artifacts/contracts/custom/RegulatedSuite.sol/RegulatedToken.json",
+      "IdentityRegistry": "artifacts/contracts/custom/RegulatedSuite.sol/IdentityRegistry.json",
+      "ClaimTopicsRegistry": "artifacts/contracts/test/CompositeClaimTopicsRegistry.sol/CompositeClaimTopicsRegistry.json",
+      "TrustedIssuersRegistry": "artifacts/contracts/test/CompositeTrustedIssuersRegistry.sol/CompositeTrustedIssuersRegistry.json",
+      "Compliance": "artifacts/contracts/custom/RegulatedSuite.sol/Compliance.json",
+      "IdentityRegistryStorage": "artifacts/contracts/test/CompositeIdentityRegistryStorage.sol/CompositeIdentityRegistryStorage.json"
+    }
+  },
+  "runs": [
+    {
+      "label": "rule.AMLO",
+      "rulesPath": "cre/rules/rule.AMLO.json",
+      "addressesPath": ".cre.addresses.json",
+      "summary": {
+        "total": 13,
+        "pass": 1,
+        "veryHigh": 3,
+        "high": 9,
+        "medium": 0,
+        "fail": 3,
+        "warn": 9,
+        "info": 0
+      },
+      "addresses": {
+        "networkRpc": "http://127.0.0.1:8545",
+        "token": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+        "identityRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "claimTopicsRegistry": "0x0000000000000000000000000000000000000000",
+        "trustedIssuersRegistry": "0x0000000000000000000000000000000000000000",
+        "compliance": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "identityRegistryStorage": "0x0000000000000000000000000000000000000000"
+      },
+      "data": {
+        "tokenIdentity": "0x0000000000000000000000000000000000000000",
+        "tokenCompliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+        "tokenOwner": "0x0000000000000000000000000000000000000000",
+        "ctrOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "idrClaimTopicsAddr": "0x0000000000000000000000000000000000000000",
+        "idrTrustedIssuersAddr": "0x0000000000000000000000000000000000000000",
+        "idrIdentityStorageAddr": "0x0000000000000000000000000000000000000000",
+        "topicsCount": 0,
+        "complianceBoundToken": "0x0000000000000000000000000000000000000000",
+        "controlAddress": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "executionMode": "hardhat",
+        "tokenName": "",
+        "tokenSymbol": "",
+        "tokenDecimals": 0,
+        "tirOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "irsOwner": "0x0000000000000000000000000000000000000000"
+      },
+      "probes": {
+        "R-HKMA-AMLO-CDD": {
+          "ran": true,
+          "pass": true,
+          "evidence": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+        },
+        "R-HKMA-AMLO-RECORDKEEPING": {
+          "ran": true,
+          "pass": false,
+          "evidence": "probe error: call revert exception [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (method=\"identityStorage()\", data=\"0x\", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.8.0)"
+        },
+        "R-HKMA-53ZRH-REGISTER": {
+          "ran": true,
+          "pass": false,
+          "evidence": "identityStorage() returned zero; claimTopics=0; trusted issuers list empty; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9"
+        },
+        "R-HKMA-53ZRH-2A-I": {
+          "ran": true,
+          "pass": false,
+          "evidence": "identityStorage() returned zero; identity storage contract unavailable"
+        },
+        "R-HKMA-53ZRH-2A-II": {
+          "ran": true,
+          "pass": false,
+          "evidence": "Claim topics registry returned an empty list."
+        },
+        "R-HKMA-53ZRH-2A-III": {
+          "ran": true,
+          "pass": false,
+          "evidence": "identity(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266) returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; no trusted issuer confirmation"
+        },
+        "R-HKMA-53ZRH-2A-IV": {
+          "ran": true,
+          "pass": false,
+          "evidence": "IdentityRegistered events: 0; IdentityUpdated events: 0; IdentityRemoved events: 0"
+        },
+        "R-HKMA-53ZRH-2A-V": {
+          "ran": true,
+          "pass": false,
+          "evidence": "Compliance contract returned zero modules."
+        },
+        "R-HKMA-53ZRH-2A-VI": {
+          "ran": true,
+          "pass": false,
+          "evidence": "setAddressFrozen missing. isFrozen call failed."
+        },
+        "R-HKMA-53ZRH-2C": {
+          "ran": true,
+          "pass": false,
+          "evidence": "claimTopics=0; trusted issuers list empty"
+        },
+        "R-HKMA-53ZRK-5E": {
+          "ran": true,
+          "pass": false,
+          "evidence": "Compliance contract returned zero modules."
+        },
+        "R-HKMA-AMLO-S6": {
+          "ran": true,
+          "pass": false,
+          "evidence": "identityStorage() returned zero; identity() returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9"
+        },
+        "R-HKMA-AMLO-13A-ROLE": {
+          "ran": true,
+          "pass": false,
+          "evidence": "compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; modules=0; claimTopics=0; trusted issuer list empty."
+        }
+      },
+      "abiArtifacts": {
+        "Token": "artifacts/contracts/custom/RegulatedSuite.sol/RegulatedToken.json",
+        "IdentityRegistry": "artifacts/contracts/custom/RegulatedSuite.sol/IdentityRegistry.json",
+        "ClaimTopicsRegistry": "artifacts/contracts/test/CompositeClaimTopicsRegistry.sol/CompositeClaimTopicsRegistry.json",
+        "TrustedIssuersRegistry": "artifacts/contracts/test/CompositeTrustedIssuersRegistry.sol/CompositeTrustedIssuersRegistry.json",
+        "Compliance": "artifacts/contracts/custom/RegulatedSuite.sol/Compliance.json",
+        "IdentityRegistryStorage": "artifacts/contracts/test/CompositeIdentityRegistryStorage.sol/CompositeIdentityRegistryStorage.json"
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "R-HKMA-AMLO-CDD",
+      "title": "AMLO CDD identity controls",
+      "desc": "Token and Identity Registry must expose the hooks necessary to perform customer and beneficial owner due diligence before onboarding.",
+      "snippet": "require(identityRegistry.isVerified(to), \"CDD\");\nfunction identity(address investor) external view returns (address);\nfunction batchRegisterIdentity(address[] calldata investors, address[] calldata identities, uint16[] calldata countries);",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §2",
+      "pass": true,
+      "note": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": true,
+          "evidence": "AMLO CDD probe: transfer to an unverified address reverted, indicating identity gating is enforced."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-AMLO-RecordKeeping",
+      "title": "AMLO record keeping support",
+      "desc": "Identity Registry Storage must be wired and emit lifecycle events so identity evidence can be retained for at least seven years.",
+      "snippet": "function identityStorage() external view returns (address);\nevent IdentityStored(address indexed investor, address indexed identity);\nevent IdentityUnstored(address indexed investor, address indexed identity);",
+      "policyRef": "AMLO (Cap.615) Schedule 2 §2",
+      "pass": false,
+      "note": "ABI has idr.identityStorage(): false",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "identityStorage()",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "VERY_HIGH",
+      "severityCode": "VERY_HIGH",
+      "severityLabel": "Very High",
+      "severityOriginal": "Very High",
+      "severityWeight": 4
+    },
+    {
+      "id": "R-HKMA-53ZRH-REGISTER",
+      "title": "Maintain on-chain register of licensed persons",
+      "desc": "The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(1)",
+      "pass": false,
+      "note": "identityStorage() returned zero; claimTopics=0; trusted issuers list empty; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "identityStorage() returned zero; claimTopics=0; trusted issuers list empty; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9"
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-I",
+      "title": "Anchor name and business address data",
+      "desc": "Identity records must support anchoring of name and business address metadata with auditable storage events.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(i)",
+      "pass": false,
+      "note": "identityStorage() returned zero; identity storage contract unavailable",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "identityStorage() returned zero; identity storage contract unavailable"
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-II",
+      "title": "Record licence conditions with effective dates",
+      "desc": "Licence conditions must be represented as claim topics that can be versioned on-chain.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(ii)",
+      "pass": false,
+      "note": "Claim topics registry returned an empty list.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "Claim topics registry returned an empty list."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-III",
+      "title": "Central entity identification claim",
+      "desc": "Central entity identifiers must be retrievable via identity resolution and enforced through claims.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(iii)",
+      "pass": false,
+      "note": "identity(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266) returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; no trusted issuer confirmation",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "identity(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266) returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; no trusted issuer confirmation"
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-IV",
+      "title": "Capture licence grant timestamp",
+      "desc": "Licence issuance must be observable on-chain with timestamped events for audit trail.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(iv)",
+      "pass": false,
+      "note": "IdentityRegistered events: 0; IdentityUpdated events: 0; IdentityRemoved events: 0",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "IdentityRegistered events: 0; IdentityUpdated events: 0; IdentityRemoved events: 0"
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-V",
+      "title": "Encode VA service scope and effective date",
+      "desc": "The compliance module must expose modular hooks to reflect permitted service scope with activation controls.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(v)",
+      "pass": false,
+      "note": "Compliance contract returned zero modules.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "Compliance contract returned zero modules."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-VI",
+      "title": "Represent suspension status on-chain",
+      "desc": "Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(vi)",
+      "pass": false,
+      "note": "setAddressFrozen missing. isFrozen call failed.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "setAddressFrozen missing. isFrozen call failed."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-53ZRH-2C",
+      "title": "Representative principal linkage",
+      "desc": "Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(c)",
+      "pass": false,
+      "note": "claimTopics=0; trusted issuers list empty",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "claimTopics=0; trusted issuers list empty"
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "id": "R-HKMA-53ZRK-5E",
+      "title": "Client asset safeguards via modular compliance",
+      "desc": "Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRK(5)(e)",
+      "pass": false,
+      "note": "Compliance contract returned zero modules.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "Compliance contract returned zero modules."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "VERY_HIGH",
+      "severityCode": "VERY_HIGH",
+      "severityLabel": "Very High",
+      "severityOriginal": "Critical",
+      "severityWeight": 4
+    },
+    {
+      "id": "R-HKMA-AMLO-S6",
+      "title": "Ongoing record of customer identity and activity",
+      "desc": "Identity evidence and transactional metadata must remain queryable for historical monitoring.",
+      "snippet": "",
+      "policyRef": "AMLO Schedule 2 §6",
+      "pass": false,
+      "note": "identityStorage() returned zero; identity() returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "identityStorage() returned zero; identity() returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9"
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "VERY_HIGH",
+      "severityCode": "VERY_HIGH",
+      "severityLabel": "Very High",
+      "severityOriginal": "Critical",
+      "severityWeight": 4
+    },
+    {
+      "id": "R-HKMA-AMLO-13A-ROLE",
+      "title": "Virtual asset transfer role gating",
+      "desc": "Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.",
+      "snippet": "",
+      "policyRef": "AMLO Schedule 2 §13A(1)",
+      "pass": false,
+      "note": "compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; modules=0; claimTopics=0; trusted issuer list empty.",
+      "details": [
+        {
+          "probe": true,
+          "ran": true,
+          "pass": false,
+          "evidence": "compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; modules=0; claimTopics=0; trusted issuer list empty."
+        }
+      ],
+      "run": "rule.AMLO",
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    }
+  ],
+  "summary": {
+    "total": 13,
+    "pass": 1,
+    "veryHigh": 3,
+    "high": 9,
+    "medium": 0,
+    "fail": 3,
+    "warn": 9,
+    "info": 0
+  },
+  "metrics": null,
+  "llm": null,
+  "report": null
+}
