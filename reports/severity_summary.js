@@ -9,19 +9,35 @@ const path = require("path");
 
 // Input JSON paths (relative to script)
 const T_REX_FILE = path.resolve(__dirname, "amlo-trex.json");
+const BOULDER_FILE = path.resolve(__dirname, "amlo-boulder.json");
 const MUTATED_FILE = path.resolve(__dirname, "amlo-buggy.json");
 const T_REX_GROUND_TRUTH_FILE = path.resolve(__dirname, "../eval/amlo-groundtruth.json");
+const BOULDER_GROUND_TRUTH_FILE = path.resolve(__dirname, "../eval/amlo-groundtruth-boulder.json");
 const MUTATED_GROUND_TRUTH_FILE = path.resolve(__dirname, "../eval/amlo-groundtruth-buggy.json");
 const OUTPUT_FILE = path.resolve(__dirname, "severity_summary_report.html");
 
 // Header and colour definitions
 const HEADER_DEFS = [
-  { key: "critical", label: "Critical", color: "#c0392b" },
+  { key: "veryHigh", label: "Very High", color: "#c0392b" },
   { key: "high", label: "High", color: "#f39c12" },
   { key: "medium", label: "Medium", color: "#f1c40f" },
-  { key: "low", label: "Low", color: "#7f8c8d" },
   { key: "total", label: "Total", color: "#2980b9" }
 ];
+
+const SEVERITY_ALIASES = new Map([
+  ["VERY_HIGH", "VERY_HIGH"],
+  ["VERY HIGH", "VERY_HIGH"],
+  ["VERYHIGH", "VERY_HIGH"],
+  ["CRITICAL", "VERY_HIGH"],
+  ["HIGH", "HIGH"],
+  ["MEDIUM", "MEDIUM"],
+  ["LOW", "MEDIUM"]
+]);
+
+function normalizeSeverity(value) {
+  const key = typeof value === "string" ? value.trim().toUpperCase() : "";
+  return SEVERITY_ALIASES.get(key) || "MEDIUM";
+}
 
 function normalizeItems(json) {
   if (Array.isArray(json)) return json;
@@ -31,22 +47,24 @@ function normalizeItems(json) {
 }
 
 function computeCounts(items) {
-  const bySev = { CRITICAL: { pass: 0, fail: 0 }, HIGH: { pass: 0, fail: 0 }, MEDIUM: { pass: 0, fail: 0 }, LOW: { pass: 0, fail: 0 } };
-  let overallPass = 0, overallFail = 0;
+  const bySev = {
+    VERY_HIGH: { pass: 0, fail: 0 },
+    HIGH: { pass: 0, fail: 0 },
+    MEDIUM: { pass: 0, fail: 0 }
+  };
   for (const it of items) {
     const passed = !!it.pass;
-    const sev = (it.severity || "").toUpperCase();
-    if (passed) overallPass++; else overallFail++;
+    const sev = normalizeSeverity(it.severity || it.severityCode || it.level);
     if (bySev[sev]) passed ? bySev[sev].pass++ : bySev[sev].fail++;
   }
-  const criticalPass = bySev.CRITICAL.pass;
-  const criticalFail = bySev.CRITICAL.fail;
   return {
-    critical: [criticalPass, criticalFail],
+    veryHigh: [bySev.VERY_HIGH.pass, bySev.VERY_HIGH.fail],
     high: [bySev.HIGH.pass, bySev.HIGH.fail],
     medium: [bySev.MEDIUM.pass, bySev.MEDIUM.fail],
-    low: [bySev.LOW.pass, bySev.LOW.fail],
-    total: [criticalPass + bySev.HIGH.pass + bySev.MEDIUM.pass + bySev.LOW.pass, criticalFail + bySev.HIGH.fail + bySev.MEDIUM.fail + bySev.LOW.fail]
+    total: [
+      bySev.VERY_HIGH.pass + bySev.HIGH.pass + bySev.MEDIUM.pass,
+      bySev.VERY_HIGH.fail + bySev.HIGH.fail + bySev.MEDIUM.fail
+    ]
   };
 }
 
@@ -137,7 +155,7 @@ function buildMetricsRow(name, metrics) {
   </tr>`;
 }
 
-function buildCriteriaTable(trexMetrics, mutatedMetrics) {
+function buildCriteriaTable(metricSets) {
   const rows = [
     {
       label: "Failure Detection",
@@ -161,29 +179,28 @@ function buildCriteriaTable(trexMetrics, mutatedMetrics) {
     }
   ];
 
+  const headerCells = metricSets.map(({ name }) => `<th>${name}</th>`).join("");
   const body = rows.map(row => `<tr>
     <td class="dataset">${row.label}</td>
-    <td>${row.value(trexMetrics)}</td>
-    <td>${row.value(mutatedMetrics)}</td>
+    ${metricSets.map(({ metrics }) => `<td>${row.value(metrics)}</td>`).join("")}
   </tr>`).join("");
 
   return `<table class="criteria-table">
     <thead>
       <tr>
         <th class="dataset">Criteria</th>
-        <th>T-REX (reference)</th>
-        <th>Mutated (buggy)</th>
+        ${headerCells}
       </tr>
     </thead>
     <tbody>${body}</tbody>
   </table>`;
 }
 
-function generateHTML(trexCounts, mutatedCounts, trexMetrics, mutatedMetrics) {
+function generateHTML(datasets) {
   const headRow = HEADER_DEFS.map(h => 
     `<th style="background:${h.color};color:#fff">${h.label}</th>`
   ).join("");
-  const criteriaTable = buildCriteriaTable(trexMetrics, mutatedMetrics);
+  const criteriaTable = buildCriteriaTable(datasets.map(({ name, metrics }) => ({ name, metrics })));
 
   return `<!DOCTYPE html>
 <html>
@@ -226,8 +243,7 @@ function generateHTML(trexCounts, mutatedCounts, trexMetrics, mutatedMetrics) {
       <table>
         <thead><tr><th class="dataset">Dataset</th>${headRow}</tr></thead>
         <tbody>
-          ${buildTableRow("T-REX (reference)", trexCounts)}
-          ${buildTableRow("Mutated (buggy)", mutatedCounts)}
+          ${datasets.map(({ name, counts }) => buildTableRow(name, counts)).join("\n          ")}
         </tbody>
       </table>
     </section>
@@ -246,8 +262,7 @@ function generateHTML(trexCounts, mutatedCounts, trexMetrics, mutatedMetrics) {
           </tr>
         </thead>
         <tbody>
-          ${buildMetricsRow("T-REX (reference)", trexMetrics)}
-          ${buildMetricsRow("Mutated (buggy)", mutatedMetrics)}
+          ${datasets.map(({ name, metrics }) => buildMetricsRow(name, metrics)).join("\n          ")}
         </tbody>
       </table>
       <p class="muted" style="margin-top:12px;font-size:0.85rem;">
@@ -272,18 +287,28 @@ function generateHTML(trexCounts, mutatedCounts, trexMetrics, mutatedMetrics) {
 function main() {
   console.log("📊 Loading datasets...");
   const trexData = normalizeItems(JSON.parse(fs.readFileSync(T_REX_FILE, "utf8")));
+  const boulderData = normalizeItems(JSON.parse(fs.readFileSync(BOULDER_FILE, "utf8")));
   const mutatedData = normalizeItems(JSON.parse(fs.readFileSync(MUTATED_FILE, "utf8")));
   const trexGroundTruth = loadGroundTruthMap(T_REX_GROUND_TRUTH_FILE);
+  const boulderGroundTruth = loadGroundTruthMap(BOULDER_GROUND_TRUTH_FILE);
   const mutatedGroundTruth = loadGroundTruthMap(MUTATED_GROUND_TRUTH_FILE);
 
   console.log("✅ Computing severity counts...");
   const trexCounts = computeCounts(trexData);
+  const boulderCounts = computeCounts(boulderData);
   const mutatedCounts = computeCounts(mutatedData);
   const trexMetrics = computeMetrics(trexData, trexGroundTruth);
+  const boulderMetrics = computeMetrics(boulderData, boulderGroundTruth);
   const mutatedMetrics = computeMetrics(mutatedData, mutatedGroundTruth);
 
+  const datasets = [
+    { name: "T-REX (reference)", counts: trexCounts, metrics: trexMetrics },
+    { name: "Boulder (production)", counts: boulderCounts, metrics: boulderMetrics },
+    { name: "Mutated (buggy)", counts: mutatedCounts, metrics: mutatedMetrics }
+  ];
+
   console.log("📝 Generating HTML report...");
-  const html = generateHTML(trexCounts, mutatedCounts, trexMetrics, mutatedMetrics);
+  const html = generateHTML(datasets);
   fs.writeFileSync(OUTPUT_FILE, html, "utf8");
 
   console.log(`✅ Report written to:\n${OUTPUT_FILE}`);

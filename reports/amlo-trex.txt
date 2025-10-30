@@ -1,16 +1,86 @@
 Compliance Report
-Generated: 2025-10-25T11:04:12.135Z
-Deterministic Summary: PASS=9 | CRITICAL=0 | HIGH=0 | MEDIUM=1 | LOW=1
-LLM Model: gpt-4.1-nano-2025-04-14
+Generated: 2025-10-28T18:00:01.830Z
+Deterministic Summary: PASS=12 | VERY_HIGH=0 | HIGH=1 | MEDIUM=0
+LLM Model: gpt-4.1-mini
 
-The audited ERC-3643 token contract demonstrates strong compliance with HKMA and SFC regulatory requirements, with most critical controls effectively enforced. However, a notable deficiency exists in ownership and control tracking, which warrants immediate remediation to ensure comprehensive regulatory adherence and operational integrity.
+The ERC-3643 implementation demonstrates strong compliance with HKMA and SFC virtual asset regulatory requirements, with one notable high-severity gap in maintaining an on-chain register of licensed persons. All other critical controls including identity verification gating, record keeping, license condition encoding, suspension status, and client asset safeguards are properly implemented and evidenced.
 
 Findings:
 
-Medium
-1. Ownership and Control Tracking Deficiency
-The ownership probe indicates that claim topic 2001 is not configured, suggesting incomplete ownership and control tracking mechanisms. This gap impairs the ability to verify ultimate ownership, which is essential for regulatory transparency, anti-money laundering (AML) controls, and safeguarding client assets.
-Paths:
-- runtime: Ownership probe: claim topic 2001 not configured.
-Compliance Ref: ERC-3643 (https://erc-3643.readthedocs.io/en/latest/); HKMA AMLO Schedule 2 §3(2) https://www.elegislation.gov.hk
-Recommendation: Implement comprehensive ownership and control tracking by configuring claim topic 2001 within the ERC-3643 contract. Develop and deploy unit tests to verify correct configuration and retrieval of ownership claims. Establish operational procedures for regular off-chain and on-chain reconciliation of ownership data. Document the control process in operational run-books to facilitate audit readiness and ensure ongoing compliance.
+High
+1. Lack of On-Chain Register Function to Maintain Licensed Persons
+While the token exposes identityRegistry(), the identity registry contract lacks the registerIdentity(address,address,uint16[]) function, which is necessary to maintain an on-chain register of licensed persons as mandated by SFO (Cap.571) §53ZRH(1). This gap impairs the ability to record and update licensing status on-chain.
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Implement the registerIdentity(address,address,uint16[]) function in the identity registry contract to enable on-chain registration and updates of licensed persons. Add unit and integration tests to verify correct registration, update, and removal of license records. This will enhance supervisory oversight and market integrity.
+
+Pass
+2. AMLO Customer Due Diligence (CDD) Identity Controls Enforced
+The system correctly enforces identity gating by reverting transfers to unverified addresses, demonstrating compliance with AMLO Schedule 2 §2 requirements for customer due diligence.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §2
+Recommendation: Maintain and monitor the identity gating logic to ensure it continues to prevent transfers to unverified addresses. Include unit and integration tests simulating transfers to unverified addresses to validate enforcement.
+
+Pass
+3. AMLO Record Keeping Support Present On-Chain
+The contract ABI exposes identityStorage() and emits key identity lifecycle events (IdentityStored, IdentityModified, IdentityUnstored, IdentityRegistryBound), supporting on-chain record keeping as required by AMLO Schedule 2 §2.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §2
+Recommendation: Continue to capture and retain these events in immutable logs for audit readiness. Establish operational run-books to ensure off-chain retention of identity data complements on-chain records.
+
+Pass
+4. Anchoring Name and Business Address Data On-Chain
+The identity registry exposes identityStorage() and emits IdentityStored, IdentityModified, and IdentityUnstored events, fulfilling the requirement to anchor name and business address data on-chain per SFO (Cap.571) §53ZRH(2)(a)(i).
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(i)
+Recommendation: Maintain these data anchoring capabilities and ensure event logs are preserved for audit and supervisory review.
+
+Pass
+5. Recording Licence Conditions with Effective Dates
+The contract exposes functions to add, remove, and get claim topics with corresponding events, supporting recording of licence conditions and their effective dates as required by SFO (Cap.571) §53ZRH(2)(a)(ii).
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(ii)
+Recommendation: Continue to use these functions to manage licence conditions and ensure event logs are retained for compliance verification.
+
+Pass
+6. Central Entity Identification Claim Present
+The identity registry exposes identity(address), compliance exposes canTransfer(), and trusted issuer registry exposes isTrustedIssuer(), fulfilling the requirement for central entity identification claims per SFO (Cap.571) §53ZRH(2)(a)(iii).
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iii)
+Recommendation: Maintain these interfaces and ensure their correct operation to support identity resolution and transfer authorization.
+
+Pass
+7. Capture Licence Grant Timestamp On-Chain
+Events IdentityRegistered, IdentityUpdated, and IdentityRemoved are present on the identity registry contract, enabling capture of licence grant timestamps as required by SFO (Cap.571) §53ZRH(2)(a)(iv).
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iv)
+Recommendation: Ensure these events are emitted consistently and logs are preserved for supervisory audit.
+
+Pass
+8. Encoding Virtual Asset Service Scope and Effective Date
+The compliance contract supports binding tokens, adding/removing modules, and emits ModuleAdded and ModuleRemoved events, enabling encoding of VA service scope and effective dates per SFO (Cap.571) §53ZRH(2)(a)(v).
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(v)
+Recommendation: Maintain modular compliance capabilities and event logging to support dynamic service scope management.
+
+Pass
+9. On-Chain Representation of Suspension Status
+The token contract exposes functions to freeze/unfreeze addresses and tokens, and emits AddressFrozen, TokensFrozen, and TokensUnfrozen events, fulfilling the requirement to represent suspension status on-chain per SFO (Cap.571) §53ZRH(2)(a)(vi).
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(vi)
+Recommendation: Continue to enforce and monitor suspension controls to protect market integrity and client assets.
+
+Pass
+10. Representative Principal Linkage Implemented
+The trusted issuer registry supports updating issuer claim topics and retrieving trusted issuers, with corresponding events, satisfying the requirement for representative principal linkage per SFO (Cap.571) §53ZRH(2)(c).
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(c)
+Recommendation: Maintain these linkage mechanisms and event logs to support accreditation and supervisory oversight.
+
+Pass
+11. Client Asset Safeguards via Modular Compliance Present
+The compliance contract supports adding/removing modules, calling module functions, unbinding tokens, and emits ModuleInteraction events, providing strong client asset safeguards as required by SFO (Cap.571) §53ZRK(5)(e).
+Compliance Ref: SFO (Cap.571) §53ZRK(5)(e)
+Recommendation: Continue to leverage modular compliance architecture and monitor module interactions for suspicious activity.
+
+Pass
+12. Ongoing Record of Customer Identity and Activity Maintained
+The identity registry exposes isVerified() and identity() functions, compliance exposes transferred(), and Transfer and ModuleInteraction events are emitted, supporting ongoing record keeping of customer identity and activity per AMLO Schedule 2 §6.
+Compliance Ref: AMLO Schedule 2 §6
+Recommendation: Ensure continuous monitoring and retention of these records to support audit readiness and regulatory reporting.
+
+Pass
+13. Virtual Asset Transfer Role Gating Enforced
+The token exposes compliance(), compliance exposes canTransfer(), identity registry exposes isVerified(), and trusted issuer registry exposes isTrustedIssuer(), collectively enforcing role-based gating on virtual asset transfers as required by AMLO Schedule 2 §13A(1).
+Compliance Ref: AMLO Schedule 2 §13A(1)
+Recommendation: Maintain these role gating controls and include regression tests to verify transfer restrictions based on identity and issuer status.

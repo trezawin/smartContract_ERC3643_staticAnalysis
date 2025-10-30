@@ -37,10 +37,11 @@
     <section class="panel">
       <h2>Severity Distribution</h2>
       <table>
-        <thead><tr><th class="dataset">Dataset</th><th style="background:#c0392b;color:#fff">Critical</th><th style="background:#f39c12;color:#fff">High</th><th style="background:#f1c40f;color:#fff">Medium</th><th style="background:#7f8c8d;color:#fff">Low</th><th style="background:#2980b9;color:#fff">Total</th></tr></thead>
+        <thead><tr><th class="dataset">Dataset</th><th style="background:#c0392b;color:#fff">Very High</th><th style="background:#f39c12;color:#fff">High</th><th style="background:#f1c40f;color:#fff">Medium</th><th style="background:#2980b9;color:#fff">Total</th></tr></thead>
         <tbody>
-          <tr><td class="dataset">T-REX (reference)</td><td>(0, 0)</td><td>(7, 0)</td><td>(2, 1)</td><td>(0, 1)</td><td>(9, 2)</td></tr>
-          <tr><td class="dataset">Mutated (buggy)</td><td>(0, 0)</td><td>(2, 5)</td><td>(0, 3)</td><td>(0, 1)</td><td>(2, 9)</td></tr>
+          <tr><td class="dataset">T-REX (reference)</td><td>(3, 0)</td><td>(9, 1)</td><td>(0, 0)</td><td>(12, 1)</td></tr>
+          <tr><td class="dataset">Boulder (production)</td><td>(3, 0)</td><td>(9, 1)</td><td>(0, 0)</td><td>(12, 1)</td></tr>
+          <tr><td class="dataset">Mutated (buggy)</td><td>(1, 2)</td><td>(6, 4)</td><td>(0, 0)</td><td>(7, 6)</td></tr>
         </tbody>
       </table>
     </section>
@@ -61,19 +62,27 @@
         <tbody>
           <tr>
     <td class="dataset">T-REX (reference)</td>
-    <td>11/11 (100.0%)</td>
-    <td>90.9%</td>
-    <td>50.0%</td>
+    <td>13/13 (100.0%)</td>
     <td>100.0%</td>
-    <td>66.7%</td>
+    <td>100.0%</td>
+    <td>100.0%</td>
+    <td>100.0%</td>
+  </tr>
+          <tr>
+    <td class="dataset">Boulder (production)</td>
+    <td>13/13 (100.0%)</td>
+    <td>100.0%</td>
+    <td>100.0%</td>
+    <td>100.0%</td>
+    <td>100.0%</td>
   </tr>
           <tr>
     <td class="dataset">Mutated (buggy)</td>
-    <td>11/11 (100.0%)</td>
-    <td>81.8%</td>
+    <td>13/13 (100.0%)</td>
+    <td>46.2%</td>
     <td>100.0%</td>
-    <td>81.8%</td>
-    <td>90.0%</td>
+    <td>46.2%</td>
+    <td>63.2%</td>
   </tr>
         </tbody>
       </table>
@@ -88,30 +97,24 @@
     <thead>
       <tr>
         <th class="dataset">Criteria</th>
-        <th>T-REX (reference)</th>
-        <th>Mutated (buggy)</th>
+        <th>T-REX (reference)</th><th>Boulder (production)</th><th>Mutated (buggy)</th>
       </tr>
     </thead>
     <tbody><tr>
     <td class="dataset">Failure Detection</td>
-    <td>1</td>
-    <td>9</td>
+    <td>1</td><td>1</td><td>6</td>
   </tr><tr>
     <td class="dataset">Consistency</td>
-    <td>90.9%</td>
-    <td>81.8%</td>
+    <td>100.0%</td><td>100.0%</td><td>46.2%</td>
   </tr><tr>
     <td class="dataset">Detection Accuracy</td>
-    <td>1/1 (100.0%)</td>
-    <td>9/11 (81.8%)</td>
+    <td>1/1 (100.0%)</td><td>1/1 (100.0%)</td><td>6/13 (46.2%)</td>
   </tr><tr>
     <td class="dataset">False Negatives Count</td>
-    <td>0</td>
-    <td>2</td>
+    <td>0</td><td>0</td><td>7</td>
   </tr><tr>
     <td class="dataset">Rule Robustness</td>
-    <td>1/1 (100.0%)</td>
-    <td>9/11 (81.8%)</td>
+    <td>1/1 (100.0%)</td><td>1/1 (100.0%)</td><td>6/13 (46.2%)</td>
   </tr></tbody>
   </table>
       <p class="muted" style="margin-top:12px;font-size:0.85rem;">
@@ -120,6 +123,6 @@
     </section>
   </div>
 
-  <p style="color:#94a3b8;font-size:12px;margin-top:22px;">Generated automatically on 10/26/2025, 4:53:10 PM</p>
+  <p style="color:#94a3b8;font-size:12px;margin-top:22px;">Generated automatically on 10/28/2025, 9:38:26 PM</p>
 </body>
 </html>

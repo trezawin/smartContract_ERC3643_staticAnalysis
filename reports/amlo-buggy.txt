@@ -1,48 +1,44 @@
 Compliance Report
-Generated: 2025-10-25T11:03:28.655Z
-Deterministic Summary: PASS=2 | CRITICAL=0 | HIGH=5 | MEDIUM=3 | LOW=1
-LLM Model: gpt-4.1-nano-2025-04-14
+Generated: 2025-10-28T17:59:45.807Z
+Deterministic Summary: PASS=7 | VERY_HIGH=2 | HIGH=4 | MEDIUM=0
+LLM Model: gpt-4.1-mini
 
-The token contract exhibits multiple critical and high-risk compliance deficiencies related to identity verification, sanctions screening, ongoing monitoring, and record-keeping, which pose significant regulatory and operational risks. Immediate remediation is required to align with ERC-3643 standards and HKMA/SFC regulatory expectations.
+The audited ERC-3643 implementation demonstrates partial compliance with HKMA and SFC virtual asset regulatory requirements. Key controls for identity anchoring, license condition recording, suspension status, and modular compliance are implemented and verifiable on-chain. However, critical gaps exist in identity verification gating on transfers, identity registry storage wiring, and comprehensive identity resolution functions. These deficiencies expose the system to regulatory non-compliance, client asset protection risks, and supervisory challenges.
 
 Findings:
 
-Critical
-1. Transfer to Unverified Address Without Identity Gating
-The contract permitted a transfer to an unverified address without enforcing identity verification controls, violating the AML/CFT requirements under HKMA AMLO Schedule 2 §2 and ERC-3643 clause 4.1. This exposes the platform to misuse, money laundering, and terrorist financing risks.
-Paths:
-- runtime: AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating.
-Compliance Ref: ERC-3643 https://erc-3643.org; AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk
-Recommendation: Implement strict identity gating controls within the transfer function, ensuring that transfers to unverified addresses are blocked unless proper KYC/AML checks are completed. Add event logging for failed transfers and conduct regression testing to verify enforcement. Develop operational run-books for manual review of suspicious transfers.
+Very High
+1. Identity Registry Storage Not Wired
+The identityRegistry contract exposes identityStorage() ABI, but the configured identityStorage address is zero, indicating the storage contract is not properly linked. This breaks the chain of custody for identity data, violating AMLO record-keeping requirements.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §2
+Recommendation: Wire the identityStorage address in the identityRegistry contract to a valid deployed identity storage contract instance. Update deployment scripts and governance procedures to ensure this linkage is established and immutable. Add integration tests verifying identityStorage() returns a non-zero address and that identity data can be stored and retrieved correctly.
+
+Very High
+2. Missing Identity Resolution Function for Ongoing Customer Identity Records
+While the identity registry supports isVerified(address), it lacks the identity(address) function needed to maintain ongoing records of customer identity and activity as required by AMLO Schedule 2 §6. This gap hinders continuous monitoring and record-keeping obligations.
+Compliance Ref: AMLO Schedule 2 §6
+Recommendation: Add the identity(address) function to the identity registry contract to enable retrieval of full identity details for verified customers. Ensure this function integrates with existing verification mechanisms and supports audit logging. Include tests for identity retrieval and consistency with verification status.
 
 High
-2. Missing Record-Keeping Support for Identity Storage
-The contract's identity storage address is zero, indicating that identity records are not being stored or referenced correctly, contravening HKMA AMLO Schedule 2 §2 and ERC-3643 requirements for proper record-keeping, which impairs auditability and compliance verification.
-Paths:
-- runtime: identityRegistry.identityStorage() returned zero address; storage is not wired.
-Compliance Ref: ERC-3643 https://erc-3643.org; AMLO (Cap.615) Schedule 2 §2 https://www.elegislation.gov.hk
-Recommendation: Configure and wire the identity storage address correctly in the smart contract. Add event logs for identity storage updates and implement unit tests to verify correct storage referencing. Maintain audit logs for all identity-related transactions to facilitate compliance audits.
+3. Missing Identity Verification Gating on Transfers
+Transfers to unverified addresses succeeded without identity gating, violating the AMLO CDD identity controls requirement. This means the system allows virtual asset transfers without confirming the recipient's verified identity status, undermining anti-money laundering safeguards.
+Compliance Ref: AMLO (Cap.615) Schedule 2 §2
+Recommendation: Implement and enforce identity verification gating in the token transfer logic by integrating the identity registry's isVerified(address) check before allowing transfers. Add unit and integration tests simulating transfers to unverified addresses to confirm blocking behavior. Maintain event logs for transfer attempts to unverified addresses for audit trail and supervisory review.
 
 High
-3. Sanctions and Blacklist Control Likely Absent
-Transfers succeeded despite the presence of a compliance module, indicating that blacklist or sanctions screening controls are not effectively enforced, violating HKMA AMLO Schedule 2 §15 and ERC-3643 standards for sanctions compliance, risking regulatory sanctions and reputational damage.
-Paths:
-- runtime: Sanctions probe: transfer succeeded despite compliance module present; blacklist control likely absent.
-Compliance Ref: ERC-3643 https://erc-3643.org; AMLO (Cap.615) Schedule 2 §15 https://www.elegislation.gov.hk
-Recommendation: Integrate and enforce blacklist and sanctions screening controls within the transfer logic, ensuring transactions are rejected if the counterparty is sanctioned. Add event logs for screening failures and conduct integration testing. Establish operational procedures for regular sanctions list updates and monitoring.
+4. Incomplete On-Chain Register Functions for Licensed Persons
+The identityRegistry contract exposes identityRegistry() but lacks the registerIdentity(address,address,uint16[]) function required to maintain an on-chain register of licensed persons as mandated by SFO §53ZRH(1). This limits the ability to record and update licensed entity data on-chain.
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Implement the registerIdentity(address,address,uint16[]) function in the identityRegistry contract to enable registering licensed persons with their identity and license details. Add governance controls restricting access to authorized roles. Include event emissions for registration actions and add tests verifying correct registration and access control enforcement.
 
 High
-4. Missing Ongoing Monitoring Modules
-The contract lacks key ongoing monitoring modules such as CountryRestrictModule and ExchangeMonthlyLimitsModule, which are essential for continuous AML/CFT compliance per HKMA Schedule 2 §5(1)(b)–§6 and ERC-3643 standards, increasing the risk of unmonitored suspicious activity.
-Paths:
-- runtime: Ongoing monitoring modules missing: CountryRestrictModule, ExchangeMonthlyLimitsModule.
-Compliance Ref: ERC-3643 https://erc-3643.org; AMLO (Cap.615) Schedule 2 §5(1)(b)–§6 https://www.elegislation.gov.hk
-Recommendation: Develop and deploy the missing monitoring modules, ensuring they are integrated into the transaction flow. Add event logs for module activity and establish operational procedures for regular monitoring and reporting. Conduct regression testing to verify module activation and effectiveness.
+5. Missing Central Entity Identification Claim Function
+The identityRegistry contract does not implement the identity(address) function to resolve central entity identification claims, as required by SFO §53ZRH(2)(a)(iii). This impairs the ability to verify entity identities on-chain.
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iii)
+Recommendation: Add the identity(address) function to the identityRegistry contract to return the identity claim for a given address. Ensure this function is consistent with the identity storage schema and access controls. Add unit tests to verify correct identity resolution and error handling for unknown addresses.
 
-Medium
-5. Ownership and Control Tracking Not Configured
-Ownership claim topic 2001 is not configured, impairing the ability to track ownership and control as required by HKMA AMLO Schedule 2 §3(2) and ERC-3643, which could hinder effective customer due diligence and risk assessment.
-Paths:
-- runtime: Ownership probe: claim topic 2001 not configured.
-Compliance Ref: ERC-3643 https://erc-3643.org; AMLO (Cap.615) Schedule 2 §3(2) https://www.elegislation.gov.hk
-Recommendation: Configure ownership and control claim topics within the smart contract, ensuring proper linkage to customer identities. Add event logs for ownership claims and conduct unit tests to verify configuration. Maintain documentation for ownership control processes.
+High
+6. Missing Event for Licence Grant Timestamp Capture
+The identityRegistry contract does not emit the IdentityRegistered event, which is required to capture the timestamp of licence grants on-chain per SFO §53ZRH(2)(a)(iv). Without this event, audit trails for licence grant timing are incomplete.
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iv)
+Recommendation: Implement and emit the IdentityRegistered event in the identityRegistry contract whenever a licence is granted or registered. Update contract logic and governance processes to ensure event emission is mandatory. Add event monitoring in operational run-books and include tests verifying event emission on licence registration.

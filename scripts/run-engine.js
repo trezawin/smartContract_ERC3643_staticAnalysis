@@ -189,17 +189,19 @@ function normalizeArray(value) {
 }
 
 const SEVERITY_SCALE = {
-  CRITICAL: { label: "Critical", weight: 4 },
+  VERY_HIGH: { label: "Very High", weight: 4 },
   HIGH: { label: "High", weight: 3 },
-  MEDIUM: { label: "Medium", weight: 2 },
-  LOW: { label: "Low", weight: 1 }
+  MEDIUM: { label: "Medium", weight: 2 }
 };
 
 const SEVERITY_ALIASES = new Map([
-  ["CRITICAL", "CRITICAL"],
+  ["VERY_HIGH", "VERY_HIGH"],
+  ["VERY HIGH", "VERY_HIGH"],
+  ["VERYHIGH", "VERY_HIGH"],
+  ["CRITICAL", "VERY_HIGH"],
   ["HIGH", "HIGH"],
   ["MEDIUM", "MEDIUM"],
-  ["LOW", "LOW"]
+  ["LOW", "MEDIUM"]
 ]);
 
 function normalizeSeverityValue(rawSeverity) {
@@ -241,10 +243,9 @@ function buildSummaryFromItems(items) {
   const summary = {
     total: Array.isArray(items) ? items.length : 0,
     pass: 0,
-    critical: 0,
+    veryHigh: 0,
     high: 0,
     medium: 0,
-    low: 0,
     fail: 0,
     warn: 0,
     info: 0
@@ -256,14 +257,13 @@ function buildSummaryFromItems(items) {
       continue;
     }
     const code = String(item?.severityCode || item?.severity || "").toUpperCase();
-    if (code === "CRITICAL") summary.critical += 1;
+    if (code === "VERY_HIGH") summary.veryHigh += 1;
     else if (code === "HIGH") summary.high += 1;
-    else if (code === "MEDIUM") summary.medium += 1;
-    else summary.low += 1;
+    else summary.medium += 1;
   }
-  summary.fail = summary.critical;
+  summary.fail = summary.veryHigh;
   summary.warn = summary.high + summary.medium;
-  summary.info = summary.low;
+  summary.info = 0;
   return summary;
 }
 
@@ -1599,7 +1599,7 @@ async function main() {
   };
 
   const aggregatedItems = [];
-  const aggregatedSummary = { total: 0, pass: 0, critical: 0, high: 0, medium: 0, low: 0, fail: 0, warn: 0, info: 0 };
+  const aggregatedSummary = { total: 0, pass: 0, veryHigh: 0, high: 0, medium: 0, fail: 0, warn: 0, info: 0 };
   const runsMeta = [];
   const metricsOverall = { tp:0, tn:0, fp:0, fn:0, compared:0 };
   const disagreements = [];
@@ -1641,10 +1641,9 @@ async function main() {
     aggregatedItems.push(...result.items);
     aggregatedSummary.total += result.summary.total ?? result.items.length;
     aggregatedSummary.pass += result.summary.pass;
-    aggregatedSummary.critical += result.summary.critical || 0;
+    aggregatedSummary.veryHigh += (result.summary.veryHigh ?? result.summary.critical ?? 0);
     aggregatedSummary.high += result.summary.high || 0;
     aggregatedSummary.medium += result.summary.medium || 0;
-    aggregatedSummary.low += result.summary.low || 0;
     aggregatedSummary.fail += result.summary.fail;
     aggregatedSummary.warn += result.summary.warn;
     aggregatedSummary.info += result.summary.info;
@@ -1657,9 +1656,9 @@ async function main() {
   }
 
   if (!aggregatedSummary.total) aggregatedSummary.total = aggregatedItems.length;
-  aggregatedSummary.fail = aggregatedSummary.critical;
+  aggregatedSummary.fail = aggregatedSummary.veryHigh;
   aggregatedSummary.warn = aggregatedSummary.high + aggregatedSummary.medium;
-  aggregatedSummary.info = aggregatedSummary.low;
+  aggregatedSummary.info = 0;
 
   const overallP = safeDiv(metricsOverall.tp, (metricsOverall.tp + metricsOverall.fp));
   const overallR = safeDiv(metricsOverall.tp, (metricsOverall.tp + metricsOverall.fn));
