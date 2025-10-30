@@ -1,70 +1,14 @@
 Compliance Report
-Generated: 2025-10-30T10:26:37.478Z
-Deterministic Summary: PASS=5 | CRITICAL=1 | HIGH=6 | MEDIUM=1 | LOW=0
-LLM Model: gpt-4.1-nano
+Generated: 2025-10-30T13:44:00.263Z
+Deterministic Summary: PASS=5 | VERY_HIGH=2 | HIGH=6 | MEDIUM=0
+LLM Model: gpt-4.1-mini
 
 LLM disabled (missing API key)
 
 Findings:
 
-Critical
-1. Ongoing record of customer identity and activity
-Runtime hint: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; identity() returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.
-Paths:
-- identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; identity() returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9
-Compliance Ref: AMLO Schedule 2 §6
-Recommendation: Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
-
-High
-2. Maintain on-chain register of licensed persons
-Runtime hint: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; claimTopics=1; trusted issuers list empty; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
-Paths:
-- identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; claimTopics=1; trusted issuers list empty; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9
-Compliance Ref: SFO (Cap.571) §53ZRH(1)
-Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
-
-High
-3. Central entity identification claim
-Runtime hint: identity(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266) returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; no trusted issuer confirmation. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(a)(iii) and could undermine investor protections if left unresolved.
-Paths:
-- identity(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266) returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; no trusted issuer confirmation
-Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iii)
-Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(2)(a)(iii), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
-
-High
-4. Capture licence grant timestamp
-Runtime hint: IdentityRegistered events: 0; IdentityUpdated events: 0; IdentityRemoved events: 0. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(a)(iv) and could undermine investor protections if left unresolved.
-Paths:
-- IdentityRegistered events: 0; IdentityUpdated events: 0; IdentityRemoved events: 0
-Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iv)
-Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(2)(a)(iv), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
-
-High
-5. Represent suspension status on-chain
-Runtime hint: setAddressFrozen missing. isFrozen call failed.. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(a)(vi) and could undermine investor protections if left unresolved.
-Paths:
-- setAddressFrozen missing. isFrozen call failed.
-Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(vi)
-Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(2)(a)(vi), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
-
-High
-6. Representative principal linkage
-Runtime hint: claimTopics=1; trusted issuers list empty. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(c) and could undermine investor protections if left unresolved.
-Paths:
-- claimTopics=1; trusted issuers list empty
-Compliance Ref: SFO (Cap.571) §53ZRH(2)(c)
-Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(2)(c), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
-
-High
-7. Virtual asset transfer role gating
-Runtime hint: compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; modules=2; claimTopics=1; trusted issuer list empty.. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §13A(1) and could undermine investor protections if left unresolved.
-Paths:
-- compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; modules=2; claimTopics=1; trusted issuer list empty.
-Compliance Ref: AMLO Schedule 2 §13A(1)
-Recommendation: Align the implementation with AMLO Schedule 2 §13A(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
-
-Medium
-8. AMLO record keeping support
+Very High
+1. AMLO record keeping support
 Runtime hint: ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: false. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §2 and could undermine investor protections if left unresolved.
 Paths:
 - {"op":"hasabifn","where":"idr","sig":"identityStorage()","present":true,"ok":true}
@@ -72,6 +16,62 @@ Paths:
 - {"op":"hasevent","where":"irs","name":"IdentityStored","present":true,"ok":true}
 Compliance Ref: AMLO (Cap.615) Schedule 2 §2
 Recommendation: Align the implementation with AMLO (Cap.615) Schedule 2 §2, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+2. Ongoing record of customer identity and activity
+Runtime hint: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; identity() returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.
+Paths:
+- identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; identity() returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9
+Compliance Ref: AMLO Schedule 2 §6
+Recommendation: Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+3. Maintain on-chain register of licensed persons
+Runtime hint: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; claimTopics=1; trusted issuers list empty; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; claimTopics=1; trusted issuers list empty; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+4. Central entity identification claim
+Runtime hint: identity(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266) returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; no trusted issuer confirmation. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(a)(iii) and could undermine investor protections if left unresolved.
+Paths:
+- identity(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266) returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; no trusted issuer confirmation
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iii)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(2)(a)(iii), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+5. Capture licence grant timestamp
+Runtime hint: IdentityRegistered events: 0; IdentityUpdated events: 0; IdentityRemoved events: 0. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(a)(iv) and could undermine investor protections if left unresolved.
+Paths:
+- IdentityRegistered events: 0; IdentityUpdated events: 0; IdentityRemoved events: 0
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iv)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(2)(a)(iv), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+6. Represent suspension status on-chain
+Runtime hint: setAddressFrozen missing. isFrozen call failed.. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(a)(vi) and could undermine investor protections if left unresolved.
+Paths:
+- setAddressFrozen missing. isFrozen call failed.
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(vi)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(2)(a)(vi), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+7. Representative principal linkage
+Runtime hint: claimTopics=1; trusted issuers list empty. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(2)(c) and could undermine investor protections if left unresolved.
+Paths:
+- claimTopics=1; trusted issuers list empty
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(c)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(2)(c), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+8. Virtual asset transfer role gating
+Runtime hint: compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; modules=2; claimTopics=1; trusted issuer list empty.. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §13A(1) and could undermine investor protections if left unresolved.
+Paths:
+- compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; modules=2; claimTopics=1; trusted issuer list empty.
+Compliance Ref: AMLO Schedule 2 §13A(1)
+Recommendation: Align the implementation with AMLO Schedule 2 §13A(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
 
 Pass
 9. Client asset safeguards via modular compliance

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-10-30T10:26:37.310Z",
+  "generatedAt": "2025-10-30T13:44:00.070Z",
   "inputs": {
     "addressesPath": "/Users/weizicheng/Downloads/smartContract_ERC3643_staticAnalysis/.cre.addresses.json",
     "addresses": {
@@ -32,12 +32,11 @@
       "summary": {
         "total": 13,
         "pass": 5,
-        "critical": 1,
+        "veryHigh": 2,
         "high": 6,
-        "medium": 1,
-        "low": 0,
-        "fail": 1,
-        "warn": 7,
+        "medium": 0,
+        "fail": 2,
+        "warn": 6,
         "info": 0
       },
       "addresses": {
@@ -207,11 +206,11 @@
         }
       ],
       "run": "rule.AMLO",
-      "severity": "MEDIUM",
-      "severityCode": "MEDIUM",
-      "severityLabel": "Medium",
-      "severityOriginal": "Medium",
-      "severityWeight": 2
+      "severity": "VERY_HIGH",
+      "severityCode": "VERY_HIGH",
+      "severityLabel": "Very High",
+      "severityOriginal": "Very High",
+      "severityWeight": 4
     },
     {
       "id": "R-HKMA-53ZRH-REGISTER",
@@ -414,9 +413,9 @@
         }
       ],
       "run": "rule.AMLO",
-      "severity": "CRITICAL",
-      "severityCode": "CRITICAL",
-      "severityLabel": "Critical",
+      "severity": "VERY_HIGH",
+      "severityCode": "VERY_HIGH",
+      "severityLabel": "Very High",
       "severityOriginal": "Critical",
       "severityWeight": 4
     },
@@ -437,9 +436,9 @@
         }
       ],
       "run": "rule.AMLO",
-      "severity": "CRITICAL",
-      "severityCode": "CRITICAL",
-      "severityLabel": "Critical",
+      "severity": "VERY_HIGH",
+      "severityCode": "VERY_HIGH",
+      "severityLabel": "Very High",
       "severityOriginal": "Critical",
       "severityWeight": 4
     },
@@ -470,23 +469,42 @@
   "summary": {
     "total": 13,
     "pass": 5,
-    "critical": 1,
+    "veryHigh": 2,
     "high": 6,
-    "medium": 1,
-    "low": 0,
-    "fail": 1,
-    "warn": 7,
+    "medium": 0,
+    "fail": 2,
+    "warn": 6,
     "info": 0
   },
   "metrics": null,
   "llm": {
-    "generatedAt": "2025-10-30T10:26:37.477Z",
-    "model": "gpt-4.1-nano",
+    "generatedAt": "2025-10-30T13:44:00.263Z",
+    "model": "gpt-4.1-mini",
     "disabled": true,
     "reason": "LLM disabled (missing API key)",
     "error": null,
     "overallAssessment": "LLM disabled (missing API key)",
     "findings": [
+      {
+        "id": "R-HKMA-AMLO-RecordKeeping",
+        "title": "AMLO record keeping support",
+        "severity": "VERY_HIGH",
+        "severity_label": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "VERY_HIGH",
+        "position": "",
+        "explanation": "Runtime hint: ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: false. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §2 and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "AMLO (Cap.615) Schedule 2 §2"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
+          "nonzeroaddress:data.idrIdentityStorageAddr:",
+          "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityStored\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "Align the implementation with AMLO (Cap.615) Schedule 2 §2, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
       {
         "id": "R-HKMA-53ZRK-5E",
         "title": "Client asset safeguards via modular compliance",
@@ -508,10 +526,10 @@
       {
         "id": "R-HKMA-AMLO-S6",
         "title": "Ongoing record of customer identity and activity",
-        "severity": "CRITICAL",
-        "severity_label": "Critical",
-        "phase2_verdict": "Critical",
-        "verdict": "CRITICAL",
+        "severity": "VERY_HIGH",
+        "severity_label": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "VERY_HIGH",
         "position": "",
         "explanation": "Runtime hint: identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; identity() returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.",
         "compliance_refs": [
@@ -702,38 +720,17 @@
         ],
         "recommendation": "Align the implementation with AMLO Schedule 2 §13A(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
         "pass": false
-      },
-      {
-        "id": "R-HKMA-AMLO-RecordKeeping",
-        "title": "AMLO record keeping support",
-        "severity": "MEDIUM",
-        "severity_label": "Medium",
-        "phase2_verdict": "Medium",
-        "verdict": "MEDIUM",
-        "position": "",
-        "explanation": "Runtime hint: ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: false. Deterministic testing highlighted behaviour that is inconsistent with AMLO (Cap.615) Schedule 2 §2 and could undermine investor protections if left unresolved.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2"
-        ],
-        "evidence_paths": [
-          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
-          "nonzeroaddress:data.idrIdentityStorageAddr:",
-          "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityStored\",\"present\":true,\"ok\":true}"
-        ],
-        "recommendation": "Align the implementation with AMLO (Cap.615) Schedule 2 §2, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
-        "pass": false
       }
     ],
     "payload": {
       "summary": {
         "total": 13,
         "pass": 5,
-        "critical": 1,
+        "very_high": 2,
         "high": 6,
-        "medium": 1,
-        "low": 0,
-        "fail": 1,
-        "warn": 7,
+        "medium": 0,
+        "fail": 2,
+        "warn": 6,
         "info": 0
       },
       "rules": [
@@ -760,11 +757,11 @@
         {
           "id": "R-HKMA-AMLO-RecordKeeping",
           "title": "AMLO record keeping support",
-          "severity": "Medium",
-          "severity_code": "MEDIUM",
-          "severity_label": "Medium",
-          "severity_original": "Medium",
-          "phase2_verdict": "Medium",
+          "severity": "Very High",
+          "severity_code": "VERY_HIGH",
+          "severity_label": "Very High",
+          "severity_original": "Very High",
+          "phase2_verdict": "Very High",
           "pass": false,
           "run": "rule.AMLO",
           "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: false",
@@ -943,9 +940,9 @@
         {
           "id": "R-HKMA-53ZRK-5E",
           "title": "Client asset safeguards via modular compliance",
-          "severity": "Critical",
-          "severity_code": "CRITICAL",
-          "severity_label": "Critical",
+          "severity": "Very High",
+          "severity_code": "VERY_HIGH",
+          "severity_label": "Very High",
           "severity_original": "Critical",
           "phase2_verdict": "PASS",
           "pass": true,
@@ -963,11 +960,11 @@
         {
           "id": "R-HKMA-AMLO-S6",
           "title": "Ongoing record of customer identity and activity",
-          "severity": "Critical",
-          "severity_code": "CRITICAL",
-          "severity_label": "Critical",
+          "severity": "Very High",
+          "severity_code": "VERY_HIGH",
+          "severity_label": "Very High",
           "severity_original": "Critical",
-          "phase2_verdict": "Critical",
+          "phase2_verdict": "Very High",
           "pass": false,
           "run": "rule.AMLO",
           "note": "identityStorage=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0; identity() returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
