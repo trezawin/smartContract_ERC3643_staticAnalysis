@@ -11,6 +11,7 @@ export interface BootstrapAddresses {
   claimTopicsRegistry: string;
   trustedIssuersRegistry: string;
   compliance: string;
+  identityRegistryStorage: string;
 }
 
 export interface BootstrapResult {
@@ -159,7 +160,8 @@ export async function bootstrap(hre?: HardhatRuntimeEnvironment): Promise<Bootst
     identityRegistry: ir.address,
     claimTopicsRegistry: ctr.address,
     trustedIssuersRegistry: tir.address,
-    compliance: cmp.address
+    compliance: cmp.address,
+    identityRegistryStorage: irs.address
   };
   fs.writeFileSync(".cre.addresses.json", JSON.stringify(addr, null, 2));
   console.log("Wrote .cre.addresses.json");

@@ -13,7 +13,7 @@
 <body>
   <h1>ERC-3643 Compliance Report</h1>
   <div class="sub">
-    Generated: 2025-10-28T17:59:45.686Z — Deterministic checks + LLM reasoning
+    Generated: 2025-10-30T22:04:11.603Z — Deterministic checks + LLM reasoning
   </div>
 
   
@@ -22,13 +22,13 @@
   <div style="font-size:13px;color:#374151">
     <div>Addresses file: <code>/Users/treza/Documents/staticAnalysis/.cre.addresses.json</code></div>
     <div>Rules: <code>cre/rules/rule.AMLO.json</code></div>
-    <div>ABI artifacts: <code>Token: node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json</code>, <code>IdentityRegistry: artifacts/contracts/buggy/BuggyIdentityRegistry.sol/BuggyIdentityRegistry.json</code>, <code>ClaimTopicsRegistry: node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json</code>, <code>TrustedIssuersRegistry: node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json</code>, <code>Compliance: node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json</code>, <code>IdentityRegistryStorage: node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json</code></div>
+    <div>ABI artifacts: <code>Token: artifacts/contracts/buggy/BuggyTokenNoIdentityRegistry.sol/BuggyTokenNoIdentityRegistry.json</code>, <code>IdentityRegistry: artifacts/contracts/buggy/BuggyIdentityRegistryMissingHooks.sol/BuggyIdentityRegistryMissingHooks.json</code>, <code>ClaimTopicsRegistry: artifacts/contracts/buggy/BuggyClaimTopicsRegistryMinimal.sol/BuggyClaimTopicsRegistryMinimal.json</code>, <code>TrustedIssuersRegistry: node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json</code>, <code>Compliance: artifacts/contracts/buggy/BuggyModularComplianceMinimal.sol/BuggyModularComplianceMinimal.json</code>, <code>IdentityRegistryStorage: artifacts/contracts/buggy/BuggyIdentityRegistryStorageNoEvents.sol/BuggyIdentityRegistryStorageNoEvents.json</code></div>
   </div>
   <ul style="margin-top:8px">
     <li>cre/rules/rule.AMLO.json</li>
   </ul>
   <details style="margin-top:10px;font-size:13px"><summary style="cursor:pointer">Resolved addresses</summary>
-    <ul style="margin-top:8px"><li><code>networkRpc</code> → <code>http://127.0.0.1:8545</code></li><li><code>token</code> → <code>0x5FC8d32690cc91D4c39d9d3abcBD16989F875707</code></li><li><code>identityRegistry</code> → <code>0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9</code></li><li><code>claimTopicsRegistry</code> → <code>0x5FbDB2315678afecb367f032d93F642f64180aa3</code></li><li><code>trustedIssuersRegistry</code> → <code>0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512</code></li><li><code>compliance</code> → <code>0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9</code></li></ul>
+    <ul style="margin-top:8px"><li><code>networkRpc</code> → <code>http://127.0.0.1:8545</code></li><li><code>token</code> → <code>0x5FC8d32690cc91D4c39d9d3abcBD16989F875707</code></li><li><code>identityRegistry</code> → <code>0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9</code></li><li><code>claimTopicsRegistry</code> → <code>0x5FbDB2315678afecb367f032d93F642f64180aa3</code></li><li><code>trustedIssuersRegistry</code> → <code>0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512</code></li><li><code>compliance</code> → <code>0x0000000000000000000000000000000000000000</code></li><li><code>identityRegistryStorage</code> → <code>0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0</code></li></ul>
   </details>
 </div>
 
@@ -47,12 +47,12 @@
     </thead>
     <tbody>
       <tr>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">2025-10-28</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">7</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">0</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">4</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">2</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">2025-10-30</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">13</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">0</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">33</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">10</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">56</td>
       </tr>
     </tbody>
   </table>
@@ -76,21 +76,21 @@
       
       <tr>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">1</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO CDD identity controls</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Token and Identity Registry must expose the hooks necessary to perform customer and beneficial owner due diligence before onboarding.</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.615) Schedule 2 §2</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Maintain on-chain register of licensed persons</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(1)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI missing token.identityRegistry().. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">2</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO record keeping support</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity Registry Storage must be wired and emit lifecycle events so identity evidence can be retained for at least seven years.</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.615) Schedule 2 §2</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is zero</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Maintain on-chain register of licensed persons</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(1)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI missing idr.updateIdentity(address,address,uint16[]).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
@@ -100,107 +100,537 @@
         <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(1)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has token.identityRegistry(): true; ABI has idr.registerIdentity(address,address,uint16[]): false</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI missing idr.deleteIdentity(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">4</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Anchor name and business address data</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity records must support anchoring of name and business address metadata with auditable storage events.</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(i)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Maintain on-chain register of licensed persons</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(1)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has idr.identityStorage(): true; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI missing idr.batchRegisterIdentity(address[],address[],uint16[]).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">5</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Record licence conditions with effective dates</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence conditions must be represented as claim topics that can be versioned on-chain.</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(ii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Maintain on-chain register of licensed persons</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(1)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has ctr.addClaimTopic(uint256): true; ABI has ctr.removeClaimTopic(uint256): true; ABI has ctr.getClaimTopics(): true; Event on ctr:ClaimTopicAdded present: true; Event on ctr:ClaimTopicRemoved present: true</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI missing ctr.addClaimTopic(uint256).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">6</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identification claim</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identifiers must be retrievable via identity resolution and enforced through claims.</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Maintain on-chain register of licensed persons</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(1)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has idr.identity(address): false</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI missing tir.addTrustedIssuer(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">7</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Capture licence grant timestamp</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence issuance must be observable on-chain with timestamped events for audit trail.</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iv)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Maintain on-chain register of licensed persons</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(1)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event on idr:IdentityRegistered present: false</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
-      </tr>
-
-      <tr>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">8</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Encode VA service scope and effective date</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">The compliance module must expose modular hooks to reflect permitted service scope with activation controls.</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(v)</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has compliance.bindToken(address): true; ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.getModules(): true; Event on compliance:ModuleAdded present: true; Event on compliance:ModuleRemoved present: true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI exposes tir.removeTrustedIssuer(address).. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(1) prescribes, giving non-technical sponsors assurance that the required safeguard is active.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
       </tr>
 
       <tr>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">9</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Represent suspension status on-chain</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(vi)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">8</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Maintain on-chain register of licensed persons</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(1)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has token.setAddressFrozen(address,bool): true; ABI has token.freezePartialTokens(address,uint256): true; ABI has token.unfreezePartialTokens(address,uint256): true; ABI has token.isFrozen(address): true; Event on token:AddressFrozen present: true; Event on token:TokensUnfrozen present: true; Event on token:TokensFrozen present: true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI missing compliance.canTransfer(address,address,uint256).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">9</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Anchor name and business address data</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity records must support anchoring of name and business address metadata with auditable storage events.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(i)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI exposes idr.identityStorage().. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(i) prescribes, giving non-technical sponsors assurance that the required safeguard is active.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
       </tr>
 
       <tr>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">10</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Representative principal linkage</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(c)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Anchor name and business address data</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity records must support anchoring of name and business address metadata with auditable storage events.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(i)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has tir.updateIssuerClaimTopics(address,uint256[]): true; ABI has tir.getTrustedIssuers(): true; ABI has ctr.getClaimTopics(): true; Event on tir:TrustedIssuerAdded present: true; Event on tir:TrustedIssuerRemoved present: true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: Event irs.IdentityStored is present in the ABI.. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(i) prescribes, giving non-technical sponsors assurance that the required safeguard is active.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
       </tr>
 
       <tr>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">11</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Client asset safeguards via modular compliance</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRK(5)(e)</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.callModuleFunction(bytes,address): true; ABI has compliance.unbindToken(address): true; Event on compliance:ModuleInteraction present: true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Anchor name and business address data</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity records must support anchoring of name and business address metadata with auditable storage events.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(i)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event irs.IdentityModified is present in the ABI.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
       </tr>
 
       <tr>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">12</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ongoing record of customer identity and activity</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity evidence and transactional metadata must remain queryable for historical monitoring.</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §6</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has idr.isVerified(address): true; ABI has idr.identity(address): false</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Anchor name and business address data</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity records must support anchoring of name and business address metadata with auditable storage events.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(i)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event irs.IdentityUnstored is present in the ABI.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
       </tr>
 
       <tr>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">13</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Record licence conditions with effective dates</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence conditions must be represented as claim topics that can be versioned on-chain.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(ii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing ctr.addClaimTopic(uint256).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">14</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Record licence conditions with effective dates</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence conditions must be represented as claim topics that can be versioned on-chain.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(ii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing ctr.removeClaimTopic(uint256).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">15</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Record licence conditions with effective dates</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence conditions must be represented as claim topics that can be versioned on-chain.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(ii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing ctr.getClaimTopics().</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">16</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Record licence conditions with effective dates</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence conditions must be represented as claim topics that can be versioned on-chain.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(ii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event ctr.ClaimTopicAdded is absent from the ABI.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">17</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Record licence conditions with effective dates</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence conditions must be represented as claim topics that can be versioned on-chain.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(ii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event ctr.ClaimTopicRemoved is absent from the ABI.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">18</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identification claim</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identifiers must be retrievable via identity resolution and enforced through claims.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing idr.identity(address).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">19</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identification claim</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identifiers must be retrievable via identity resolution and enforced through claims.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing compliance.canTransfer(address,address,uint256).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">20</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identification claim</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identifiers must be retrievable via identity resolution and enforced through claims.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI exposes tir.isTrustedIssuer(address).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">21</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Capture licence grant timestamp</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence issuance must be observable on-chain with timestamped events for audit trail.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iv)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event idr.IdentityRegistered is present in the ABI.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">22</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Capture licence grant timestamp</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence issuance must be observable on-chain with timestamped events for audit trail.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iv)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event idr.IdentityUpdated is present in the ABI.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">23</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Capture licence grant timestamp</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence issuance must be observable on-chain with timestamped events for audit trail.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iv)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event idr.IdentityRemoved is absent from the ABI.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">24</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Encode VA service scope and effective date</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The compliance module must expose modular hooks to reflect permitted service scope with activation controls.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(v)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing compliance.bindToken(address).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">25</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Encode VA service scope and effective date</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The compliance module must expose modular hooks to reflect permitted service scope with activation controls.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(v)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing compliance.addModule(address).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">26</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Encode VA service scope and effective date</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The compliance module must expose modular hooks to reflect permitted service scope with activation controls.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(v)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing compliance.removeModule(address).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">27</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Encode VA service scope and effective date</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The compliance module must expose modular hooks to reflect permitted service scope with activation controls.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(v)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing compliance.getModules().</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">28</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Encode VA service scope and effective date</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The compliance module must expose modular hooks to reflect permitted service scope with activation controls.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(v)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event compliance.ModuleAdded is absent from the ABI.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">29</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Encode VA service scope and effective date</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The compliance module must expose modular hooks to reflect permitted service scope with activation controls.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(v)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event compliance.ModuleRemoved is absent from the ABI.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">30</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Represent suspension status on-chain</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(vi)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing token.setAddressFrozen(address,bool).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">31</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Represent suspension status on-chain</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(vi)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing token.freezePartialTokens(address,uint256).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">32</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Represent suspension status on-chain</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(vi)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing token.unfreezePartialTokens(address,uint256).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">33</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Represent suspension status on-chain</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(vi)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing token.isFrozen(address).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">34</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Represent suspension status on-chain</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(vi)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event token.AddressFrozen is absent from the ABI.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">35</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Represent suspension status on-chain</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(vi)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event token.TokensUnfrozen is absent from the ABI.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">36</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Represent suspension status on-chain</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(vi)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event token.TokensFrozen is absent from the ABI.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">37</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Representative principal linkage</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(c)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI exposes tir.updateIssuerClaimTopics(address,uint256[]).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">38</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Representative principal linkage</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(c)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI exposes tir.getTrustedIssuers().</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">39</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Representative principal linkage</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(c)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing ctr.getClaimTopics().</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">40</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Representative principal linkage</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(c)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event tir.TrustedIssuerAdded is present in the ABI.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">41</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Representative principal linkage</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(c)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event tir.TrustedIssuerRemoved is present in the ABI.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">42</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Client asset safeguards via modular compliance</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRK(5)(e)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI missing compliance.addModule(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">43</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Client asset safeguards via modular compliance</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRK(5)(e)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI missing compliance.removeModule(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">44</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Client asset safeguards via modular compliance</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRK(5)(e)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI missing compliance.callModuleFunction(bytes,address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">45</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Client asset safeguards via modular compliance</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRK(5)(e)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI missing compliance.unbindToken(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">46</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Client asset safeguards via modular compliance</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRK(5)(e)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: Event compliance.ModuleInteraction is absent from the ABI.. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">47</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ongoing record of customer identity and activity</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity evidence and transactional metadata must remain queryable for historical monitoring.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §6</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI missing idr.isVerified(address).. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">48</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ongoing record of customer identity and activity</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity evidence and transactional metadata must remain queryable for historical monitoring.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §6</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI missing idr.identity(address).. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">49</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ongoing record of customer identity and activity</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity evidence and transactional metadata must remain queryable for historical monitoring.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §6</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: ABI missing compliance.transferred(address,address,uint256).. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">50</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ongoing record of customer identity and activity</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity evidence and transactional metadata must remain queryable for historical monitoring.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §6</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: Event token.Transfer is absent from the ABI.. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">51</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ongoing record of customer identity and activity</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity evidence and transactional metadata must remain queryable for historical monitoring.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §6</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Runtime hint: Event compliance.ModuleInteraction is absent from the ABI.. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">52</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">Virtual asset transfer role gating</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §13A(1)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has token.compliance(): true; data.tokenCompliance is non-zero; ABI has compliance.canTransfer(address,address,uint256): true; ABI has idr.isVerified(address): true; ABI has tir.isTrustedIssuer(address): true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing token.compliance().</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">53</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Virtual asset transfer role gating</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §13A(1)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Expected data.tokenCompliance to be != ZERO, observed 0x0000000000000000000000000000000000000000.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">54</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Virtual asset transfer role gating</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §13A(1)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing compliance.canTransfer(address,address,uint256).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">55</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Virtual asset transfer role gating</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §13A(1)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI missing idr.isVerified(address).</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">56</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Virtual asset transfer role gating</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §13A(1)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI exposes tir.isTrustedIssuer(address).</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
       </tr>
     </tbody>
@@ -213,10 +643,317 @@
   <!-- Per-Rulebook Execution intentionally hidden -->
   
 <h2 style="margin:28px 0 12px 0;font-size:20px;border-bottom:1px solid #E5E7EB;padding-bottom:6px">LLM Compliance Assessment</h2>
-<div style="font-size:12px;color:#6B7280">Model: gpt-4.1-mini</div>
 
-<div style="margin:12px 0;font-size:14px;line-height:1.6"><strong>Summary:</strong> The audited ERC-3643 implementation demonstrates partial compliance with HKMA and SFC virtual asset regulatory requirements. Key controls for identity anchoring, license condition recording, suspension status, and modular compliance are implemented and verifiable on-chain. However, critical gaps exist in identity verification gating on transfers, identity registry storage wiring, and comprehensive identity resolution functions. These deficiencies expose the system to regulatory non-compliance, client asset protection risks, and supervisory challenges.</div>
-<div style="color:#6B7280">No LLM findings available.</div>
+<div style="color:#B91C1C;margin-bottom:8px">HTTP 400: {
+    "error": {
+        "message": "you must provide a model parameter",
+        "type": "invalid_request_error",
+        "param": null,
+        "code": null
+    }
+}
+</div>
+<div style="margin:12px 0;font-size:14px;line-height:1.6"><strong>Summary:</strong> LLM call failed: HTTP 400: {
+    "error": {
+        "message": "you must provide a model parameter",
+        "type": "invalid_request_error",
+        "param": null,
+        "code": null
+    }
+}
+</div>
+
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#B91C1C">Very High</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">1. Client asset safeguards via modular compliance</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI missing compliance.addModule(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRK(5)(e)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"compliance","sig":"addModule(address)","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">2. Client asset safeguards via modular compliance</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI missing compliance.removeModule(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRK(5)(e)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"compliance","sig":"removeModule(address)","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">3. Client asset safeguards via modular compliance</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI missing compliance.callModuleFunction(bytes,address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRK(5)(e)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"compliance","sig":"callModuleFunction(bytes,address)","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">4. Client asset safeguards via modular compliance</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI missing compliance.unbindToken(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRK(5)(e)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"compliance","sig":"unbindToken(address)","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">5. Client asset safeguards via modular compliance</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: Event compliance.ModuleInteraction is absent from the ABI.. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRK(5)(e)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasevent","where":"compliance","name":"ModuleInteraction","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">6. Ongoing record of customer identity and activity</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI missing idr.isVerified(address).. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO Schedule 2 §6</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"idr","sig":"isVerified(address)","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">7. Ongoing record of customer identity and activity</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI missing idr.identity(address).. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO Schedule 2 §6</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"idr","sig":"identity(address)","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">8. Ongoing record of customer identity and activity</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI missing compliance.transferred(address,address,uint256).. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO Schedule 2 §6</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"compliance","sig":"transferred(address,address,uint256)","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">9. Ongoing record of customer identity and activity</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: Event token.Transfer is absent from the ABI.. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO Schedule 2 §6</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasevent","where":"token","name":"Transfer","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">10. Ongoing record of customer identity and activity</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: Event compliance.ModuleInteraction is absent from the ABI.. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO Schedule 2 §6</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasevent","where":"compliance","name":"ModuleInteraction","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div></div>
+      </div>
+
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#F97316">High</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">11. Maintain on-chain register of licensed persons</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI missing token.identityRegistry().. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(1)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"token","sig":"identityRegistry()","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">12. Maintain on-chain register of licensed persons</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI missing idr.updateIdentity(address,address,uint16[]).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(1)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"idr","sig":"updateIdentity(address,address,uint16[])","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">13. Maintain on-chain register of licensed persons</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI missing idr.deleteIdentity(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(1)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"idr","sig":"deleteIdentity(address)","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">14. Maintain on-chain register of licensed persons</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI missing idr.batchRegisterIdentity(address[],address[],uint16[]).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(1)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"idr","sig":"batchRegisterIdentity(address[],address[],uint16[])","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">15. Maintain on-chain register of licensed persons</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI missing ctr.addClaimTopic(uint256).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(1)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"ctr","sig":"addClaimTopic(uint256)","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">16. Maintain on-chain register of licensed persons</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI missing tir.addTrustedIssuer(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(1)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"tir","sig":"addTrustedIssuer(address)","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">17. Maintain on-chain register of licensed persons</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI missing compliance.canTransfer(address,address,uint256).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(1)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"compliance","sig":"canTransfer(address,address,uint256)","present":false,"ok":false}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.</div>
+    </div></div>
+      </div>
+
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#10B981">Medium Findings</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">18. Maintain on-chain register of licensed persons</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI exposes tir.removeTrustedIssuer(address).. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(1) prescribes, giving non-technical sponsors assurance that the required safeguard is active.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(1)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"tir","sig":"removeTrustedIssuer(address)","present":true,"ok":true}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">19. Anchor name and business address data</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: ABI exposes idr.identityStorage().. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(i) prescribes, giving non-technical sponsors assurance that the required safeguard is active.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(i)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasabifn","where":"idr","sig":"identityStorage()","present":true,"ok":true}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">20. Anchor name and business address data</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Runtime hint: Event irs.IdentityStored is present in the ABI.. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(i) prescribes, giving non-technical sponsors assurance that the required safeguard is active.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(i)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>{"op":"hasevent","where":"irs","name":"IdentityStored","present":true,"ok":true}</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.</div>
+    </div></div>
+      </div>
 
   <div style="margin-top:28px;color:#6B7280;font-size:12px">
     Evidence combines deterministic probes (Hardhat fallback when available) and policy-grounded LLM analysis.

@@ -1,0 +1,997 @@
+{
+  "_meta": {
+    "version": 2
+  },
+  "49e7b43411b60b845dbce37460d9df08749da4ca2ae7567456e2f9c0433a6b37": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because, despite providing a detailed recommendation, the output fails to include the brief validation plan with specific tests, as explicitly instructed. This omission accounts for the unalignment, but the detailed content shows effort and understanding."
+    },
+    "faithfulness": {
+      "score": 0.75,
+      "reason": "The score is 0.75 because the actual output incorrectly claims that strict identity gating blocks all transfers to unverified addresses, while the context indicates such transfers succeeded without identity gating, showing a partial contradiction."
+    }
+  },
+  "810c9a78bd3e230785dc35fe768525db499e003449fd1e566dc8c110e41d76e6": {
+    "prompt_alignment": {
+      "score": 0.5,
+      "reason": "The score is 0.50 because the output addresses the recommendation guidance but fails to include the required brief validation plan with unit/integration tests, which limits its completeness and alignment with the prompt instructions."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+    }
+  },
+  "818e9aa6a36b93a998ed12c6e5172cebdac99358659acfde5967998c383e59a3": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to provide specific, testable actions or a validation plan as required by the prompt. However, it is at 0.00 rather than negative because it does offer a general recommendation related to compliance architecture."
+    },
+    "faithfulness": {
+      "score": 0.3333333333333333,
+      "reason": "The score is 0.33 because the actual output incorrectly claims that customer identity data and activity are recorded immutably and accessible for audits, whereas the context clearly states that without functional identity storage, there is no traceable evidence or access for supervisory inspections and AML compliance audits."
+    }
+  },
+  "e13553e39ffc981761a95728f1ccb6f82b4058d1ec9b3674bc909b35d2b94753": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output provides a general recommendation without specific, testable actions or a validation plan, which are required by the prompt. However, it still aligns with the general topic of recommendation guidance, just lacking the detailed steps and testing instructions."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+    }
+  },
+  "2d7db87f02e755565bdc0a04e6c28e3d3a971fb3006b99ad1c80fb05d6c518de": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output is vague and lacks specific, testable recommendations, including missing details on contract updates, controls, events, tests, and operational procedures, as well as no validation plan or testing descriptions."
+    },
+    "faithfulness": {
+      "score": 0.5,
+      "reason": "The score is 0.50 because the actual output incorrectly claims that the identity storage contract is deployed to anchor and expose verified data, while the context clearly states that the contract is unavailable, preventing anchoring of essential identity information."
+    }
+  },
+  "de91790e8030df78af1bf55f2cadc3e5072852170c2938a91286497bacd6c491": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to address key prompt instructions such as specifying updates to contract logic, wiring controls, adding events or monitoring, regression tests, and operational run-books, as well as lacking a validation plan. However, it does provide a general recommendation on maintaining the claim topics registry, which aligns somewhat with the input."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+    }
+  },
+  "e19779e7f36f1d2ce3f1d4fe63d99ad04071d16d099de9bdddfe6ef6c6e8a5cb": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output lacks the required testable actions and a validation plan, which are explicitly requested in the prompt. However, it does provide a specific recommendation, preventing a lower score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+    }
+  },
+  "69aebb7e705d665a241c1c0fdc42b23b1260a089ec657cacbaf172b528769103": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output only partially addresses the recommendation by suggesting on-chain events but fails to cover other explicit instructions like updating contract logic, wiring controls, adding regression tests, operational run-books, and a validation plan, which are all required."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context. Great job maintaining accuracy!"
+    }
+  },
+  "44fac49279c5b95f7eab7bbbedc36b58a0d6011add379f76c9bb0290a634d59e": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output is vague and lacks specific, testable recommendations or a validation plan, failing to address key prompt instructions. It cannot be higher as it misses critical details required for alignment."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+    }
+  },
+  "a9aecabbc99a8bcead86ccaa8362d19593aba175a9a5a085875903b2aca0d939": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output lacks the required testable actions and a validation plan, which are explicitly requested. However, it does provide a specific recommendation, preventing a lower score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+    }
+  },
+  "7025453d98d1037ab0c50937a358305184d2e59614d00434dc5f1dd91db4fddf": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output is vague and lacks specific, testable recommendations or a validation plan, failing to address key prompt instructions such as updating contract logic and adding tests."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+    }
+  },
+  "23176bfdda13bb59e602aa04ac517070ebc5ea4ec4cbda54f07e885350659cb0": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output is vague and lacks specific, testable recommendations such as updating contract logic, wiring controls, adding events/monitoring, regression tests, or operational run-books, and it also omits a validation plan for unit or integration tests. However, it does address compliance components, which aligns somewhat with the input guidance."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context. Great job maintaining accuracy!"
+    }
+  },
+  "536f0991849dc47411dfe5399db9234e26d7a9f13defc59b40e25a79da8c3c2b": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to address key prompt instructions such as updating contract logic, adding specific controls and events, and providing a validation plan, making it vague and untestable. However, it does mention establishing identity registries and monitoring, which aligns somewhat with the recommendation guidance."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context. Great job maintaining accuracy!"
+    }
+  },
+  "1af54a03c2c210dabcedbda1f904beb54e238349145e28f4e7ba13727bbe8c80": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output is vague and lacks specific, testable actions and a validation plan as required by the prompt, preventing any alignment despite addressing the general topic."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+    }
+  },
+  "a4ad16e022da024ffeb42e1636b0c99aa2360b5c03e27699f2c75e5c91dbb832": {
+    "prompt_alignment": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there were no unalignments\u2014every instruction was followed, yielding full alignment and the maximum possible score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the contradictions list is empty ([]), indicating no discrepancies between the actual output and the retrieval context."
+    }
+  },
+  "83b3c2c72db8c7ea560776e1bac5f890b78adfb04a8324e754899ce1957f2e3d": {
+    "prompt_alignment": {
+      "score": 0.5,
+      "reason": "The score is 0.50 because, although the output provides several relevant recommendations (deployment, lifecycle functions, events, controls/RBAC, logs/runbook), it misses the instruction to include a brief validation plan with specific unit and integration tests, resulting in only partial alignment."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the contradictions list is empty\u2014no discrepancies were identified between the actual output and the retrieval context. Great job staying fully aligned!"
+    }
+  },
+  "944d3a5d5f7351fbfd7d1d97416a42f141c40871d38bfcee5909d3e9d77f2e7c": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output stays high-level and omits the requested concrete, testable details\u2014no specific contract changes, control wiring, events/monitoring, regression/run-book steps, or validation plan with unit/integration tests\u2014leaving no partial adherence to justify a higher score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions listed\u2014the contradictions array is empty. Great job staying fully aligned with the retrieval context!"
+    }
+  },
+  "0cbca4fe42001acfccf1a26d4f1fafd2673a76b65ea087c4334e3389f541b5a9": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output remains high-level, omitting the requested concrete, testable actions (e.g., contract logic updates, control wiring, events/monitoring, regression tests, run-books) and provides no validation plan (unit/integration tests), leaving no partially met instruction to merit a higher score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the contradictions list is empty\u2014no contradictions were identified, indicating the actual output aligns fully with the retrieval context. Great job!"
+    }
+  },
+  "95030d0a35b9f4ca7eee60c33a9aeab73c4e91f9c11e46dd26150319c9728419": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output omits the required specific, testable implementation details and measurable acceptance criteria, and provides no validation plan or unit/integration tests. With these core instructions unaddressed (e.g., no contract logic updates, control wiring, events/monitoring, regression tests, or run-books), there\u2019s no partial compliance to warrant a higher score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no listed contradictions\u2014the contradictions array is empty. Nice work staying fully aligned with the retrieval context!"
+    }
+  },
+  "ee698d4eb2b2cfd1bb5776ebb696b2981ad045ef346114b505882b51ffffc1ee": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output is purely high-level and misses the required concrete, testable steps (e.g., contract logic updates, control wiring, events/monitoring, regression tests, run-books, measurable acceptance criteria) and provides no validation plan or unit/integration tests. Since these core instructions are entirely absent, there\u2019s no partial alignment to justify a higher score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because no contradictions were found\u2014the contradictions list is empty, indicating the actual output fully aligns with the retrieval context. Great job!"
+    }
+  },
+  "c8a36a2d459c1140bc21fdaf88d16d63dd215cf194f45412ee65de2f8b90ad47": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the response is purely high-level and omits the required concrete, testable implementation details (event schemas/wiring, measurable acceptance criteria, regression tests, run-book steps) and provides no validation plan or specific unit/integration tests. Since none of these key instructions are addressed, there\u2019s no basis for partial credit."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions listed (the list is empty), indicating the actual output fully aligns with the retrieval context. Nice work!"
+    }
+  },
+  "dfd98701cbdebdf20d495d8bdb3c381facbe33aacbfa27e66df906305e6f5b0d": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output stays at a high level and omits the required concrete, testable actions and a validation plan (including unit/integration tests). With both major requirements missing, there\u2019s effectively no alignment, justifying a zero score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions reported (the contradictions list is empty). Excellent work\u2014everything aligns with the retrieval context!"
+    }
+  },
+  "8a94ddb106f6c54ec0af9191c1f1ef1483095b01bc7517c8316f7bdf529aef98": {
+    "prompt_alignment": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because no unalignment reasons were identified; this is the maximum score and reflects full adherence to the prompt. Great job staying fully aligned!"
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions reported (Contradictions: []). Great job staying fully aligned with the retrieval context!"
+    }
+  },
+  "8e6af7a77f35740d1f32a007f6979a1d629a62019c7ea57b8f54571c6e2c82c4": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output omits the required concrete, testable implementation details and measurable acceptance criteria, and it provides no validation plan or tests. With none of these mandated elements present, alignment cannot be rated higher."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions reported\u2014everything aligns smoothly with the retrieval context."
+    }
+  },
+  "54700a6a4e927114ada5f29c5f23c26e7c16c34fe8b37905394eaafa3d3d6b74": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output omits the required concrete, testable actions and a validation plan\u2014no specifics like contract updates, control wiring, explicit events/monitoring, regression tests, run-books, or unit/integration tests are provided. With none of these elements present, alignment is effectively zero, leaving no basis for a higher score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions listed (Contradictions: []), indicating the actual output fully aligns with the retrieval context. Nice work!"
+    }
+  },
+  "cf502abffccbfb32d25a62759b9e395b6a14e79f79104abe778efc2d2154e222": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output ignores core instructions to provide concrete, testable, implementation-level guidance\u2014no precise contract logic, event schemas, control wiring, monitoring configurations, run-books, or validation plan (unit/integration tests). With none of these elements present, there\u2019s no partial compliance to justify a higher score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the contradictions list is empty ([])\u2014there are no discrepancies between the actual output and the retrieval context. Great job; everything aligns perfectly."
+    }
+  },
+  "d553a31058d9db0a6c37ede9460f84c28f346b44cedff35974a8426cec04019e": {
+    "prompt_alignment": {
+      "score": 0.5,
+      "reason": "The score is 0.50 because the output covers role gating, claims, enforcement, logging, and audit artifacts, but it omits the requested brief validation plan specifying which unit/integration tests to add\u2014only suggesting demonstration\u2014so alignment is partial rather than complete."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the contradictions list is empty ([]), indicating no discrepancies between the actual output and the retrieval context. Nicely done staying perfectly aligned!"
+    }
+  },
+  "ee8ca842b90fb03de0e9c955f84be9ef2e5e05d8bfdf40e81eb068fca273e348": {
+    "prompt_alignment": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no unalignment reasons; the output aligns perfectly with the prompt instructions."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions in the provided list, indicating the actual output aligns perfectly with the retrieval context."
+    }
+  },
+  "7da37dc1b3336900d00b2d7e81e97e0995aab0e706b01bf91c35794794da7535": {
+    "prompt_alignment": {
+      "score": 0.8571428571428571,
+      "reason": "The score is 0.86 because the output provides detailed technical information rather than tailoring the explanation for a HKMA/SFC auditor, which slightly diverges from the prompt's implied audience focus."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions between the actual output and the retrieval context, indicating complete alignment."
+    }
+  },
+  "e01213944ff0e2ad513e01228a34c312aeb0e51b830144c7a3d49fcafbdeb745": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to align with the prompt's focus on regulatory compliance from an HKMA/SFC supervisory perspective, providing overly technical details and lacking explicit control intent and regulator-oriented interpretation, which are essential for higher scores."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions in the provided list, indicating the actual output aligns perfectly with the retrieval context."
+    }
+  },
+  "c5fcd410f0928283050233e887468a6456ed3cc1d61f59fc1d46127026a1f70b": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow the prompt instructions by not adopting a supervisory perspective, omitting control intent and regulatory risk explanations, and lacking clear traceability and concise compliance rationale, which are essential for alignment."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions in the provided list, indicating the actual output aligns perfectly with the retrieval context."
+    }
+  },
+  "cb14f064746d50eb02f1381ee315147e0fb61eca8f26d32af882911e36995643": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to adopt the specified audience perspective, omits explicit identification of control intent, and does not clearly articulate operational risks or regulatory implications, which are essential for alignment with the prompt instructions."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions in the provided list, indicating the actual output aligns perfectly with the retrieval context."
+    }
+  },
+  "ac893312212db2bf31d8fd78d1145e3e4abed69372fe92f887d8bea812beb122": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output failed to follow the prompt instructions by not adopting the supervisory perspective, not explicitly identifying control intents or risks, and not providing a concise compliance rationale, despite the absence of unalignment reasons."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions between the actual output and the retrieval context."
+    }
+  },
+  "977e1ad89d177d103515ab5b41c0d94440d11263f589ae803c6f7095f5158f58": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to adopt the supervisory perspective, omit the explicit control intent, and does not clearly relate the observed compliance status to regulatory expectations, as highlighted by the unalignment reasons."
+    },
+    "faithfulness": {
+      "score": 0.8,
+      "reason": "The score is 0.80 because the contradiction indicates that the actual output correctly states the violation occurs when modules are not loaded, aligning with the context that reports zero modules loaded, thus the claim is accurate."
+    }
+  },
+  "18eff681f7c616737806e67ede50a1b7bece2d03f781a9a1bc827730482f8bd5": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow the prompt's instructions to adopt a supervisory perspective, focusing on operational and regulatory implications for HKMA/SFC auditors, instead providing technical details and legal breaches without contextual analysis or clear traceability, which are essential for alignment."
+    },
+    "faithfulness": {
+      "score": 0.5,
+      "reason": "The score is 0.50 because the actual output likely claims the control exists or is implemented, contradicting the context which states that the compliance contract lacks address freezing controls and functions, indicating the control is missing."
+    }
+  },
+  "152e89842eca705af127ba074847bb3a7395775fb0772cef3eb82d03d360209e": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow the prompt instructions by not adopting an auditor's supervisory perspective, omitting control intent explanations, and lacking explicit regulatory interpretation, which are essential for alignment."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions in the provided list, indicating the actual output aligns perfectly with the retrieval context."
+    }
+  },
+  "df821265164612b716b9708e28be6d0028972a02e57dd3d6188490c3cab8a2e6": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to address the prompt's supervisory perspective, omits explicit control intent and regulatory context, and does not maintain traceability or provide a concise compliance rationale, leading to significant unalignment."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions in the provided list, indicating the actual output aligns perfectly with the retrieval context."
+    }
+  },
+  "b2f4523c3f92c934cb6518a474eae60b5e56b0de177b74a1aed601b9365f255c": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to address the specific audience, control intent, regulatory risks, and does not frame the explanation in supervisory terms, as instructed. It also lacks concise compliance rationale and does not interpret the evidence to justify compliance, leading to significant unalignment."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions between the actual output and the retrieval context."
+    }
+  },
+  "555e4a2bac465c7a9416b0953a84ed06c763cd89ecf2070a0c605a54608d8229": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to align with the prompt's focus on regulatory compliance explanations, instead providing technical details and lacking clarity on control intent, risks, and regulator perspective, which are essential for higher alignment."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions; the actual output aligns perfectly with the retrieval context."
+    }
+  },
+  "23c28d81c30f1b689ac876bde06d123fb60a46a3f7fc0590a392e43fc01f7c97": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow the explicit four-step structure, quotes legal references directly, lacks a consistent supervisory tone, and does not interpret compliance when the verdict is 'PASS.' However, it demonstrates an understanding of the regulatory context, which prevents a lower score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions between the actual output and the retrieval context."
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the relevant statements directly address implementing identity verification and compliance with AMLO Schedule 2 \u00a72, which are essential to the explanation guidance, making the context highly pertinent."
+    }
+  },
+  "6a0196bc27497c7f80993981dc3dab1a86c593e76d9a5e8bbcc8bdea1b3927d5": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the explanation does not explicitly follow the required 4-step structure, combining all points into one paragraph rather than clearly delineating each step as instructed."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions in the provided list, indicating the actual output aligns perfectly with the retrieval context."
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the relevant statements, such as 'Deploy and wire a properly configured identity storage smart contract' and 'Ensure all identity-related interfaces return valid addresses,' directly address the input's focus on explanation guidance, indicating full relevance."
+    }
+  },
+  "37d94520111b1fda5610d016148e376e6a81452b29bc348944140f8c4c2e546e": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow the explicit four-step structure, lacks clear linkage to the regulatory framework, and does not distinctly interpret the control's compliance status, leading to significant unalignment."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions between the actual output and the retrieval context."
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the relevant statements directly relate to establishing a valid identity registry, compliance modules, and regulatory requirements, which are essential for understanding the explanation guidance."
+    }
+  },
+  "981443f2d3c267442c4f7b0a48148d8777eee2f2a640cb7f14924b86ac4ab2ed": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the explanation fails to explicitly follow the required 4-step structure, lacking clear separation of each point and explicit linkage to regulatory clauses and supervisory interpretation, which prevents a higher score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions in the provided list, indicating the actual output aligns perfectly with the retrieval context."
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the relevant statements directly address the importance of on-chain storage of licensed persons' information, which aligns with the input's focus on explanation guidance related to identity storage and statutory requirements."
+    }
+  },
+  "2e1ef1c4b0a4f26bacf7f793615405e43cbaa6446e00baf83d909d3a39aae80a": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow the specified four-step explanation structure and does not explicitly connect the control to AMLO standards or regulatory expectations, leading to significant unalignment."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions in the provided list, indicating the actual output aligns perfectly with the retrieval context."
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the retrieval context contains relevant statements such as 'Maintain current practice and ensure continuous monitoring and updating of license condition records' and 'This control assures regulators that license parameters are traceable and verifiable on-chain,' which directly relate to the input about explanation guidance."
+    }
+  },
+  "a0bfebf2bdc59acf2dd1619c94944cbd29d77ae7836f1431313c469a80433de3": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow the explicit 4-step structure, does not clearly link to the control intent and regulatory expectations, and does not provide an interpretative summary without quoting legal text, as instructed."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions in the provided list, indicating the actual output aligns perfectly with the retrieval context."
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the relevant statements directly discuss integrating trusted issuer claims, on-chain identity identification, and regulatory implications, which are pertinent to understanding identity management and supervision, aligning well with the input about explanation guidance."
+    }
+  },
+  "3df024e6c1e09c603ce25ed5ed8000bea6d933fc9db7c2532a185be0935ea48b": {
+    "prompt_alignment": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no unalignment reasons; the output fully adheres to the prompt instructions, providing a clear, concise explanation with an encouraging tone."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions in the provided list, indicating the actual output aligns perfectly with the retrieval context."
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the relevant statements directly address event emission and logging requirements for identity lifecycle changes, which are essential for regulatory compliance and traceability, aligning closely with the input about explanation guidance."
+    }
+  },
+  "1e229b6e874c021207ed766c34f7b269710ca7e9019a609f5df579f96abad0d9": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow the prompt's instructions for tone, structure, and interpretation, leading to significant unalignment. However, the detailed analysis indicates awareness of the content, preventing a lower score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions between the actual output and the retrieval context."
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the relevant statements clearly emphasize the importance of 'adding and activating requisite compliance modules' to enforce service scope and regulatory mandates, directly aligning with the input's focus on explanation guidance."
+    }
+  },
+  "82b5c77a17e9f57ccfcfca42e0e5d7795136bea1dd434e68ac715e754c8dbebd": {
+    "prompt_alignment": {
+      "score": 0.5,
+      "reason": "The score is 0.50 because the output partially addresses the explanation guidance but fails to follow the explicit 4-step structure and labeling required, leading to unalignment. It also lacks clear linkage to specific rule IDs or clauses, which prevents a higher score."
+    },
+    "faithfulness": {
+      "score": 0.25,
+      "reason": "The score is 0.25 because the contradictions highlight that the implementation lacks the setAddressFrozen function and address freezing, contradicting claims of on-chain suspension and enforcement, which undermines the assertion of effective and immediate enforcement of trading restrictions."
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the relevant statements directly discuss implementing address freezing and suspension functions with on-chain verification, which aligns with the input 'Explanation guidance' by emphasizing critical control functions and regulatory compliance."
+    }
+  },
+  "14477f61cf698416430101275365bd1b18526a7fba9d6ee64c26d8438081d43e": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output does not follow the explicit 4-step structure, fails to clearly link the explanation to the control intent and regulatory expectations, and does not separate the supervisory assessment as instructed. However, it provides a detailed analysis, which is why the score is not lower."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions in the provided list, indicating the actual output aligns perfectly with the retrieval context."
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the relevant statements directly relate to maintaining a list of trusted issuers for principal verification, which aligns with the input's focus on explanation guidance, indicating full relevance."
+    }
+  },
+  "ca6702afe076c6816b4961bfe0be9823e4e0eb55e1b083706e3e7c3ae17882f5": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow the explicit four-step structure and does not clearly link each point to the control intent, observation, regulatory implication, and supervisory interpretation as instructed. While it summarizes the findings, it does not meet the formatting and content requirements, leading to a low score."
+    },
+    "faithfulness": {
+      "score": 0.75,
+      "reason": "The score is 0.75 because the actual output incorrectly claims that the regulation enforces client asset protection via modular compliance mechanisms, which is not supported by the retrieval context that only specifies the control intent in AMLO Cap.571 \u00a753ZRK(5)(e) without detailing enforcement mechanisms."
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the relevant statements, such as 'Integrate and activate comprehensive compliance modules to fulfill client asset protection mandates,' directly relate to the input's focus on explanation guidance, indicating full relevance."
+    }
+  },
+  "545483317912ca21acf504bbc70bc987176aa2e3aa66ae07b765983bdb22170a": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow the specified four-step structure, uses technical language instead of a supervisory tone, and directly quotes raw evidence rather than interpreting compliance implications, leading to significant misalignment despite some relevant content."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions between the actual output and the retrieval context, indicating complete faithfulness."
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the relevant statements, such as 'Implement and maintain persistent on-chain identity and activity recording mechanisms' and 'Control intent: AMLO Schedule 2 \u00a76 requires continuous recording,' directly relate to the input's focus on explanation guidance, indicating full relevance."
+    }
+  },
+  "b2b7ff44d2fa1707ee4cdd195c934b6bc6f9e53d7d4f5d1791c76905e5fbad6b": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the explanation fails to explicitly follow the required 4-step structure, lacks clear delineation of each step, and does not link to specific rule references or interpret compliance status as instructed."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions in the provided list, indicating the actual output aligns perfectly with the retrieval context."
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because the relevant statements directly address role-based permissions and compliance issues related to transfer logic, such as 'Configure and enforce robust role-based permissions' and 'role-based gating controls ensuring only authorized roles can perform virtual asset transfers,' which are highly pertinent to the input about explanation guidance."
+    }
+  },
+  "f751eefdf4740b84061fd9eb7654919af72891d1f11880d3e37187ab51d9267f": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow multiple prompt instructions: it uses technical language instead of supervisory terms, does not clearly identify the control intent or regulatory/operational risk, lacks a compliance rationale, and does not explain the control gap from a regulator's perspective. The output also quotes legal text directly and does not provide a plain, professional explanation suitable for a non-technical auditor. These unalignments fully justify the lowest score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions\u2014great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context directly address the need for explanation guidance on implementing and maintaining an updateIdentity function, with no irrelevant content present. Great job!"
+    }
+  },
+  "3835c3c3c30ac75d781c7f5c0074d81476336b3a51dddb7ba9783b0a961ff71a": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow multiple key prompt instructions: it does not use supervisory language, omits explicit control intent and regulatory risk, lacks a compliance rationale, uses technical jargon, and does not interpret evidence or compliance assurance. These unalignments fully justify the lowest score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context directly support the input by providing clear guidance and explanation related to the identity(address) function and its regulatory importance. Great job!"
+    }
+  },
+  "d7b0f5ae31331bceead616dcad9ddc86d8ad59ce70bbba80b87d752e05a7ee71": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow multiple key prompt instructions: it uses technical language and legal citations instead of supervisory explanation, does not clearly state the control intent or regulatory risk in plain terms, omits rationale for compliance verdicts, and does not interpret evidence or explain compliance assurance. These unalignments fully justify the lowest score."
+    },
+    "faithfulness": {
+      "score": 0.6666666666666666,
+      "reason": "The score is 0.67 because the actual output incorrectly claims that the IdentityRegistered event is mandated by the regulation, whereas the context only requires recording the timestamp when a licence is granted, not the specific event."
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no reasons for irrelevancy and all the statements in the retrieval context directly support the input, providing clear and relevant guidance for explanation."
+    }
+  },
+  "d7d6449b7ebf365bc6343323d1fe16646a8a1783b6cee2db44bc57cd357d450d": {
+    "prompt_alignment": {
+      "score": 1.0,
+      "reason": "Great job! The score is 1.00 because there are no unalignments\u2014the output follows all prompt instructions perfectly."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions\u2014the actual output aligns perfectly with the retrieval context. Great job staying accurate!"
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context directly support the input by providing clear guidance and explanation on the need for an identity(address) function and its regulatory importance. Great job!"
+    }
+  },
+  "b365ec5eec79818e8d01d2906d97592d3f39df7018f29e6836c6c150af3de896": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow any of the prompt's instructions: it uses technical language instead of supervisory terms, omits control intent and risk discussion, lacks compliance rationale, and does not provide traceability or plain language suitable for auditors. The unalignments are comprehensive, justifying the lowest possible score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context are directly relevant to the input, and there are no reasons for irrelevancy. Great job!"
+    }
+  },
+  "e8ba47277d2a715e25d53af642d28ddcf073e521369bed6847cc0d2ef002ecf0": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow multiple key prompt instructions: it uses technical jargon and code-level details instead of supervisory language, does not clearly state the control intent or associated risks, quotes legal text verbatim, and does not provide a compliance rationale or interpret evidence in plain terms for a non-technical auditor. These unalignments fully justify the lowest possible score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context are directly relevant to the input, with no reasons for irrelevancy provided. Great job!"
+    }
+  },
+  "891707ccd53a36d4d3fd774b2b1624c7cb949a627c82e76e86118cb1e3ebb342": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output repeatedly fails to follow key prompt instructions: it uses technical jargon and code references instead of supervisory language, does not clearly state the control intent or regulatory risk, lacks a compliance rationale, and does not interpret evidence in plain terms for a non-technical auditor. These unalignments fully justify the lowest score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context are directly relevant to the input, and there are no reasons for irrelevancy. Great job!"
+    }
+  },
+  "e7409794eae4df73ea38c06f602dbd367a8c1dab5bb942ee0829ca6061825b5c": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow multiple key prompt instructions: it does not frame the explanation for an HKMA/SFC auditor, omits explicit control intent, lacks discussion of regulatory risk and how a gap would be viewed by a regulator, improperly quotes legal text, does not provide a compliance rationale for a 'PASS' verdict, uses technical jargon, and does not interpret evidence in compliance terms. These unalignments fully justify the lowest possible score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions listed. Great job staying faithful to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context are directly relevant to the input, and there are no reasons for irrelevancy provided. Great job!"
+    }
+  },
+  "c59bd49015e0e9cfef4b3f2c5c1a1eae2093eac1fd7cae4b04f267e2119bf740": {
+    "prompt_alignment": {
+      "score": 0.5714285714285714,
+      "reason": "The score is 0.57 because the output partially follows the instructions by identifying a control gap, but it includes unnecessary code-level details, lacks clear traceability to the regulatory clause, and does not provide the required compliance rationale for a 'PASS' verdict. These unalignments prevent a higher score, but the output still addresses some relevant compliance concerns, justifying its current score."
+    },
+    "faithfulness": {
+      "score": 0.8,
+      "reason": "The score is 0.80 because the actual output assumes support for the identity registry contract, but the context clarifies that the contract currently lacks the updateIdentity function, leading to a partial contradiction."
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context directly address the input, providing clear guidance and relevant details for implementing and explaining the updateIdentity function."
+    }
+  },
+  "062e8fff2b6be996875c02d4674472d1dd47e0cd0fc956bfd9ce7a6c99567231": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow multiple key prompt instructions: it uses technical language and code references instead of plain, supervisory language; it quotes legal text verbatim; it does not clearly state the control intent, regulatory risk, or compliance rationale; and it does not interpret evidence in terms of compliance, all of which are required by the prompt."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions listed. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context are directly relevant to the input, with no reasons for irrelevancy provided. Great job!"
+    }
+  },
+  "06aff8e7c3381d7db7be0d76e059c4a692fea2f724d56f6ca4879240d7197b9f": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow multiple key prompt instructions: it uses technical and legal jargon instead of plain, supervisory language, does not identify control intent or risks, lacks a compliance rationale, and directly quotes legal text. These unalignments mean none of the prompt's requirements are met, justifying the lowest score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions\u2014great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context are directly relevant to the input, with no reasons for irrelevancy provided. Great job!"
+    }
+  },
+  "3233f4f9412cc99eaa75f35554c2eff100c7629fe3fec91eb9609f5203ca8a95": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the explanation fails to follow any of the prompt instructions: it focuses on technical code details instead of supervisory or compliance language, does not identify control intent or regulatory risk, lacks a compliance rationale suitable for auditors, and directly quotes legal text and evidence rather than interpreting them. These unalignments fully account for the lowest possible score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions\u2014great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context are directly relevant to the input, with no reasons for irrelevancy provided. Great job!"
+    }
+  },
+  "72c5c3480f0d1010e0926346ff7f160e8c299e870a2ab8a6589efab6df26a309": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow multiple prompt instructions: it quotes legal text verbatim, does not frame the explanation in supervisory or plain language, omits the control intent and regulatory risk, and copies evidence directly without interpretation. These unalignments prevent any alignment credit."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 0.6666666666666666,
+      "reason": "The score is 0.67 because while the context includes relevant statements about maintaining an auditable timeline and compliance, it does not directly provide explanation guidance as requested in the input."
+    }
+  },
+  "fc43b193f63de92970d30791e1b6b671e113d71b4b63f479daa5e147ccde7a3b": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the explanation fails to follow multiple key prompt instructions, such as framing the answer for an HKMA/SFC auditor, identifying control intent, describing regulatory risks, and providing a clear compliance rationale. It also lacks plain, professional language and does not interpret evidence in supervisory terms, resulting in complete unalignment."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context are directly relevant to the input, and there are no reasons for irrelevancy. Great job!"
+    }
+  },
+  "a24b839e267ee3750c7a1733519dc351f07321fb53e4ec2761877a3ec327986b": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow multiple key prompt instructions: it focuses on technical details and legal citations rather than explaining the control intent, regulatory risk, or supervisory perspective in plain language. It does not address what could go wrong without the control, how a regulator would view the gap, or provide a compliance rationale, and it uses jargon without clarifying compliance relevance. These unalignments fully justify the lowest score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions\u2014great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context are directly relevant to the input, and there are no reasons provided for irrelevancy. Great job!"
+    }
+  },
+  "596db451e5f5309610292d1a571583af21d2a1fa4a220a2be2d4881db1f94440": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow multiple key prompt instructions, such as framing the explanation for an HKMA/SFC auditor, identifying control intent, discussing risks, providing a compliance rationale, and using plain language. It only describes contract functionality and regulatory linkage, missing all required supervisory and compliance perspectives."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions\u2014great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context are directly relevant to the input, and there are no reasons for irrelevancy. Great job!"
+    }
+  },
+  "f06cd5cf0044ecebe210136ef2478f3fda411c28cb5543f52fbeb32824358ad6": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow multiple key prompt instructions, such as addressing the correct audience, linking technical features to regulatory requirements, identifying control intent, discussing risks, providing a compliance rationale, using plain language, and interpreting evidence in compliance terms. The output only describes contract features without meeting any of the specified alignment criteria."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 0.75,
+      "reason": "The score is 0.75 because while the retrieval context describes features and safeguards of a compliance contract, it does not directly provide explanation guidance or advice on how to explain concepts, as noted in the irrelevancy reason."
+    }
+  },
+  "767cec62c1515fb23acc511541035efaa1d70b8b86a930216be1a690694eaa68": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output repeatedly violates key prompt instructions: it quotes regulatory text verbatim (which is prohibited), fails to clearly state the control intent in supervisory terms, does not explain the regulatory or operational risk in the required manner, and does not provide a compliance rationale or interpret evidence as instructed. Additionally, it uses technical language and implementation details rather than the auditor-focused, non-technical explanation requested. These multiple unalignments fully justify the lowest possible score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context directly support the input, and there are no reasons for irrelevancy. Great job!"
+    }
+  },
+  "18f6537fb561d2d937ceca241621bf4e3e25b1807e7a7575f9cf4f4ae5d042ea": {
+    "prompt_alignment": {
+      "score": 1.0,
+      "reason": "Great job! The output fully aligns with the prompt instructions, with no unalignments found."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions\u2014great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because all statements in the retrieval context are directly relevant to the input, and there are no reasons for irrelevancy. Great job!"
+    }
+  },
+  "43acf296c6cc29838d2132a22e77f8f13168009c2c7ca2b56427522f36f589af": {
+    "prompt_alignment": {
+      "score": 0.14285714285714285,
+      "reason": "The score is 0.14 because the output fails to follow several key prompt instructions: it uses technical jargon, quotes legal text verbatim, does not clearly identify the supervisory control intent, and omits the required explanation for a 'PASS' scenario. However, it does attempt to connect technical implementation to regulatory requirements, which is why it is not scored even lower."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions\u2014great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 0.75,
+      "reason": "The score is 0.75 because, while some statements like 'Implement and deploy the idr.updateIdentity(address,address,uint16[]) function...' and 'Maintain detailed event logs...' provide actionable guidance and explanations relevant to the input, other statements such as 'ABI has token.identityRegistry(): true' are purely technical and do not offer explanation guidance, reducing overall relevancy."
+    }
+  },
+  "5c070c68b41e6cdab3d2fcbf32627958a65165d45c478d9a16da919c45bf1573": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow multiple key prompt instructions: it uses technical language inappropriate for the intended supervisory audience, references legal text verbatim, does not identify the control intent or regulatory risk, and does not interpret evidence in compliance terms. Instead, it simply describes technical features, leading to complete unalignment."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 0.42857142857142855,
+      "reason": "The score is 0.43 because, while most of the context is technical and not directly related to explanation guidance (e.g., 'idr.identityStorage(): true'), there are some relevant statements such as 'Continue monitoring event emission and data anchoring functionality...' and 'This ensures immutability and traceability of entity identity data...' that provide some guidance and explanation."
+    }
+  },
+  "afb74ab26339a5c1a2c1a253ded6aa5b8fada03cd574138eb19fbdfbc77cb172": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow any of the prompt's instructions: it uses technical language instead of supervisory or regulatory framing, does not identify control intent or regulatory risks, lacks a compliance rationale, and directly quotes legal text and evidence rather than interpreting them. These unalignments mean the explanation does not meet any of the required criteria."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 0.375,
+      "reason": "The score is 0.38 because while most of the context consists of technical outputs and event logs that do not provide explanation guidance (e.g., 'ctr.addClaimTopic(uint256): true'), there are a few relevant statements that offer high-level explanation, such as 'Maintain controls and logging around claim topics to support supervision of license condition changes.'"
+    }
+  },
+  "d3ae205c9ab7d7c7d528f652ee12f46eb7328a34c38426fe13e111b6e11b5743": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow multiple key instructions: it uses technical jargon and function names instead of plain, supervisory language; it does not explain the control intent or regulatory risk; it lacks a compliance rationale for a 'PASS' verdict; and it does not interpret evidence in terms of compliance assurance. These unalignments fully justify the lowest possible score."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions\u2014great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 0.5,
+      "reason": "The score is 0.50 because while some statements like 'Continue to exercise identity verification and transfer gating...' provide explanation guidance relevant to the input, much of the context consists of technical assertions (e.g., 'idr.identity(address): true') that do not address the requested explanation guidance."
+    }
+  },
+  "654046b3af498ba62d44ba51fdcbae0c6cf788af25e2a894f60b135c0f37ebbc": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow any of the prompt's key instructions: it does not address the intended audience, identify control intent, discuss risks, provide a compliance rationale, or interpret evidence in regulatory terms. It simply restates what the system does and references a regulation, missing all required alignment points."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions\u2014everything in the actual output aligns perfectly with the retrieval context. Great job staying accurate!"
+    },
+    "contextual_relevancy": {
+      "score": 0.5,
+      "reason": "The score is 0.50 because while some statements like 'Ensure event emission remains consistent and tamper-proof for audit evidence.' and 'This supports regulatory needs for traceability and temporal accuracy of license status.' are somewhat relevant to explanation guidance, most of the context consists of technical event flags that do not provide direct explanation guidance as requested."
+    }
+  },
+  "17de5d99d38e756d52dc03bd55e0bc3f0149ed0645c54efc9fc77d805843be39": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output does not follow any of the prompt's instructions: it uses technical language instead of supervisory terms, fails to identify control intent or regulatory risks, does not explain the compliance rationale, and does not interpret technical evidence in terms of compliance assurance. The output is entirely misaligned with the requested explanation guidance for an HKMA/SFC auditor."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 0.3333333333333333,
+      "reason": "The score is 0.33 because most of the retrieval context consists of code-like statements that do not provide explanation guidance, as noted in the irrelevancy reasons. Only a few statements, such as 'Adequately document scope changes and ensure event logs for supervisory traceability,' are relevant to explanation guidance, but the majority of the context is not."
+    }
+  },
+  "5076fe7ef0f0ed3fad9920fa4fd7d39273d5e91c238a6d402679e45e0914ea25": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow any of the prompt's instructions: it uses technical jargon instead of supervisory terms, does not clearly identify the control intent or regulatory risk, lacks a compliance rationale, and does not explain the regulatory perspective or provide traceability in plain, professional language. The explanation is purely technical and does not align with the required supervisory or compliance-focused approach."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 0.3,
+      "reason": "The score is 0.30 because most of the retrieval context consists of code-related statements that do not provide explanation guidance, as noted in the irrelevancy reasons. Only a few statements, such as 'Maintain robust governance to trigger and record suspension statuses timely.' and 'This control prevents suspended entities from transacting, preserving market integrity and client asset protection.', offer some relevant explanation guidance."
+    }
+  },
+  "0d7ee0bec0bdd83078a01464c6afa0381de375cd83c64fe7ea2d417a80d3a87e": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow any of the prompt instructions: it does not address the intended supervisory audience, lacks plain language, omits compliance rationale, does not identify control intent or risks, and relies on technical jargon without regulatory context. The output simply lists functions and events without linking them to compliance or regulatory expectations, resulting in complete unalignment."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 0.375,
+      "reason": "The score is 0.38 because most of the retrieval context consists of code outputs that do not provide explanation guidance, as noted in the irrelevancy reasons. Only a few statements, such as 'Sustain controls over trusted issuer updates and maintain event logs for oversight,' are somewhat relevant by offering minimal explanation, but overall, the context lacks the detailed guidance requested in the input."
+    }
+  },
+  "2d9f2fd0286188a99ed42d4d1daca226ed6207356c2e90e497322dbfe4943e87": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output fails to follow multiple key prompt instructions, such as framing the explanation for a supervisory audience, identifying control intent, discussing regulatory risks, providing a compliance rationale, and avoiding technical jargon. It also lacks traceability to the regulatory clause and does not interpret evidence in compliance terms. The score is not higher because these unalignments are fundamental to the prompt's requirements."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 0.375,
+      "reason": "The score is 0.38 because, while some statements like 'Maintain strict access management and monitoring for module interactions...' and 'This design ensures modular and enforceable controls...' provide a bit of explanation guidance, most of the context consists of code-like expressions that do not address the input's request for explanation guidance."
+    }
+  },
+  "4857cf8a4320e31705edff58a1e2e0e69db23aa41ad62a07f3e78bd79bf410d8": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the explanation fails to follow multiple prompt instructions: it uses technical language instead of supervisory terms, does not identify control intent or regulatory risk, lacks a compliance rationale for the verdict, and does not interpret evidence in plain terms for an auditor. These unalignments prevent any alignment credit."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 0.375,
+      "reason": "The score is 0.38 because while most statements are technical logs or code-like expressions that do not provide explanation guidance, a few statements such as 'Ensure event logs are securely stored and reviewed regularly...' and 'This ensures robust client due diligence...' do offer some relevant explanatory content."
+    }
+  },
+  "48320828c0597a15dacfe15b68fcda5e65c0c3c283fbee74611b5eff33d42749": {
+    "prompt_alignment": {
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output does not follow any of the prompt's instructions: it uses technical jargon instead of supervisory language, fails to clearly identify control intent or regulatory risks, does not explain the regulatory perspective, and lacks a compliance rationale. The explanation is entirely technical, with no alignment to the requested supervisory or regulatory framing."
+    },
+    "faithfulness": {
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+    },
+    "contextual_relevancy": {
+      "score": 0.25,
+      "reason": "The score is 0.25 because most of the context consists of code-like statements that do not provide explanation guidance, as noted in the irrelevancy reasons. Only a small part of the context ('The system integrates... fulfilling the role gating and transfer authorization demands...' and 'This ensures only verified and authorized entities can transact...') is somewhat relevant, but it still does not directly address explanation guidance."
+    }
+  }
+}

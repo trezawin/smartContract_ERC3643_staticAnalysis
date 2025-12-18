@@ -12,6 +12,7 @@ export interface BuggyAddresses {
   claimTopicsRegistry: string;
   trustedIssuersRegistry: string;
   compliance: string;
+  identityRegistryStorage: string;
 }
 
 export interface BuggyBootstrapResult {
@@ -38,26 +39,26 @@ export async function bootstrapBuggy(
 
   const artifact = (p: string) => require(p);
 
-  const ClaimTopicsRegistryArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json");
-  const TrustedIssuersRegistryArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json");
-  const IdentityRegistryStorageArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json");
-  const ModularComplianceArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json");
-  const TokenArtifact = artifact("@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json");
-  const BuggyIdentityRegistryArtifact = requireArtifact("artifacts/contracts/buggy/BuggyIdentityRegistry.sol/BuggyIdentityRegistry.json");
+  const BuggyClaimTopicsRegistryArtifact = requireArtifact("artifacts/contracts/buggy/BuggyClaimTopicsRegistryMinimal.sol/BuggyClaimTopicsRegistryMinimal.json");
+  const BuggyTrustedIssuersRegistryArtifact = requireArtifact("artifacts/contracts/buggy/BuggyTrustedIssuersRegistryMinimal.sol/BuggyTrustedIssuersRegistryMinimal.json");
+  const BuggyIdentityRegistryStorageArtifact = requireArtifact("artifacts/contracts/buggy/BuggyIdentityRegistryStorageNoEvents.sol/BuggyIdentityRegistryStorageNoEvents.json");
+  const BuggyIdentityRegistryArtifact = requireArtifact("artifacts/contracts/buggy/BuggyIdentityRegistryMissingHooks.sol/BuggyIdentityRegistryMissingHooks.json");
+  const BuggyComplianceArtifact = requireArtifact("artifacts/contracts/buggy/BuggyModularComplianceMinimal.sol/BuggyModularComplianceMinimal.json");
+  const BuggyTokenArtifact = requireArtifact("artifacts/contracts/buggy/BuggyTokenNoIdentityRegistry.sol/BuggyTokenNoIdentityRegistry.json");
 
   const ClaimTopicsRegistry = await ethers.getContractFactory(
-    ClaimTopicsRegistryArtifact.abi,
-    ClaimTopicsRegistryArtifact.bytecode,
+    BuggyClaimTopicsRegistryArtifact.abi,
+    BuggyClaimTopicsRegistryArtifact.bytecode,
     deployer
   );
   const TrustedIssuersRegistry = await ethers.getContractFactory(
-    TrustedIssuersRegistryArtifact.abi,
-    TrustedIssuersRegistryArtifact.bytecode,
+    BuggyTrustedIssuersRegistryArtifact.abi,
+    BuggyTrustedIssuersRegistryArtifact.bytecode,
     deployer
   );
   const IdentityRegistryStorage = await ethers.getContractFactory(
-    IdentityRegistryStorageArtifact.abi,
-    IdentityRegistryStorageArtifact.bytecode,
+    BuggyIdentityRegistryStorageArtifact.abi,
+    BuggyIdentityRegistryStorageArtifact.bytecode,
     deployer
   );
   const BuggyIdentityRegistry = await ethers.getContractFactory(
@@ -65,14 +66,14 @@ export async function bootstrapBuggy(
     BuggyIdentityRegistryArtifact.bytecode,
     deployer
   );
-  const ModularCompliance = await ethers.getContractFactory(
-    ModularComplianceArtifact.abi,
-    ModularComplianceArtifact.bytecode,
+  const BuggyCompliance = await ethers.getContractFactory(
+    BuggyComplianceArtifact.abi,
+    BuggyComplianceArtifact.bytecode,
     deployer
   );
-  const Token = await ethers.getContractFactory(
-    TokenArtifact.abi,
-    TokenArtifact.bytecode,
+  const BuggyToken = await ethers.getContractFactory(
+    BuggyTokenArtifact.abi,
+    BuggyTokenArtifact.bytecode,
     deployer
   );
 
@@ -80,8 +81,8 @@ export async function bootstrapBuggy(
   const tir = await TrustedIssuersRegistry.deploy(); await tir.deployed();
   const irs = await IdentityRegistryStorage.deploy(); await irs.deployed();
   const ir = await BuggyIdentityRegistry.deploy(); await ir.deployed();
-  const compliance = await ModularCompliance.deploy(); await compliance.deployed();
-  const token = await Token.deploy(); await token.deployed();
+  const compliance = await BuggyCompliance.deploy(); await compliance.deployed();
+  const token = await BuggyToken.deploy(); await token.deployed();
 
   console.log("[bootstrap:buggy] CTR:", ctr.address);
   console.log("[bootstrap:buggy] TIR:", tir.address);
@@ -97,20 +98,12 @@ export async function bootstrapBuggy(
   await (await ir.init(tir.address, ctr.address, irs.address)).wait();
 
   await (await compliance.init()).wait();
-  await (await token.init(
-    ir.address,
-    compliance.address,
-    "Buggy Compliance Token",
-    "BUG",
-    18,
-    deployer.address
-  )).wait();
+  await (await token.init(ethers.constants.AddressZero)).wait();
 
   try { if (token.addAgent) await token.addAgent(deployer.address); } catch {}
   try { if (token.unpause) await token.unpause(); } catch {}
   try { if (token.mint) await token.mint(deployer.address, ethers.utils.parseUnits("1000", 18)); } catch {}
 
-  await (await ctr.addClaimTopic(1)).wait();
   await (await irs.bindIdentityRegistry(ir.address)).wait();
 
   // Intentionally omit compliance monitoring modules to violate ongoing monitoring rule
@@ -122,7 +115,8 @@ export async function bootstrapBuggy(
     identityRegistry: ir.address,
     claimTopicsRegistry: ctr.address,
     trustedIssuersRegistry: tir.address,
-    compliance: compliance.address
+    compliance: ethers.constants.AddressZero,
+    identityRegistryStorage: irs.address
   };
 
   const resolvedOutput = path.resolve(process.cwd(), outputPath ?? ".cre.addresses.json");
@@ -147,4 +141,3 @@ if (require.main === module) {
     process.exit(1);
   });
 }
-

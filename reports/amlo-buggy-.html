@@ -1,0 +1,316 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif; color:#111827; margin:24px; }
+  h1 { font-size:24px; margin:0 0 4px 0; }
+  .sub { color:#6B7280; font-size:13px; }
+</style>
+</head>
+<body>
+  <h1>ERC-3643 Compliance Report</h1>
+  <div class="sub">
+    Generated: 2025-10-29T11:22:55.036Z — Deterministic checks + LLM reasoning
+  </div>
+
+  
+<div style="margin:16px 0">
+  <div style="font-weight:700;margin-bottom:6px">Inputs</div>
+  <div style="font-size:13px;color:#374151">
+    <div>Addresses file: <code>/Users/treza/Documents/staticAnalysis/.cre.addresses.json</code></div>
+    <div>Rules: <code>cre/rules/rule.AMLO.json</code></div>
+    <div>ABI artifacts: <code>Token: node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json</code>, <code>IdentityRegistry: artifacts/contracts/buggy/BuggyIdentityRegistry.sol/BuggyIdentityRegistry.json</code>, <code>ClaimTopicsRegistry: node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json</code>, <code>TrustedIssuersRegistry: node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json</code>, <code>Compliance: node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json</code>, <code>IdentityRegistryStorage: node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json</code></div>
+  </div>
+  <ul style="margin-top:8px">
+    <li>cre/rules/rule.AMLO.json</li>
+  </ul>
+  <details style="margin-top:10px;font-size:13px"><summary style="cursor:pointer">Resolved addresses</summary>
+    <ul style="margin-top:8px"><li><code>networkRpc</code> → <code>http://127.0.0.1:8545</code></li><li><code>token</code> → <code>0x5FC8d32690cc91D4c39d9d3abcBD16989F875707</code></li><li><code>identityRegistry</code> → <code>0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9</code></li><li><code>claimTopicsRegistry</code> → <code>0x5FbDB2315678afecb367f032d93F642f64180aa3</code></li><li><code>trustedIssuersRegistry</code> → <code>0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512</code></li><li><code>compliance</code> → <code>0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9</code></li></ul>
+  </details>
+</div>
+
+
+  <div style="font-weight:700;margin:16px 0 4px 0">Summary of distribution</div>
+  <table style="border-collapse:collapse;font-size:13px;margin:12px 0;width:100%;max-width:640px">
+    <thead>
+      <tr style="text-align:left">
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#F3F4F6">Review date</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#10B981;color:#FFFFFF">Pass</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#FACC15;color:#111827">Medium</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#F97316;color:#111827">High</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#B91C1C;color:#FFFFFF">Very High</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#374151;color:#FFFFFF">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">2025-10-29</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">7</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">0</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">4</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">2</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">13</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<div style="margin:24px 0">
+  <div style="font-weight:700;margin-bottom:8px">Assessed rules</div>
+  <table style="border-collapse:collapse;font-size:13px;width:100%">
+    <thead>
+      <tr style="background:#F3F4F6;text-align:left">
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">#</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Rule title</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Rule description</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Ordinance</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Severity</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Explanation</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">1</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO CDD identity controls</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Token and Identity Registry must expose the hooks necessary to perform customer and beneficial owner due diligence before onboarding.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.615) Schedule 2 §2</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO CDD gating failed: a transfer to an unverified address could be executed due to missing identity gating in the transfer control path.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">2</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO record keeping support</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity Registry Storage must be wired and emit lifecycle events so identity evidence can be retained for at least seven years.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.615) Schedule 2 §2</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity storage on-chain is declared present (idr.identityStorage()) but the identity storage address is zero, indicating the storage wiring is not properly configured for records.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">3</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Maintain on-chain register of licensed persons</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(1)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The on-chain identity registry exists (identityRegistry() is true) but registerIdentity(address,address,uint16[]) is not implemented/accessible, preventing on-chain licensing record maintenance.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">4</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Anchor name and business address data</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity records must support anchoring of name and business address metadata with auditable storage events.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(i)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has idr.identityStorage(): true; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">5</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Record licence conditions with effective dates</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence conditions must be represented as claim topics that can be versioned on-chain.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(ii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has ctr.addClaimTopic(uint256): true; ABI has ctr.removeClaimTopic(uint256): true; ABI has ctr.getClaimTopics(): true; Event on ctr:ClaimTopicAdded present: true; Event on ctr:ClaimTopicRemoved present: true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">6</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identification claim</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identifiers must be retrievable via identity resolution and enforced through claims.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">On-chain central identity resolution fails: idr.identity(address) returns false for a central entity address, indicating unresolved or misconfigured central identity mapping.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">7</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Capture licence grant timestamp</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence issuance must be observable on-chain with timestamped events for audit trail.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iv)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">IdentityRegistered event is not emitted on grant, and the grant timestamp is not captured on-chain, reducing traceability of licensing actions.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">8</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Encode VA service scope and effective date</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The compliance module must expose modular hooks to reflect permitted service scope with activation controls.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(v)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has compliance.bindToken(address): true; ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.getModules(): true; Event on compliance:ModuleAdded present: true; Event on compliance:ModuleRemoved present: true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">9</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Represent suspension status on-chain</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(vi)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has token.setAddressFrozen(address,bool): true; ABI has token.freezePartialTokens(address,uint256): true; ABI has token.unfreezePartialTokens(address,uint256): true; ABI has token.isFrozen(address): true; Event on token:AddressFrozen present: true; Event on token:TokensUnfrozen present: true; Event on token:TokensFrozen present: true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">10</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Representative principal linkage</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(c)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has tir.updateIssuerClaimTopics(address,uint256[]): true; ABI has tir.getTrustedIssuers(): true; ABI has ctr.getClaimTopics(): true; Event on tir:TrustedIssuerAdded present: true; Event on tir:TrustedIssuerRemoved present: true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">11</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Client asset safeguards via modular compliance</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRK(5)(e)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.callModuleFunction(bytes,address): true; ABI has compliance.unbindToken(address): true; Event on compliance:ModuleInteraction present: true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">12</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ongoing record of customer identity and activity</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity evidence and transactional metadata must remain queryable for historical monitoring.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §6</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ongoing identity monitoring indicates isVerified(address) is true while identity(address) is false, implying inconsistent or incomplete customer-identity records over time.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">13</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Virtual asset transfer role gating</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §13A(1)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has token.compliance(): true; data.tokenCompliance is non-zero; ABI has compliance.canTransfer(address,address,uint256): true; ABI has idr.isVerified(address): true; ABI has tir.isTrustedIssuer(address): true</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+  
+<div style="margin:16px 0;font-size:13px;color:#4B5563">
+  Additional artifacts: <code>reports/amlo-buggy.txt</code>
+</div>
+  <!-- Per-Rulebook Execution intentionally hidden -->
+  
+<h2 style="margin:28px 0 12px 0;font-size:20px;border-bottom:1px solid #E5E7EB;padding-bottom:6px">LLM Compliance Assessment</h2>
+<div style="font-size:12px;color:#6B7280">Model: gpt-5-nano-2025-08-07</div>
+
+<div style="margin:12px 0;font-size:14px;line-height:1.6"><strong>Summary:</strong> Six regulator-facing findings identify material AML/CFT, licensing, and on-chain identity control gaps. Immediate remediation is required to prevent misuse, preserve market integrity, and protect client assets. Evidence artefacts and event logs should be collected to validate closure and support audit readiness.</div>
+
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#B91C1C">Very High</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">1. AMLO record keeping support</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Identity storage on-chain is declared present (idr.identityStorage()) but the identity storage address is zero, indicating the storage wiring is not properly configured for records.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.615) Schedule 2 §2</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>Record-keeping artefacts show identityStorage() is present but identity storage address is zero (paraphrased).</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Wire the identityStorage address to a valid on-chain storage contract and verify that idrIdentityStorageAddr is non-zero. Add tests to confirm identityStorage() returns a live contract address and that identity records persist. Implement automated checks for non-zero storage address during deployment and include identity storage artefacts in audit logs.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">2. Ongoing record of customer identity and activity</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Ongoing identity monitoring indicates isVerified(address) is true while identity(address) is false, implying inconsistent or incomplete customer-identity records over time.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO Schedule 2 §6</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>Monitoring shows isVerified(address) true but identity(address) false; renewal/retention data may be incomplete (paraphrased).</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Ensure continuous identity retention aligns with verified identity data; fix identity provisioning and linkage to ensure identity(address) resolves consistently over time. Add automated checks to alert when isVerified is true but identity is missing; implement regression tests for retention and continuity, and document run-book steps for identity lifecycle reconciliation.</div>
+    </div></div>
+      </div>
+
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#F97316">High</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">3. AMLO CDD identity controls</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">AMLO CDD gating failed: a transfer to an unverified address could be executed due to missing identity gating in the transfer control path.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.615) Schedule 2 §2</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>Detected AMLO CDD control gap: transfer to an unverified recipient occurred due to missing identity gating (paraphrased).</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Impose strict on-chain identity gating on transfers; require recipient identity verification (isVerified) before allowing value transfer. Implement pre-transfer checks in the VA transfer module, or require a validated identity in the compliance layer. Add unit tests simulating transfers to verified vs unverified addresses; add regression tests for gating logic; introduce an event to capture gating outcomes and a run-book for AML testing.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">4. Maintain on-chain register of licensed persons</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The on-chain identity registry exists (identityRegistry() is true) but registerIdentity(address,address,uint16[]) is not implemented/accessible, preventing on-chain licensing record maintenance.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(i)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>Identity registry present, but registerIdentity(address,address,uint16[]) is not available or not exposed as operable (paraphrased).</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Implement registerIdentity in the identity registry with proper governance controls, emit IdentityRegistered events on successful registrations, and ensure the registry is wired to encode license ownership and terms. Add unit/integration tests for registerIdentity and IdentityRegistered events; provide regression tests for grant/renewal flows; document on-chain licensing lifecycle in run-books.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">5. Central entity identification claim</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">On-chain central identity resolution fails: idr.identity(address) returns false for a central entity address, indicating unresolved or misconfigured central identity mapping.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(iii)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>Central identity lookup (idr.identity(address)) returns false for the given address (paraphrased).</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Fix the identity resolution mechanism to map central entities to their registered identities. Ensure idr.identity(address) returns a valid identity for authorized central entities. Add tests for identity resolution, and verify governance aligns with accreditation rules; include a regression test that ensures identity(address) resolves after provisioning a central issuer.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">6. Capture licence grant timestamp</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">IdentityRegistered event is not emitted on grant, and the grant timestamp is not captured on-chain, reducing traceability of licensing actions.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(iv)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>IdentityRegistered event missing at grant; grant timestamp not recorded (paraphrased).</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Emit IdentityRegistered at grant with a precise timestamp; persist grant time in an immutable field; add corresponding event listeners and tests to validate grant-time logging; update audit run-book to include timestamp checks in licensing workflows.</div>
+    </div></div>
+      </div>
+
+  <div style="margin-top:28px;color:#6B7280;font-size:12px">
+    Evidence combines deterministic probes (Hardhat fallback when available) and policy-grounded LLM analysis.
+  </div>
+</body>
+</html>

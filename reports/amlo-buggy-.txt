@@ -1,0 +1,56 @@
+Compliance Report
+Generated: 2025-10-29T11:24:17.746Z
+Deterministic Summary: PASS=7 | VERY_HIGH=2 | HIGH=4 | MEDIUM=0
+LLM Model: gpt-5-nano-2025-08-07
+
+Six regulator-facing findings identify material AML/CFT, licensing, and on-chain identity control gaps. Immediate remediation is required to prevent misuse, preserve market integrity, and protect client assets. Evidence artefacts and event logs should be collected to validate closure and support audit readiness.
+
+Findings:
+
+Very High
+1. AMLO record keeping support
+Identity storage on-chain is declared present (idr.identityStorage()) but the identity storage address is zero, indicating the storage wiring is not properly configured for records.
+Paths:
+- Record-keeping artefacts show identityStorage() is present but identity storage address is zero (paraphrased).
+Compliance Ref: AMLO (Cap.615) Schedule 2 §2
+Recommendation: Wire the identityStorage address to a valid on-chain storage contract and verify that idrIdentityStorageAddr is non-zero. Add tests to confirm identityStorage() returns a live contract address and that identity records persist. Implement automated checks for non-zero storage address during deployment and include identity storage artefacts in audit logs.
+
+Very High
+2. Ongoing record of customer identity and activity
+Ongoing identity monitoring indicates isVerified(address) is true while identity(address) is false, implying inconsistent or incomplete customer-identity records over time.
+Paths:
+- Monitoring shows isVerified(address) true but identity(address) false; renewal/retention data may be incomplete (paraphrased).
+Compliance Ref: AMLO Schedule 2 §6
+Recommendation: Ensure continuous identity retention aligns with verified identity data; fix identity provisioning and linkage to ensure identity(address) resolves consistently over time. Add automated checks to alert when isVerified is true but identity is missing; implement regression tests for retention and continuity, and document run-book steps for identity lifecycle reconciliation.
+
+High
+3. AMLO CDD identity controls
+AMLO CDD gating failed: a transfer to an unverified address could be executed due to missing identity gating in the transfer control path.
+Paths:
+- Detected AMLO CDD control gap: transfer to an unverified recipient occurred due to missing identity gating (paraphrased).
+Compliance Ref: AMLO (Cap.615) Schedule 2 §2
+Recommendation: Impose strict on-chain identity gating on transfers; require recipient identity verification (isVerified) before allowing value transfer. Implement pre-transfer checks in the VA transfer module, or require a validated identity in the compliance layer. Add unit tests simulating transfers to verified vs unverified addresses; add regression tests for gating logic; introduce an event to capture gating outcomes and a run-book for AML testing.
+
+High
+4. Maintain on-chain register of licensed persons
+The on-chain identity registry exists (identityRegistry() is true) but registerIdentity(address,address,uint16[]) is not implemented/accessible, preventing on-chain licensing record maintenance.
+Paths:
+- Identity registry present, but registerIdentity(address,address,uint16[]) is not available or not exposed as operable (paraphrased).
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(i)
+Recommendation: Implement registerIdentity in the identity registry with proper governance controls, emit IdentityRegistered events on successful registrations, and ensure the registry is wired to encode license ownership and terms. Add unit/integration tests for registerIdentity and IdentityRegistered events; provide regression tests for grant/renewal flows; document on-chain licensing lifecycle in run-books.
+
+High
+5. Central entity identification claim
+On-chain central identity resolution fails: idr.identity(address) returns false for a central entity address, indicating unresolved or misconfigured central identity mapping.
+Paths:
+- Central identity lookup (idr.identity(address)) returns false for the given address (paraphrased).
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iii)
+Recommendation: Fix the identity resolution mechanism to map central entities to their registered identities. Ensure idr.identity(address) returns a valid identity for authorized central entities. Add tests for identity resolution, and verify governance aligns with accreditation rules; include a regression test that ensures identity(address) resolves after provisioning a central issuer.
+
+High
+6. Capture licence grant timestamp
+IdentityRegistered event is not emitted on grant, and the grant timestamp is not captured on-chain, reducing traceability of licensing actions.
+Paths:
+- IdentityRegistered event missing at grant; grant timestamp not recorded (paraphrased).
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iv)
+Recommendation: Emit IdentityRegistered at grant with a precise timestamp; persist grant time in an immutable field; add corresponding event listeners and tests to validate grant-time logging; update audit run-book to include timestamp checks in licensing workflows.

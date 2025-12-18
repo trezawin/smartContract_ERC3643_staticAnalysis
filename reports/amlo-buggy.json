@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-10-28T17:59:45.686Z",
+  "generatedAt": "2025-10-30T22:04:11.603Z",
   "inputs": {
     "addressesPath": "/Users/treza/Documents/staticAnalysis/.cre.addresses.json",
     "addresses": {
@@ -8,19 +8,20 @@
       "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
       "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
       "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-      "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+      "compliance": "0x0000000000000000000000000000000000000000",
+      "identityRegistryStorage": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
     },
     "ruleFiles": [
       "cre/rules/rule.AMLO.json"
     ],
     "abipathsPath": "abipaths.buggy.json",
     "abiArtifacts": {
-      "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
-      "IdentityRegistry": "artifacts/contracts/buggy/BuggyIdentityRegistry.sol/BuggyIdentityRegistry.json",
-      "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
+      "Token": "artifacts/contracts/buggy/BuggyTokenNoIdentityRegistry.sol/BuggyTokenNoIdentityRegistry.json",
+      "IdentityRegistry": "artifacts/contracts/buggy/BuggyIdentityRegistryMissingHooks.sol/BuggyIdentityRegistryMissingHooks.json",
+      "ClaimTopicsRegistry": "artifacts/contracts/buggy/BuggyClaimTopicsRegistryMinimal.sol/BuggyClaimTopicsRegistryMinimal.json",
       "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
-      "Compliance": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
-      "IdentityRegistryStorage": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
+      "Compliance": "artifacts/contracts/buggy/BuggyModularComplianceMinimal.sol/BuggyModularComplianceMinimal.json",
+      "IdentityRegistryStorage": "artifacts/contracts/buggy/BuggyIdentityRegistryStorageNoEvents.sol/BuggyIdentityRegistryStorageNoEvents.json"
     }
   },
   "runs": [
@@ -29,13 +30,13 @@
       "rulesPath": "cre/rules/rule.AMLO.json",
       "addressesPath": ".cre.addresses.json",
       "summary": {
-        "total": 13,
-        "pass": 7,
-        "veryHigh": 2,
-        "high": 4,
+        "total": 56,
+        "pass": 13,
+        "veryHigh": 10,
+        "high": 33,
         "medium": 0,
-        "fail": 2,
-        "warn": 4,
+        "fail": 10,
+        "warn": 33,
         "info": 0
       },
       "addresses": {
@@ -44,66 +45,57 @@
         "identityRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
         "claimTopicsRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
         "trustedIssuersRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-        "compliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+        "compliance": "0x0000000000000000000000000000000000000000",
+        "identityRegistryStorage": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
       },
       "data": {
-        "tokenIdentity": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
-        "tokenCompliance": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
-        "tokenOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "tokenIdentity": "0x0000000000000000000000000000000000000000",
+        "tokenCompliance": "0x0000000000000000000000000000000000000000",
+        "tokenOwner": "0x0000000000000000000000000000000000000000",
         "ctrOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-        "idrClaimTopicsAddr": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-        "idrTrustedIssuersAddr": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-        "idrIdentityStorageAddr": "0x0000000000000000000000000000000000000000",
-        "topicsCount": 1,
-        "complianceBoundToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "idrClaimTopicsAddr": "0x0000000000000000000000000000000000000000",
+        "idrTrustedIssuersAddr": "0x0000000000000000000000000000000000000000",
+        "idrIdentityStorageAddr": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+        "topicsCount": 0,
+        "complianceBoundToken": "0x0000000000000000000000000000000000000000",
         "controlAddress": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
         "executionMode": "hardhat",
-        "tokenName": "Buggy Compliance Token",
-        "tokenSymbol": "BUG",
-        "tokenDecimals": 18,
+        "tokenName": "",
+        "tokenSymbol": "",
+        "tokenDecimals": 0,
         "tirOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-        "irsOwner": "0x0000000000000000000000000000000000000000"
+        "irsOwner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
       },
-      "probes": {
-        "R-HKMA-AMLO-CDD": {
-          "ran": true,
-          "pass": false,
-          "evidence": "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
-        },
-        "R-HKMA-AMLO-RECORDKEEPING": {
-          "ran": true,
-          "pass": false,
-          "evidence": "AMLO record-keeping probe: identityRegistry.identityStorage() returned zero address; storage is not wired."
-        }
-      },
+      "probes": {},
       "abiArtifacts": {
-        "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
-        "IdentityRegistry": "artifacts/contracts/buggy/BuggyIdentityRegistry.sol/BuggyIdentityRegistry.json",
-        "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
+        "Token": "artifacts/contracts/buggy/BuggyTokenNoIdentityRegistry.sol/BuggyTokenNoIdentityRegistry.json",
+        "IdentityRegistry": "artifacts/contracts/buggy/BuggyIdentityRegistryMissingHooks.sol/BuggyIdentityRegistryMissingHooks.json",
+        "ClaimTopicsRegistry": "artifacts/contracts/buggy/BuggyClaimTopicsRegistryMinimal.sol/BuggyClaimTopicsRegistryMinimal.json",
         "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
-        "Compliance": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
-        "IdentityRegistryStorage": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
+        "Compliance": "artifacts/contracts/buggy/BuggyModularComplianceMinimal.sol/BuggyModularComplianceMinimal.json",
+        "IdentityRegistryStorage": "artifacts/contracts/buggy/BuggyIdentityRegistryStorageNoEvents.sol/BuggyIdentityRegistryStorageNoEvents.json"
       }
     }
   ],
   "items": [
     {
-      "id": "R-HKMA-AMLO-CDD",
-      "title": "AMLO CDD identity controls",
-      "desc": "Token and Identity Registry must expose the hooks necessary to perform customer and beneficial owner due diligence before onboarding.",
-      "snippet": "require(identityRegistry.isVerified(to), \"CDD\");\nfunction identity(address investor) external view returns (address);\nfunction batchRegisterIdentity(address[] calldata investors, address[] calldata identities, uint16[] calldata countries);",
-      "policyRef": "AMLO (Cap.615) Schedule 2 §2",
+      "title": "Maintain on-chain register of licensed persons",
+      "desc": "The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(1)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-REGISTER-1",
       "pass": false,
-      "note": "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating.",
+      "note": "ABI missing token.identityRegistry().",
       "details": [
         {
-          "probe": true,
-          "ran": true,
-          "pass": false,
-          "evidence": "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "identityRegistry()",
+          "present": false,
+          "ok": false
         }
       ],
-      "run": "rule.AMLO",
       "severity": "HIGH",
       "severityCode": "HIGH",
       "severityLabel": "High",
@@ -111,13 +103,182 @@
       "severityWeight": 3
     },
     {
-      "id": "R-HKMA-AMLO-RecordKeeping",
-      "title": "AMLO record keeping support",
-      "desc": "Identity Registry Storage must be wired and emit lifecycle events so identity evidence can be retained for at least seven years.",
-      "snippet": "function identityStorage() external view returns (address);\nevent IdentityStored(address indexed investor, address indexed identity);\nevent IdentityUnstored(address indexed investor, address indexed identity);",
-      "policyRef": "AMLO (Cap.615) Schedule 2 §2",
+      "title": "Maintain on-chain register of licensed persons",
+      "desc": "The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(1)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-REGISTER-2",
       "pass": false,
-      "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is zero",
+      "note": "ABI missing idr.updateIdentity(address,address,uint16[]).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "updateIdentity(address,address,uint16[])",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Maintain on-chain register of licensed persons",
+      "desc": "The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(1)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-REGISTER-3",
+      "pass": false,
+      "note": "ABI missing idr.deleteIdentity(address).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "deleteIdentity(address)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Maintain on-chain register of licensed persons",
+      "desc": "The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(1)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-REGISTER-4",
+      "pass": false,
+      "note": "ABI missing idr.batchRegisterIdentity(address[],address[],uint16[]).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "idr",
+          "sig": "batchRegisterIdentity(address[],address[],uint16[])",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Maintain on-chain register of licensed persons",
+      "desc": "The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(1)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-REGISTER-5",
+      "pass": false,
+      "note": "ABI missing ctr.addClaimTopic(uint256).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "ctr",
+          "sig": "addClaimTopic(uint256)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Maintain on-chain register of licensed persons",
+      "desc": "The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(1)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-REGISTER-6",
+      "pass": false,
+      "note": "ABI missing tir.addTrustedIssuer(address).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "tir",
+          "sig": "addTrustedIssuer(address)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Maintain on-chain register of licensed persons",
+      "desc": "The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(1)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-REGISTER-7",
+      "pass": true,
+      "note": "ABI exposes tir.removeTrustedIssuer(address).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "tir",
+          "sig": "removeTrustedIssuer(address)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Maintain on-chain register of licensed persons",
+      "desc": "The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(1)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-REGISTER-8",
+      "pass": false,
+      "note": "ABI missing compliance.canTransfer(address,address,uint256).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "canTransfer(address,address,uint256)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Anchor name and business address data",
+      "desc": "Identity records must support anchoring of name and business address metadata with auditable storage events.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(i)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-I-1",
+      "pass": true,
+      "note": "ABI exposes idr.identityStorage().",
       "details": [
         {
           "op": "hasabifn",
@@ -125,51 +286,8 @@
           "sig": "identityStorage()",
           "present": true,
           "ok": true
-        },
-        {
-          "op": "nonzeroaddress",
-          "field": "data.idrIdentityStorageAddr",
-          "actual": "0x0000000000000000000000000000000000000000",
-          "expected": "!= ZERO",
-          "ok": false
         }
       ],
-      "run": "rule.AMLO",
-      "severity": "VERY_HIGH",
-      "severityCode": "VERY_HIGH",
-      "severityLabel": "Very High",
-      "severityOriginal": "Very High",
-      "severityWeight": 4
-    },
-    {
-      "id": "R-HKMA-53ZRH-REGISTER",
-      "title": "Maintain on-chain register of licensed persons",
-      "desc": "The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.",
-      "snippet": "",
-      "policyRef": "SFO (Cap.571) §53ZRH(1)",
-      "pass": false,
-      "note": "ABI has token.identityRegistry(): true; ABI has idr.registerIdentity(address,address,uint16[]): false",
-      "details": [
-        {
-          "op": "hasabifn",
-          "where": "token",
-          "sig": "identityRegistry()",
-          "present": true,
-          "ok": true,
-          "role": "registry",
-          "phase": "governance"
-        },
-        {
-          "op": "hasabifn",
-          "where": "idr",
-          "sig": "registerIdentity(address,address,uint16[])",
-          "present": false,
-          "ok": false,
-          "role": "registry",
-          "phase": "governance"
-        }
-      ],
-      "run": "rule.AMLO",
       "severity": "HIGH",
       "severityCode": "HIGH",
       "severityLabel": "High",
@@ -177,52 +295,71 @@
       "severityWeight": 3
     },
     {
-      "id": "R-HKMA-53ZRH-2A-I",
       "title": "Anchor name and business address data",
       "desc": "Identity records must support anchoring of name and business address metadata with auditable storage events.",
       "snippet": "",
       "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(i)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-I-2",
       "pass": true,
-      "note": "ABI has idr.identityStorage(): true; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true",
+      "note": "Event irs.IdentityStored is present in the ABI.",
       "details": [
-        {
-          "op": "hasabifn",
-          "where": "idr",
-          "sig": "identityStorage()",
-          "present": true,
-          "ok": true,
-          "role": "registry",
-          "phase": "data-capture"
-        },
         {
           "op": "hasevent",
           "where": "irs",
           "name": "IdentityStored",
           "present": true,
-          "ok": true,
-          "role": "registry",
-          "phase": "data-capture"
-        },
+          "ok": true
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Anchor name and business address data",
+      "desc": "Identity records must support anchoring of name and business address metadata with auditable storage events.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(i)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-I-3",
+      "pass": true,
+      "note": "Event irs.IdentityModified is present in the ABI.",
+      "details": [
         {
           "op": "hasevent",
           "where": "irs",
           "name": "IdentityModified",
           "present": true,
-          "ok": true,
-          "role": "registry",
-          "phase": "data-capture"
-        },
+          "ok": true
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Anchor name and business address data",
+      "desc": "Identity records must support anchoring of name and business address metadata with auditable storage events.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(i)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-I-4",
+      "pass": true,
+      "note": "Event irs.IdentityUnstored is present in the ABI.",
+      "details": [
         {
           "op": "hasevent",
           "where": "irs",
           "name": "IdentityUnstored",
           "present": true,
-          "ok": true,
-          "role": "registry",
-          "phase": "data-capture"
+          "ok": true
         }
       ],
-      "run": "rule.AMLO",
       "severity": "HIGH",
       "severityCode": "HIGH",
       "severityLabel": "High",
@@ -230,61 +367,23 @@
       "severityWeight": 3
     },
     {
-      "id": "R-HKMA-53ZRH-2A-II",
       "title": "Record licence conditions with effective dates",
       "desc": "Licence conditions must be represented as claim topics that can be versioned on-chain.",
       "snippet": "",
       "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(ii)",
-      "pass": true,
-      "note": "ABI has ctr.addClaimTopic(uint256): true; ABI has ctr.removeClaimTopic(uint256): true; ABI has ctr.getClaimTopics(): true; Event on ctr:ClaimTopicAdded present: true; Event on ctr:ClaimTopicRemoved present: true",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-II-1",
+      "pass": false,
+      "note": "ABI missing ctr.addClaimTopic(uint256).",
       "details": [
         {
           "op": "hasabifn",
           "where": "ctr",
           "sig": "addClaimTopic(uint256)",
-          "present": true,
-          "ok": true,
-          "role": "registry",
-          "phase": "conditions"
-        },
-        {
-          "op": "hasabifn",
-          "where": "ctr",
-          "sig": "removeClaimTopic(uint256)",
-          "present": true,
-          "ok": true,
-          "role": "registry",
-          "phase": "conditions"
-        },
-        {
-          "op": "hasabifn",
-          "where": "ctr",
-          "sig": "getClaimTopics()",
-          "present": true,
-          "ok": true,
-          "role": "registry",
-          "phase": "conditions"
-        },
-        {
-          "op": "hasevent",
-          "where": "ctr",
-          "name": "ClaimTopicAdded",
-          "present": true,
-          "ok": true,
-          "role": "registry",
-          "phase": "conditions"
-        },
-        {
-          "op": "hasevent",
-          "where": "ctr",
-          "name": "ClaimTopicRemoved",
-          "present": true,
-          "ok": true,
-          "role": "registry",
-          "phase": "conditions"
+          "present": false,
+          "ok": false
         }
       ],
-      "run": "rule.AMLO",
       "severity": "HIGH",
       "severityCode": "HIGH",
       "severityLabel": "High",
@@ -292,25 +391,119 @@
       "severityWeight": 3
     },
     {
-      "id": "R-HKMA-53ZRH-2A-III",
+      "title": "Record licence conditions with effective dates",
+      "desc": "Licence conditions must be represented as claim topics that can be versioned on-chain.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(ii)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-II-2",
+      "pass": false,
+      "note": "ABI missing ctr.removeClaimTopic(uint256).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "ctr",
+          "sig": "removeClaimTopic(uint256)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Record licence conditions with effective dates",
+      "desc": "Licence conditions must be represented as claim topics that can be versioned on-chain.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(ii)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-II-3",
+      "pass": false,
+      "note": "ABI missing ctr.getClaimTopics().",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "ctr",
+          "sig": "getClaimTopics()",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Record licence conditions with effective dates",
+      "desc": "Licence conditions must be represented as claim topics that can be versioned on-chain.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(ii)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-II-4",
+      "pass": false,
+      "note": "Event ctr.ClaimTopicAdded is absent from the ABI.",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "ctr",
+          "name": "ClaimTopicAdded",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Record licence conditions with effective dates",
+      "desc": "Licence conditions must be represented as claim topics that can be versioned on-chain.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(ii)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-II-5",
+      "pass": false,
+      "note": "Event ctr.ClaimTopicRemoved is absent from the ABI.",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "ctr",
+          "name": "ClaimTopicRemoved",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
       "title": "Central entity identification claim",
       "desc": "Central entity identifiers must be retrievable via identity resolution and enforced through claims.",
       "snippet": "",
       "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(iii)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-III-1",
       "pass": false,
-      "note": "ABI has idr.identity(address): false",
+      "note": "ABI missing idr.identity(address).",
       "details": [
         {
           "op": "hasabifn",
           "where": "idr",
           "sig": "identity(address)",
           "present": false,
-          "ok": false,
-          "role": "registry",
-          "phase": "identity-resolution"
+          "ok": false
         }
       ],
-      "run": "rule.AMLO",
       "severity": "HIGH",
       "severityCode": "HIGH",
       "severityLabel": "High",
@@ -318,25 +511,71 @@
       "severityWeight": 3
     },
     {
-      "id": "R-HKMA-53ZRH-2A-IV",
+      "title": "Central entity identification claim",
+      "desc": "Central entity identifiers must be retrievable via identity resolution and enforced through claims.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(iii)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-III-2",
+      "pass": false,
+      "note": "ABI missing compliance.canTransfer(address,address,uint256).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "canTransfer(address,address,uint256)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Central entity identification claim",
+      "desc": "Central entity identifiers must be retrievable via identity resolution and enforced through claims.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(iii)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-III-3",
+      "pass": true,
+      "note": "ABI exposes tir.isTrustedIssuer(address).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "tir",
+          "sig": "isTrustedIssuer(address)",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
       "title": "Capture licence grant timestamp",
       "desc": "Licence issuance must be observable on-chain with timestamped events for audit trail.",
       "snippet": "",
       "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(iv)",
-      "pass": false,
-      "note": "Event on idr:IdentityRegistered present: false",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-IV-1",
+      "pass": true,
+      "note": "Event idr.IdentityRegistered is present in the ABI.",
       "details": [
         {
           "op": "hasevent",
           "where": "idr",
           "name": "IdentityRegistered",
-          "present": false,
-          "ok": false,
-          "role": "registry",
-          "phase": "grant"
+          "present": true,
+          "ok": true
         }
       ],
-      "run": "rule.AMLO",
       "severity": "HIGH",
       "severityCode": "HIGH",
       "severityLabel": "High",
@@ -344,70 +583,71 @@
       "severityWeight": 3
     },
     {
-      "id": "R-HKMA-53ZRH-2A-V",
+      "title": "Capture licence grant timestamp",
+      "desc": "Licence issuance must be observable on-chain with timestamped events for audit trail.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(iv)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-IV-2",
+      "pass": true,
+      "note": "Event idr.IdentityUpdated is present in the ABI.",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "idr",
+          "name": "IdentityUpdated",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Capture licence grant timestamp",
+      "desc": "Licence issuance must be observable on-chain with timestamped events for audit trail.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(iv)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-IV-3",
+      "pass": false,
+      "note": "Event idr.IdentityRemoved is absent from the ABI.",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "idr",
+          "name": "IdentityRemoved",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
       "title": "Encode VA service scope and effective date",
       "desc": "The compliance module must expose modular hooks to reflect permitted service scope with activation controls.",
       "snippet": "",
       "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(v)",
-      "pass": true,
-      "note": "ABI has compliance.bindToken(address): true; ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.getModules(): true; Event on compliance:ModuleAdded present: true; Event on compliance:ModuleRemoved present: true",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-V-1",
+      "pass": false,
+      "note": "ABI missing compliance.bindToken(address).",
       "details": [
         {
           "op": "hasabifn",
           "where": "compliance",
           "sig": "bindToken(address)",
-          "present": true,
-          "ok": true,
-          "role": "compliance",
-          "phase": "scope"
-        },
-        {
-          "op": "hasabifn",
-          "where": "compliance",
-          "sig": "addModule(address)",
-          "present": true,
-          "ok": true,
-          "role": "compliance",
-          "phase": "scope"
-        },
-        {
-          "op": "hasabifn",
-          "where": "compliance",
-          "sig": "removeModule(address)",
-          "present": true,
-          "ok": true,
-          "role": "compliance",
-          "phase": "scope"
-        },
-        {
-          "op": "hasabifn",
-          "where": "compliance",
-          "sig": "getModules()",
-          "present": true,
-          "ok": true,
-          "role": "compliance",
-          "phase": "scope"
-        },
-        {
-          "op": "hasevent",
-          "where": "compliance",
-          "name": "ModuleAdded",
-          "present": true,
-          "ok": true,
-          "role": "compliance",
-          "phase": "scope"
-        },
-        {
-          "op": "hasevent",
-          "where": "compliance",
-          "name": "ModuleRemoved",
-          "present": true,
-          "ok": true,
-          "role": "compliance",
-          "phase": "scope"
+          "present": false,
+          "ok": false
         }
       ],
-      "run": "rule.AMLO",
       "severity": "HIGH",
       "severityCode": "HIGH",
       "severityLabel": "High",
@@ -415,79 +655,143 @@
       "severityWeight": 3
     },
     {
-      "id": "R-HKMA-53ZRH-2A-VI",
+      "title": "Encode VA service scope and effective date",
+      "desc": "The compliance module must expose modular hooks to reflect permitted service scope with activation controls.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(v)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-V-2",
+      "pass": false,
+      "note": "ABI missing compliance.addModule(address).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "addModule(address)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Encode VA service scope and effective date",
+      "desc": "The compliance module must expose modular hooks to reflect permitted service scope with activation controls.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(v)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-V-3",
+      "pass": false,
+      "note": "ABI missing compliance.removeModule(address).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "removeModule(address)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Encode VA service scope and effective date",
+      "desc": "The compliance module must expose modular hooks to reflect permitted service scope with activation controls.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(v)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-V-4",
+      "pass": false,
+      "note": "ABI missing compliance.getModules().",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "getModules()",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Encode VA service scope and effective date",
+      "desc": "The compliance module must expose modular hooks to reflect permitted service scope with activation controls.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(v)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-V-5",
+      "pass": false,
+      "note": "Event compliance.ModuleAdded is absent from the ABI.",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "compliance",
+          "name": "ModuleAdded",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Encode VA service scope and effective date",
+      "desc": "The compliance module must expose modular hooks to reflect permitted service scope with activation controls.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(v)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-V-6",
+      "pass": false,
+      "note": "Event compliance.ModuleRemoved is absent from the ABI.",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "compliance",
+          "name": "ModuleRemoved",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
       "title": "Represent suspension status on-chain",
       "desc": "Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.",
       "snippet": "",
       "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(vi)",
-      "pass": true,
-      "note": "ABI has token.setAddressFrozen(address,bool): true; ABI has token.freezePartialTokens(address,uint256): true; ABI has token.unfreezePartialTokens(address,uint256): true; ABI has token.isFrozen(address): true; Event on token:AddressFrozen present: true; Event on token:TokensUnfrozen present: true; Event on token:TokensFrozen present: true",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-VI-1",
+      "pass": false,
+      "note": "ABI missing token.setAddressFrozen(address,bool).",
       "details": [
         {
           "op": "hasabifn",
           "where": "token",
           "sig": "setAddressFrozen(address,bool)",
-          "present": true,
-          "ok": true,
-          "role": "token",
-          "phase": "suspension"
-        },
-        {
-          "op": "hasabifn",
-          "where": "token",
-          "sig": "freezePartialTokens(address,uint256)",
-          "present": true,
-          "ok": true,
-          "role": "token",
-          "phase": "suspension"
-        },
-        {
-          "op": "hasabifn",
-          "where": "token",
-          "sig": "unfreezePartialTokens(address,uint256)",
-          "present": true,
-          "ok": true,
-          "role": "token",
-          "phase": "suspension"
-        },
-        {
-          "op": "hasabifn",
-          "where": "token",
-          "sig": "isFrozen(address)",
-          "present": true,
-          "ok": true,
-          "role": "token",
-          "phase": "suspension"
-        },
-        {
-          "op": "hasevent",
-          "where": "token",
-          "name": "AddressFrozen",
-          "present": true,
-          "ok": true,
-          "role": "token",
-          "phase": "suspension"
-        },
-        {
-          "op": "hasevent",
-          "where": "token",
-          "name": "TokensUnfrozen",
-          "present": true,
-          "ok": true,
-          "role": "token",
-          "phase": "suspension"
-        },
-        {
-          "op": "hasevent",
-          "where": "token",
-          "name": "TokensFrozen",
-          "present": true,
-          "ok": true,
-          "role": "token",
-          "phase": "suspension"
+          "present": false,
+          "ok": false
         }
       ],
-      "run": "rule.AMLO",
       "severity": "HIGH",
       "severityCode": "HIGH",
       "severityLabel": "High",
@@ -495,61 +799,167 @@
       "severityWeight": 3
     },
     {
-      "id": "R-HKMA-53ZRH-2C",
+      "title": "Represent suspension status on-chain",
+      "desc": "Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(vi)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-VI-2",
+      "pass": false,
+      "note": "ABI missing token.freezePartialTokens(address,uint256).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "freezePartialTokens(address,uint256)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Represent suspension status on-chain",
+      "desc": "Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(vi)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-VI-3",
+      "pass": false,
+      "note": "ABI missing token.unfreezePartialTokens(address,uint256).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "unfreezePartialTokens(address,uint256)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Represent suspension status on-chain",
+      "desc": "Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(vi)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-VI-4",
+      "pass": false,
+      "note": "ABI missing token.isFrozen(address).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "token",
+          "sig": "isFrozen(address)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Represent suspension status on-chain",
+      "desc": "Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(vi)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-VI-5",
+      "pass": false,
+      "note": "Event token.AddressFrozen is absent from the ABI.",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "AddressFrozen",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Represent suspension status on-chain",
+      "desc": "Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(vi)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-VI-6",
+      "pass": false,
+      "note": "Event token.TokensUnfrozen is absent from the ABI.",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "TokensUnfrozen",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Represent suspension status on-chain",
+      "desc": "Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(a)(vi)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2A-VI-7",
+      "pass": false,
+      "note": "Event token.TokensFrozen is absent from the ABI.",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "TokensFrozen",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
       "title": "Representative principal linkage",
       "desc": "Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.",
       "snippet": "",
       "policyRef": "SFO (Cap.571) §53ZRH(2)(c)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2C-1",
       "pass": true,
-      "note": "ABI has tir.updateIssuerClaimTopics(address,uint256[]): true; ABI has tir.getTrustedIssuers(): true; ABI has ctr.getClaimTopics(): true; Event on tir:TrustedIssuerAdded present: true; Event on tir:TrustedIssuerRemoved present: true",
+      "note": "ABI exposes tir.updateIssuerClaimTopics(address,uint256[]).",
       "details": [
         {
           "op": "hasabifn",
           "where": "tir",
           "sig": "updateIssuerClaimTopics(address,uint256[])",
           "present": true,
-          "ok": true,
-          "role": "representation",
-          "phase": "accreditation"
-        },
-        {
-          "op": "hasabifn",
-          "where": "tir",
-          "sig": "getTrustedIssuers()",
-          "present": true,
-          "ok": true,
-          "role": "representation",
-          "phase": "accreditation"
-        },
-        {
-          "op": "hasabifn",
-          "where": "ctr",
-          "sig": "getClaimTopics()",
-          "present": true,
-          "ok": true,
-          "role": "representation",
-          "phase": "accreditation"
-        },
-        {
-          "op": "hasevent",
-          "where": "tir",
-          "name": "TrustedIssuerAdded",
-          "present": true,
-          "ok": true,
-          "role": "representation",
-          "phase": "accreditation"
-        },
-        {
-          "op": "hasevent",
-          "where": "tir",
-          "name": "TrustedIssuerRemoved",
-          "present": true,
-          "ok": true,
-          "role": "representation",
-          "phase": "accreditation"
+          "ok": true
         }
       ],
-      "run": "rule.AMLO",
       "severity": "HIGH",
       "severityCode": "HIGH",
       "severityLabel": "High",
@@ -557,61 +967,119 @@
       "severityWeight": 3
     },
     {
-      "id": "R-HKMA-53ZRK-5E",
+      "title": "Representative principal linkage",
+      "desc": "Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(c)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2C-2",
+      "pass": true,
+      "note": "ABI exposes tir.getTrustedIssuers().",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "tir",
+          "sig": "getTrustedIssuers()",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Representative principal linkage",
+      "desc": "Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(c)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2C-3",
+      "pass": false,
+      "note": "ABI missing ctr.getClaimTopics().",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "ctr",
+          "sig": "getClaimTopics()",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Representative principal linkage",
+      "desc": "Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(c)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2C-4",
+      "pass": true,
+      "note": "Event tir.TrustedIssuerAdded is present in the ABI.",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "tir",
+          "name": "TrustedIssuerAdded",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Representative principal linkage",
+      "desc": "Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRH(2)(c)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRH-2C-5",
+      "pass": true,
+      "note": "Event tir.TrustedIssuerRemoved is present in the ABI.",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "tir",
+          "name": "TrustedIssuerRemoved",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
       "title": "Client asset safeguards via modular compliance",
       "desc": "Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.",
       "snippet": "",
       "policyRef": "SFO (Cap.571) §53ZRK(5)(e)",
-      "pass": true,
-      "note": "ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.callModuleFunction(bytes,address): true; ABI has compliance.unbindToken(address): true; Event on compliance:ModuleInteraction present: true",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRK-5E-1",
+      "pass": false,
+      "note": "ABI missing compliance.addModule(address).",
       "details": [
         {
           "op": "hasabifn",
           "where": "compliance",
           "sig": "addModule(address)",
-          "present": true,
-          "ok": true,
-          "role": "compliance",
-          "phase": "custody"
-        },
-        {
-          "op": "hasabifn",
-          "where": "compliance",
-          "sig": "removeModule(address)",
-          "present": true,
-          "ok": true,
-          "role": "compliance",
-          "phase": "custody"
-        },
-        {
-          "op": "hasabifn",
-          "where": "compliance",
-          "sig": "callModuleFunction(bytes,address)",
-          "present": true,
-          "ok": true,
-          "role": "compliance",
-          "phase": "custody"
-        },
-        {
-          "op": "hasabifn",
-          "where": "compliance",
-          "sig": "unbindToken(address)",
-          "present": true,
-          "ok": true,
-          "role": "compliance",
-          "phase": "custody"
-        },
-        {
-          "op": "hasevent",
-          "where": "compliance",
-          "name": "ModuleInteraction",
-          "present": true,
-          "ok": true,
-          "role": "compliance",
-          "phase": "custody"
+          "present": false,
+          "ok": false
         }
       ],
-      "run": "rule.AMLO",
       "severity": "VERY_HIGH",
       "severityCode": "VERY_HIGH",
       "severityLabel": "Very High",
@@ -619,34 +1087,143 @@
       "severityWeight": 4
     },
     {
-      "id": "R-HKMA-AMLO-S6",
+      "title": "Client asset safeguards via modular compliance",
+      "desc": "Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRK(5)(e)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRK-5E-2",
+      "pass": false,
+      "note": "ABI missing compliance.removeModule(address).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "removeModule(address)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "VERY_HIGH",
+      "severityCode": "VERY_HIGH",
+      "severityLabel": "Very High",
+      "severityOriginal": "Critical",
+      "severityWeight": 4
+    },
+    {
+      "title": "Client asset safeguards via modular compliance",
+      "desc": "Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRK(5)(e)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRK-5E-3",
+      "pass": false,
+      "note": "ABI missing compliance.callModuleFunction(bytes,address).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "callModuleFunction(bytes,address)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "VERY_HIGH",
+      "severityCode": "VERY_HIGH",
+      "severityLabel": "Very High",
+      "severityOriginal": "Critical",
+      "severityWeight": 4
+    },
+    {
+      "title": "Client asset safeguards via modular compliance",
+      "desc": "Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRK(5)(e)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRK-5E-4",
+      "pass": false,
+      "note": "ABI missing compliance.unbindToken(address).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "unbindToken(address)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "VERY_HIGH",
+      "severityCode": "VERY_HIGH",
+      "severityLabel": "Very High",
+      "severityOriginal": "Critical",
+      "severityWeight": 4
+    },
+    {
+      "title": "Client asset safeguards via modular compliance",
+      "desc": "Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.",
+      "snippet": "",
+      "policyRef": "SFO (Cap.571) §53ZRK(5)(e)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-53ZRK-5E-5",
+      "pass": false,
+      "note": "Event compliance.ModuleInteraction is absent from the ABI.",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "compliance",
+          "name": "ModuleInteraction",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "VERY_HIGH",
+      "severityCode": "VERY_HIGH",
+      "severityLabel": "Very High",
+      "severityOriginal": "Critical",
+      "severityWeight": 4
+    },
+    {
       "title": "Ongoing record of customer identity and activity",
       "desc": "Identity evidence and transactional metadata must remain queryable for historical monitoring.",
       "snippet": "",
       "policyRef": "AMLO Schedule 2 §6",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-AMLO-S6-1",
       "pass": false,
-      "note": "ABI has idr.isVerified(address): true; ABI has idr.identity(address): false",
+      "note": "ABI missing idr.isVerified(address).",
       "details": [
         {
           "op": "hasabifn",
           "where": "idr",
           "sig": "isVerified(address)",
-          "present": true,
-          "ok": true,
-          "role": "monitoring",
-          "phase": "retention"
-        },
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "VERY_HIGH",
+      "severityCode": "VERY_HIGH",
+      "severityLabel": "Very High",
+      "severityOriginal": "Critical",
+      "severityWeight": 4
+    },
+    {
+      "title": "Ongoing record of customer identity and activity",
+      "desc": "Identity evidence and transactional metadata must remain queryable for historical monitoring.",
+      "snippet": "",
+      "policyRef": "AMLO Schedule 2 §6",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-AMLO-S6-2",
+      "pass": false,
+      "note": "ABI missing idr.identity(address).",
+      "details": [
         {
           "op": "hasabifn",
           "where": "idr",
           "sig": "identity(address)",
           "present": false,
-          "ok": false,
-          "role": "monitoring",
-          "phase": "retention"
+          "ok": false
         }
       ],
-      "run": "rule.AMLO",
       "severity": "VERY_HIGH",
       "severityCode": "VERY_HIGH",
       "severityLabel": "Very High",
@@ -654,61 +1231,191 @@
       "severityWeight": 4
     },
     {
-      "id": "R-HKMA-AMLO-13A-ROLE",
+      "title": "Ongoing record of customer identity and activity",
+      "desc": "Identity evidence and transactional metadata must remain queryable for historical monitoring.",
+      "snippet": "",
+      "policyRef": "AMLO Schedule 2 §6",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-AMLO-S6-3",
+      "pass": false,
+      "note": "ABI missing compliance.transferred(address,address,uint256).",
+      "details": [
+        {
+          "op": "hasabifn",
+          "where": "compliance",
+          "sig": "transferred(address,address,uint256)",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "VERY_HIGH",
+      "severityCode": "VERY_HIGH",
+      "severityLabel": "Very High",
+      "severityOriginal": "Critical",
+      "severityWeight": 4
+    },
+    {
+      "title": "Ongoing record of customer identity and activity",
+      "desc": "Identity evidence and transactional metadata must remain queryable for historical monitoring.",
+      "snippet": "",
+      "policyRef": "AMLO Schedule 2 §6",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-AMLO-S6-4",
+      "pass": false,
+      "note": "Event token.Transfer is absent from the ABI.",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "token",
+          "name": "Transfer",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "VERY_HIGH",
+      "severityCode": "VERY_HIGH",
+      "severityLabel": "Very High",
+      "severityOriginal": "Critical",
+      "severityWeight": 4
+    },
+    {
+      "title": "Ongoing record of customer identity and activity",
+      "desc": "Identity evidence and transactional metadata must remain queryable for historical monitoring.",
+      "snippet": "",
+      "policyRef": "AMLO Schedule 2 §6",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-AMLO-S6-5",
+      "pass": false,
+      "note": "Event compliance.ModuleInteraction is absent from the ABI.",
+      "details": [
+        {
+          "op": "hasevent",
+          "where": "compliance",
+          "name": "ModuleInteraction",
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "VERY_HIGH",
+      "severityCode": "VERY_HIGH",
+      "severityLabel": "Very High",
+      "severityOriginal": "Critical",
+      "severityWeight": 4
+    },
+    {
       "title": "Virtual asset transfer role gating",
       "desc": "Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.",
       "snippet": "",
       "policyRef": "AMLO Schedule 2 §13A(1)",
-      "pass": true,
-      "note": "ABI has token.compliance(): true; data.tokenCompliance is non-zero; ABI has compliance.canTransfer(address,address,uint256): true; ABI has idr.isVerified(address): true; ABI has tir.isTrustedIssuer(address): true",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-AMLO-13A-ROLE-1",
+      "pass": false,
+      "note": "ABI missing token.compliance().",
       "details": [
         {
           "op": "hasabifn",
           "where": "token",
           "sig": "compliance()",
-          "present": true,
-          "ok": true,
-          "role": "va-transfer",
-          "phase": "pre-transfer"
-        },
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Virtual asset transfer role gating",
+      "desc": "Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.",
+      "snippet": "",
+      "policyRef": "AMLO Schedule 2 §13A(1)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-AMLO-13A-ROLE-2",
+      "pass": false,
+      "note": "Expected data.tokenCompliance to be != ZERO, observed 0x0000000000000000000000000000000000000000.",
+      "details": [
         {
           "op": "nonzeroaddress",
           "field": "data.tokenCompliance",
-          "actual": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+          "actual": "0x0000000000000000000000000000000000000000",
           "expected": "!= ZERO",
-          "ok": true,
-          "role": "va-transfer",
-          "phase": "pre-transfer"
-        },
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Virtual asset transfer role gating",
+      "desc": "Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.",
+      "snippet": "",
+      "policyRef": "AMLO Schedule 2 §13A(1)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-AMLO-13A-ROLE-3",
+      "pass": false,
+      "note": "ABI missing compliance.canTransfer(address,address,uint256).",
+      "details": [
         {
           "op": "hasabifn",
           "where": "compliance",
           "sig": "canTransfer(address,address,uint256)",
-          "present": true,
-          "ok": true,
-          "role": "va-transfer",
-          "phase": "pre-transfer"
-        },
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Virtual asset transfer role gating",
+      "desc": "Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.",
+      "snippet": "",
+      "policyRef": "AMLO Schedule 2 §13A(1)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-AMLO-13A-ROLE-4",
+      "pass": false,
+      "note": "ABI missing idr.isVerified(address).",
+      "details": [
         {
           "op": "hasabifn",
           "where": "idr",
           "sig": "isVerified(address)",
-          "present": true,
-          "ok": true,
-          "role": "va-transfer",
-          "phase": "pre-transfer"
-        },
+          "present": false,
+          "ok": false
+        }
+      ],
+      "severity": "HIGH",
+      "severityCode": "HIGH",
+      "severityLabel": "High",
+      "severityOriginal": "High",
+      "severityWeight": 3
+    },
+    {
+      "title": "Virtual asset transfer role gating",
+      "desc": "Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.",
+      "snippet": "",
+      "policyRef": "AMLO Schedule 2 §13A(1)",
+      "run": "rule.AMLO",
+      "id": "R-HKMA-AMLO-13A-ROLE-5",
+      "pass": true,
+      "note": "ABI exposes tir.isTrustedIssuer(address).",
+      "details": [
         {
           "op": "hasabifn",
           "where": "tir",
           "sig": "isTrustedIssuer(address)",
           "present": true,
-          "ok": true,
-          "role": "va-transfer",
-          "phase": "pre-transfer"
+          "ok": true
         }
       ],
-      "run": "rule.AMLO",
       "severity": "HIGH",
       "severityCode": "HIGH",
       "severityLabel": "High",
@@ -717,176 +1424,399 @@
     }
   ],
   "summary": {
-    "total": 13,
-    "pass": 7,
-    "veryHigh": 2,
-    "high": 4,
+    "total": 56,
+    "pass": 13,
+    "veryHigh": 10,
+    "high": 33,
     "medium": 0,
-    "fail": 2,
-    "warn": 4,
+    "fail": 10,
+    "warn": 33,
     "info": 0
   },
   "metrics": null,
   "llm": {
-    "generatedAt": "2025-10-28T17:59:45.807Z",
-    "model": "gpt-4.1-mini",
+    "generatedAt": "2025-10-30T22:04:19.151Z",
+    "model": null,
     "disabled": false,
     "reason": null,
-    "error": null,
-    "overallAssessment": "The audited ERC-3643 implementation demonstrates partial compliance with HKMA and SFC virtual asset regulatory requirements. Key controls for identity anchoring, license condition recording, suspension status, and modular compliance are implemented and verifiable on-chain. However, critical gaps exist in identity verification gating on transfers, identity registry storage wiring, and comprehensive identity resolution functions. These deficiencies expose the system to regulatory non-compliance, client asset protection risks, and supervisory challenges.",
+    "error": "HTTP 400: {\n    \"error\": {\n        \"message\": \"you must provide a model parameter\",\n        \"type\": \"invalid_request_error\",\n        \"param\": null,\n        \"code\": null\n    }\n}\n",
+    "overallAssessment": "LLM call failed: HTTP 400: {\n    \"error\": {\n        \"message\": \"you must provide a model parameter\",\n        \"type\": \"invalid_request_error\",\n        \"param\": null,\n        \"code\": null\n    }\n}\n",
     "findings": [
       {
-        "id": "F-001",
-        "title": "Missing Identity Verification Gating on Transfers",
-        "severity": "HIGH",
-        "severity_label": "High",
-        "phase2_verdict": "High",
-        "verdict": "HIGH",
-        "pass": false,
-        "position": "",
-        "explanation": "Transfers to unverified addresses succeeded without identity gating, violating the AMLO CDD identity controls requirement. This means the system allows virtual asset transfers without confirming the recipient's verified identity status, undermining anti-money laundering safeguards.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Implement and enforce identity verification gating in the token transfer logic by integrating the identity registry's isVerified(address) check before allowing transfers. Add unit and integration tests simulating transfers to unverified addresses to confirm blocking behavior. Maintain event logs for transfer attempts to unverified addresses for audit trail and supervisory review."
-      },
-      {
-        "id": "F-002",
-        "title": "Identity Registry Storage Not Wired",
+        "id": "R-HKMA-53ZRK-5E-1",
+        "title": "Client asset safeguards via modular compliance",
         "severity": "VERY_HIGH",
         "severity_label": "Very High",
         "phase2_verdict": "Very High",
-        "verdict": "VERY_HIGH",
-        "pass": false,
+        "verdict": "Very High",
         "position": "",
-        "explanation": "The identityRegistry contract exposes identityStorage() ABI, but the configured identityStorage address is zero, indicating the storage contract is not properly linked. This breaks the chain of custody for identity data, violating AMLO record-keeping requirements.",
+        "explanation": "Runtime hint: ABI missing compliance.addModule(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.",
         "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2"
+          "SFO (Cap.571) §53ZRK(5)(e)"
         ],
-        "evidence_paths": [],
-        "recommendation": "Wire the identityStorage address in the identityRegistry contract to a valid deployed identity storage contract instance. Update deployment scripts and governance procedures to ensure this linkage is established and immutable. Add integration tests verifying identityStorage() returns a non-zero address and that identity data can be stored and retrieved correctly."
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"addModule(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
       },
       {
-        "id": "F-003",
-        "title": "Incomplete On-Chain Register Functions for Licensed Persons",
-        "severity": "HIGH",
-        "severity_label": "High",
-        "phase2_verdict": "High",
-        "verdict": "HIGH",
-        "pass": false,
-        "position": "",
-        "explanation": "The identityRegistry contract exposes identityRegistry() but lacks the registerIdentity(address,address,uint16[]) function required to maintain an on-chain register of licensed persons as mandated by SFO §53ZRH(1). This limits the ability to record and update licensed entity data on-chain.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(1)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Implement the registerIdentity(address,address,uint16[]) function in the identityRegistry contract to enable registering licensed persons with their identity and license details. Add governance controls restricting access to authorized roles. Include event emissions for registration actions and add tests verifying correct registration and access control enforcement."
-      },
-      {
-        "id": "F-004",
-        "title": "Missing Central Entity Identification Claim Function",
-        "severity": "HIGH",
-        "severity_label": "High",
-        "phase2_verdict": "High",
-        "verdict": "HIGH",
-        "pass": false,
-        "position": "",
-        "explanation": "The identityRegistry contract does not implement the identity(address) function to resolve central entity identification claims, as required by SFO §53ZRH(2)(a)(iii). This impairs the ability to verify entity identities on-chain.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(a)(iii)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Add the identity(address) function to the identityRegistry contract to return the identity claim for a given address. Ensure this function is consistent with the identity storage schema and access controls. Add unit tests to verify correct identity resolution and error handling for unknown addresses."
-      },
-      {
-        "id": "F-005",
-        "title": "Missing Event for Licence Grant Timestamp Capture",
-        "severity": "HIGH",
-        "severity_label": "High",
-        "phase2_verdict": "High",
-        "verdict": "HIGH",
-        "pass": false,
-        "position": "",
-        "explanation": "The identityRegistry contract does not emit the IdentityRegistered event, which is required to capture the timestamp of licence grants on-chain per SFO §53ZRH(2)(a)(iv). Without this event, audit trails for licence grant timing are incomplete.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(a)(iv)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Implement and emit the IdentityRegistered event in the identityRegistry contract whenever a licence is granted or registered. Update contract logic and governance processes to ensure event emission is mandatory. Add event monitoring in operational run-books and include tests verifying event emission on licence registration."
-      },
-      {
-        "id": "F-006",
-        "title": "Missing Identity Resolution Function for Ongoing Customer Identity Records",
+        "id": "R-HKMA-53ZRK-5E-2",
+        "title": "Client asset safeguards via modular compliance",
         "severity": "VERY_HIGH",
         "severity_label": "Very High",
         "phase2_verdict": "Very High",
-        "verdict": "VERY_HIGH",
-        "pass": false,
+        "verdict": "Very High",
         "position": "",
-        "explanation": "While the identity registry supports isVerified(address), it lacks the identity(address) function needed to maintain ongoing records of customer identity and activity as required by AMLO Schedule 2 §6. This gap hinders continuous monitoring and record-keeping obligations.",
+        "explanation": "Runtime hint: ABI missing compliance.removeModule(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRK(5)(e)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"removeModule(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-53ZRK-5E-3",
+        "title": "Client asset safeguards via modular compliance",
+        "severity": "VERY_HIGH",
+        "severity_label": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "Very High",
+        "position": "",
+        "explanation": "Runtime hint: ABI missing compliance.callModuleFunction(bytes,address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRK(5)(e)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"callModuleFunction(bytes,address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-53ZRK-5E-4",
+        "title": "Client asset safeguards via modular compliance",
+        "severity": "VERY_HIGH",
+        "severity_label": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "Very High",
+        "position": "",
+        "explanation": "Runtime hint: ABI missing compliance.unbindToken(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRK(5)(e)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"unbindToken(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-53ZRK-5E-5",
+        "title": "Client asset safeguards via modular compliance",
+        "severity": "VERY_HIGH",
+        "severity_label": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "Very High",
+        "position": "",
+        "explanation": "Runtime hint: Event compliance.ModuleInteraction is absent from the ABI.. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRK(5)(e)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasevent\",\"where\":\"compliance\",\"name\":\"ModuleInteraction\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-AMLO-S6-1",
+        "title": "Ongoing record of customer identity and activity",
+        "severity": "VERY_HIGH",
+        "severity_label": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "Very High",
+        "position": "",
+        "explanation": "Runtime hint: ABI missing idr.isVerified(address).. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.",
         "compliance_refs": [
           "AMLO Schedule 2 §6"
         ],
-        "evidence_paths": [],
-        "recommendation": "Add the identity(address) function to the identity registry contract to enable retrieval of full identity details for verified customers. Ensure this function integrates with existing verification mechanisms and supports audit logging. Include tests for identity retrieval and consistency with verification status."
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"isVerified(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-AMLO-S6-2",
+        "title": "Ongoing record of customer identity and activity",
+        "severity": "VERY_HIGH",
+        "severity_label": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "Very High",
+        "position": "",
+        "explanation": "Runtime hint: ABI missing idr.identity(address).. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §6"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identity(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-AMLO-S6-3",
+        "title": "Ongoing record of customer identity and activity",
+        "severity": "VERY_HIGH",
+        "severity_label": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "Very High",
+        "position": "",
+        "explanation": "Runtime hint: ABI missing compliance.transferred(address,address,uint256).. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §6"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"transferred(address,address,uint256)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-AMLO-S6-4",
+        "title": "Ongoing record of customer identity and activity",
+        "severity": "VERY_HIGH",
+        "severity_label": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "Very High",
+        "position": "",
+        "explanation": "Runtime hint: Event token.Transfer is absent from the ABI.. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §6"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"Transfer\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-AMLO-S6-5",
+        "title": "Ongoing record of customer identity and activity",
+        "severity": "VERY_HIGH",
+        "severity_label": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "Very High",
+        "position": "",
+        "explanation": "Runtime hint: Event compliance.ModuleInteraction is absent from the ABI.. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §6"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasevent\",\"where\":\"compliance\",\"name\":\"ModuleInteraction\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-1",
+        "title": "Maintain on-chain register of licensed persons",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "High",
+        "verdict": "High",
+        "position": "",
+        "explanation": "Runtime hint: ABI missing token.identityRegistry().. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"identityRegistry()\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-2",
+        "title": "Maintain on-chain register of licensed persons",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "High",
+        "verdict": "High",
+        "position": "",
+        "explanation": "Runtime hint: ABI missing idr.updateIdentity(address,address,uint16[]).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"updateIdentity(address,address,uint16[])\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-3",
+        "title": "Maintain on-chain register of licensed persons",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "High",
+        "verdict": "High",
+        "position": "",
+        "explanation": "Runtime hint: ABI missing idr.deleteIdentity(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"deleteIdentity(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-4",
+        "title": "Maintain on-chain register of licensed persons",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "High",
+        "verdict": "High",
+        "position": "",
+        "explanation": "Runtime hint: ABI missing idr.batchRegisterIdentity(address[],address[],uint16[]).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"batchRegisterIdentity(address[],address[],uint16[])\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-5",
+        "title": "Maintain on-chain register of licensed persons",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "High",
+        "verdict": "High",
+        "position": "",
+        "explanation": "Runtime hint: ABI missing ctr.addClaimTopic(uint256).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"addClaimTopic(uint256)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-6",
+        "title": "Maintain on-chain register of licensed persons",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "High",
+        "verdict": "High",
+        "position": "",
+        "explanation": "Runtime hint: ABI missing tir.addTrustedIssuer(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"addTrustedIssuer(address)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-7",
+        "title": "Maintain on-chain register of licensed persons",
+        "severity": "PASS",
+        "severity_label": "Pass",
+        "phase2_verdict": "Pass",
+        "verdict": "PASS",
+        "position": "",
+        "explanation": "Runtime hint: ABI exposes tir.removeTrustedIssuer(address).. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(1) prescribes, giving non-technical sponsors assurance that the required safeguard is active.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"removeTrustedIssuer(address)\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.",
+        "pass": true
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-8",
+        "title": "Maintain on-chain register of licensed persons",
+        "severity": "HIGH",
+        "severity_label": "High",
+        "phase2_verdict": "High",
+        "verdict": "High",
+        "position": "",
+        "explanation": "Runtime hint: ABI missing compliance.canTransfer(address,address,uint256).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"canTransfer(address,address,uint256)\",\"present\":false,\"ok\":false}"
+        ],
+        "recommendation": "Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.",
+        "pass": false
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-I-1",
+        "title": "Anchor name and business address data",
+        "severity": "PASS",
+        "severity_label": "Pass",
+        "phase2_verdict": "Pass",
+        "verdict": "PASS",
+        "position": "",
+        "explanation": "Runtime hint: ABI exposes idr.identityStorage().. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(i) prescribes, giving non-technical sponsors assurance that the required safeguard is active.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(i)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.",
+        "pass": true
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-I-2",
+        "title": "Anchor name and business address data",
+        "severity": "PASS",
+        "severity_label": "Pass",
+        "phase2_verdict": "Pass",
+        "verdict": "PASS",
+        "position": "",
+        "explanation": "Runtime hint: Event irs.IdentityStored is present in the ABI.. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(i) prescribes, giving non-technical sponsors assurance that the required safeguard is active.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(i)"
+        ],
+        "evidence_paths": [
+          "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityStored\",\"present\":true,\"ok\":true}"
+        ],
+        "recommendation": "Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.",
+        "pass": true
       }
     ],
     "payload": {
       "summary": {
-        "total": 13,
-        "pass": 7,
-        "very_high": 2,
-        "high": 4,
+        "total": 56,
+        "pass": 13,
+        "very_high": 10,
+        "high": 33,
         "medium": 0,
-        "fail": 2,
-        "warn": 4,
+        "fail": 10,
+        "warn": 33,
         "info": 0
       },
       "rules": [
         {
-          "id": "R-HKMA-AMLO-CDD",
-          "title": "AMLO CDD identity controls",
-          "severity": "High",
-          "severity_code": "HIGH",
-          "severity_label": "High",
-          "severity_original": "High",
-          "phase2_verdict": "High",
-          "pass": false,
-          "run": "rule.AMLO",
-          "note": "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating.",
-          "evidence": [
-            "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
-          ],
-          "policy_refs": [
-            "AMLO (Cap.615) Schedule 2 §2"
-          ],
-          "code_refs": [],
-          "module_refs": []
-        },
-        {
-          "id": "R-HKMA-AMLO-RecordKeeping",
-          "title": "AMLO record keeping support",
-          "severity": "Very High",
-          "severity_code": "VERY_HIGH",
-          "severity_label": "Very High",
-          "severity_original": "Very High",
-          "phase2_verdict": "Very High",
-          "pass": false,
-          "run": "rule.AMLO",
-          "note": "ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is zero",
-          "evidence": [
-            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
-            "nonzeroaddress:data.idrIdentityStorageAddr:"
-          ],
-          "policy_refs": [
-            "AMLO (Cap.615) Schedule 2 §2"
-          ],
-          "code_refs": [],
-          "module_refs": []
-        },
-        {
-          "id": "R-HKMA-53ZRH-REGISTER",
+          "id": "R-HKMA-53ZRH-REGISTER-1",
           "title": "Maintain on-chain register of licensed persons",
           "severity": "High",
           "severity_code": "HIGH",
@@ -895,10 +1825,9 @@
           "phase2_verdict": "High",
           "pass": false,
           "run": "rule.AMLO",
-          "note": "ABI has token.identityRegistry(): true; ABI has idr.registerIdentity(address,address,uint16[]): false",
+          "note": "ABI missing token.identityRegistry().",
           "evidence": [
-            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"identityRegistry()\",\"present\":true,\"ok\":true,\"role\":\"registry\",\"phase\":\"governance\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"registerIdentity(address,address,uint16[])\",\"present\":false,\"ok\":false,\"role\":\"registry\",\"phase\":\"governance\"}"
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"identityRegistry()\",\"present\":false,\"ok\":false}"
           ],
           "policy_refs": [
             "SFO (Cap.571) §53ZRH(1)"
@@ -907,7 +1836,147 @@
           "module_refs": []
         },
         {
-          "id": "R-HKMA-53ZRH-2A-I",
+          "id": "R-HKMA-53ZRH-REGISTER-2",
+          "title": "Maintain on-chain register of licensed persons",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing idr.updateIdentity(address,address,uint16[]).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"updateIdentity(address,address,uint16[])\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(1)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-REGISTER-3",
+          "title": "Maintain on-chain register of licensed persons",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing idr.deleteIdentity(address).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"deleteIdentity(address)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(1)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-REGISTER-4",
+          "title": "Maintain on-chain register of licensed persons",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing idr.batchRegisterIdentity(address[],address[],uint16[]).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"batchRegisterIdentity(address[],address[],uint16[])\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(1)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-REGISTER-5",
+          "title": "Maintain on-chain register of licensed persons",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing ctr.addClaimTopic(uint256).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"addClaimTopic(uint256)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(1)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-REGISTER-6",
+          "title": "Maintain on-chain register of licensed persons",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing tir.addTrustedIssuer(address).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"addTrustedIssuer(address)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(1)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-REGISTER-7",
+          "title": "Maintain on-chain register of licensed persons",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO",
+          "note": "ABI exposes tir.removeTrustedIssuer(address).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"removeTrustedIssuer(address)\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(1)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-REGISTER-8",
+          "title": "Maintain on-chain register of licensed persons",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing compliance.canTransfer(address,address,uint256).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"canTransfer(address,address,uint256)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(1)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-I-1",
           "title": "Anchor name and business address data",
           "severity": "High",
           "severity_code": "HIGH",
@@ -916,12 +1985,9 @@
           "phase2_verdict": "PASS",
           "pass": true,
           "run": "rule.AMLO",
-          "note": "ABI has idr.identityStorage(): true; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true",
+          "note": "ABI exposes idr.identityStorage().",
           "evidence": [
-            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true,\"role\":\"registry\",\"phase\":\"data-capture\"}",
-            "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityStored\",\"present\":true,\"ok\":true,\"role\":\"registry\",\"phase\":\"data-capture\"}",
-            "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityModified\",\"present\":true,\"ok\":true,\"role\":\"registry\",\"phase\":\"data-capture\"}",
-            "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityUnstored\",\"present\":true,\"ok\":true,\"role\":\"registry\",\"phase\":\"data-capture\"}"
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}"
           ],
           "policy_refs": [
             "SFO (Cap.571) §53ZRH(2)(a)(i)"
@@ -930,8 +1996,8 @@
           "module_refs": []
         },
         {
-          "id": "R-HKMA-53ZRH-2A-II",
-          "title": "Record licence conditions with effective dates",
+          "id": "R-HKMA-53ZRH-2A-I-2",
+          "title": "Anchor name and business address data",
           "severity": "High",
           "severity_code": "HIGH",
           "severity_label": "High",
@@ -939,13 +2005,69 @@
           "phase2_verdict": "PASS",
           "pass": true,
           "run": "rule.AMLO",
-          "note": "ABI has ctr.addClaimTopic(uint256): true; ABI has ctr.removeClaimTopic(uint256): true; ABI has ctr.getClaimTopics(): true; Event on ctr:ClaimTopicAdded present: true; Event on ctr:ClaimTopicRemoved present: true",
+          "note": "Event irs.IdentityStored is present in the ABI.",
           "evidence": [
-            "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"addClaimTopic(uint256)\",\"present\":true,\"ok\":true,\"role\":\"registry\",\"phase\":\"conditions\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"removeClaimTopic(uint256)\",\"present\":true,\"ok\":true,\"role\":\"registry\",\"phase\":\"conditions\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"getClaimTopics()\",\"present\":true,\"ok\":true,\"role\":\"registry\",\"phase\":\"conditions\"}",
-            "{\"op\":\"hasevent\",\"where\":\"ctr\",\"name\":\"ClaimTopicAdded\",\"present\":true,\"ok\":true,\"role\":\"registry\",\"phase\":\"conditions\"}",
-            "{\"op\":\"hasevent\",\"where\":\"ctr\",\"name\":\"ClaimTopicRemoved\",\"present\":true,\"ok\":true,\"role\":\"registry\",\"phase\":\"conditions\"}"
+            "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityStored\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(i)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-I-3",
+          "title": "Anchor name and business address data",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO",
+          "note": "Event irs.IdentityModified is present in the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityModified\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(i)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-I-4",
+          "title": "Anchor name and business address data",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO",
+          "note": "Event irs.IdentityUnstored is present in the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"irs\",\"name\":\"IdentityUnstored\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(i)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-II-1",
+          "title": "Record licence conditions with effective dates",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing ctr.addClaimTopic(uint256).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"addClaimTopic(uint256)\",\"present\":false,\"ok\":false}"
           ],
           "policy_refs": [
             "SFO (Cap.571) §53ZRH(2)(a)(ii)"
@@ -954,7 +2076,87 @@
           "module_refs": []
         },
         {
-          "id": "R-HKMA-53ZRH-2A-III",
+          "id": "R-HKMA-53ZRH-2A-II-2",
+          "title": "Record licence conditions with effective dates",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing ctr.removeClaimTopic(uint256).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"removeClaimTopic(uint256)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(ii)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-II-3",
+          "title": "Record licence conditions with effective dates",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing ctr.getClaimTopics().",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"getClaimTopics()\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(ii)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-II-4",
+          "title": "Record licence conditions with effective dates",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "Event ctr.ClaimTopicAdded is absent from the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"ctr\",\"name\":\"ClaimTopicAdded\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(ii)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-II-5",
+          "title": "Record licence conditions with effective dates",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "Event ctr.ClaimTopicRemoved is absent from the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"ctr\",\"name\":\"ClaimTopicRemoved\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(ii)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-III-1",
           "title": "Central entity identification claim",
           "severity": "High",
           "severity_code": "HIGH",
@@ -963,9 +2165,9 @@
           "phase2_verdict": "High",
           "pass": false,
           "run": "rule.AMLO",
-          "note": "ABI has idr.identity(address): false",
+          "note": "ABI missing idr.identity(address).",
           "evidence": [
-            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identity(address)\",\"present\":false,\"ok\":false,\"role\":\"registry\",\"phase\":\"identity-resolution\"}"
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identity(address)\",\"present\":false,\"ok\":false}"
           ],
           "policy_refs": [
             "SFO (Cap.571) §53ZRH(2)(a)(iii)"
@@ -974,8 +2176,8 @@
           "module_refs": []
         },
         {
-          "id": "R-HKMA-53ZRH-2A-IV",
-          "title": "Capture licence grant timestamp",
+          "id": "R-HKMA-53ZRH-2A-III-2",
+          "title": "Central entity identification claim",
           "severity": "High",
           "severity_code": "HIGH",
           "severity_label": "High",
@@ -983,9 +2185,49 @@
           "phase2_verdict": "High",
           "pass": false,
           "run": "rule.AMLO",
-          "note": "Event on idr:IdentityRegistered present: false",
+          "note": "ABI missing compliance.canTransfer(address,address,uint256).",
           "evidence": [
-            "{\"op\":\"hasevent\",\"where\":\"idr\",\"name\":\"IdentityRegistered\",\"present\":false,\"ok\":false,\"role\":\"registry\",\"phase\":\"grant\"}"
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"canTransfer(address,address,uint256)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(iii)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-III-3",
+          "title": "Central entity identification claim",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO",
+          "note": "ABI exposes tir.isTrustedIssuer(address).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"isTrustedIssuer(address)\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(iii)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-IV-1",
+          "title": "Capture licence grant timestamp",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO",
+          "note": "Event idr.IdentityRegistered is present in the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"idr\",\"name\":\"IdentityRegistered\",\"present\":true,\"ok\":true}"
           ],
           "policy_refs": [
             "SFO (Cap.571) §53ZRH(2)(a)(iv)"
@@ -994,8 +2236,8 @@
           "module_refs": []
         },
         {
-          "id": "R-HKMA-53ZRH-2A-V",
-          "title": "Encode VA service scope and effective date",
+          "id": "R-HKMA-53ZRH-2A-IV-2",
+          "title": "Capture licence grant timestamp",
           "severity": "High",
           "severity_code": "HIGH",
           "severity_label": "High",
@@ -1003,14 +2245,49 @@
           "phase2_verdict": "PASS",
           "pass": true,
           "run": "rule.AMLO",
-          "note": "ABI has compliance.bindToken(address): true; ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.getModules(): true; Event on compliance:ModuleAdded present: true; Event on compliance:ModuleRemoved present: true",
+          "note": "Event idr.IdentityUpdated is present in the ABI.",
           "evidence": [
-            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"bindToken(address)\",\"present\":true,\"ok\":true,\"role\":\"compliance\",\"phase\":\"scope\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"addModule(address)\",\"present\":true,\"ok\":true,\"role\":\"compliance\",\"phase\":\"scope\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"removeModule(address)\",\"present\":true,\"ok\":true,\"role\":\"compliance\",\"phase\":\"scope\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"getModules()\",\"present\":true,\"ok\":true,\"role\":\"compliance\",\"phase\":\"scope\"}",
-            "{\"op\":\"hasevent\",\"where\":\"compliance\",\"name\":\"ModuleAdded\",\"present\":true,\"ok\":true,\"role\":\"compliance\",\"phase\":\"scope\"}",
-            "{\"op\":\"hasevent\",\"where\":\"compliance\",\"name\":\"ModuleRemoved\",\"present\":true,\"ok\":true,\"role\":\"compliance\",\"phase\":\"scope\"}"
+            "{\"op\":\"hasevent\",\"where\":\"idr\",\"name\":\"IdentityUpdated\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(iv)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-IV-3",
+          "title": "Capture licence grant timestamp",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "Event idr.IdentityRemoved is absent from the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"idr\",\"name\":\"IdentityRemoved\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(iv)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-V-1",
+          "title": "Encode VA service scope and effective date",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing compliance.bindToken(address).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"bindToken(address)\",\"present\":false,\"ok\":false}"
           ],
           "policy_refs": [
             "SFO (Cap.571) §53ZRH(2)(a)(v)"
@@ -1019,24 +2296,118 @@
           "module_refs": []
         },
         {
-          "id": "R-HKMA-53ZRH-2A-VI",
+          "id": "R-HKMA-53ZRH-2A-V-2",
+          "title": "Encode VA service scope and effective date",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing compliance.addModule(address).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"addModule(address)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(v)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-V-3",
+          "title": "Encode VA service scope and effective date",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing compliance.removeModule(address).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"removeModule(address)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(v)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-V-4",
+          "title": "Encode VA service scope and effective date",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing compliance.getModules().",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"getModules()\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(v)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-V-5",
+          "title": "Encode VA service scope and effective date",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "Event compliance.ModuleAdded is absent from the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"compliance\",\"name\":\"ModuleAdded\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(v)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-V-6",
+          "title": "Encode VA service scope and effective date",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "Event compliance.ModuleRemoved is absent from the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"compliance\",\"name\":\"ModuleRemoved\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(v)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-VI-1",
           "title": "Represent suspension status on-chain",
           "severity": "High",
           "severity_code": "HIGH",
           "severity_label": "High",
           "severity_original": "High",
-          "phase2_verdict": "PASS",
-          "pass": true,
+          "phase2_verdict": "High",
+          "pass": false,
           "run": "rule.AMLO",
-          "note": "ABI has token.setAddressFrozen(address,bool): true; ABI has token.freezePartialTokens(address,uint256): true; ABI has token.unfreezePartialTokens(address,uint256): true; ABI has token.isFrozen(address): true; Event on token:AddressFrozen present: true; Event on token:TokensUnfrozen present: true; Event on token:Toke...",
+          "note": "ABI missing token.setAddressFrozen(address,bool).",
           "evidence": [
-            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"setAddressFrozen(address,bool)\",\"present\":true,\"ok\":true,\"role\":\"token\",\"phase\":\"suspension\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"freezePartialTokens(address,uint256)\",\"present\":true,\"ok\":true,\"role\":\"token\",\"phase\":\"suspension\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"unfreezePartialTokens(address,uint256)\",\"present\":true,\"ok\":true,\"role\":\"token\",\"phase\":\"suspension\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"isFrozen(address)\",\"present\":true,\"ok\":true,\"role\":\"token\",\"phase\":\"suspension\"}",
-            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"AddressFrozen\",\"present\":true,\"ok\":true,\"role\":\"token\",\"phase\":\"suspension\"}",
-            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"TokensUnfrozen\",\"present\":true,\"ok\":true,\"role\":\"token\",\"phase\":\"suspension\"}",
-            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"TokensFrozen\",\"present\":true,\"ok\":true,\"role\":\"token\",\"phase\":\"suspension\"}"
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"setAddressFrozen(address,bool)\",\"present\":false,\"ok\":false}"
           ],
           "policy_refs": [
             "SFO (Cap.571) §53ZRH(2)(a)(vi)"
@@ -1045,7 +2416,127 @@
           "module_refs": []
         },
         {
-          "id": "R-HKMA-53ZRH-2C",
+          "id": "R-HKMA-53ZRH-2A-VI-2",
+          "title": "Represent suspension status on-chain",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing token.freezePartialTokens(address,uint256).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"freezePartialTokens(address,uint256)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(vi)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-VI-3",
+          "title": "Represent suspension status on-chain",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing token.unfreezePartialTokens(address,uint256).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"unfreezePartialTokens(address,uint256)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(vi)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-VI-4",
+          "title": "Represent suspension status on-chain",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing token.isFrozen(address).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"isFrozen(address)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(vi)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-VI-5",
+          "title": "Represent suspension status on-chain",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "Event token.AddressFrozen is absent from the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"AddressFrozen\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(vi)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-VI-6",
+          "title": "Represent suspension status on-chain",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "Event token.TokensUnfrozen is absent from the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"TokensUnfrozen\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(vi)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2A-VI-7",
+          "title": "Represent suspension status on-chain",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "Event token.TokensFrozen is absent from the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"TokensFrozen\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(a)(vi)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2C-1",
           "title": "Representative principal linkage",
           "severity": "High",
           "severity_code": "HIGH",
@@ -1054,13 +2545,9 @@
           "phase2_verdict": "PASS",
           "pass": true,
           "run": "rule.AMLO",
-          "note": "ABI has tir.updateIssuerClaimTopics(address,uint256[]): true; ABI has tir.getTrustedIssuers(): true; ABI has ctr.getClaimTopics(): true; Event on tir:TrustedIssuerAdded present: true; Event on tir:TrustedIssuerRemoved present: true",
+          "note": "ABI exposes tir.updateIssuerClaimTopics(address,uint256[]).",
           "evidence": [
-            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"updateIssuerClaimTopics(address,uint256[])\",\"present\":true,\"ok\":true,\"role\":\"representation\",\"phase\":\"accreditation\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"getTrustedIssuers()\",\"present\":true,\"ok\":true,\"role\":\"representation\",\"phase\":\"accreditation\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"getClaimTopics()\",\"present\":true,\"ok\":true,\"role\":\"representation\",\"phase\":\"accreditation\"}",
-            "{\"op\":\"hasevent\",\"where\":\"tir\",\"name\":\"TrustedIssuerAdded\",\"present\":true,\"ok\":true,\"role\":\"representation\",\"phase\":\"accreditation\"}",
-            "{\"op\":\"hasevent\",\"where\":\"tir\",\"name\":\"TrustedIssuerRemoved\",\"present\":true,\"ok\":true,\"role\":\"representation\",\"phase\":\"accreditation\"}"
+            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"updateIssuerClaimTopics(address,uint256[])\",\"present\":true,\"ok\":true}"
           ],
           "policy_refs": [
             "SFO (Cap.571) §53ZRH(2)(c)"
@@ -1069,22 +2556,98 @@
           "module_refs": []
         },
         {
-          "id": "R-HKMA-53ZRK-5E",
+          "id": "R-HKMA-53ZRH-2C-2",
+          "title": "Representative principal linkage",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO",
+          "note": "ABI exposes tir.getTrustedIssuers().",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"getTrustedIssuers()\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(c)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2C-3",
+          "title": "Representative principal linkage",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing ctr.getClaimTopics().",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"ctr\",\"sig\":\"getClaimTopics()\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(c)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2C-4",
+          "title": "Representative principal linkage",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO",
+          "note": "Event tir.TrustedIssuerAdded is present in the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"tir\",\"name\":\"TrustedIssuerAdded\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(c)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRH-2C-5",
+          "title": "Representative principal linkage",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "PASS",
+          "pass": true,
+          "run": "rule.AMLO",
+          "note": "Event tir.TrustedIssuerRemoved is present in the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"tir\",\"name\":\"TrustedIssuerRemoved\",\"present\":true,\"ok\":true}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRH(2)(c)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRK-5E-1",
           "title": "Client asset safeguards via modular compliance",
           "severity": "Very High",
           "severity_code": "VERY_HIGH",
           "severity_label": "Very High",
           "severity_original": "Critical",
-          "phase2_verdict": "PASS",
-          "pass": true,
+          "phase2_verdict": "Very High",
+          "pass": false,
           "run": "rule.AMLO",
-          "note": "ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.callModuleFunction(bytes,address): true; ABI has compliance.unbindToken(address): true; Event on compliance:ModuleInteraction present: true",
+          "note": "ABI missing compliance.addModule(address).",
           "evidence": [
-            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"addModule(address)\",\"present\":true,\"ok\":true,\"role\":\"compliance\",\"phase\":\"custody\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"removeModule(address)\",\"present\":true,\"ok\":true,\"role\":\"compliance\",\"phase\":\"custody\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"callModuleFunction(bytes,address)\",\"present\":true,\"ok\":true,\"role\":\"compliance\",\"phase\":\"custody\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"unbindToken(address)\",\"present\":true,\"ok\":true,\"role\":\"compliance\",\"phase\":\"custody\"}",
-            "{\"op\":\"hasevent\",\"where\":\"compliance\",\"name\":\"ModuleInteraction\",\"present\":true,\"ok\":true,\"role\":\"compliance\",\"phase\":\"custody\"}"
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"addModule(address)\",\"present\":false,\"ok\":false}"
           ],
           "policy_refs": [
             "SFO (Cap.571) §53ZRK(5)(e)"
@@ -1093,7 +2656,87 @@
           "module_refs": []
         },
         {
-          "id": "R-HKMA-AMLO-S6",
+          "id": "R-HKMA-53ZRK-5E-2",
+          "title": "Client asset safeguards via modular compliance",
+          "severity": "Very High",
+          "severity_code": "VERY_HIGH",
+          "severity_label": "Very High",
+          "severity_original": "Critical",
+          "phase2_verdict": "Very High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing compliance.removeModule(address).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"removeModule(address)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRK(5)(e)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRK-5E-3",
+          "title": "Client asset safeguards via modular compliance",
+          "severity": "Very High",
+          "severity_code": "VERY_HIGH",
+          "severity_label": "Very High",
+          "severity_original": "Critical",
+          "phase2_verdict": "Very High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing compliance.callModuleFunction(bytes,address).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"callModuleFunction(bytes,address)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRK(5)(e)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRK-5E-4",
+          "title": "Client asset safeguards via modular compliance",
+          "severity": "Very High",
+          "severity_code": "VERY_HIGH",
+          "severity_label": "Very High",
+          "severity_original": "Critical",
+          "phase2_verdict": "Very High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing compliance.unbindToken(address).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"unbindToken(address)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRK(5)(e)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-53ZRK-5E-5",
+          "title": "Client asset safeguards via modular compliance",
+          "severity": "Very High",
+          "severity_code": "VERY_HIGH",
+          "severity_label": "Very High",
+          "severity_original": "Critical",
+          "phase2_verdict": "Very High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "Event compliance.ModuleInteraction is absent from the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"compliance\",\"name\":\"ModuleInteraction\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "SFO (Cap.571) §53ZRK(5)(e)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-S6-1",
           "title": "Ongoing record of customer identity and activity",
           "severity": "Very High",
           "severity_code": "VERY_HIGH",
@@ -1102,10 +2745,9 @@
           "phase2_verdict": "Very High",
           "pass": false,
           "run": "rule.AMLO",
-          "note": "ABI has idr.isVerified(address): true; ABI has idr.identity(address): false",
+          "note": "ABI missing idr.isVerified(address).",
           "evidence": [
-            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"isVerified(address)\",\"present\":true,\"ok\":true,\"role\":\"monitoring\",\"phase\":\"retention\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identity(address)\",\"present\":false,\"ok\":false,\"role\":\"monitoring\",\"phase\":\"retention\"}"
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"isVerified(address)\",\"present\":false,\"ok\":false}"
           ],
           "policy_refs": [
             "AMLO Schedule 2 §6"
@@ -1114,7 +2756,167 @@
           "module_refs": []
         },
         {
-          "id": "R-HKMA-AMLO-13A-ROLE",
+          "id": "R-HKMA-AMLO-S6-2",
+          "title": "Ongoing record of customer identity and activity",
+          "severity": "Very High",
+          "severity_code": "VERY_HIGH",
+          "severity_label": "Very High",
+          "severity_original": "Critical",
+          "phase2_verdict": "Very High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing idr.identity(address).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identity(address)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "AMLO Schedule 2 §6"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-S6-3",
+          "title": "Ongoing record of customer identity and activity",
+          "severity": "Very High",
+          "severity_code": "VERY_HIGH",
+          "severity_label": "Very High",
+          "severity_original": "Critical",
+          "phase2_verdict": "Very High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing compliance.transferred(address,address,uint256).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"transferred(address,address,uint256)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "AMLO Schedule 2 §6"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-S6-4",
+          "title": "Ongoing record of customer identity and activity",
+          "severity": "Very High",
+          "severity_code": "VERY_HIGH",
+          "severity_label": "Very High",
+          "severity_original": "Critical",
+          "phase2_verdict": "Very High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "Event token.Transfer is absent from the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"token\",\"name\":\"Transfer\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "AMLO Schedule 2 §6"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-S6-5",
+          "title": "Ongoing record of customer identity and activity",
+          "severity": "Very High",
+          "severity_code": "VERY_HIGH",
+          "severity_label": "Very High",
+          "severity_original": "Critical",
+          "phase2_verdict": "Very High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "Event compliance.ModuleInteraction is absent from the ABI.",
+          "evidence": [
+            "{\"op\":\"hasevent\",\"where\":\"compliance\",\"name\":\"ModuleInteraction\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "AMLO Schedule 2 §6"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-13A-ROLE-1",
+          "title": "Virtual asset transfer role gating",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing token.compliance().",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"compliance()\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "AMLO Schedule 2 §13A(1)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-13A-ROLE-2",
+          "title": "Virtual asset transfer role gating",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "Expected data.tokenCompliance to be != ZERO, observed 0x0000000000000000000000000000000000000000.",
+          "evidence": [
+            "nonzeroaddress:data.tokenCompliance:"
+          ],
+          "policy_refs": [
+            "AMLO Schedule 2 §13A(1)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-13A-ROLE-3",
+          "title": "Virtual asset transfer role gating",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing compliance.canTransfer(address,address,uint256).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"canTransfer(address,address,uint256)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "AMLO Schedule 2 §13A(1)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-13A-ROLE-4",
+          "title": "Virtual asset transfer role gating",
+          "severity": "High",
+          "severity_code": "HIGH",
+          "severity_label": "High",
+          "severity_original": "High",
+          "phase2_verdict": "High",
+          "pass": false,
+          "run": "rule.AMLO",
+          "note": "ABI missing idr.isVerified(address).",
+          "evidence": [
+            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"isVerified(address)\",\"present\":false,\"ok\":false}"
+          ],
+          "policy_refs": [
+            "AMLO Schedule 2 §13A(1)"
+          ],
+          "code_refs": [],
+          "module_refs": []
+        },
+        {
+          "id": "R-HKMA-AMLO-13A-ROLE-5",
           "title": "Virtual asset transfer role gating",
           "severity": "High",
           "severity_code": "HIGH",
@@ -1123,13 +2925,9 @@
           "phase2_verdict": "PASS",
           "pass": true,
           "run": "rule.AMLO",
-          "note": "ABI has token.compliance(): true; data.tokenCompliance is non-zero; ABI has compliance.canTransfer(address,address,uint256): true; ABI has idr.isVerified(address): true; ABI has tir.isTrustedIssuer(address): true",
+          "note": "ABI exposes tir.isTrustedIssuer(address).",
           "evidence": [
-            "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"compliance()\",\"present\":true,\"ok\":true,\"role\":\"va-transfer\",\"phase\":\"pre-transfer\"}",
-            "nonzeroaddress:data.tokenCompliance:",
-            "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"canTransfer(address,address,uint256)\",\"present\":true,\"ok\":true,\"role\":\"va-transfer\",\"phase\":\"pre-transfer\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"isVerified(address)\",\"present\":true,\"ok\":true,\"role\":\"va-transfer\",\"phase\":\"pre-transfer\"}",
-            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"isTrustedIssuer(address)\",\"present\":true,\"ok\":true,\"role\":\"va-transfer\",\"phase\":\"pre-transfer\"}"
+            "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"isTrustedIssuer(address)\",\"present\":true,\"ok\":true}"
           ],
           "policy_refs": [
             "AMLO Schedule 2 §13A(1)"
@@ -1138,33 +2936,14 @@
           "module_refs": []
         }
       ],
-      "runtime": [
-        {
-          "run": "rule.AMLO",
-          "executionMode": "hardhat",
-          "probes": [
-            {
-              "id": "R-HKMA-AMLO-CDD",
-              "ran": true,
-              "pass": false,
-              "evidence": "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
-            },
-            {
-              "id": "R-HKMA-AMLO-RECORDKEEPING",
-              "ran": true,
-              "pass": false,
-              "evidence": "AMLO record-keeping probe: identityRegistry.identityStorage() returned zero address; storage is not wired."
-            }
-          ]
-        }
-      ]
+      "runtime": []
     }
   },
   "report": {
     "textPath": "reports/amlo-buggy.txt"
   },
   "coverageDistribution": {
-    "SUPPORT": 0,
+    "SUPPORT": 3,
     "CHALLENGE": 0,
     "EXTEND": 0
   }

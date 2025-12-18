@@ -1,8 +1,6 @@
 {
   "rules": [
-    { "id": "R-HKMA-AMLO-CDD", "status": "Pass" },
-    { "id": "R-HKMA-AMLO-RecordKeeping", "status": "Pass" },
-    { "id": "R-HKMA-53ZRH-REGISTER", "status": "Fail" },
+    { "id": "R-HKMA-53ZRH-REGISTER", "status": "Pass" },
     { "id": "R-HKMA-53ZRH-2A-I", "status": "Pass" },
     { "id": "R-HKMA-53ZRH-2A-II", "status": "Pass" },
     { "id": "R-HKMA-53ZRH-2A-III", "status": "Pass" },

@@ -1,0 +1,418 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif; color:#111827; margin:24px; }
+  h1 { font-size:24px; margin:0 0 4px 0; }
+  .sub { color:#6B7280; font-size:13px; }
+</style>
+</head>
+<body>
+  <h1>ERC-3643 Compliance Report</h1>
+  <div class="sub">
+    Generated: 2025-10-30T14:53:04.933Z — Deterministic checks + LLM reasoning
+  </div>
+
+  
+<div style="margin:16px 0">
+  <div style="font-weight:700;margin-bottom:6px">Inputs</div>
+  <div style="font-size:13px;color:#374151">
+    <div>Addresses file: <code>/Users/treza/Documents/staticAnalysis/.cre.addresses.json</code></div>
+    <div>Rules: <code>cre/rules/rule.AMLO.json</code></div>
+    <div>ABI artifacts: <code>Token: node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json</code>, <code>IdentityRegistry: artifacts/contracts/buggy/BuggyIdentityRegistry.sol/BuggyIdentityRegistry.json</code>, <code>ClaimTopicsRegistry: node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json</code>, <code>TrustedIssuersRegistry: node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json</code>, <code>Compliance: node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json</code>, <code>IdentityRegistryStorage: node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json</code></div>
+  </div>
+  <ul style="margin-top:8px">
+    <li>cre/rules/rule.AMLO.json</li>
+  </ul>
+  <details style="margin-top:10px;font-size:13px"><summary style="cursor:pointer">Resolved addresses</summary>
+    <ul style="margin-top:8px"><li><code>networkRpc</code> → <code>http://127.0.0.1:8545</code></li><li><code>token</code> → <code>0x5FC8d32690cc91D4c39d9d3abcBD16989F875707</code></li><li><code>identityRegistry</code> → <code>0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9</code></li><li><code>claimTopicsRegistry</code> → <code>0x5FbDB2315678afecb367f032d93F642f64180aa3</code></li><li><code>trustedIssuersRegistry</code> → <code>0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512</code></li><li><code>compliance</code> → <code>0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9</code></li></ul>
+  </details>
+</div>
+
+
+  <div style="font-weight:700;margin:16px 0 4px 0">Summary of distribution</div>
+  <table style="border-collapse:collapse;font-size:13px;margin:12px 0;width:100%;max-width:640px">
+    <thead>
+      <tr style="text-align:left">
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#F3F4F6">Review date</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#10B981;color:#FFFFFF">Pass</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#FACC15;color:#111827">Medium</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#F97316;color:#111827">High</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#B91C1C;color:#FFFFFF">Very High</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#374151;color:#FFFFFF">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">2025-10-30</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">1</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">0</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">9</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">3</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">13</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<div style="margin:24px 0">
+  <div style="font-weight:700;margin-bottom:8px">Assessed rules</div>
+  <table style="border-collapse:collapse;font-size:13px;width:100%">
+    <thead>
+      <tr style="background:#F3F4F6;text-align:left">
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">#</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Rule title</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Rule description</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Ordinance</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Severity</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Explanation</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">1</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO CDD identity controls</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Token and Identity Registry must expose the hooks necessary to perform customer and beneficial owner due diligence before onboarding.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.615) Schedule 2 §2</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">(1) What happened: A token transfer to an unverified address succeeded, indicating no identity gating before value movement. (2) Clause: AMLO (Cap.615) Schedule 2 §2. (3) Why it matters: This is a core CDD failure. Without pre‑transfer identity verification, the firm risks transferring assets to unknown or prohibited parties, creating potential AMLO breaches and licensing risk. It undermines the control objective to prevent misuse and preserve market integrity. (4) What to do next: Activate ERC‑3643 identity enforcement end‑to‑end: wire the identity registry to storage, define claim topics, onboard at least one trusted issuer, and block transfers unless both sender and recipient addresses are verified. Enable and retain identity/transfer event logs for audit and ensure role separation for approvals.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">2</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO record keeping support</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity Registry Storage must be wired and emit lifecycle events so identity evidence can be retained for at least seven years.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.615) Schedule 2 §2</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">(1) What happened: The contract exposes an identityStorage hook but the configured storage address is unset. (2) Clause: AMLO (Cap.615) Schedule 2 §2. (3) Why it matters: Absent a wired identity storage, customer identity data cannot be captured or retrieved reliably, weakening audit trails and CDD evidence, and heightening supervisory risk for inadequate record‑keeping. (4) What to do next: Deploy an identity storage contract and set its address in the registry. Ensure identity creation/updates emit events and that records (including issuer attestations) are retained per policy with backups and access controls.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">3</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Maintain on-chain register of licensed persons</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.571) §53ZRH(1)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">(1) What happened: The on‑chain identity storage is unset, trusted issuer list is empty, and only a minimal claim topic exists. (2) Clause: AMLO (Cap.571) §53ZRH(1). (3) Why it matters: Without a functional on‑chain register, licensed persons and their attributes cannot be validated, impairing market integrity and obstructing regulatory verification. (4) What to do next: Initialize the on‑chain register by wiring identity storage, onboarding trusted issuers, and publishing licensed person identities and required claims. Maintain governance records and event logs for registrations and updates.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">4</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Anchor name and business address data</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity records must support anchoring of name and business address metadata with auditable storage events.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.571) §53ZRH(2)(a)(i)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">(1) What happened: Identity storage is unavailable, preventing anchoring of name and business address data on‑chain. (2) Clause: AMLO (Cap.571) §53ZRH(2)(a)(i). (3) Why it matters: Missing identity anchoring blocks regulators and counterparties from confirming licensed entity details, weakening the public register and oversight. (4) What to do next: Stand up identity storage and record name and business address as claims issued by a trusted issuer under a defined topic. Ensure updates generate events with timestamps for auditability.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">5</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Record licence conditions with effective dates</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence conditions must be represented as claim topics that can be versioned on-chain.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.571) §53ZRH(2)(a)(ii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">(1) What happened: The claim topics registry is present with at least one topic, indicating a structure exists to record licence‑related attributes. (2) Clause: AMLO (Cap.571) §53ZRH(2)(a)(ii). (3) Why it matters: Having a defined claim topic supports consistent recording of licence conditions and their timing, aligning with the register’s objective and enabling auditability. (4) What to do next: Map the existing topic to licence conditions and effective dates, authorize trusted issuers to populate claims, and monitor event logs to evidence updates.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">6</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identification claim</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identifiers must be retrievable via identity resolution and enforced through claims.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.571) §53ZRH(2)(a)(iii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">(1) What happened: No identity record exists for the referenced address and there is no trusted issuer confirmation. (2) Clause: AMLO (Cap.571) §53ZRH(2)(a)(iii). (3) Why it matters: Without a central entity identification claim, the register cannot reliably link the licensed entity to its on‑chain presence, posing governance and supervisory risks. (4) What to do next: Create the identity record for the central entity, enable attestation by a trusted issuer under the relevant topic, and ensure events capture the association for audit readiness.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">7</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Capture licence grant timestamp</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence issuance must be observable on-chain with timestamped events for audit trail.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.571) §53ZRH(2)(a)(iv)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">(1) What happened: No identity registration, update, or removal events were observed. (2) Clause: AMLO (Cap.571) §53ZRH(2)(a)(iv). (3) Why it matters: Absent timestamped events, there is no authoritative trail of when licences were granted or changed, weakening auditability and compliance assurance. (4) What to do next: Emit and retain events for identity lifecycle actions and ensure they include or imply timestamps via block time. Implement procedures to reconcile events to off‑chain licence records.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">8</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Encode VA service scope and effective date</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The compliance module must expose modular hooks to reflect permitted service scope with activation controls.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.571) §53ZRH(2)(a)(v)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">(1) What happened: The compliance contract exposes no active modules. (2) Clause: AMLO (Cap.571) §53ZRH(2)(a)(v). (3) Why it matters: Without modules representing permitted VA services and their effective dates, the system cannot enforce scope limitations or demonstrate compliance, risking supervisory findings. (4) What to do next: Configure modular compliance to capture service permissions and timing, and require these modules to be active before enabling transfers. Ensure updates are logged for audit.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">9</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Represent suspension status on-chain</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.571) §53ZRH(2)(a)(vi)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">(1) What happened: No callable freeze/unfreeze functionality was available; suspension status checks failed. (2) Clause: AMLO (Cap.571) §53ZRH(2)(a)(vi). (3) Why it matters: Inability to reflect and enforce suspensions on‑chain impedes swift risk mitigation and undermines market integrity during supervisory actions. (4) What to do next: Implement address freezing with clear roles, enforce transfer blocking for frozen addresses, and emit events to evidence suspension and reinstatement actions.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">10</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Representative principal linkage</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.571) §53ZRH(2)(c)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">(1) What happened: Only one claim topic exists and no trusted issuers are configured, preventing representation of principal–representative linkages. (2) Clause: AMLO (Cap.571) §53ZRH(2)(c). (3) Why it matters: Missing linkage claims obscure accountability of representatives to principals, a governance gap that regulators view as weak conduct controls. (4) What to do next: Define claim topics for representative–principal relationships, onboard trusted issuers to attest them, and require these claims for relevant roles before enabling activities.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">11</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Client asset safeguards via modular compliance</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.571) §53ZRK(5)(e)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">(1) What happened: The compliance engine has no active modules. (2) Clause: AMLO (Cap.571) §53ZRK(5)(e). (3) Why it matters: Without modular compliance, controls like whitelist/blacklist, sanctions/geofence, and suspension cannot operate, exposing client assets and raising significant supervisory risk. This directly affects the objective of client asset protection. (4) What to do next: Deploy and enable risk‑based compliance modules and make transfer execution contingent on their approval. Log module lifecycle changes and maintain role separation over configurations.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">12</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ongoing record of customer identity and activity</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity evidence and transactional metadata must remain queryable for historical monitoring.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §6</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">(1) What happened: Identity storage and identity lookups return no records, and the compliance contract is not enforcing checks. (2) Clause: AMLO Schedule 2 §6. (3) Why it matters: Ongoing monitoring cannot function without persistent identity data and activity correlation, creating high risk of undetected suspicious activity and inadequate records. (4) What to do next: Establish persistent identity storage, ensure identities are linked to addresses, enable monitoring via compliance checks, and retain detailed event logs for both identity and transaction activity.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">13</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Virtual asset transfer role gating</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §13A(1)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">(1) What happened: No compliance modules are active, trusted issuers are absent, and only a minimal claim topic exists, leaving transfers ungated by roles. (2) Clause: AMLO Schedule 2 §13A(1). (3) Why it matters: Without role‑based gating and verified authorizations, unapproved parties may initiate or receive transfers, increasing misuse and licensing risk. (4) What to do next: Enable role‑based permissions anchored in ERC‑3643 claims issued by trusted issuers and bind transfer execution to successful role checks. Maintain event logs and clear role separation for administration.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+  
+<div style="margin:16px 0;font-size:13px;color:#4B5563">
+  Additional artifacts: <code>reports/amlo-buggy.txt</code>
+</div>
+  <!-- Per-Rulebook Execution intentionally hidden -->
+  
+<h2 style="margin:28px 0 12px 0;font-size:20px;border-bottom:1px solid #E5E7EB;padding-bottom:6px">LLM Compliance Assessment</h2>
+<div style="font-size:12px;color:#6B7280">Model: gpt-5-2025-08-07</div>
+
+<div style="margin:12px 0;font-size:14px;line-height:1.6"><strong>Summary:</strong> Overall status: Not compliant. Multiple very high and high severity deficiencies indicate the ERC‑3643 identity stack is not wired (identityStorage unset, no trusted issuers), compliance engine has zero modules, and transfers proceeded to unverified wallets. These gaps breach AMLO CDD, ongoing monitoring, client-asset safeguards, and on‑chain register expectations under Cap.571 §53ZRH/§53ZRK. Immediate remediation is required to deploy and link the identity registry, register trusted issuers and claims, and activate modular compliance to prevent misuse, preserve market integrity, and protect client assets. Audit readiness is currently weak due to missing identity records and event logs.</div>
+
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#B91C1C">Very High</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">1. AMLO record keeping support</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">(1) What happened: The contract exposes an identityStorage hook but the configured storage address is unset. (2) Clause: AMLO (Cap.615) Schedule 2 §2. (3) Why it matters: Absent a wired identity storage, customer identity data cannot be captured or retrieved reliably, weakening audit trails and CDD evidence, and heightening supervisory risk for inadequate record‑keeping. (4) What to do next: Deploy an identity storage contract and set its address in the registry. Ensure identity creation/updates emit events and that records (including issuer attestations) are retained per policy with backups and access controls.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.615) Schedule 2 §2</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>runtime.rule.AMLO:R-HKMA-AMLO-RECORDKEEPING</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Set the identity storage address in the identity registry; implement event emission for create/update/remove; establish data retention and backup procedures; restrict admin access and log changes.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">2. Client asset safeguards via modular compliance</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">(1) What happened: The compliance engine has no active modules. (2) Clause: AMLO (Cap.571) §53ZRK(5)(e). (3) Why it matters: Without modular compliance, controls like whitelist/blacklist, sanctions/geofence, and suspension cannot operate, exposing client assets and raising significant supervisory risk. This directly affects the objective of client asset protection. (4) What to do next: Deploy and enable risk‑based compliance modules and make transfer execution contingent on their approval. Log module lifecycle changes and maintain role separation over configurations.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.571) §53ZRK(5)(e)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>runtime.rule.AMLO:R-HKMA-53ZRK-5E</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Stand up and bind modules (e.g., identity whitelist, sanctions/geofencing, freeze control); require module pass for transfers; implement change control, event logs, and periodic control testing.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#B91C1C">3. Ongoing record of customer identity and activity</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">(1) What happened: Identity storage and identity lookups return no records, and the compliance contract is not enforcing checks. (2) Clause: AMLO Schedule 2 §6. (3) Why it matters: Ongoing monitoring cannot function without persistent identity data and activity correlation, creating high risk of undetected suspicious activity and inadequate records. (4) What to do next: Establish persistent identity storage, ensure identities are linked to addresses, enable monitoring via compliance checks, and retain detailed event logs for both identity and transaction activity.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO Schedule 2 §6</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>runtime.rule.AMLO:R-HKMA-AMLO-S6</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Wire identity storage; onboard customers with verified claims; enforce ongoing checks on each transfer; emit and retain identity/transfer events; institute periodic review and alerts for anomalies.</div>
+    </div></div>
+      </div>
+
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#F97316">High</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">4. AMLO CDD identity controls</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">(1) What happened: A token transfer to an unverified address succeeded, indicating no identity gating before value movement. (2) Clause: AMLO (Cap.615) Schedule 2 §2. (3) Why it matters: This is a core CDD failure. Without pre‑transfer identity verification, the firm risks transferring assets to unknown or prohibited parties, creating potential AMLO breaches and licensing risk. It undermines the control objective to prevent misuse and preserve market integrity. (4) What to do next: Activate ERC‑3643 identity enforcement end‑to‑end: wire the identity registry to storage, define claim topics, onboard at least one trusted issuer, and block transfers unless both sender and recipient addresses are verified. Enable and retain identity/transfer event logs for audit and ensure role separation for approvals.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.615) Schedule 2 §2</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>runtime.rule.AMLO:R-HKMA-AMLO-CDD</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Deploy and link the identity storage; register trusted claim issuer(s); set required claim topics; enforce checks so only verified identities can send/receive; emit and retain verification/transfer events; implement admin role separation and change controls.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">5. Maintain on-chain register of licensed persons</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">(1) What happened: The on‑chain identity storage is unset, trusted issuer list is empty, and only a minimal claim topic exists. (2) Clause: AMLO (Cap.571) §53ZRH(1). (3) Why it matters: Without a functional on‑chain register, licensed persons and their attributes cannot be validated, impairing market integrity and obstructing regulatory verification. (4) What to do next: Initialize the on‑chain register by wiring identity storage, onboarding trusted issuers, and publishing licensed person identities and required claims. Maintain governance records and event logs for registrations and updates.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.571) §53ZRH(1)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>runtime.rule.AMLO:R-HKMA-53ZRH-REGISTER</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Wire identity storage; populate trusted issuers; publish identities for licensed persons with required claims; emit register/update/remove events; document governance and periodic reconciliations.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">6. Anchor name and business address data</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">(1) What happened: Identity storage is unavailable, preventing anchoring of name and business address data on‑chain. (2) Clause: AMLO (Cap.571) §53ZRH(2)(a)(i). (3) Why it matters: Missing identity anchoring blocks regulators and counterparties from confirming licensed entity details, weakening the public register and oversight. (4) What to do next: Stand up identity storage and record name and business address as claims issued by a trusted issuer under a defined topic. Ensure updates generate events with timestamps for auditability.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.571) §53ZRH(2)(a)(i)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>runtime.rule.AMLO:R-HKMA-53ZRH-2A-I</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Deploy and link identity storage; define a claim topic for name/address; onboard a trusted issuer to attest claims; publish and maintain records with update events and retention controls.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">7. Central entity identification claim</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">(1) What happened: No identity record exists for the referenced address and there is no trusted issuer confirmation. (2) Clause: AMLO (Cap.571) §53ZRH(2)(a)(iii). (3) Why it matters: Without a central entity identification claim, the register cannot reliably link the licensed entity to its on‑chain presence, posing governance and supervisory risks. (4) What to do next: Create the identity record for the central entity, enable attestation by a trusted issuer under the relevant topic, and ensure events capture the association for audit readiness.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.571) §53ZRH(2)(a)(iii)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>runtime.rule.AMLO:R-HKMA-53ZRH-2A-III</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Establish the entity’s identity entry; register a trusted issuer; publish the identification claim; log and retain registration/update events; enforce periodic validation.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">8. Capture licence grant timestamp</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">(1) What happened: No identity registration, update, or removal events were observed. (2) Clause: AMLO (Cap.571) §53ZRH(2)(a)(iv). (3) Why it matters: Absent timestamped events, there is no authoritative trail of when licences were granted or changed, weakening auditability and compliance assurance. (4) What to do next: Emit and retain events for identity lifecycle actions and ensure they include or imply timestamps via block time. Implement procedures to reconcile events to off‑chain licence records.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.571) §53ZRH(2)(a)(iv)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>runtime.rule.AMLO:R-HKMA-53ZRH-2A-IV</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Implement event emission on register changes; archive logs; reconcile on‑chain timestamps with licence records; include role‑based approvals and change documentation.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">9. Encode VA service scope and effective date</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">(1) What happened: The compliance contract exposes no active modules. (2) Clause: AMLO (Cap.571) §53ZRH(2)(a)(v). (3) Why it matters: Without modules representing permitted VA services and their effective dates, the system cannot enforce scope limitations or demonstrate compliance, risking supervisory findings. (4) What to do next: Configure modular compliance to capture service permissions and timing, and require these modules to be active before enabling transfers. Ensure updates are logged for audit.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.571) §53ZRH(2)(a)(v)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>runtime.rule.AMLO:R-HKMA-53ZRH-2A-V</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Deploy and activate compliance modules encoding service scope/effective dates; bind them to transfer checks; emit module add/remove/update events; document governance over module changes.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">10. Represent suspension status on-chain</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">(1) What happened: No callable freeze/unfreeze functionality was available; suspension status checks failed. (2) Clause: AMLO (Cap.571) §53ZRH(2)(a)(vi). (3) Why it matters: Inability to reflect and enforce suspensions on‑chain impedes swift risk mitigation and undermines market integrity during supervisory actions. (4) What to do next: Implement address freezing with clear roles, enforce transfer blocking for frozen addresses, and emit events to evidence suspension and reinstatement actions.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.571) §53ZRH(2)(a)(vi)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>runtime.rule.AMLO:R-HKMA-53ZRH-2A-VI</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Add freeze/unfreeze controls with role separation; block transfers for frozen addresses via compliance checks; emit and retain freeze/unfreeze events; document approval workflows.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">11. Representative principal linkage</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">(1) What happened: Only one claim topic exists and no trusted issuers are configured, preventing representation of principal–representative linkages. (2) Clause: AMLO (Cap.571) §53ZRH(2)(c). (3) Why it matters: Missing linkage claims obscure accountability of representatives to principals, a governance gap that regulators view as weak conduct controls. (4) What to do next: Define claim topics for representative–principal relationships, onboard trusted issuers to attest them, and require these claims for relevant roles before enabling activities.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.571) §53ZRH(2)(c)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>runtime.rule.AMLO:R-HKMA-53ZRH-2C</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Create dedicated linkage claim topics; register trusted issuers; populate and validate linkage claims; enforce presence of valid linkages in compliance checks; keep event logs and review periodically.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">12. Virtual asset transfer role gating</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">(1) What happened: No compliance modules are active, trusted issuers are absent, and only a minimal claim topic exists, leaving transfers ungated by roles. (2) Clause: AMLO Schedule 2 §13A(1). (3) Why it matters: Without role‑based gating and verified authorizations, unapproved parties may initiate or receive transfers, increasing misuse and licensing risk. (4) What to do next: Enable role‑based permissions anchored in ERC‑3643 claims issued by trusted issuers and bind transfer execution to successful role checks. Maintain event logs and clear role separation for administration.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO Schedule 2 §13A(1)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>runtime.rule.AMLO:R-HKMA-AMLO-13A-ROLE</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Define role claim topics and assign trusted issuers; activate compliance modules to enforce sender/receiver role checks; log role assignments/changes; segregate admin duties and perform periodic access reviews.</div>
+    </div></div>
+      </div>
+
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#10B981">Medium Findings</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">13. Record licence conditions with effective dates</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">(1) What happened: The claim topics registry is present with at least one topic, indicating a structure exists to record licence‑related attributes. (2) Clause: AMLO (Cap.571) §53ZRH(2)(a)(ii). (3) Why it matters: Having a defined claim topic supports consistent recording of licence conditions and their timing, aligning with the register’s objective and enabling auditability. (4) What to do next: Map the existing topic to licence conditions and effective dates, authorize trusted issuers to populate claims, and monitor event logs to evidence updates.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO (Cap.571) §53ZRH(2)(a)(ii)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>runtime.rule.AMLO:R-HKMA-53ZRH-2A-II</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Document the topic-to-licence mapping; assign trusted issuer permissions; populate conditions with effective/expiry dates; retain event logs and perform periodic reconciliations.</div>
+    </div></div>
+      </div>
+
+  <div style="margin-top:28px;color:#6B7280;font-size:12px">
+    Evidence combines deterministic probes (Hardhat fallback when available) and policy-grounded LLM analysis.
+  </div>
+</body>
+</html>

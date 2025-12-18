@@ -1,0 +1,187 @@
+{
+  "prompt_instructions": [
+    "When writing the 'explanation' field, assume the audience is an HKMA/SFC auditor reviewing compliance with AMLO and virtual-asset licensing standards. Avoid deep engineering or code-level details unless directly linked to a regulatory breach. Instead, explain the issue in supervisory terms:",
+    "- Identify the control intent (e.g., KYC verification, transaction screening, record retention, client asset segregation).",
+    "- Describe the regulatory or operational risk if unmitigated (e.g., potential breach of AMLO s.5(1) on ongoing monitoring, insufficient audit trail, weak client protection).",
+    "- Explain how the control gap would be viewed by a regulator \u2014 for example, as a failure in due diligence, monitoring, or governance.",
+    "- Maintain clear traceability between the rule payload and regulatory clause without quoting legal text verbatim.",
+    "When the verdict is 'PASS', still provide a concise compliance rationale in the 'explanation' field \u2014 describe why the observed result meets AMLO or ERC-3643 expectations (e.g., control operates as designed, clause requirement satisfied, risk mitigated). Avoid simply restating data outputs.",
+    "Use plain, professional language that a non-technical HKMA/SFC VA Controller auditor can easily understand. Avoid jargon such as on-chain transaction traces, contract modifiers, or ABI structures unless critical to compliance interpretation.",
+    "When the verdict is 'PASS', do not copy the evidence or runtime signal directly into the 'explanation'. Instead, interpret what that evidence means \u2014 explain why the observed control behavior satisfies the AMLO or ERC-3643 requirement (e.g., 'module correctly registered', 'verification mechanism triggered as expected', 'monitoring control executed successfully'). The explanation should describe compliance intent and assurance, not raw evidence."
+  ],
+  "results": [
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-REGISTER",
+      "recommendation": "Implement and deploy a secure updateIdentity(address,address,uint16[]) function within the identity registry contract to enable authorized amendments of licensee data. Ensure associated event logging for transparency and audit readiness.",
+      "explanation": "The system includes an on-chain identity registry (token.identityRegistry()), but lacks the essential updateIdentity(address,address,uint16[]) function to modify licensee identity data post-registration. Under SFO (Cap.571) \u00a753ZRH(1), maintaining an up-to-date register of licensed persons is mandatory for ongoing supervisory oversight. Without this update capability, the registry cannot be reliably maintained, risking insufficient audit trail for licensing changes and weakening the control environment against unauthorized or obsolete license data.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output fails to follow multiple prompt instructions: it uses technical language instead of supervisory terms, does not clearly identify the control intent or regulatory/operational risk, lacks a compliance rationale, and does not explain the control gap from a regulator's perspective. The output also quotes legal text directly and does not provide a plain, professional explanation suitable for a non-technical auditor. These unalignments fully justify the lowest score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions\u2014great job staying true to the retrieval context!"
+        },
+        "contextual_relevancy": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because all statements in the retrieval context directly address the need for explanation guidance on implementing and maintaining an updateIdentity function, with no irrelevant content present. Great job!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-III",
+      "recommendation": "Introduce the identity(address) function within the identity registry contract to return comprehensive identity claims for licensed entities. Maintain event logging for identity queries to support audit and supervisory monitoring.",
+      "explanation": "The identity registry lacks the identity(address) function, which is required by SFO (Cap.571) \u00a753ZRH(2)(a)(iii) to anchor a central claim identifying licensed entities. This creates a gap in the authoritative source of entity identity on-chain, impairing the reliability of licensing claims and potentially complicating regulatory verification and enforcement actions. A robust identity claim function is critical for supervisory confidence in the identity data presented.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output fails to follow multiple key prompt instructions: it does not use supervisory language, omits explicit control intent and regulatory risk, lacks a compliance rationale, uses technical jargon, and does not interpret evidence or compliance assurance. These unalignments fully justify the lowest score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+        },
+        "contextual_relevancy": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because all statements in the retrieval context directly support the input by providing clear guidance and explanation related to the identity(address) function and its regulatory importance. Great job!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-IV",
+      "recommendation": "Add an IdentityRegistered event that captures the license grant timestamp and relevant licensee parameters upon initial registration. This event should be emitted reliably to facilitate transparent and tamper-proof event logging for supervisory verification.",
+      "explanation": "No event named IdentityRegistered is emitted, which is mandated under SFO (Cap.571) \u00a753ZRH(2)(a)(iv) to record the timestamp when a licence is granted. This omission prevents clear, immutable evidence of licensing timing, which is crucial for regulatory audit trails and ensuring license validity periods are enforceable. Absence of grant timestamp jeopardizes supervisory ability to verify licensing status during compliance checks.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output fails to follow multiple key prompt instructions: it uses technical language and legal citations instead of supervisory explanation, does not clearly state the control intent or regulatory risk in plain terms, omits rationale for compliance verdicts, and does not interpret evidence or explain compliance assurance. These unalignments fully justify the lowest score."
+        },
+        "faithfulness": {
+          "score": 0.6666666666666666,
+          "reason": "The score is 0.67 because the actual output incorrectly claims that the IdentityRegistered event is mandated by the regulation, whereas the context only requires recording the timestamp when a licence is granted, not the specific event."
+        },
+        "contextual_relevancy": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no reasons for irrelevancy and all the statements in the retrieval context directly support the input, providing clear and relevant guidance for explanation."
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-AMLO-S6",
+      "recommendation": "Develop and deploy the identity(address) function that returns detailed customer identity claims to enable robust recordkeeping and ongoing monitoring. Align this with event auditing mechanisms to support supervisory assurance and client asset protection.",
+      "explanation": "While the registry supports identity verification status through isVerified(address), it lacks the identity(address) function required under AMLO Schedule 2 \u00a76 to maintain a comprehensive ongoing record of customer identity details and associated activities. This gap impairs ongoing due diligence and monitoring, increasing risks of non-compliance with regulatory mandates to keep accurate customer identity records. Supervisors will view this as a serious deficiency in KYC governance and audit readiness.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 1.0,
+          "reason": "Great job! The score is 1.00 because there are no unalignments\u2014the output follows all prompt instructions perfectly."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions\u2014the actual output aligns perfectly with the retrieval context. Great job staying accurate!"
+        },
+        "contextual_relevancy": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because all statements in the retrieval context directly support the input by providing clear guidance and explanation on the need for an identity(address) function and its regulatory importance. Great job!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-II",
+      "recommendation": "Continue maintaining this functionality with rigorous testing and event monitoring to ensure ongoing integrity of licensing condition records.",
+      "explanation": "The system correctly implements functions (addClaimTopic, removeClaimTopic, getClaimTopics) and emits appropriate events (ClaimTopicAdded, ClaimTopicRemoved) to record licence conditions with effective dates per SFO (Cap.571) \u00a753ZRH(2)(a)(ii). This enables regulatory stakeholders to verify the current licensed scope and historical changes, enhancing audit trail completeness and regulatory transparency.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output fails to follow any of the prompt's instructions: it uses technical language instead of supervisory terms, omits control intent and risk discussion, lacks compliance rationale, and does not provide traceability or plain language suitable for auditors. The unalignments are comprehensive, justifying the lowest possible score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+        },
+        "contextual_relevancy": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because all statements in the retrieval context are directly relevant to the input, and there are no reasons for irrelevancy. Great job!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-VI",
+      "recommendation": "Maintain rigorous access control and logging on freezing functions to prevent unauthorized suspension alterations.",
+      "explanation": "The token contract provides freezing capabilities (setAddressFrozen, freezePartialTokens, unfreezePartialTokens, isFrozen) and emits related events to reflect suspension status on-chain, fulfilling SFO (Cap.571) \u00a753ZRH(2)(a)(vi). This capability allows regulators and market participants to identify suspended entities promptly, reinforcing client protection and market integrity.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output fails to follow multiple key prompt instructions: it uses technical jargon and code-level details instead of supervisory language, does not clearly state the control intent or associated risks, quotes legal text verbatim, and does not provide a compliance rationale or interpret evidence in plain terms for a non-technical auditor. These unalignments fully justify the lowest possible score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+        },
+        "contextual_relevancy": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because all statements in the retrieval context are directly relevant to the input, with no reasons for irrelevancy provided. Great job!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-AMLO-13A-ROLE",
+      "recommendation": "Ensure ongoing monitoring and testing of role gating logic to prevent bypass and confirm operational integrity.",
+      "explanation": "The presence of compliance.canTransfer and identity registry verification functions, along with trusted issuer checks, demonstrate firm enforcement of transfer role gating per AMLO Schedule 2 \u00a713A(1). This role gating is critical to preventing unauthorized transactions and ensuring only verified parties engage in virtual asset transfers, thereby mitigating money laundering and illicit finance risks.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output repeatedly fails to follow key prompt instructions: it uses technical jargon and code references instead of supervisory language, does not clearly state the control intent or regulatory risk, lacks a compliance rationale, and does not interpret evidence in plain terms for a non-technical auditor. These unalignments fully justify the lowest score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions present. Great job staying true to the retrieval context!"
+        },
+        "contextual_relevancy": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because all statements in the retrieval context are directly relevant to the input, and there are no reasons for irrelevancy. Great job!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRK-5E",
+      "recommendation": "Maintain modular compliance design with regular governance reviews and event log audits to ensure client asset protection objectives remain met.",
+      "explanation": "The compliance module supports adding, removing, and interacting with modules and unbinding tokens, with corresponding event logging of module interactions. This design fulfills SFO (Cap.571) \u00a753ZRK(5)(e) requirements for client asset protection through modular compliance rule enforcement and dynamic controls. These features provide not only transaction-level controls but also granular supervisory visibility, fostering client asset safety and system resilience.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output fails to follow multiple key prompt instructions: it does not frame the explanation for an HKMA/SFC auditor, omits explicit control intent, lacks discussion of regulatory risk and how a gap would be viewed by a regulator, improperly quotes legal text, does not provide a compliance rationale for a 'PASS' verdict, uses technical jargon, and does not interpret evidence in compliance terms. These unalignments fully justify the lowest possible score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions listed. Great job staying faithful to the retrieval context!"
+        },
+        "contextual_relevancy": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because all statements in the retrieval context are directly relevant to the input, and there are no reasons for irrelevancy provided. Great job!"
+        }
+      }
+    }
+  ],
+  "per_metric_average": {
+    "prompt_alignment": 0.125,
+    "faithfulness": 0.9583333333333333,
+    "contextual_relevancy": 1.0
+  },
+  "per_metric_counts": {
+    "prompt_alignment": 8,
+    "faithfulness": 8,
+    "contextual_relevancy": 8
+  },
+  "test_count": 8,
+  "errors": [],
+  "note": null
+}

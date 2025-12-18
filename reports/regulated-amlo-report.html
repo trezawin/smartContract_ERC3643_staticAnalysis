@@ -13,22 +13,22 @@
 <body>
   <h1>ERC-3643 Compliance Report</h1>
   <div class="sub">
-    Generated: 2025-10-28T20:37:48.747Z — Deterministic checks + LLM reasoning
+    Generated: 2025-10-30T15:06:45.856Z — Deterministic checks + LLM reasoning
   </div>
 
   
 <div style="margin:16px 0">
   <div style="font-weight:700;margin-bottom:6px">Inputs</div>
   <div style="font-size:13px;color:#374151">
-    <div>Addresses file: <code>/Users/treza/Documents/staticAnalysis/.cre.addresses.json</code></div>
+    <div>Addresses file: <code>/Users/weizicheng/Downloads/smartContract_ERC3643_staticAnalysis/.cre.addresses.json</code></div>
     <div>Rules: <code>cre/rules/rule.AMLO.json</code></div>
-    <div>ABI artifacts: <code>Token: ERC-3643-Implementation/artifacts/contracts/token/Token.sol/Token.json</code>, <code>IdentityRegistry: ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json</code>, <code>ClaimTopicsRegistry: ERC-3643-Implementation/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json</code>, <code>TrustedIssuersRegistry: ERC-3643-Implementation/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json</code>, <code>Compliance: ERC-3643-Implementation/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json</code>, <code>IdentityRegistryStorage: ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json</code></div>
+    <div>ABI artifacts: <code>Token: artifacts/contracts/custom/RegulatedSuite.sol/RegulatedToken.json</code>, <code>IdentityRegistry: artifacts/contracts/custom/RegulatedSuite.sol/IdentityRegistry.json</code>, <code>ClaimTopicsRegistry: artifacts/contracts/test/CompositeClaimTopicsRegistry.sol/CompositeClaimTopicsRegistry.json</code>, <code>TrustedIssuersRegistry: artifacts/contracts/test/CompositeTrustedIssuersRegistry.sol/CompositeTrustedIssuersRegistry.json</code>, <code>Compliance: artifacts/contracts/custom/RegulatedSuite.sol/Compliance.json</code>, <code>IdentityRegistryStorage: artifacts/contracts/test/CompositeIdentityRegistryStorage.sol/CompositeIdentityRegistryStorage.json</code></div>
   </div>
   <ul style="margin-top:8px">
     <li>cre/rules/rule.AMLO.json</li>
   </ul>
   <details style="margin-top:10px;font-size:13px"><summary style="cursor:pointer">Resolved addresses</summary>
-    <ul style="margin-top:8px"><li><code>networkRpc</code> → <code>http://127.0.0.1:8545</code></li><li><code>token</code> → <code>0x610178dA211FEF7D417bC0e6FeD39F05609AD788</code></li><li><code>identityRegistry</code> → <code>0x0165878A594ca255338adfa4d48449f69242Eb8F</code></li><li><code>claimTopicsRegistry</code> → <code>0x5FbDB2315678afecb367f032d93F642f64180aa3</code></li><li><code>trustedIssuersRegistry</code> → <code>0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0</code></li><li><code>compliance</code> → <code>0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6</code></li></ul>
+    <ul style="margin-top:8px"><li><code>networkRpc</code> → <code>http://127.0.0.1:8545</code></li><li><code>token</code> → <code>0x5FC8d32690cc91D4c39d9d3abcBD16989F875707</code></li><li><code>identityRegistry</code> → <code>0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9</code></li><li><code>claimTopicsRegistry</code> → <code>0x5FbDB2315678afecb367f032d93F642f64180aa3</code></li><li><code>trustedIssuersRegistry</code> → <code>0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512</code></li><li><code>compliance</code> → <code>0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9</code></li></ul>
   </details>
 </div>
 
@@ -47,11 +47,11 @@
     </thead>
     <tbody>
       <tr>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">2025-10-28</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">12</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">0</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">2025-10-30</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">1</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">0</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">9</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">3</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">13</td>
       </tr>
     </tbody>
@@ -90,8 +90,8 @@
         <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity Registry Storage must be wired and emit lifecycle events so identity evidence can be retained for at least seven years.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO (Cap.615) Schedule 2 §2</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has idr.identityStorage(): true; data.idrIdentityStorageAddr is non-zero; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true; Event on irs:IdentityRegistryBound present: true</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has idr.identityStorage(): false</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
@@ -100,7 +100,7 @@
         <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(1)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has token.identityRegistry(): true; ABI has idr.registerIdentity(address,address,uint16[]): false</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">identityStorage() returned zero; claimTopics=0; trusted issuers list empty; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
@@ -110,8 +110,8 @@
         <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity records must support anchoring of name and business address metadata with auditable storage events.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(i)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has idr.identityStorage(): true; Event on irs:IdentityStored present: true; Event on irs:IdentityModified present: true; Event on irs:IdentityUnstored present: true</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">identityStorage() returned zero; identity storage contract unavailable</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
@@ -120,8 +120,8 @@
         <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence conditions must be represented as claim topics that can be versioned on-chain.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(ii)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has ctr.addClaimTopic(uint256): true; ABI has ctr.removeClaimTopic(uint256): true; ABI has ctr.getClaimTopics(): true; Event on ctr:ClaimTopicAdded present: true; Event on ctr:ClaimTopicRemoved present: true</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Claim topics registry returned an empty list.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
@@ -130,8 +130,8 @@
         <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identifiers must be retrievable via identity resolution and enforced through claims.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iii)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has idr.identity(address): true; ABI has compliance.canTransfer(address,address,uint256): true; ABI has tir.isTrustedIssuer(address): true</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">identity(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266) returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; no trusted issuer confirmation</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
@@ -140,8 +140,8 @@
         <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence issuance must be observable on-chain with timestamped events for audit trail.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iv)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">Event on idr:IdentityRegistered present: true; Event on idr:IdentityUpdated present: true; Event on idr:IdentityRemoved present: true</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">IdentityRegistered events: 0; IdentityUpdated events: 0; IdentityRemoved events: 0</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
@@ -150,8 +150,8 @@
         <td style="padding:8px 12px;border:1px solid #E5E7EB">The compliance module must expose modular hooks to reflect permitted service scope with activation controls.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(v)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has compliance.bindToken(address): true; ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.getModules(): true; Event on compliance:ModuleAdded present: true; Event on compliance:ModuleRemoved present: true</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Compliance contract returned zero modules.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
@@ -160,8 +160,8 @@
         <td style="padding:8px 12px;border:1px solid #E5E7EB">Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(vi)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has token.setAddressFrozen(address,bool): true; ABI has token.freezePartialTokens(address,uint256): true; ABI has token.unfreezePartialTokens(address,uint256): true; ABI has token.isFrozen(address): true; Event on token:AddressFrozen present: true; Event on token:TokensUnfrozen present: true; Event on token:TokensFrozen present: true</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">setAddressFrozen missing. isFrozen call failed.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
@@ -170,8 +170,8 @@
         <td style="padding:8px 12px;border:1px solid #E5E7EB">Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(c)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has tir.updateIssuerClaimTopics(address,uint256[]): true; ABI has tir.getTrustedIssuers(): true; ABI has ctr.getClaimTopics(): true; Event on tir:TrustedIssuerAdded present: true; Event on tir:TrustedIssuerRemoved present: true</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">claimTopics=0; trusted issuers list empty</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
@@ -180,8 +180,8 @@
         <td style="padding:8px 12px;border:1px solid #E5E7EB">Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRK(5)(e)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has compliance.addModule(address): true; ABI has compliance.removeModule(address): true; ABI has compliance.callModuleFunction(bytes,address): true; ABI has compliance.unbindToken(address): true; Event on compliance:ModuleInteraction present: true</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Compliance contract returned zero modules.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
@@ -190,8 +190,8 @@
         <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity evidence and transactional metadata must remain queryable for historical monitoring.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §6</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has idr.isVerified(address): true; ABI has idr.identity(address): true; ABI has compliance.transferred(address,address,uint256): true; Event on token:Transfer present: true; Event on compliance:ModuleInteraction present: true</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">identityStorage() returned zero; identity() returned zero; compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
 
       <tr>
@@ -200,23 +200,15 @@
         <td style="padding:8px 12px;border:1px solid #E5E7EB">Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §13A(1)</td>
         <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB">ABI has token.compliance(): true; data.tokenCompliance is non-zero; ABI has compliance.canTransfer(address,address,uint256): true; ABI has idr.isVerified(address): true; ABI has tir.isTrustedIssuer(address): true</td>
-        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">compliance=0xdc64a140aa3e981100a9beca4e685f962f0cf6c9; modules=0; claimTopics=0; trusted issuer list empty.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
       </tr>
     </tbody>
   </table>
 </div>
   
-<div style="margin:16px 0;font-size:13px;color:#4B5563">
-  Additional artifacts: <code>reports/amlo-boulder.txt</code>
-</div>
   <!-- Per-Rulebook Execution intentionally hidden -->
   
-<h2 style="margin:28px 0 12px 0;font-size:20px;border-bottom:1px solid #E5E7EB;padding-bottom:6px">LLM Compliance Assessment</h2>
-<div style="font-size:12px;color:#6B7280">Model: gpt-4.1-mini</div>
-
-<div style="margin:12px 0;font-size:14px;line-height:1.6"><strong>Summary:</strong> The ERC-3643 implementation demonstrates strong compliance with HKMA AMLO and SFC licensing requirements for virtual asset service providers, with one notable gap in on-chain registration capabilities for licensed persons.</div>
-<div style="color:#6B7280">No LLM findings available.</div>
 
   <div style="margin-top:28px;color:#6B7280;font-size:12px">
     Evidence combines deterministic probes (Hardhat fallback when available) and policy-grounded LLM analysis.

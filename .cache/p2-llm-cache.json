@@ -1,960 +1,1358 @@
 {
-  "923fe790181a4aa806192907320d4a4aa1271fd6c0445960a554f5c281703c29": {
-    "overall_assessment": "The smart contract implementation demonstrates strong compliance with HKMA and SFC regulatory requirements, with only one high-severity warning indicating a potential gap in maintaining on-chain register of licensed persons. The majority of controls, including identity gating, record-keeping, scope management, and suspension mechanisms, are verified as operational and compliant.",
+  "06be81c33f1d026ac8e26c32e65159047407f3459be1e24c7fbb96974269d3d4": {
+    "overall_assessment": "The virtual-asset system demonstrates strong compliance with most HKMA/SFC supervisory requirements, effectively supporting client asset protection and market integrity through modular compliance controls and identity anchoring mechanisms. However, key gaps remain in the comprehensive on-chain registration and recordkeeping of licensed persons, particularly regarding updating identity registries and capturing critical license event attributes.",
     "findings": [
       {
-        "id": "F-HKMA-53ZRH-REGISTER",
-        "title": "On-chain register of licensed persons not maintained",
+        "id": "R-HKMA-53ZRH-REGISTER",
+        "title": "Incomplete on-chain register of licensed persons due to missing identity update function",
         "severity": "HIGH",
         "phase2_verdict": "High",
         "verdict": "HIGH",
         "position": "CHALLENGE",
-        "explanation": "The contract lacks an active on-chain registry for licensed persons, as the function 'identityRegistry()' returns true but 'registerIdentity(address,address,uint16[])' is not implemented or accessible. This contravenes SFO Cap.571 §53ZRH(1), which mandates maintaining an on-chain register of licensed entities to ensure transparency and regulatory oversight.",
+        "explanation": "The system includes an on-chain identity registry (token.identityRegistry()), but lacks the essential updateIdentity(address,address,uint16[]) function to modify licensee identity data post-registration. Under SFO (Cap.571) §53ZRH(1), maintaining an up-to-date register of licensed persons is mandatory for ongoing supervisory oversight. Without this update capability, the registry cannot be reliably maintained, risking insufficient audit trail for licensing changes and weakening the control environment against unauthorized or obsolete license data.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRH(1)"
         ],
-        "evidence_paths": [
-          "ABI has token.identityRegistry(): true",
-          "ABI has idr.registerIdentity(address,address,uint16[]): false"
+        "evidence_paths": [],
+        "recommendation": "Implement and deploy a secure updateIdentity(address,address,uint16[]) function within the identity registry contract to enable authorized amendments of licensee data. Ensure associated event logging for transparency and audit readiness."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-III",
+        "title": "Absence of central entity identification claim function",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The identity registry lacks the identity(address) function, which is required by SFO (Cap.571) §53ZRH(2)(a)(iii) to anchor a central claim identifying licensed entities. This creates a gap in the authoritative source of entity identity on-chain, impairing the reliability of licensing claims and potentially complicating regulatory verification and enforcement actions. A robust identity claim function is critical for supervisory confidence in the identity data presented.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(iii)"
         ],
-        "recommendation": "Implement the 'registerIdentity' function to record licensed persons on-chain, ensuring it is accessible via the designated role and phase. Add event logging for registration actions. Conduct regression testing to verify registration and retrieval functions. Maintain detailed off-chain records as supplementary evidence. Validate the registry's integrity periodically through unit and integration tests, including role-based access controls and event monitoring."
+        "evidence_paths": [],
+        "recommendation": "Introduce the identity(address) function within the identity registry contract to return comprehensive identity claims for licensed entities. Maintain event logging for identity queries to support audit and supervisory monitoring."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-IV",
+        "title": "Missing on-chain capture of licence grant timestamp",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "No event named IdentityRegistered is emitted, which is mandated under SFO (Cap.571) §53ZRH(2)(a)(iv) to record the timestamp when a licence is granted. This omission prevents clear, immutable evidence of licensing timing, which is crucial for regulatory audit trails and ensuring license validity periods are enforceable. Absence of grant timestamp jeopardizes supervisory ability to verify licensing status during compliance checks.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(iv)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Add an IdentityRegistered event that captures the license grant timestamp and relevant licensee parameters upon initial registration. This event should be emitted reliably to facilitate transparent and tamper-proof event logging for supervisory verification."
+      },
+      {
+        "id": "R-HKMA-AMLO-S6",
+        "title": "Insufficient ongoing record of customer identity and activity due to missing identity query function",
+        "severity": "VERY_HIGH",
+        "phase2_verdict": "Very High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "While the registry supports identity verification status through isVerified(address), it lacks the identity(address) function required under AMLO Schedule 2 §6 to maintain a comprehensive ongoing record of customer identity details and associated activities. This gap impairs ongoing due diligence and monitoring, increasing risks of non-compliance with regulatory mandates to keep accurate customer identity records. Supervisors will view this as a serious deficiency in KYC governance and audit readiness.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §6"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Develop and deploy the identity(address) function that returns detailed customer identity claims to enable robust recordkeeping and ongoing monitoring. Align this with event auditing mechanisms to support supervisory assurance and client asset protection."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-II",
+        "title": "Compliant recording of licence conditions with effective dates",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The system correctly implements functions (addClaimTopic, removeClaimTopic, getClaimTopics) and emits appropriate events (ClaimTopicAdded, ClaimTopicRemoved) to record licence conditions with effective dates per SFO (Cap.571) §53ZRH(2)(a)(ii). This enables regulatory stakeholders to verify the current licensed scope and historical changes, enhancing audit trail completeness and regulatory transparency.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(ii)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Continue maintaining this functionality with rigorous testing and event monitoring to ensure ongoing integrity of licensing condition records."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-VI",
+        "title": "Adequate representation of licence suspension status on-chain",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The token contract provides freezing capabilities (setAddressFrozen, freezePartialTokens, unfreezePartialTokens, isFrozen) and emits related events to reflect suspension status on-chain, fulfilling SFO (Cap.571) §53ZRH(2)(a)(vi). This capability allows regulators and market participants to identify suspended entities promptly, reinforcing client protection and market integrity.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(vi)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Maintain rigorous access control and logging on freezing functions to prevent unauthorized suspension alterations."
+      },
+      {
+        "id": "R-HKMA-AMLO-13A-ROLE",
+        "title": "Effective role-based control over virtual asset transfers",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The presence of compliance.canTransfer and identity registry verification functions, along with trusted issuer checks, demonstrate firm enforcement of transfer role gating per AMLO Schedule 2 §13A(1). This role gating is critical to preventing unauthorized transactions and ensuring only verified parties engage in virtual asset transfers, thereby mitigating money laundering and illicit finance risks.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §13A(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Ensure ongoing monitoring and testing of role gating logic to prevent bypass and confirm operational integrity."
+      },
+      {
+        "id": "R-HKMA-53ZRK-5E",
+        "title": "Strong client asset safeguards implemented via modular compliance",
+        "severity": "VERY_HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The compliance module supports adding, removing, and interacting with modules and unbinding tokens, with corresponding event logging of module interactions. This design fulfills SFO (Cap.571) §53ZRK(5)(e) requirements for client asset protection through modular compliance rule enforcement and dynamic controls. These features provide not only transaction-level controls but also granular supervisory visibility, fostering client asset safety and system resilience.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRK(5)(e)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Maintain modular compliance design with regular governance reviews and event log audits to ensure client asset protection objectives remain met."
       }
     ]
   },
-  "b33b5f35a4690cb60192e75ddc44ac4e5e59b57587ea7bab1161752dfa088a1c": {
-    "overall_assessment": "The system demonstrates strong compliance with key AML and licensing controls, with most critical controls passing. However, there are notable gaps in record-keeping and on-chain registration that require immediate remediation to ensure regulatory readiness and asset protection.",
+  "ee87d50fa0d1d50e8958e5fafd3d3ca33c11715aecf4bb2158e331fdcffd970d": {
+    "overall_assessment": "The system demonstrates strong adherence to ERC-3643 and HKMA/SFC regulatory requirements, with effective virtual asset controls and client safeguards implemented. One significant high-severity gap exists in the maintenance of the on-chain register of licensed persons, requiring prompt remediation to fully comply with licensing record-keeping mandates.",
     "findings": [
-      {
-        "id": "R-HKMA-AMLO-RecordKeeping",
-        "title": "AMLO record keeping support",
-        "severity": "MEDIUM",
-        "phase2_verdict": "Medium",
-        "verdict": "FAIL",
-        "position": "CHALLENGE",
-        "explanation": "The ABI's identityStorage() returns a true indicator, yet data.idrIdentityStorageAddr is zero, and no linked identity registries are recorded on-chain. This indicates incomplete on-chain record-keeping of identity data, which impairs auditability and regulatory compliance under AMLO Schedule 2 §2.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2"
-        ],
-        "evidence_paths": [
-          "AMLO record-keeping probe: identityStorage=0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9 returned an empty linkedIdentityRegistries() list; manual confirmation of off-chain retention is required."
-        ],
-        "recommendation": "Implement on-chain storage of linked identity registries within the identityStorage() structure. Add event logging for IdentityStored, IdentityModified, and IdentityUnstored events to facilitate audit trail. Develop and execute regression tests to verify on-chain record updates and ensure linkage is maintained. Establish operational run-books for ongoing monitoring of identity registry completeness and periodic reconciliation with off-chain records."
-      },
       {
         "id": "R-HKMA-53ZRH-REGISTER",
         "title": "Maintain on-chain register of licensed persons",
         "severity": "HIGH",
         "phase2_verdict": "High",
-        "verdict": "FAIL",
+        "verdict": "HIGH",
         "position": "CHALLENGE",
-        "explanation": "The ABI's token.identityRegistry() returns true, but the method idr.registerIdentity(address,address,uint16[]) is not implemented on-chain. This prevents proper registration and verification of licensed persons, risking non-compliance with SFO (Cap.571) §53ZRH(1).",
+        "explanation": "The system exposes the identityRegistry() function on the token, indicating an intended on-chain register of licensed persons; however, it lacks the critical updateIdentity(address,address,uint16[]) function necessary to record or modify licensing entries on-chain. This violates the statutory requirement under SFO Cap.571 §53ZRH(1) to maintain an accurate and up-to-date register of licensed persons. Absence of the update function undermines supervisory control objectives by weakening the audit trail for licensing status changes and impeding ongoing licensing compliance verification, increasing regulatory and reputational risk.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRH(1)"
         ],
         "evidence_paths": [
-          "ABI has token.identityRegistry(): true; ABI has idr.registerIdentity(address,address,uint16[]): false"
+          "ABI has token.identityRegistry(): true",
+          "ABI lacks idr.updateIdentity(address,address,uint16[]): false"
         ],
-        "recommendation": "Implement the registerIdentity() function within the identity registry contract to enable on-chain registration of licensed persons. Conduct unit tests to verify registration logic, and perform integration tests to confirm registry updates are reflected on-chain. Document operational procedures for registration and periodic audits of the registry to ensure ongoing compliance."
-      }
-    ]
-  },
-  "e132df73fe3c5f984acd58d3aa11b82235828b8ebbcca12de872e9607e658452": {
-    "overall_assessment": "The audit reveals significant compliance gaps with regulatory and ERC-3643 standards, notably in identity verification, record-keeping, and on-chain registration, posing substantial regulatory and operational risks. Immediate remediation is required to align with HKMA AMLO and SFC requirements, and to ensure the integrity of the virtual asset platform.",
-    "findings": [
-      {
-        "id": "F-001",
-        "title": "Transfer to Unverified Address Without Identity Gating",
-        "severity": "CRITICAL",
-        "phase2_verdict": "High",
-        "verdict": "CRITICAL",
-        "position": "SUPPORT",
-        "explanation": "The system permitted a transfer to an unverified address without enforcing identity verification, violating AML controls under HKMA AMLO Schedule 2 §2 and ERC-3643 standards. This exposes the platform to potential misuse, money laundering, and regulatory sanctions.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2",
-          "ERC-3643 clause on identity gating"
-        ],
-        "evidence_paths": [
-          "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
-        ],
-        "recommendation": "Implement strict on-chain enforcement of identity verification before allowing transfers to unverified addresses. Add event logging for failed transfer attempts due to missing identity gating. Conduct regression testing to ensure transfer functions enforce identity checks. Develop operational run-books for monitoring and alerting on such violations."
-      },
-      {
-        "id": "F-002",
-        "title": "Missing Identity Storage Support for Record-Keeping",
-        "severity": "HIGH",
-        "phase2_verdict": "Medium",
-        "verdict": "HIGH",
-        "position": "SUPPORT",
-        "explanation": "The identity storage contract address is zero, indicating that the platform does not support on-chain record-keeping of customer identities, contravening HKMA AMLO Schedule 2 §2 and ERC-3643 requirements for proper record maintenance. This impairs auditability and regulatory compliance.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2",
-          "ERC-3643 clause on record-keeping"
-        ],
-        "evidence_paths": [
-          "nonzeroaddress:data.idrIdentityStorageAddr:"
-        ],
-        "recommendation": "Wire the identity storage contract address into the system and ensure it is operational. Add event logging for identity storage and modification events. Implement unit tests to verify correct storage address wiring and event emission. Establish operational procedures for periodic verification of identity storage integrity."
-      },
-      {
-        "id": "F-003",
-        "title": "On-Chain Maintainance of Licensed Persons Register Missing",
-        "severity": "HIGH",
-        "phase2_verdict": "High",
-        "verdict": "FAIL",
-        "position": "SUPPORT",
-        "explanation": "The platform lacks on-chain registration of licensed persons, with the identity registry function 'registerIdentity' unimplemented. This violates SFO Cap.571 §53ZRH(1) and hampers regulatory oversight, risking licensing non-compliance and supervisory action.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(1)",
-          "ERC-3643 clause on on-chain register"
-        ],
-        "evidence_paths": [
-          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"identityRegistry()\",\"present\":true,\"ok\":true,\"role\":\"registry\",\"phase\":\"governance\"}",
-          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"registerIdentity(address,address,uint16[])\",\"present\":false,\"ok\":false,\"role\":\"registry\",\"phase\":\"governance\"}"
-        ],
-        "recommendation": "Implement the 'registerIdentity' function within the identity registry contract. Add event emission for registration actions. Develop unit tests to verify registration and access controls. Conduct operational audits to ensure registry updates are properly logged and monitored."
-      },
-      {
-        "id": "F-004",
-        "title": "Missing Central Entity Identification Claim",
-        "severity": "HIGH",
-        "phase2_verdict": "High",
-        "verdict": "FAIL",
-        "position": "SUPPORT",
-        "explanation": "The identity contract does not support querying identity information for the central entity, violating HKMA AMLO Schedule 2 §2 and ERC-3643 standards. This impairs the platform's ability to verify and supervise key entities, increasing regulatory risk.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2",
-          "ERC-3643 clause on identity resolution"
-        ],
-        "evidence_paths": [
-          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identity(address)\",\"present\":false,\"ok\":false,\"role\":\"registry\",\"phase\":\"identity-resolution\"}"
-        ],
-        "recommendation": "Implement support for 'identity(address)' to retrieve central entity details. Add event logging for identity queries. Develop unit tests to verify identity resolution functions. Establish operational procedures for periodic verification of identity data completeness."
-      },
-      {
-        "id": "F-005",
-        "title": "Absence of Identity Grant Timestamp Recording",
-        "severity": "HIGH",
-        "phase2_verdict": "High",
-        "verdict": "FAIL",
-        "position": "SUPPORT",
-        "explanation": "The system does not record or emit an event for the timestamp of identity grants, violating HKMA AMLO Schedule 2 §2 and ERC-3643 standards. This undermines audit trail integrity and regulatory compliance.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2",
-          "ERC-3643 clause on timestamp recording"
-        ],
-        "evidence_paths": [
-          "{\"op\":\"hasevent\",\"where\":\"idr\",\"name\":\"IdentityRegistered\",\"present\":false,\"ok\":false,\"role\":\"registry\",\"phase\":\"grant\"}"
-        ],
-        "recommendation": "Add event emission for 'IdentityRegistered' with timestamp during identity grant. Implement unit tests to verify event emission and timestamp accuracy. Develop operational run-books for monitoring event logs for identity grants."
-      },
-      {
-        "id": "F-006",
-        "title": "On-Chain Scope and Effective Date Encoding Missing",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The platform correctly encodes VA service scope and effective date via compliance modules, aligning with SFO Cap.571 §53ZRH(2)(a)(v). This supports regulatory transparency and operational compliance.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(a)(v)"
-        ],
-        "evidence_paths": [
-          "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"bindToken(address)\",\"present\":true,\"ok\":true,\"role\":\"compliance\",\"phase\":\"scope\"}",
-          "{\"op\":\"hasabifn\",\"where\":\"compliance\",\"sig\":\"addModule(address)\",\"present\":true,\"ok\":true,\"role\":\"compliance\",\"phase\":\"scope\"}"
-        ],
-        "recommendation": "Maintain current implementation; periodically review compliance module configurations. Add regression tests for scope and effective date encoding. Document operational procedures for module management."
-      },
-      {
-        "id": "F-007",
-        "title": "Suspension Status on-Chain Representation",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The system correctly supports on-chain suspension status representation via token freeze/unfreeze functions, aligning with SFO Cap.571 §53ZRH(2)(a)(vi). This ensures operational transparency and control.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(a)(vi)"
-        ],
-        "evidence_paths": [
-          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"setAddressFrozen(address,bool)\",\"present\":true,\"ok\":true,\"role\":\"token\",\"phase\":\"suspension\"}"
-        ],
-        "recommendation": "Continue monitoring suspension controls; add automated tests for freeze/unfreeze functions. Maintain event logs for suspension actions. Develop operational run-books for suspension management."
-      },
-      {
-        "id": "F-008",
-        "title": "Principal Linkage Data Support",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The platform supports principal linkage via trusted issuer management, aligning with SFO Cap.571 §53ZRH(2)(c). This facilitates regulatory oversight of issuer relationships.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(c)"
-        ],
-        "evidence_paths": [
-          "{\"op\":\"hasabifn\",\"where\":\"tir\",\"sig\":\"updateIssuerClaimTopics(address,uint256[])\",\"present\":true,\"ok\":true,\"role\":\"representation\",\"phase\":\"accreditation\"}"
-        ],
-        "recommendation": "Maintain current implementation; add tests for trusted issuer updates. Ensure event logs are monitored for issuer changes. Document operational procedures for trusted issuer management."
-      },
-      {
-        "id": "F-009",
-        "title": "Customer Identity and Activity Record Omission",
-        "severity": "CRITICAL",
-        "phase2_verdict": "Critical",
-        "verdict": "FAIL",
-        "position": "SUPPORT",
-        "explanation": "The system verifies customer activity status but does not support storing or verifying customer identity, violating HKMA AMLO Schedule 2 §6 and ERC-3643 standards. This impairs ongoing AML monitoring and auditability.",
-        "compliance_refs": [
-          "AMLO Schedule 2 §6",
-          "ERC-3643 clause on ongoing record"
-        ],
-        "evidence_paths": [
-          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"isVerified(address)\",\"present\":true,\"ok\":true,\"role\":\"monitoring\",\"phase\":\"retention\"}",
-          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identity(address)\",\"present\":false,\"ok\":false,\"role\":\"monitoring\",\"phase\":\"retention\"}"
-        ],
-        "recommendation": "Implement persistent storage and retrieval of customer identity data. Add event logging for identity verification and updates. Develop operational procedures for ongoing customer record maintenance and periodic audits."
-      }
-    ]
-  },
-  "563404155b2b025a6375d9505ec905a667254e150cbaad92dcfd99d7d8a24d96": {
-    "overall_assessment": "The system exhibits multiple critical compliance gaps related to identity verification, record-keeping, and on-chain registration, posing significant regulatory and operational risks. Immediate remediation is required to align with HKMA AMLO and SFC standards, and to ensure robust control over virtual asset activities.",
-    "findings": [
-      {
-        "id": "F-001",
-        "title": "Transfer to Unverified Address Without Identity Gating",
-        "severity": "HIGH",
-        "phase2_verdict": "High",
-        "verdict": "HIGH",
-        "position": "CHALLENGE",
-        "explanation": "A transfer to an unverified address succeeded despite missing identity gating, violating AML controls (ERC-3643 clause: https://erc3643.org). This undermines the system's ability to prevent misuse and facilitates potential illicit transfers.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2"
-        ],
-        "evidence_paths": [
-          "AMLO CDD probe: transfer to an unverified address succeeded, missing identity gating."
-        ],
-        "recommendation": "Implement strict identity gating controls within the transfer function to prevent transfers to unverified addresses. Add event logging for transfer attempts to unverified addresses and conduct regression testing to verify enforcement. Document operational procedures for transfer validation."
-      },
-      {
-        "id": "F-002",
-        "title": "Missing On-Chain Identity Storage and Record-Keeping",
-        "severity": "VERY_HIGH",
-        "phase2_verdict": "Very High",
-        "verdict": "VERY_HIGH",
-        "position": "CHALLENGE",
-        "explanation": "The identityStorage() function returns a zero address, and no identity data is stored on-chain, violating record-keeping requirements (ERC-3643 clause: https://erc3643.org). This impairs regulatory oversight and auditability of customer identities.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2"
-        ],
-        "evidence_paths": [
-          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"identityStorage()\",\"present\":true,\"ok\":true}",
-          "nonzeroaddress:data.idrIdentityStorageAddr:"
-        ],
-        "recommendation": "Wire the identityStorage() to a secure, compliant storage contract. Add event logging for identity storage and modifications. Develop unit and integration tests to verify correct storage and retrieval of identity data. Maintain detailed audit logs for all identity-related events."
-      },
-      {
-        "id": "F-003",
-        "title": "Failure to Maintain On-Chain Register of Licensed Persons",
-        "severity": "HIGH",
-        "phase2_verdict": "High",
-        "verdict": "HIGH",
-        "position": "CHALLENGE",
-        "explanation": "The identityRegistry() function exists but registerIdentity() is not implemented or called, contravening licensing requirements (SFO Cap.571 §53ZRH(1)). This risks non-compliance with licensing obligations and impairs supervisory oversight.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(1)"
-        ],
-        "evidence_paths": [
-          "{\"op\":\"hasabifn\",\"where\":\"token\",\"sig\":\"identityRegistry()\",\"present\":true,\"ok\":true}",
-          "{\"op\":\"hasabifn\",\"where\":\"idr\",\"sig\":\"registerIdentity(address,address,uint16[])\",\"present\":false,\"ok\":false}"
-        ],
-        "recommendation": "Implement the registerIdentity() function in the identity registry contract and ensure it is invoked during onboarding. Maintain an on-chain register of licensed persons with timestamped entries. Add event logging for registration actions and develop regression tests to verify correct registration flow."
-      }
-    ]
-  },
-  "3c13be2b1d9997fb15e5914205c4929ccd3915b692926cbb13f416fcb47557b7": {
-    "overall_assessment": "The smart contract implementation demonstrates strong compliance with key AML and licensing controls, with multiple high and very high severity controls passing. However, there is a notable failure in maintaining an on-chain register of licensed persons, which poses significant regulatory and supervisory risks. Additionally, a warning indicates potential operational gaps in off-chain record-keeping.",
-    "findings": [
-      {
-        "id": "F-001",
-        "title": "Failure to maintain on-chain register of licensed persons",
-        "severity": "HIGH",
-        "phase2_verdict": "High",
-        "verdict": "FAIL",
-        "position": "CHALLENGE",
-        "explanation": "The contract does not implement the required 'identityRegistry()' function in 'idr' nor the 'registerIdentity(address,address,uint16[])' function in 'idr', as mandated by SFO (Cap.571) §53ZRH(1). This results in the absence of an on-chain register of licensed persons, undermining transparency and supervisory oversight.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(1)"
-        ],
-        "evidence_paths": [
-          "Evidence: ABI has token.identityRegistry(): true; ABI has idr.registerIdentity(address,address,uint16[]): false"
-        ],
-        "recommendation": "Implement the 'registerIdentity' function within the 'idr' contract to establish an on-chain register of licensed persons. Conduct unit tests to verify registration and retrieval functions, and perform integration testing to ensure on-chain data aligns with off-chain records. Maintain detailed event logs for all registration activities to facilitate audit trail and supervisory review."
-      },
-      {
-        "id": "F-002",
-        "title": "Operational record-keeping gap in off-chain identity storage",
-        "severity": "VERY_HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "WARN",
-        "position": "SUPPORT",
-        "explanation": "The probe indicates that 'identityStorage()' returns an empty list, suggesting no off-chain record of identity storage is maintained. While on-chain controls are verified, the absence of off-chain records may hinder comprehensive auditability and compliance verification, especially under AML regulations requiring retention of identity data.",
-        "compliance_refs": [
-          "AMLO Schedule 2 §6"
-        ],
-        "evidence_paths": [
-          "Evidence: identityStorage() returned an empty list; manual confirmation of off-chain retention is required."
-        ],
-        "recommendation": "Establish operational procedures and technical controls to ensure off-chain identity records are stored securely and retrievable. Enhance the system to log identity storage events with timestamps and identifiers. Develop a run-book for periodic reconciliation between on-chain and off-chain records, and implement automated alerts for missing or inconsistent records. Conduct regular audits to verify compliance with record-keeping obligations."
-      }
-    ]
-  },
-  "c2ea536a0b2acddd2c64c9a83febb83830d56cb29998c45e11acf701929cab99": {
-    "overall_assessment": "The ERC-3643 implementation demonstrates strong compliance with HKMA and SFC virtual asset regulatory requirements, with one notable high-severity gap in maintaining an on-chain register of licensed persons. All other critical controls including identity verification gating, record keeping, license condition encoding, suspension status, and client asset safeguards are properly implemented and evidenced.",
-    "findings": [
-      {
-        "id": "R-HKMA-AMLO-CDD",
-        "title": "AMLO Customer Due Diligence (CDD) Identity Controls Enforced",
-        "severity": "High",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The system correctly enforces identity gating by reverting transfers to unverified addresses, demonstrating compliance with AMLO Schedule 2 §2 requirements for customer due diligence.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Maintain and monitor the identity gating logic to ensure it continues to prevent transfers to unverified addresses. Include unit and integration tests simulating transfers to unverified addresses to validate enforcement."
-      },
-      {
-        "id": "R-HKMA-AMLO-RecordKeeping",
-        "title": "AMLO Record Keeping Support Present On-Chain",
-        "severity": "Very High",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The contract ABI exposes identityStorage() and emits key identity lifecycle events (IdentityStored, IdentityModified, IdentityUnstored, IdentityRegistryBound), supporting on-chain record keeping as required by AMLO Schedule 2 §2.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Continue to capture and retain these events in immutable logs for audit readiness. Establish operational run-books to ensure off-chain retention of identity data complements on-chain records."
-      },
-      {
-        "id": "R-HKMA-53ZRH-REGISTER",
-        "title": "Lack of On-Chain Register Function to Maintain Licensed Persons",
-        "severity": "High",
-        "phase2_verdict": "High",
-        "verdict": "HIGH",
-        "position": "CHALLENGE",
-        "explanation": "While the token exposes identityRegistry(), the identity registry contract lacks the registerIdentity(address,address,uint16[]) function, which is necessary to maintain an on-chain register of licensed persons as mandated by SFO (Cap.571) §53ZRH(1). This gap impairs the ability to record and update licensing status on-chain.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(1)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Implement the registerIdentity(address,address,uint16[]) function in the identity registry contract to enable on-chain registration and updates of licensed persons. Add unit and integration tests to verify correct registration, update, and removal of license records. This will enhance supervisory oversight and market integrity."
+        "recommendation": "Implement and deploy the idr.updateIdentity(address,address,uint16[]) function within the identity registry contract to enable on-chain creation and updates of licensed person records. Maintain detailed event logs for all identity modifications to support auditability and compliance verification. This remediation will ensure full compliance with licensing record requirements, enhance transparency, and support supervisory oversight."
       },
       {
         "id": "R-HKMA-53ZRH-2A-I",
-        "title": "Anchoring Name and Business Address Data On-Chain",
-        "severity": "High",
+        "title": "Anchor name and business address data",
+        "severity": "HIGH",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The identity registry exposes identityStorage() and emits IdentityStored, IdentityModified, and IdentityUnstored events, fulfilling the requirement to anchor name and business address data on-chain per SFO (Cap.571) §53ZRH(2)(a)(i).",
+        "explanation": "The identity registry contract supports identityStorage() and emits IdentityStored, IdentityModified, and IdentityUnstored events, fulfilling the requirement under SFO Cap.571 §53ZRH(2)(a)(i) to anchor key identification data such as names and business addresses on-chain. This ensures immutability and traceability of entity identity data, supporting client due diligence and ongoing record integrity.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRH(2)(a)(i)"
         ],
-        "evidence_paths": [],
-        "recommendation": "Maintain these data anchoring capabilities and ensure event logs are preserved for audit and supervisory review."
+        "evidence_paths": [
+          "idr.identityStorage(): true",
+          "Event irs.IdentityStored present: true",
+          "Event irs.IdentityModified present: true",
+          "Event irs.IdentityUnstored present: true"
+        ],
+        "recommendation": "Continue monitoring event emission and data anchoring functionality to preserve data integrity and audit readiness."
       },
       {
         "id": "R-HKMA-53ZRH-2A-II",
-        "title": "Recording Licence Conditions with Effective Dates",
-        "severity": "High",
+        "title": "Record licence conditions with effective dates",
+        "severity": "HIGH",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The contract exposes functions to add, remove, and get claim topics with corresponding events, supporting recording of licence conditions and their effective dates as required by SFO (Cap.571) §53ZRH(2)(a)(ii).",
+        "explanation": "The contract provides mechanisms to add, remove, and retrieve claim topics via addClaimTopic(uint256), removeClaimTopic(uint256), and getClaimTopics(), with associated ClaimTopicAdded and ClaimTopicRemoved events. This capability aligns with SFO Cap.571 §53ZRH(2)(a)(ii), enabling recording of license conditions and their effective dates on-chain for transparent license management.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRH(2)(a)(ii)"
         ],
-        "evidence_paths": [],
-        "recommendation": "Continue to use these functions to manage licence conditions and ensure event logs are retained for compliance verification."
+        "evidence_paths": [
+          "ctr.addClaimTopic(uint256): true",
+          "ctr.removeClaimTopic(uint256): true",
+          "ctr.getClaimTopics(): true",
+          "Event ctr.ClaimTopicAdded present: true",
+          "Event ctr.ClaimTopicRemoved present: true"
+        ],
+        "recommendation": "Maintain controls and logging around claim topics to support supervision of license condition changes."
       },
       {
         "id": "R-HKMA-53ZRH-2A-III",
-        "title": "Central Entity Identification Claim Present",
-        "severity": "High",
+        "title": "Central entity identification claim",
+        "severity": "HIGH",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The identity registry exposes identity(address), compliance exposes canTransfer(), and trusted issuer registry exposes isTrustedIssuer(), fulfilling the requirement for central entity identification claims per SFO (Cap.571) §53ZRH(2)(a)(iii).",
+        "explanation": "Presence of functions such as idr.identity(address), compliance.canTransfer(address,address,uint256), and tir.isTrustedIssuer(address) confirms support for central entity identification claims and transfer approvals as required by SFO Cap.571 §53ZRH(2)(a)(iii). These capabilities enforce identity linkage and authorized transfer control supporting market integrity and regulatory governance.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRH(2)(a)(iii)"
         ],
-        "evidence_paths": [],
-        "recommendation": "Maintain these interfaces and ensure their correct operation to support identity resolution and transfer authorization."
+        "evidence_paths": [
+          "idr.identity(address): true",
+          "compliance.canTransfer(address,address,uint256): true",
+          "tir.isTrustedIssuer(address): true"
+        ],
+        "recommendation": "Continue to exercise identity verification and transfer gating to mitigate unauthorized activity risk."
       },
       {
         "id": "R-HKMA-53ZRH-2A-IV",
-        "title": "Capture Licence Grant Timestamp On-Chain",
-        "severity": "High",
+        "title": "Capture licence grant timestamp",
+        "severity": "HIGH",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "Events IdentityRegistered, IdentityUpdated, and IdentityRemoved are present on the identity registry contract, enabling capture of licence grant timestamps as required by SFO (Cap.571) §53ZRH(2)(a)(iv).",
+        "explanation": "The system emits IdentityRegistered, IdentityUpdated, and IdentityRemoved events, meeting SFO Cap.571 §53ZRH(2)(a)(iv) requirements to record timestamps for license grants and changes on-chain. This supports regulatory needs for traceability and temporal accuracy of license status.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRH(2)(a)(iv)"
         ],
-        "evidence_paths": [],
-        "recommendation": "Ensure these events are emitted consistently and logs are preserved for supervisory audit."
+        "evidence_paths": [
+          "Event idr.IdentityRegistered present: true",
+          "Event idr.IdentityUpdated present: true",
+          "Event idr.IdentityRemoved present: true"
+        ],
+        "recommendation": "Ensure event emission remains consistent and tamper-proof for audit evidence."
       },
       {
         "id": "R-HKMA-53ZRH-2A-V",
-        "title": "Encoding Virtual Asset Service Scope and Effective Date",
-        "severity": "High",
+        "title": "Encode VA service scope and effective date",
+        "severity": "HIGH",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The compliance contract supports binding tokens, adding/removing modules, and emits ModuleAdded and ModuleRemoved events, enabling encoding of VA service scope and effective dates per SFO (Cap.571) §53ZRH(2)(a)(v).",
+        "explanation": "The compliance module offers bindToken(address), addModule(address), removeModule(address), and getModules() functions, alongside ModuleAdded and ModuleRemoved events, satisfying SFO Cap.571 §53ZRH(2)(a)(v) for encoding the virtual asset service scope and effective dates on-chain. This modular compliance design allows dynamic management of service boundaries and associated licenses.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRH(2)(a)(v)"
         ],
-        "evidence_paths": [],
-        "recommendation": "Maintain modular compliance capabilities and event logging to support dynamic service scope management."
+        "evidence_paths": [
+          "compliance.bindToken(address): true",
+          "compliance.addModule(address): true",
+          "compliance.removeModule(address): true",
+          "compliance.getModules(): true",
+          "Event compliance.ModuleAdded present: true",
+          "Event compliance.ModuleRemoved present: true"
+        ],
+        "recommendation": "Adequately document scope changes and ensure event logs for supervisory traceability."
       },
       {
         "id": "R-HKMA-53ZRH-2A-VI",
-        "title": "On-Chain Representation of Suspension Status",
-        "severity": "High",
+        "title": "Represent suspension status on-chain",
+        "severity": "HIGH",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The token contract exposes functions to freeze/unfreeze addresses and tokens, and emits AddressFrozen, TokensFrozen, and TokensUnfrozen events, fulfilling the requirement to represent suspension status on-chain per SFO (Cap.571) §53ZRH(2)(a)(vi).",
+        "explanation": "The token exposes setAddressFrozen(address,bool), freezePartialTokens(address,uint256), unfreezePartialTokens(address,uint256), and isFrozen(address) alongside AddressFrozen, TokensFrozen, and TokensUnfrozen events, fulfilling SFO Cap.571 §53ZRH(2)(a)(vi) requirements to represent suspension status on-chain. This control prevents suspended entities from transacting, preserving market integrity and client asset protection.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRH(2)(a)(vi)"
         ],
-        "evidence_paths": [],
-        "recommendation": "Continue to enforce and monitor suspension controls to protect market integrity and client assets."
+        "evidence_paths": [
+          "token.setAddressFrozen(address,bool): true",
+          "token.freezePartialTokens(address,uint256): true",
+          "token.unfreezePartialTokens(address,uint256): true",
+          "token.isFrozen(address): true",
+          "Event token.AddressFrozen present: true",
+          "Event token.TokensFrozen present: true",
+          "Event token.TokensUnfrozen present: true"
+        ],
+        "recommendation": "Maintain robust governance to trigger and record suspension statuses timely."
       },
       {
         "id": "R-HKMA-53ZRH-2C",
-        "title": "Representative Principal Linkage Implemented",
-        "severity": "High",
+        "title": "Representative principal linkage",
+        "severity": "HIGH",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The trusted issuer registry supports updating issuer claim topics and retrieving trusted issuers, with corresponding events, satisfying the requirement for representative principal linkage per SFO (Cap.571) §53ZRH(2)(c).",
+        "explanation": "Functions updateIssuerClaimTopics(address,uint256[]), getTrustedIssuers(), getClaimTopics(), and events TrustedIssuerAdded and TrustedIssuerRemoved demonstrate the system's capacity to link representative principals per SFO Cap.571 §53ZRH(2)(c). This supports governance by managing trusted issuer relationships that underpin compliance claims and due diligence.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRH(2)(c)"
         ],
-        "evidence_paths": [],
-        "recommendation": "Maintain these linkage mechanisms and event logs to support accreditation and supervisory oversight."
+        "evidence_paths": [
+          "tir.updateIssuerClaimTopics(address,uint256[]): true",
+          "tir.getTrustedIssuers(): true",
+          "ctr.getClaimTopics(): true",
+          "Event tir.TrustedIssuerAdded present: true",
+          "Event tir.TrustedIssuerRemoved present: true"
+        ],
+        "recommendation": "Sustain controls over trusted issuer updates and maintain event logs for oversight."
       },
       {
         "id": "R-HKMA-53ZRK-5E",
-        "title": "Client Asset Safeguards via Modular Compliance Present",
-        "severity": "Very High",
+        "title": "Client asset safeguards via modular compliance",
+        "severity": "VERY_HIGH",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The compliance contract supports adding/removing modules, calling module functions, unbinding tokens, and emits ModuleInteraction events, providing strong client asset safeguards as required by SFO (Cap.571) §53ZRK(5)(e).",
+        "explanation": "The compliance contract includes addModule(address), removeModule(address), callModuleFunction(bytes,address), and unbindToken(address) methods with ModuleInteraction events, meeting SFO Cap.571 §53ZRK(5)(e) standards for strong client asset safeguards through modular compliance frameworks. This design ensures modular and enforceable controls over asset transfers and usage, protecting client assets effectively.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRK(5)(e)"
         ],
-        "evidence_paths": [],
-        "recommendation": "Continue to leverage modular compliance architecture and monitor module interactions for suspicious activity."
+        "evidence_paths": [
+          "compliance.addModule(address): true",
+          "compliance.removeModule(address): true",
+          "compliance.callModuleFunction(bytes,address): true",
+          "compliance.unbindToken(address): true",
+          "Event compliance.ModuleInteraction present: true"
+        ],
+        "recommendation": "Maintain strict access management and monitoring for module interactions to prevent unauthorized asset movements."
       },
       {
         "id": "R-HKMA-AMLO-S6",
-        "title": "Ongoing Record of Customer Identity and Activity Maintained",
-        "severity": "Very High",
+        "title": "Ongoing record of customer identity and activity",
+        "severity": "VERY_HIGH",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The identity registry exposes isVerified() and identity() functions, compliance exposes transferred(), and Transfer and ModuleInteraction events are emitted, supporting ongoing record keeping of customer identity and activity per AMLO Schedule 2 §6.",
+        "explanation": "The presence of idr.isVerified(address), idr.identity(address), compliance.transferred(address,address,uint256) functions, and Transfer plus ModuleInteraction events demonstrates continuous recording of customer identity and transactional activity consistent with AMLO Schedule 2 §6 requirements. This ensures robust client due diligence and transaction monitoring capabilities to detect and prevent illicit activities.",
         "compliance_refs": [
           "AMLO Schedule 2 §6"
         ],
-        "evidence_paths": [],
-        "recommendation": "Ensure continuous monitoring and retention of these records to support audit readiness and regulatory reporting."
+        "evidence_paths": [
+          "idr.isVerified(address): true",
+          "idr.identity(address): true",
+          "compliance.transferred(address,address,uint256): true",
+          "Event token.Transfer present: true",
+          "Event compliance.ModuleInteraction present: true"
+        ],
+        "recommendation": "Ensure event logs are securely stored and reviewed regularly to maintain ongoing monitoring effectiveness."
       },
       {
         "id": "R-HKMA-AMLO-13A-ROLE",
-        "title": "Virtual Asset Transfer Role Gating Enforced",
+        "title": "Virtual asset transfer role gating",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The system integrates the token.compliance() function, a non-zero compliance contract address, and functions compliance.canTransfer(address,address,uint256), idr.isVerified(address), and tir.isTrustedIssuer(address), fulfilling the role gating and transfer authorization demands under AMLO Schedule 2 §13A(1). This ensures only verified and authorized entities can transact, thereby reducing fraud and money laundering risks.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §13A(1)"
+        ],
+        "evidence_paths": [
+          "token.compliance(): true",
+          "nonzero compliance contract address",
+          "compliance.canTransfer(address,address,uint256): true",
+          "idr.isVerified(address): true",
+          "tir.isTrustedIssuer(address): true"
+        ],
+        "recommendation": "Continue enforcement of role gating during transfers and conduct periodic reviews of role validation logic."
+      }
+    ]
+  },
+  "e7dc3d4255fa7d423dbc78224094cbde1875936b26129f91702a5acaccdacb6e": {
+    "overall_assessment": "Moderate compliance with key gaps noted",
+    "findings": [
+      {
+        "id": "R-HKMA-53ZRH-REGISTER",
+        "title": "Absence of On-chain Register of Licensed Persons",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The token contract lacks an identityRegistry() function, indicating there is no on-chain register maintaining the list of licensed persons as mandated. Under SFO (Cap.571) §53ZRH(1), maintaining an on-chain register ensures regulatory transparency and facilitates supervisory monitoring of licensed virtual asset service providers. Its absence risks failure in licensing oversight and undermines market integrity by obscuring who is authorized to operate. Regulators rely on this control to promptly verify license status and enforce compliance.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement and expose an on-chain register interface (identityRegistry()) within the token or a linked registry contract to maintain an authoritative, tamper-evident list of licensed persons. Ensure event logging for all registration changes and provide accessible query methods to support supervisory audits."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-IV",
+        "title": "Missing Event Logging for Licence Grant Timestamp",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The IdentityRegistered event is absent in the identity registry contract. Per SFO (Cap.571) §53ZRH(2)(a)(iv), capturing the licence grant timestamp on-chain ensures clear audit trails for the effective date of licensing. Without this event, there is insufficient evidence to demonstrate when a firm obtained or updated its licence, impairing regulatory oversight, hindering enforcement actions and supervisory reviews, and increasing operational risk related to outdated licence statuses.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(iv)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Add event emission for IdentityRegistered with accurate timestamps signaling licence grants or renewals. Maintain logs accessible to the regulator for verifying historical and current licensing status and supporting ongoing supervision."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-VI",
+        "title": "Lack of On-chain Suspension Status Representation",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The token contract does not implement setAddressFrozen(address,bool), which means the suspension status of licensed persons or addresses cannot be represented on-chain. SFO (Cap.571) §53ZRH(2)(a)(vi) requires on-chain suspension indicators to enable instant and enforceable operational suspensions. This gap increases the risk of unauthorized transactions by suspended entities, thus undermining client asset protection and the integrity of the virtual asset market.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(vi)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement a mechanism to freeze or suspend addresses on-chain via setAddressFrozen or equivalent function. Ensure this state change triggers events and that downstream compliance modules respect suspension status in transaction processing."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-I",
+        "title": "Anchoring of Name and Business Address Data",
         "severity": "High",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The token exposes compliance(), compliance exposes canTransfer(), identity registry exposes isVerified(), and trusted issuer registry exposes isTrustedIssuer(), collectively enforcing role-based gating on virtual asset transfers as required by AMLO Schedule 2 §13A(1).",
-        "compliance_refs": [
-          "AMLO Schedule 2 §13A(1)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Maintain these role gating controls and include regression tests to verify transfer restrictions based on identity and issuer status."
-      }
-    ]
-  },
-  "2d0a5ea1ca84b8f15eef13b84d45b92bee99410f2d663c6cd88cbe04214fad90": {
-    "overall_assessment": "The audited ERC-3643 implementation demonstrates partial compliance with HKMA and SFC virtual asset regulatory requirements. Key controls for identity anchoring, license condition recording, suspension status, and modular compliance are implemented and verifiable on-chain. However, critical gaps exist in identity verification gating on transfers, identity registry storage wiring, and comprehensive identity resolution functions. These deficiencies expose the system to regulatory non-compliance, client asset protection risks, and supervisory challenges.",
-    "findings": [
-      {
-        "id": "F-001",
-        "title": "Missing Identity Verification Gating on Transfers",
-        "severity": "HIGH",
-        "phase2_verdict": "High",
-        "verdict": "HIGH",
-        "position": "CHALLENGE",
-        "explanation": "Transfers to unverified addresses succeeded without identity gating, violating the AMLO CDD identity controls requirement. This means the system allows virtual asset transfers without confirming the recipient's verified identity status, undermining anti-money laundering safeguards.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Implement and enforce identity verification gating in the token transfer logic by integrating the identity registry's isVerified(address) check before allowing transfers. Add unit and integration tests simulating transfers to unverified addresses to confirm blocking behavior. Maintain event logs for transfer attempts to unverified addresses for audit trail and supervisory review."
-      },
-      {
-        "id": "F-002",
-        "title": "Identity Registry Storage Not Wired",
-        "severity": "VERY_HIGH",
-        "phase2_verdict": "Very High",
-        "verdict": "VERY_HIGH",
-        "position": "CHALLENGE",
-        "explanation": "The identityRegistry contract exposes identityStorage() ABI, but the configured identityStorage address is zero, indicating the storage contract is not properly linked. This breaks the chain of custody for identity data, violating AMLO record-keeping requirements.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Wire the identityStorage address in the identityRegistry contract to a valid deployed identity storage contract instance. Update deployment scripts and governance procedures to ensure this linkage is established and immutable. Add integration tests verifying identityStorage() returns a non-zero address and that identity data can be stored and retrieved correctly."
-      },
-      {
-        "id": "F-003",
-        "title": "Incomplete On-Chain Register Functions for Licensed Persons",
-        "severity": "HIGH",
-        "phase2_verdict": "High",
-        "verdict": "HIGH",
-        "position": "CHALLENGE",
-        "explanation": "The identityRegistry contract exposes identityRegistry() but lacks the registerIdentity(address,address,uint16[]) function required to maintain an on-chain register of licensed persons as mandated by SFO §53ZRH(1). This limits the ability to record and update licensed entity data on-chain.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(1)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Implement the registerIdentity(address,address,uint16[]) function in the identityRegistry contract to enable registering licensed persons with their identity and license details. Add governance controls restricting access to authorized roles. Include event emissions for registration actions and add tests verifying correct registration and access control enforcement."
-      },
-      {
-        "id": "F-004",
-        "title": "Missing Central Entity Identification Claim Function",
-        "severity": "HIGH",
-        "phase2_verdict": "High",
-        "verdict": "HIGH",
-        "position": "CHALLENGE",
-        "explanation": "The identityRegistry contract does not implement the identity(address) function to resolve central entity identification claims, as required by SFO §53ZRH(2)(a)(iii). This impairs the ability to verify entity identities on-chain.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(a)(iii)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Add the identity(address) function to the identityRegistry contract to return the identity claim for a given address. Ensure this function is consistent with the identity storage schema and access controls. Add unit tests to verify correct identity resolution and error handling for unknown addresses."
-      },
-      {
-        "id": "F-005",
-        "title": "Missing Event for Licence Grant Timestamp Capture",
-        "severity": "HIGH",
-        "phase2_verdict": "High",
-        "verdict": "HIGH",
-        "position": "CHALLENGE",
-        "explanation": "The identityRegistry contract does not emit the IdentityRegistered event, which is required to capture the timestamp of licence grants on-chain per SFO §53ZRH(2)(a)(iv). Without this event, audit trails for licence grant timing are incomplete.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(a)(iv)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Implement and emit the IdentityRegistered event in the identityRegistry contract whenever a licence is granted or registered. Update contract logic and governance processes to ensure event emission is mandatory. Add event monitoring in operational run-books and include tests verifying event emission on licence registration."
-      },
-      {
-        "id": "F-006",
-        "title": "Missing Identity Resolution Function for Ongoing Customer Identity Records",
-        "severity": "VERY_HIGH",
-        "phase2_verdict": "Very High",
-        "verdict": "VERY_HIGH",
-        "position": "CHALLENGE",
-        "explanation": "While the identity registry supports isVerified(address), it lacks the identity(address) function needed to maintain ongoing records of customer identity and activity as required by AMLO Schedule 2 §6. This gap hinders continuous monitoring and record-keeping obligations.",
-        "compliance_refs": [
-          "AMLO Schedule 2 §6"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Add the identity(address) function to the identity registry contract to enable retrieval of full identity details for verified customers. Ensure this function integrates with existing verification mechanisms and supports audit logging. Include tests for identity retrieval and consistency with verification status."
-      }
-    ]
-  },
-  "a1e322867f9bdb5dff2e87edcb3933b542a285435e08fe0c65d5d0305e86db3f": {
-    "overall_assessment": "The audited ERC-3643 implementation demonstrates strong compliance with most HKMA AMLO and SFC virtual asset regulatory requirements, particularly in identity gating, transfer role controls, and on-chain event logging. However, a critical gap exists in on-chain record-keeping of customer identity data, which poses a very high regulatory and supervisory risk. Additionally, the absence of a function to register licensed persons on-chain challenges the completeness of the identity registry, constituting a high risk. Immediate remediation is required to address these gaps to ensure full regulatory alignment and audit readiness.",
-    "findings": [
-      {
-        "id": "F-AMLO-RecordKeeping-MissingStorage",
-        "title": "Missing On-Chain Identity Record-Keeping Storage Address",
-        "severity": "VERY_HIGH",
-        "phase2_verdict": "Very High",
-        "verdict": "VERY_HIGH",
-        "position": "CHALLENGE",
-        "explanation": "The contract ABI exposes the identityStorage() function, indicating support for identity data storage, but the configured identityStorage address is zero. This means no on-chain contract is currently linked to store customer identity records as required under AMLO (Cap.615) Schedule 2 §2. Without on-chain record-keeping, there is a critical risk of non-compliance with regulatory requirements for maintaining verifiable customer identity data, undermining auditability and supervisory oversight.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Update the contract configuration to set a valid, non-zero identityStorage contract address that implements persistent on-chain identity record-keeping. Add unit and integration tests to verify identityStorage address is non-zero and linked contract supports required identity data functions. Maintain event logs for identity data changes to ensure audit readiness. Conduct manual verification of off-chain record retention only as a temporary measure until on-chain storage is enabled."
-      },
-      {
-        "id": "F-HKMA-53ZRH-REGISTER-MissingRegisterFunction",
-        "title": "Absence of On-Chain Register Identity Function",
-        "severity": "HIGH",
-        "phase2_verdict": "High",
-        "verdict": "HIGH",
-        "position": "CHALLENGE",
-        "explanation": "The identity registry contract exposes identityRegistry() but lacks the registerIdentity(address,address,uint16[]) function. This function is essential to maintain an on-chain register of licensed persons as mandated by SFO (Cap.571) §53ZRH(1). Without this function, the system cannot properly record or update licensed persons on-chain, impairing regulatory compliance and supervisory controls.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(1)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Implement the registerIdentity function in the identity registry contract to enable on-chain registration and management of licensed persons. Add comprehensive tests to validate registration workflows and event emissions. Ensure role-based access control restricts registration to authorized entities only. This will enhance market integrity and regulatory auditability."
-      },
-      {
-        "id": "F-AMLO-CDD-IdentityGating",
-        "title": "Effective Identity Gating Enforced on Transfers",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The system correctly reverts token transfers to unverified addresses, demonstrating enforcement of identity gating controls as required by AMLO (Cap.615) Schedule 2 §2. This prevents unauthorized transfers and supports anti-money laundering objectives.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Continue monitoring transfer attempts and maintain event logs for transfer rejections to support ongoing compliance. Include regression tests to ensure identity gating remains effective after contract upgrades."
-      },
-      {
-        "id": "F-HKMA-53ZRH-2A-I-NameAddressAnchoring",
-        "title": "On-Chain Anchoring of Name and Business Address Data",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The identity registry contract supports identityStorage() and emits IdentityStored, IdentityModified, and IdentityUnstored events, fulfilling the requirement to anchor name and business address data on-chain per SFO (Cap.571) §53ZRH(2)(a)(i). This supports data integrity and auditability.",
+        "explanation": "The identity registry contract implements identityStorage() and emits events IdentityStored, IdentityModified, and IdentityUnstored as required by SFO (Cap.571) §53ZRH(2)(a)(i). This satisfies the supervisory need for immutable on-chain anchoring of licensed persons’ names and business addresses, supporting transparency and accountability for regulatory oversight and audit purposes.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRH(2)(a)(i)"
         ],
         "evidence_paths": [],
-        "recommendation": "Maintain these event emissions and add monitoring to detect any anomalies in identity data anchoring. Include tests validating event triggers on identity data changes."
+        "recommendation": "Maintain current implementation and ensure events are continuously monitored and retained for audit readiness."
       },
       {
-        "id": "F-HKMA-53ZRH-2A-II-LicenseConditions",
-        "title": "Recording Licence Conditions with Effective Dates",
-        "severity": "HIGH",
+        "id": "R-HKMA-53ZRH-2A-II",
+        "title": "Recording of Licence Conditions with Effective Dates",
+        "severity": "High",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The contract supports adding, removing, and retrieving claim topics with corresponding events, enabling recording of licence conditions with effective dates as required by SFO (Cap.571) §53ZRH(2)(a)(ii). This facilitates transparent licence condition management.",
+        "explanation": "The contract implements addClaimTopic(uint256), removeClaimTopic(uint256), and getClaimTopics() with corresponding events ClaimTopicAdded and ClaimTopicRemoved, fulfilling SFO (Cap.571) §53ZRH(2)(a)(ii). This provides a transparent and traceable on-chain ledger of applicable licence conditions and their effective dates, essential for ongoing regulatory evaluation and compliance assurance.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRH(2)(a)(ii)"
         ],
         "evidence_paths": [],
-        "recommendation": "Continue to ensure claim topic management functions and events operate correctly. Add tests for edge cases in claim topic lifecycle."
+        "recommendation": "Continue to monitor contract events and maintain governance for claim topic updates."
       },
       {
-        "id": "F-HKMA-53ZRH-2A-III-CentralEntityClaim",
-        "title": "Central Entity Identification Claim Supported",
-        "severity": "HIGH",
+        "id": "R-HKMA-53ZRH-2A-III",
+        "title": "Central Entity Identification Claim Implementation",
+        "severity": "High",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The identity registry exposes identity(address), compliance exposes canTransfer, and trusted issuer registry exposes isTrustedIssuer, fulfilling SFO (Cap.571) §53ZRH(2)(a)(iii) requirements for central entity identification claims. This supports identity resolution and transfer authorization.",
+        "explanation": "Required identity and compliance functions identity(address), canTransfer(address,address,uint256), and isTrustedIssuer(address) are implemented, meeting the requirements of SFO (Cap.571) §53ZRH(2)(a)(iii). This capability supports accurate identification of licensed entities and authorized parties, reinforcing regulatory due diligence and mitigating risks from unverified actors.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRH(2)(a)(iii)"
         ],
         "evidence_paths": [],
-        "recommendation": "Maintain these interfaces and add monitoring to ensure consistent identity resolution and transfer gating."
+        "recommendation": "Maintain verification mechanisms and role-based access to preserve system integrity."
       },
       {
-        "id": "F-HKMA-53ZRH-2A-IV-LicenseGrantTimestamp",
-        "title": "On-Chain Capture of Licence Grant Timestamp",
-        "severity": "HIGH",
+        "id": "R-HKMA-53ZRH-2A-V",
+        "title": "Encoding Virtual Asset Service Scope and Effective Date via Module Management",
+        "severity": "High",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "Events IdentityRegistered, IdentityUpdated, and IdentityRemoved are present, enabling on-chain capture of licence grant timestamps per SFO (Cap.571) §53ZRH(2)(a)(iv). This supports supervisory traceability of licence status changes.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(a)(iv)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Ensure event logs are preserved and monitored. Add tests to verify event emission on licence lifecycle changes."
-      },
-      {
-        "id": "F-HKMA-53ZRH-2A-V-ServiceScopeEncoding",
-        "title": "Encoding Virtual Asset Service Scope and Effective Date",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The compliance contract supports binding tokens, adding/removing modules, and emits ModuleAdded and ModuleRemoved events, fulfilling SFO (Cap.571) §53ZRH(2)(a)(v) for encoding service scope and effective dates. This modular approach supports flexible compliance enforcement.",
+        "explanation": "Compliance contract exposes module management functions and emits appropriate events per SFO (Cap.571) §53ZRH(2)(a)(v). This modular design properly encodes the scope of VA services and effective dates, facilitating flexible enforcement of licence conditions and enhancing operational control.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRH(2)(a)(v)"
         ],
         "evidence_paths": [],
-        "recommendation": "Maintain modular compliance controls and event monitoring. Add tests for module lifecycle management."
+        "recommendation": "Regularly audit module configurations and event logs for accuracy and completeness."
       },
       {
-        "id": "F-HKMA-53ZRH-2A-VI-SuspensionStatus",
-        "title": "On-Chain Representation of Suspension Status",
-        "severity": "HIGH",
+        "id": "R-HKMA-53ZRH-2C",
+        "title": "Representative Principal Linkage Functionality",
+        "severity": "High",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The token contract supports freezing/unfreezing addresses and tokens with corresponding events, meeting SFO (Cap.571) §53ZRH(2)(a)(vi) requirements to represent suspension status on-chain. This enables effective suspension enforcement and client asset protection.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(a)(vi)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Continue to monitor suspension-related events and add tests for freeze/unfreeze scenarios."
-      },
-      {
-        "id": "F-HKMA-53ZRH-2C-RepresentativePrincipalLinkage",
-        "title": "Representative Principal Linkage Implemented",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The trusted issuer registry supports updating issuer claim topics and retrieving trusted issuers, with events for TrustedIssuerAdded and TrustedIssuerRemoved, fulfilling SFO (Cap.571) §53ZRH(2)(c). This supports linkage between representatives and principals.",
+        "explanation": "The trusted issuer registry implements updateIssuerClaimTopics(address,uint256[]), getTrustedIssuers(), and related events, meeting the linkage and tracking requirements under SFO (Cap.571) §53ZRH(2)(c). This linkage supports supervision over licensees’ representatives and authorized agents, crucial for governance and enforcement.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRH(2)(c)"
         ],
         "evidence_paths": [],
-        "recommendation": "Maintain linkage functions and event monitoring. Add tests for trusted issuer lifecycle."
+        "recommendation": "Ensure continuous validation of trusted issuer data and quick update capabilities."
       },
       {
-        "id": "F-HKMA-53ZRK-5E-ClientAssetSafeguards",
-        "title": "Client Asset Safeguards via Modular Compliance",
-        "severity": "VERY_HIGH",
+        "id": "R-HKMA-53ZRK-5E",
+        "title": "Client Asset Safeguards Enabled Through Modular Compliance",
+        "severity": "Very High",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The compliance contract supports adding/removing modules, calling module functions, unbinding tokens, and emits ModuleInteraction events, meeting SFO (Cap.571) §53ZRK(5)(e) requirements for client asset safeguards. This modular design enhances custody controls.",
+        "explanation": "The contract supports adding, removing, and interacting with compliance modules with event logging as required by SFO (Cap.571) §53ZRK(5)(e). This design provides strong client asset protection controls and supports rapid regulatory intervention, aligning with HKMA supervisory objectives to prevent misuse and preserve market integrity.",
         "compliance_refs": [
           "SFO (Cap.571) §53ZRK(5)(e)"
         ],
         "evidence_paths": [],
-        "recommendation": "Continue rigorous testing of module interactions and maintain event audit trails."
+        "recommendation": "Sustain module governance and monitor ModuleInteraction events for anomaly detection."
       },
       {
-        "id": "F-AMLO-S6-OngoingRecord",
-        "title": "Ongoing Record of Customer Identity and Activity Maintained",
-        "severity": "VERY_HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The identity registry supports isVerified and identity functions; compliance supports transferred; token emits Transfer events; compliance emits ModuleInteraction events. This satisfies AMLO Schedule 2 §6 for ongoing record of customer identity and activity, supporting audit readiness and supervisory monitoring.",
-        "compliance_refs": [
-          "AMLO Schedule 2 §6"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Maintain event logging and add monitoring dashboards for identity verification and transfer activity."
-      },
-      {
-        "id": "F-AMLO-13A-ROLE-TransferRoleGating",
-        "title": "Virtual Asset Transfer Role Gating Enforced",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The token exposes compliance() returning a non-zero address; compliance supports canTransfer; identity registry supports isVerified; trusted issuer registry supports isTrustedIssuer. This enforces transfer role gating per AMLO Schedule 2 §13A(1), preventing unauthorized transfers.",
-        "compliance_refs": [
-          "AMLO Schedule 2 §13A(1)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Continue enforcing transfer gating and add tests simulating various transfer scenarios with different identity and issuer statuses."
-      }
-    ]
-  },
-  "bac3a191442958035e3207ae6cf7dbcf991d09b342b5fbfc5ddd50bf0394b68c": {
-    "overall_assessment": "The ERC-3643 implementation demonstrates strong compliance with HKMA AMLO and SFC licensing requirements for virtual asset service providers, with one notable gap in on-chain registration capabilities for licensed persons.",
-    "findings": [
-      {
-        "id": "F-001",
-        "title": "AMLO Customer Due Diligence (CDD) Identity Controls Enforced",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The token contract enforces identity gating by reverting transfers to unverified addresses, ensuring that only verified customers can transact. This is evidenced by the probe where a transfer to an unverified address was reverted.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Maintain and regularly test identity gating logic to ensure continued enforcement. Include unit and integration tests that simulate transfers to unverified addresses to confirm reversion behavior."
-      },
-      {
-        "id": "F-002",
-        "title": "AMLO Record Keeping Support for Customer Identity",
-        "severity": "VERY_HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The system supports record keeping by exposing identityStorage() and emitting key events such as IdentityStored, IdentityModified, IdentityUnstored, and IdentityRegistryBound. The identity storage address is non-zero, indicating on-chain identity data management.",
-        "compliance_refs": [
-          "AMLO (Cap.615) Schedule 2 §2"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Ensure off-chain retention of identity records complements on-chain events as required by AMLO. Implement operational run-books for audit trail preservation and periodic reconciliation between on-chain events and off-chain records."
-      },
-      {
-        "id": "F-003",
-        "title": "Lack of On-Chain Register Function to Maintain Licensed Persons",
-        "severity": "HIGH",
-        "phase2_verdict": "High",
-        "verdict": "HIGH",
-        "position": "CHALLENGE",
-        "explanation": "While the token exposes an identityRegistry() function, the identity registry contract lacks the registerIdentity(address,address,uint16[]) function necessary to maintain an on-chain register of licensed persons as required by SFO (Cap.571) §53ZRH(1). This gap limits the ability to prove on-chain that persons are licensed.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(1)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Extend the identity registry contract to implement registerIdentity(address,address,uint16[]) with appropriate access controls. Add unit tests to verify registration functionality and event emission. This will enable on-chain proof of licensed persons and support supervisory oversight."
-      },
-      {
-        "id": "F-004",
-        "title": "Anchoring Name and Business Address Data On-Chain",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The identity registry supports identityStorage() and emits IdentityStored, IdentityModified, and IdentityUnstored events, anchoring name and business address data on-chain as required.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(a)(i)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Continue to monitor and log these events. Include integration tests to confirm data anchoring during identity lifecycle operations."
-      },
-      {
-        "id": "F-005",
-        "title": "Recording Licence Conditions with Effective Dates",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The contract supports adding and removing claim topics with effective dates via addClaimTopic(uint256) and removeClaimTopic(uint256), and emits ClaimTopicAdded and ClaimTopicRemoved events, fulfilling licence condition recording requirements.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(a)(ii)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Maintain comprehensive test coverage for claim topic management functions and event emissions."
-      },
-      {
-        "id": "F-006",
-        "title": "Central Entity Identification Claim Present",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The identity registry exposes identity(address), and the compliance module supports canTransfer(address,address,uint256), while the trusted issuer registry supports isTrustedIssuer(address), enabling central entity identification claims as required.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(a)(iii)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Ensure these functions are secured and access-controlled. Include tests verifying correct identity resolution and transfer permission logic."
-      },
-      {
-        "id": "F-007",
-        "title": "Capture Licence Grant Timestamp On-Chain",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "Events IdentityRegistered, IdentityUpdated, and IdentityRemoved are present on the identity registry contract, supporting capture of licence grant timestamps on-chain.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(a)(iv)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Maintain event logging and ensure timestamp accuracy. Add monitoring to detect anomalies in identity lifecycle events."
-      },
-      {
-        "id": "F-008",
-        "title": "Encoding Virtual Asset Service Scope and Effective Date",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The compliance contract supports binding tokens and managing modules (addModule, removeModule, getModules) and emits ModuleAdded and ModuleRemoved events, enabling encoding of service scope and effective dates.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(a)(v)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Continue to validate module management and event emission. Implement regression tests covering module lifecycle."
-      },
-      {
-        "id": "F-009",
-        "title": "On-Chain Representation of Suspension Status",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The token contract supports freezing and unfreezing addresses and partial tokens, with functions setAddressFrozen, freezePartialTokens, unfreezePartialTokens, isFrozen, and emits AddressFrozen, TokensFrozen, and TokensUnfrozen events, representing suspension status on-chain.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(a)(vi)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Maintain comprehensive tests for freezing logic and event generation. Monitor frozen status changes for compliance reporting."
-      },
-      {
-        "id": "F-010",
-        "title": "Representative Principal Linkage via Trusted Issuers",
-        "severity": "HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The trusted issuer registry supports updating issuer claim topics and retrieving trusted issuers, with events TrustedIssuerAdded and TrustedIssuerRemoved, enabling representative principal linkage as required.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRH(2)(c)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Ensure access control on trusted issuer management. Add tests for issuer accreditation and revocation."
-      },
-      {
-        "id": "F-011",
-        "title": "Client Asset Safeguards via Modular Compliance",
-        "severity": "VERY_HIGH",
-        "phase2_verdict": "PASS",
-        "verdict": "PASS",
-        "position": "SUPPORT",
-        "explanation": "The compliance contract supports modular compliance with addModule, removeModule, callModuleFunction, and unbindToken functions, and emits ModuleInteraction events, providing strong client asset safeguards.",
-        "compliance_refs": [
-          "SFO (Cap.571) §53ZRK(5)(e)"
-        ],
-        "evidence_paths": [],
-        "recommendation": "Maintain strict controls on module management and interactions. Implement monitoring and alerting on ModuleInteraction events for suspicious activity detection."
-      },
-      {
-        "id": "F-012",
+        "id": "R-HKMA-AMLO-S6",
         "title": "Ongoing Record of Customer Identity and Activity",
-        "severity": "VERY_HIGH",
+        "severity": "Very High",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The identity registry supports isVerified and identity functions, and the compliance contract supports transferred events. The token emits Transfer events and compliance emits ModuleInteraction events, enabling ongoing record keeping of customer identity and activity.",
+        "explanation": "Functions and events supporting continuous verification and transaction recording (idr.isVerified, idr.identity, compliance.transferred, Transfer event, ModuleInteraction event) comply with AMLO Schedule 2 §6. This systematic recording supports ongoing due diligence and transaction monitoring, essential to anti-money laundering and regulatory compliance.",
         "compliance_refs": [
           "AMLO Schedule 2 §6"
         ],
         "evidence_paths": [],
-        "recommendation": "Ensure continuous logging and off-chain retention of these events. Implement audit trails and periodic reviews to detect anomalies."
+        "recommendation": "Maintain robust audit trails and continuously verify monitoring systems."
       },
       {
-        "id": "F-013",
-        "title": "Virtual Asset Transfer Role Gating Enforced",
-        "severity": "HIGH",
+        "id": "R-HKMA-AMLO-13A-ROLE",
+        "title": "Virtual Asset Transfer Role Gating Enforcement",
+        "severity": "High",
         "phase2_verdict": "PASS",
         "verdict": "PASS",
         "position": "SUPPORT",
-        "explanation": "The token exposes compliance() returning a non-zero address, and the compliance contract supports canTransfer. The identity registry supports isVerified and the trusted issuer registry supports isTrustedIssuer, enforcing role gating on transfers.",
+        "explanation": "The token and compliance contracts correctly implement role gating functions including compliance(), canTransfer(), idr.isVerified(), and tir.isTrustedIssuer(), ensuring only verified and trusted roles may perform transfers. This satisfies AMLO Schedule 2 §13A(1), preventing unauthorized transactions and supporting licensed operations.",
         "compliance_refs": [
           "AMLO Schedule 2 §13A(1)"
         ],
         "evidence_paths": [],
-        "recommendation": "Maintain role gating logic and conduct regular tests simulating transfers with various identity and issuer statuses to ensure correct enforcement."
+        "recommendation": "Preserve strict access controls and keep role data current for effective operational governance."
+      }
+    ]
+  },
+  "6291085790322f63db2c4f2bcaad8a2d54a38b931691de71f85872dc5afdb80b": {
+    "overall_assessment": "The audited smart contract implementation largely satisfies HKMA AMLO and SFC virtual-asset licensing requirements anchored in ERC-3643, demonstrating robust identity anchoring, licence condition recording, transfer role gating, and client asset safeguards. Nevertheless, there are two material compliance gaps concerning on-chain maintenance of the licensed persons register and the representation of suspension status on-chain, as well as capturing licence grant timestamps on-chain. These gaps present potential supervisory risks due to incomplete transparency and control over license status and suspension, which are critical for regulatory monitoring and investor protection.",
+    "findings": [
+      {
+        "id": "R-HKMA-53ZRH-REGISTER",
+        "title": "Maintain on-chain register of licensed persons",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The contract lacks the mandatory identityRegistry() function, resulting in absence of a dedicated on-chain register of licensed persons as required under SFO (Cap.571) §53ZRH(1). This register is essential for supervisory transparency enabling the HKMA/SFC to verify the entities authorized to engage in virtual asset service activities. Without it, the regulator faces difficulty ensuring that only licensed persons conduct regulated activities, increasing regulatory and reputational risk for the licensee.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement and expose an identityRegistry() function following ERC-3643 specifications to maintain an immutable, on-chain register of all licensed persons. Ensure the register is publicly queryable to facilitate independent verification and audit readiness."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-IV",
+        "title": "Capture licence grant timestamp",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The contract does not emit an on-chain IdentityRegistered event, which is required to capture licence grant timestamps per SFO (Cap.571) §53ZRH(2)(a)(iv). Recording the timestamp of licence grants on-chain is critical to demonstrate compliance periods and monitor licence validity. Missing this event restricts supervisory oversight on licence lifecycle, increasing risks of unauthorised or expired operation.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(iv)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Modify the identity registry contract to emit a standardized IdentityRegistered event whenever a licence is granted or recorded, including timestamps. Ensure event logs are properly indexed and retained for audit and supervisory review."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-VI",
+        "title": "Represent suspension status on-chain",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The absence of the token.setAddressFrozen(address,bool) function indicates that the contract does not provide an on-chain mechanism to represent suspension status for addresses, contrary to SFO (Cap.571) §53ZRH(2)(a)(vi) requirements. An on-chain suspension capability is essential to prevent suspended entities from transacting, preserving market integrity and client asset protection. Without it, there is risk of suspended persons continuing operations unnoticed by supervisors.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(vi)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement a function to freeze and unfreeze addresses on-chain in the token contract. Integrate this functionality with compliance modules to enforce transfer restrictions on suspended accounts. Log suspension status changes with events to enable audit and supervisory tracking."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-I-1",
+        "title": "Anchor name and business address data",
+        "severity": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The presence of identityStorage() function and associated IdentityStored, IdentityModified, and IdentityUnstored events demonstrates compliance with SFO (Cap.571) §53ZRH(2)(a)(i) to anchor client name and business address data on-chain. This capability provides an immutable audit trail supporting effective KYC and regulatory due diligence.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(i)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Maintain current functionality and monitor event integrity to preserve continuous compliance."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-II-1",
+        "title": "Record licence conditions with effective dates",
+        "severity": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "Contract supports addClaimTopic, removeClaimTopic, getClaimTopics functions and corresponding events ClaimTopicAdded and ClaimTopicRemoved, fulfilling SFO (Cap.571) §53ZRH(2)(a)(ii) to record licence conditions with effective dates on-chain. This ensures traceability of licence scopes and timeframes, supporting supervisory assessments and licence enforcement.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(ii)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Continue using these functions ensuring all licence conditions are up to date and event logs are retained for audit."
+      },
+      {
+        "id": "R-HKMA-AMLO-S6-1",
+        "title": "Ongoing record of customer identity and activity",
+        "severity": "Very High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The contract provides isVerified and identity functions alongside transfer event logging and module interaction events, satisfying AMLO Schedule 2 §6 on maintaining ongoing records of customer identity and transaction activities. This capability enables continuous AML monitoring and audit trail preservation, mitigating financial crime risks.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §6"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Maintain robust identity verification and transaction recording mechanisms to ensure sustained AML compliance."
+      },
+      {
+        "id": "R-HKMA-AMLO-13A-ROLE-1",
+        "title": "Virtual asset transfer role gating",
+        "severity": "High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The availability of token.compliance(), compliance.canTransfer(), and identity verification functions satisfy AMLO Schedule 2 §13A(1) role gating requirements. These controls effectively restrict token transfers to verified and trusted issuers, ensuring transfer activities adhere to the licensed roles and authorized user profiles to prevent unauthorized asset movements.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §13A(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Continue enforcing transfer restrictions via compliance modules with proper identity verification and trusted issuer controls."
+      },
+      {
+        "id": "R-HKMA-53ZRK-5E-1",
+        "title": "Client asset safeguards via modular compliance",
+        "severity": "Very High",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The contract supports adding, removing, calling, and unbinding compliance modules with recorded ModuleInteraction events, fulfilling SFO (Cap.571) §53ZRK(5)(e) client asset safeguard requirements. This modular compliance approach enhances governance by enabling flexible, auditable controls directly programmable into token transfer behavior, thereby securing client assets effectively.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRK(5)(e)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Maintain comprehensive module controls and ensure all interactions are logged for supervisory review and incident investigation."
+      }
+    ]
+  },
+  "bfdaa63836b9c555610ebf2a39e5ac4efe8928960b41259e0ddb80424ecae722": {
+    "overall_assessment": "The audited smart contract system demonstrates strong compliance with modular compliance mechanisms for client asset protection and virtual asset transfer gating per AMLO and SFO requirements. However, critical gaps exist in maintaining a full on-chain register of licensed persons and capturing ongoing customer identity information as mandated. These gaps present significant supervisory risks that must be remediated.",
+    "findings": [
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-1",
+        "title": "Missing On-Chain Registered Update Function for Licensed Persons",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The contract exposes a registered identity registry interface (identityRegistry()) but lacks the required function to update licensed person records (updateIdentity(address,address,uint16[])) on-chain. This gap fails to meet the requirement under SFO (Cap.571) §53ZRH(1) to maintain a complete and up-to-date on-chain register of licensed persons. Without this, there is a regulatory risk of incomplete or stale supervisory data, weakening audit trails and obstructing timely compliance monitoring.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement and expose a public or controlled updateIdentity(address,address,uint16[]) function within the identity registry contract to allow timely updates of licensed persons’ information. Ensure that updates trigger audit events for traceability. Prepare event logs for audit readiness."
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-2",
+        "title": "Identity Registry Lacks Update Function",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Consistent with the prior finding, the identity registry contract does not implement the updateIdentity(address,address,uint16[]) function required by SFO (Cap.571) §53ZRH(1). The absence of this function impedes maintaining accurate and current licensing records on-chain, which is fundamental for effective regulatory supervision and market integrity. Regulators would regard this as a failure in maintaining proper identity records of licensed entities.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Add the updateIdentity function to the identity registry contract to comply with SFO register maintenance obligations. Additionally, implement proper access control and event emissions to support verification and monitoring."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-III",
+        "title": "Lack of On-Chain Central Entity Identification Claim",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The identity registry contract does not provide an identity(address) getter function. This is required under SFO (Cap.571) §53ZRH(2)(a)(iii) to anchor a central entity identification claim on-chain. Without this function, the system cannot programmatically verify and retrieve the mapped identity information of licensed persons, undermining transparency and regulatory oversight.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(iii)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Develop and expose the identity(address) function in the identity registry contract to enable authorized parties and monitoring systems to reliably query and confirm the identity claims of licensed persons on-chain. Incorporate event logs for changes to support audit traceability."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-IV",
+        "title": "Missing Event to Capture Licence Grant Timestamp",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The identity registry contract does not emit the IdentityRegistered event, which is essential under SFO (Cap.571) §53ZRH(2)(a)(iv) to capture the timestamp of license grants on-chain. The absence of this event impedes establishing a verifiable historical record of when licenses were granted, impairing supervisory audit trails and limiting evidence for regulatory investigations or compliance reviews.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(iv)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement and emit the IdentityRegistered event within the identity registry contract associated with license grant actions. Ensuring event emission enables immutable timestamping and audit readiness for regulatory supervision."
+      },
+      {
+        "id": "R-HKMA-AMLO-S6-1",
+        "title": "Ongoing Record of Customer Identity Mechanism Incomplete",
+        "severity": "VERY_HIGH",
+        "phase2_verdict": "Very High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "While the identity registry provides an isVerified(address) function, it lacks the full identity(address) getter needed per AMLO Schedule 2 §6 for maintaining ongoing records of customer identity and activity on-chain. This incomplete implementation exposes the business to material licensing and supervisory risks by failing to retain and provide accessible identity data for enhanced due diligence, monitoring, and compliance verification. Regulators would regard this as a critical failure in KYC data management.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §6"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Extend the identity registry contract with a complete identity(address) function giving access to verified customer identity details. Align this with isVerified() to ensure thorough ongoing record keeping and automate event logging for identity updates."
+      },
+      {
+        "id": "R-HKMA-AMLO-S6-2",
+        "title": "Missing Customer Identity Getter Function",
+        "severity": "VERY_HIGH",
+        "phase2_verdict": "Very High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Corroborating the prior finding, the absence of an identity(address) function impairs the contract’s capability to provide requisite ongoing records of customer identity as prescribed by AMLO Schedule 2 §6. This gap directly limits the facility to monitor and audit customer interactions, potentially enabling misuse without traceability.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §6"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Add the missing identity(address) function into the identity registry contract to fulfill AMLO Schedule 2 §6 obligations and bolster auditability and regulatory transparency."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-I-1",
+        "title": "Anchoring of Name and Business Address Data Implemented",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The contract correctly implements identityStorage() and corresponding events (IdentityStored, IdentityModified, IdentityUnstored), satisfying SFO (Cap.571) §53ZRH(2)(a)(i) to anchor licensed persons’ name and business address data on-chain. This ensures a robust and traceable data foundation for supervisor oversight and enhanced identity data integrity.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(i)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Maintain current implementations and ensure continuous monitoring of event logs for audit readiness."
+      },
+      {
+        "id": "R-HKMA-AMLO-13A-ROLE-1",
+        "title": "Virtual Asset Transfer Role Gating Controls",
+        "severity": "HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The token incorporates the compliance module with canTransfer(address,address,uint256) function and integrates identity verification (isVerified) and trusted issuer designation (isTrustedIssuer) consistent with AMLO Schedule 2 §13A(1). This enforces appropriate role-based transfer gating to mitigate unauthorized virtual asset transfers, demonstrating effective regulatory alignment to prevent misuse.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §13A(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Continue enforcing and periodically test transfer gating logic to assure no unauthorized transfers occur."
+      },
+      {
+        "id": "R-HKMA-53ZRK-5E-1",
+        "title": "Client Asset Safeguards via Modular Compliance",
+        "severity": "VERY_HIGH",
+        "phase2_verdict": "PASS",
+        "verdict": "PASS",
+        "position": "SUPPORT",
+        "explanation": "The compliance module supports robust client asset protection controls, exposing addModule, removeModule, callModuleFunction, and unbindToken interfaces, and emits ModuleInteraction events as per SFO (Cap.571) §53ZRK(5)(e). This modular design enables dynamic compliance enforcement and preserves market integrity by facilitating effective monitoring and intervention.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRK(5)(e)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Maintain this modular compliance architecture and keep detailed event logs to support audits and supervisory reviews."
+      }
+    ]
+  },
+  "701bdf07a8a9b4f7c6ab147831bc8f26f6e080673ff1b88d0b569089e8db1f22": {
+    "overall_assessment": "The smart contract system under review exhibits multiple critical gaps in fulfilling key regulatory requirements specified by the HKMA and SFC, resulting in very high and high severity findings. Major deficiencies include lack of on-chain registers for licensed persons, missing identity anchoring, absence of license condition recording, failure to represent suspension status on-chain, and missing modular compliance safeguards essential for client asset protection. None of the 56 rules passed, indicating systemic weaknesses that raise significant supervisory concerns regarding control over customer identity, ongoing monitoring, transfer authorization, and audit trail integrity.",
+    "findings": [
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-1",
+        "title": "Maintain on-chain register of licensed persons",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The smart contract lacks an on-chain identity registry interface and functions such as updating, deleting, or batch registering licensed persons' identities, which are mandated under SFO (Cap.571) §53ZRH(1). This absence impairs the ability to maintain an authoritative, tamper-proof record of licensed persons and their updates. Without such a register, regulators cannot verify or monitor licensees effectively, raising risks of unauthorized operations and undermining licensing control.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement a dedicated identity registry contract adhering to ERC-3643 interfaces that supports add, update, delete, and batch operations for licensed persons. Ensure event emissions for all changes enabling off-chain audit and supervisory traceability."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-I-1",
+        "title": "Anchor name and business address data",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The identity registry contract lacks the ability to anchor crucial customer information such as name and business address along with corresponding storage functions and event logs, as required by SFO (Cap.571) §53ZRH(2)(a)(i). This deficiency creates gaps in customer due diligence documentation and impairs regulatory review and audit capabilities.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(i)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Augment the identity registry with secured storage and events to capture and maintain name and business address data for customers and licensees, ensuring information integrity and accessibility for regulatory compliance and inspection."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-II-1",
+        "title": "Record licence conditions with effective dates",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Absence of contract functions to add, remove, and retrieve license conditions with effective dates alongside missing events for tracking these changes contravenes SFO (Cap.571) §53ZRH(2)(a)(ii). License conditions are critical for defining operational scopes and regulatory obligations, and their on-chain record ensures transparency and enforceability.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(ii)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Incorporate claim topic management mechanisms conforming to ERC-3643 to encode license conditions with timestamps and emit events on modifications to enable comprehensive license lifecycle tracking and supervisory oversight."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-III-1",
+        "title": "Central entity identification claim",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The system lacks the required functions to retrieve identity details, determine transfer permissions, and check trusted issuers as stipulated by SFO (Cap.571) §53ZRH(2)(a)(iii). This undermines identification and verification processes essential to enforce role-based transfer restrictions and licensed entity assertions, increasing the risk of unauthorized activities.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(iii)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement identity getter, transfer gating, and trusted issuer verification functions aligned with the ERC-3643 standard. Ensure these are actively used to gate transfers and verify identities in real-time for compliance assurance."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-IV-1",
+        "title": "Capture licence grant timestamp",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "There are no on-chain events for identity registration, updates, or removals, inhibiting transparent capture of license grant timestamps as required by SFO (Cap.571) §53ZRH(2)(a)(iv). This flaw prevents immutable recordkeeping of licensing history, negatively impacting audit trails and regulatory investigations.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(iv)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Add event emission on all identity lifecycle changes to register grant timestamps, maintain accurate historical records, and facilitate continuous monitoring and retrospective compliance audits."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-V-1",
+        "title": "Encode VA service scope and effective date",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The compliance contract supports token binding but lacks modular capabilities (addModule, removeModule, getModules) and related events as mandated under SFO (Cap.571) §53ZRH(2)(a)(v). Absence of modular compliance hinders dynamic control over service scopes and effective dates vital for scalable and adaptive regulatory enforcement mechanisms.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(v)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Develop and enable module management functions in the compliance contract to register, revoke, and query service modules with event logging. This modular architecture is fundamental for evolving virtual asset service scopes under regulatory oversight."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-VI-1",
+        "title": "Represent suspension status on-chain",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The token contract does not implement suspension controls such as freezing or partial freezing of addresses or tokens, nor does it emit relevant freeze/unfreeze events as required by SFO (Cap.571) §53ZRH(2)(a)(vi). This omission increases risk of non-compliance by failing to restrict transactions during suspension or enforcement actions.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(vi)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Incorporate suspension control functions and corresponding events into the token contract to enable real-time freezing, unfreezing, and status checks on addresses and token amounts, ensuring robust enforcement capabilities for regulatory authorities."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2C-1",
+        "title": "Representative principal linkage",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Absent trusted issuer management functions and events in the issuer registry violate SFO (Cap.571) §53ZRH(2)(c). This gap obstructs establishing and verifying linkages between principals and their authorized representatives, critical for accountability and governance in virtual asset operations.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(c)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement trusted issuer management and event emission mechanisms in compliance and issuer registry contracts to facilitate transparent representative principal relationships, enhancing regulatory trust and control."
+      },
+      {
+        "id": "R-HKMA-53ZRK-5E-1",
+        "title": "Client asset safeguards via modular compliance",
+        "severity": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "VERY_HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The compliance contract lacks critical module management functions and events (addModule, removeModule, callModuleFunction, unbindToken, ModuleInteraction event) as mandated by SFO (Cap.571) §53ZRK(5)(e). This deficiency severely undermines client asset protections through modular compliance by disabling enforcement of layered checks and audit trails.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRK(5)(e)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Urgently implement full modular compliance functionality with active event logging to enable dynamic client asset safeguards, prevent misuse, and preserve market integrity as expected by regulatory standards."
+      },
+      {
+        "id": "R-HKMA-AMLO-S6-1",
+        "title": "Ongoing record of customer identity and activity",
+        "severity": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "VERY_HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Key functionalities for verifying customer identity, maintaining identity data, recording transfers, and emitting transfer events are missing as required by AMLO Schedule 2 §6. This absence represents a critical failure in maintaining ongoing identity records and transaction audit trails, exposing the platform to regulatory sanctions and elevated money laundering risk.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §6"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Develop and deploy verified identity checks, identity storage, transfer record functions, and emit corresponding events systematically to ensure complete, immutable customer activity logs that meet AMLO ongoing monitoring requirements."
+      },
+      {
+        "id": "R-HKMA-AMLO-13A-ROLE-1",
+        "title": "Virtual asset transfer role gating",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The token contract does not expose the required compliance linkage or functions to gate transfers by role verification. Dependencies on identity verification and trusted issuer checks are also missing as required by AMLO Schedule 2 §13A(1). Without transfer role gating, unauthorized transactions cannot be prevented, raising compliance and operational risks.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §13A(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Integrate transfer gating via compliance contract linkage and implement verification of identity and trusted issuer status to enforce role-based transfer authorization, thereby meeting AMLO stipulations and enhancing transaction integrity."
+      }
+    ]
+  },
+  "3d3c18808f368d97875d001ae370ff763f5d92906a9f5614eabe5e9b39945901": {
+    "overall_assessment": "The audited smart contract implementation exhibits critical gaps in the mandated compliance features required under the ERC-3643 standard and HKMA’s AMLO and SFC licensing requirements. Important functions and events related to on-chain identity registration, licence condition tracking, transfer role gating, modular compliance enforcement, client asset protection, and real-time activity logging are absent. This generates severe regulatory and supervisory risks including noncompliance with the SFO sections on licensed persons' registers and on-going customer due diligence standards, as well as failure to maintain audit-ready records and robust transfer controls. Immediate remediation and re-architecture are necessary to meet licensing conditions and ensure effective AML, client asset safeguards, and market integrity controls are enforceable on-chain.",
+    "findings": [
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-1",
+        "title": "Maintain on-chain register of licensed persons",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The contract lacks the function identityRegistry() in the token interface, a key method to access the on-chain register of licensed persons as required under the SFO (Cap.571) §53ZRH(1). This deficiency undermines the ability to reliably identify and verify licensed persons on-chain, impairing regulatory oversight of licensing status and due diligence compliance.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement and expose the identityRegistry() function in the token contract to enable direct linkage to the licensed persons register on-chain."
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-2",
+        "title": "Maintain on-chain register of licensed persons",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The absence of the updateIdentity(address,address,uint16[]) function in the identity registry obstructs necessary updates to licensed persons’ records. This impairs the capability to maintain accurate and current licensing information on-chain, risking supervision and enforcement deficiencies.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Add and properly implement the updateIdentity function to support dynamic updates of licensed persons’ data as prescribed."
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-3",
+        "title": "Maintain on-chain register of licensed persons",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The missing deleteIdentity(address) method prevents removal of expired or revoked licensee entries from the register, resulting in stale or inaccurate licensing data on-chain, which could mislead supervisory activities.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Develop and deploy a deleteIdentity function to support lifecycle management of licensee identities compliant with regulatory expectations."
+      },
+      {
+        "id": "R-HKMA-AMLO-S6-1",
+        "title": "Ongoing record of customer identity and activity",
+        "severity": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "VERY_HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The identity registry lacks the isVerified(address) function, critical for verifying whether a customer’s identity has been validated in compliance with AML obligations (AMLO Schedule 2 §6). Absence of this check impairs real-time AML risk management and ongoing monitoring controls.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §6"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement the isVerified(address) function within the identity registry contract to enable continuous verification status checks for AML compliance."
+      },
+      {
+        "id": "R-HKMA-AMLO-S6-4",
+        "title": "Ongoing record of customer identity and activity",
+        "severity": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "VERY_HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The standard Transfer event event in the token contract is missing, preventing adequate transaction logging required under AMLO Schedule 2 §6 for monitoring customer activity and maintaining auditable transaction trails.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §6"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Ensure the token contract emits Transfer events consistently for every movement of assets to facilitate transaction monitoring and audit readiness."
+      },
+      {
+        "id": "R-HKMA-AMLO-13A-ROLE-1",
+        "title": "Virtual asset transfer role gating",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The token contract does not implement compliance() to reference the compliance contract for transfer role gating as required by AMLO Schedule 2 §13A(1). This gap disables enforcement of transfer restrictions to licensed and verified parties, heightening risk of unauthorized transfers.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §13A(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Add and expose the compliance() function in the token interface to link transfer operations to compliance logic enforcing approved participant roles."
+      },
+      {
+        "id": "R-HKMA-53ZRK-5E-1",
+        "title": "Client asset safeguards via modular compliance",
+        "severity": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "VERY_HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The compliance contract lacks the addModule(address) function critical for modular compliance architecture under SFO (Cap.571) §53ZRK(5)(e). Without this, integrating multiple layered compliance modules to enforce client asset protection safeguards is infeasible.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRK(5)(e)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement addModule(address) enabling the dynamic addition of compliance modules to the framework to bolster client asset protection."
+      },
+      {
+        "id": "R-HKMA-53ZRK-5E-3",
+        "title": "Client asset safeguards via modular compliance",
+        "severity": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "VERY_HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The compliance contract is missing callModuleFunction(bytes,address), essential for executing functions within integrated compliance modules. This absence prevents effective enforcement and orchestration of compliance logic relevant for client asset security.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRK(5)(e)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Develop callModuleFunction to enable modular compliance execution, ensuring dynamic responsive controls on client assets."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-VI-1",
+        "title": "Represent suspension status on-chain",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Key suspension control functions such as setAddressFrozen(address,bool) are missing from the token contract, impairing on-chain representation and enforcement of user or address suspension status per SFO (Cap.571) §53ZRH(2)(a)(vi). This deficiency heightens the risk of continued unauthorized transfers during suspension periods.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(vi)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Add required freeze and unfreeze functions in the token contract to enable real-time suspension status enforcement with event emission for audit trail."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-I-2",
+        "title": "Anchor name and business address data",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The absence of events like IdentityStored in the identity storage contract prevents reliable on-chain confirmation and auditable record of anchoring customer name and business address details as prescribed by SFO (Cap.571) §53ZRH(2)(a)(i). This hinders governance and supervisory oversight of identity data integrity.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(i)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Emit standardized identity lifecycle events such as IdentityStored, Modified, and Unstored to support traceable and transparent identity anchoring."
+      }
+    ]
+  },
+  "83f8e7709314d27bc131d16aa52f51921f3c8adc8ec74d282068e6c967a95ed6": {
+    "overall_assessment": "The audited ERC-3643-based token system exhibits critical gaps in required on-chain identity registry functions, modular compliance modules for client asset protection, and key transfer controls mandated by HKMA/SFC regulations under SFO and AMLO. While some identity anchoring and event capture measures are implemented, the pervasive absence of mandatory functions and events poses significant regulatory noncompliance, supervisory risk, and potential failure to uphold market integrity and client protection obligations.",
+    "findings": [
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-1",
+        "title": "Missing identityRegistry() function for on-chain licensed persons register",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The on-chain token contract lacks the identityRegistry() function, which is essential to maintain a reliable register of licensed persons as required under SFO (Cap.571) §53ZRH(1). This gap undermines the ability to verify and trace licensed entities on-chain, impeding regulatory oversight and increasing risks of unauthorized virtual asset service providers operating undetected. Regulatorily, absence of this register function weakens client asset protection and supervisory monitoring.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement and expose the identityRegistry() function conforming to ERC-3643 specifications to provide an on-chain, auditable registry of licensed persons. Establish strong access controls and ensure associated event logs capture all updates to this registry for audit readiness."
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-2",
+        "title": "Missing updateIdentity(address,address,uint16[]) function in identity registry",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The absence of updateIdentity() prevents modification of identity records on-chain, violating SFO (Cap.571) §53ZRH(1) requirements for maintaining accurate entity details. This control gap inhibits timely updates reflecting changes in licensing or entity status, exposing the token system to regulatory breaches regarding record accuracy and ongoing due diligence.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Develop and deploy updateIdentity(address,address,uint16[]) to allow authorized updates to identity records with structured control. Include event emissions to capture changes, supporting supervisory audit and compliance traceability."
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-3",
+        "title": "Missing deleteIdentity(address) function in identity registry",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Without the deleteIdentity() function, the system cannot remove or deactivate outdated or revoked licensed persons on the registry as mandated under SFO (Cap.571) §53ZRH(1). This hinders regulatory compliance and increases operational risk of stale or invalid licensing data being used to process transactions or ensure compliance controls.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Add a deleteIdentity(address) function to enable proper lifecycle management of identity records, ensuring invalid or terminated licenses are promptly removed from the registry and logged."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-II-1",
+        "title": "Missing claim topic management functions for licence conditions",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Critical claim topic functions addClaimTopic(uint256), removeClaimTopic(uint256), and getClaimTopics() are absent, breaking requirements under SFO (Cap.571) §53ZRH(2)(a)(ii) to record licence conditions with effective dates on-chain. This prevents encoding of the precise scope and validity of licenses, limiting supervisory ability to confirm compliance scope and risking unauthorized virtual-asset activities.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(ii)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement full claim topic management functions per ERC-3643 to encode license scope accurately. Ensure events ClaimTopicAdded and ClaimTopicRemoved are emitted for audit and monitoring."
+      },
+      {
+        "id": "R-HKMA-53ZRH-2A-VI-1",
+        "title": "Absence of token freezing functions and events for suspension status",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "Functions such as setAddressFrozen(address,bool), freezePartialTokens(address,uint256), unfreezePartialTokens(address,uint256), and isFrozen(address) are missing alongside critical events (AddressFrozen, TokensFrozen, TokensUnfrozen). This violates SFO (Cap.571) §53ZRH(2)(a)(vi) which mandates tracking and on-chain representation of suspension status. Lacking these controls impairs immediate suspension of licenses and freezes the related virtual assets, increasing risks of misuse or evasion.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(2)(a)(vi)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Add comprehensive freezing controls and emit the respective events for transparency. This supports regulatory powers to limit activities promptly and preserves market integrity."
+      },
+      {
+        "id": "R-HKMA-53ZRK-5E-1",
+        "title": "Missing modular compliance functions critical for client asset safeguards",
+        "severity": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "VERY_HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The compliance module lacks essential functions addModule(address), removeModule(address), callModuleFunction(bytes,address), and unbindToken(address), plus the ModuleInteraction event is not defined. These omissions violate SFO (Cap.571) §53ZRK(5)(e) which requires modular compliance to implement configurable safeguards for client assets. Without them, the system cannot enforce layered controls or isolate modules to mitigate risk, exposing client assets to potentially unchecked transfers.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRK(5)(e)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement all required modular compliance management functions and event emissions to establish a robust control framework supporting client asset protection and regulatory audit readiness."
+      },
+      {
+        "id": "R-HKMA-AMLO-S6-1",
+        "title": "Lack of verification function isVerified(address) for ongoing customer record",
+        "severity": "Very High",
+        "phase2_verdict": "Very High",
+        "verdict": "VERY_HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The absence of isVerified(address) contravenes AMLO Schedule 2 §6, restricting ability to confirm ongoing customer identity verification status on-chain. This control is central to maintaining AML/CTF surveillance, ensuring continuous due diligence, and preventing use by unverified or suspicious entities, critical for regulatory and licensing compliance.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §6"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Develop and deploy isVerified(address) in the identity registry contract to enable automated verification checks supporting ongoing monitoring and regulatory obligations."
+      },
+      {
+        "id": "R-HKMA-AMLO-13A-ROLE-3",
+        "title": "Missing canTransfer(address,address,uint256) restricts virtual asset transfer control",
+        "severity": "High",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The compliance contract omits canTransfer(), required under AMLO Schedule 2 §13A(1) to gate virtual asset transfers by roles and permissions. Without this function, the token contract cannot enforce transfer restrictions based on identity verification and licensing status, risking noncompliant transfers and contravening supervisory mandates on transaction control.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §13A(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement canTransfer() in the compliance layer to enforce authorized transfer checks, integrating identity and licensing validations to uphold regulatory transfer restrictions."
+      }
+    ]
+  },
+  "04c86a884f29c69ca6d9e45a3c1bc033365dcac4571a309ab29ead3b0f25edc2": {
+    "overall_assessment": "FAIL",
+    "findings": [
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-1",
+        "title": "Maintain on-chain register of licensed persons - identityRegistry() missing",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The virtual asset system lacks the identityRegistry() function in its token interface, which is essential for maintaining an on-chain register of licensed persons as required by SFO (Cap.571) §53ZRH(1). This omission undermines regulatory supervision by preventing effective tracking and verification of licensed entities, increasing risks of unauthorized operations and non-compliance.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement and expose the identityRegistry() function within the token contract interface to establish an on-chain register of licensed persons, enabling regulatory monitoring and identity verification."
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-2",
+        "title": "Maintain on-chain register of licensed persons - updateIdentity function missing",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The system fails to provide the updateIdentity(address,address,uint16[]) function in the identity registry. This function is critical for updating the details of licensed persons on-chain, supporting ongoing compliance with SFO (Cap.571) §53ZRH(1). Without it, the decentralized ledger cannot reflect changes effectively, exposing the service to inaccuracies and regulatory breaches.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Add and correctly implement updateIdentity(address,address,uint16[]) in the identity registry contract to support timely updates of licensed person records."
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-3",
+        "title": "Maintain on-chain register of licensed persons - deleteIdentity function missing",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The identity registry implementation is missing the deleteIdentity(address) function, which is mandated under SFO (Cap.571) §53ZRH(1) to remove or deregister licensed persons when appropriate. This absence increases the risk of stale or invalid records persisting on-chain, impairing regulator oversight and compliance integrity.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement deleteIdentity(address) in the identity registry to enable removal of licensed persons in compliance with regulatory requirements."
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-4",
+        "title": "Maintain on-chain register of licensed persons - batchRegisterIdentity function missing",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The batchRegisterIdentity(address[],address[],uint16[]) function is absent from the identity registry ABI. This function is essential for efficient bulk registration of licensed persons, supporting operational scalability and compliance with SFO (Cap.571) §53ZRH(1). Its absence hinders effective onboarding and record-keeping on-chain.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Add batchRegisterIdentity function to the identity registry contract to facilitate compliant and efficient bulk registering of licensed entities."
+      },
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-5",
+        "title": "Maintain on-chain register of licensed persons - addClaimTopic function missing",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The claim registry (ctr) is missing the addClaimTopic(uint256) function required under SFO (Cap.571) §53ZRH(1). This function allows recording of licence conditions and regulatory claims, supporting transparency and traceability of permissions. Its lack represents a governance and control gap.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Develop and integrate the addClaimTopic function to manage claim topics and maintain credible on-chain licensing data."
+      },
+      {
+        "id": "R-HKMA-AMLO-S6-1",
+        "title": "Ongoing record of customer identity and activity - isVerified function missing",
+        "severity": "VERY_HIGH",
+        "phase2_verdict": "Very High",
+        "verdict": "VERY_HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The identity registry contract lacks the isVerified(address) function, critical under AMLO Schedule 2 §6. This function is necessary to confirm continuously that a customer's identity has been verified, a fundamental component for anti-money laundering and ongoing monitoring. Its absence undermines client due diligence and regulatory compliance, raising critical supervisory concerns.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §6"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Integrate the isVerified(address) method in the identity registry to support mandatory ongoing KYC verification and audit trails."
+      },
+      {
+        "id": "R-HKMA-AMLO-13A-ROLE-1",
+        "title": "Virtual asset transfer role gating - compliance function missing",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The token contract does not expose the compliance() function, violating AMLO Schedule 2 §13A(1) requirements. This function is pivotal for linking token transfers to compliance checks, ensuring only authorized roles can initiate transfers. Lack of this linkage impairs enforcement of transfer restrictions, creating increased risk of unauthorized transactions.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §13A(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Expose and implement the compliance() function in the token contract to enable robust role-based transfer gating as mandated."
+      },
+      {
+        "id": "R-HKMA-53ZRK-5E-1",
+        "title": "Client asset safeguards via modular compliance - addModule function missing",
+        "severity": "VERY_HIGH",
+        "phase2_verdict": "Very High",
+        "verdict": "VERY_HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The compliance module lacks the crucial addModule(address) function required by SFO (Cap.571) §53ZRK(5)(e). This omission critically compromises client asset protection by preventing the addition of compliance modules that enforce rules and controls on asset handling and transfers.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRK(5)(e)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Develop and deploy the addModule(address) function within the compliance contract to enable modular compliance and enhance client asset safeguards."
+      },
+      {
+        "id": "R-HKMA-53ZRK-5E-2",
+        "title": "Client asset safeguards via modular compliance - removeModule function missing",
+        "severity": "VERY_HIGH",
+        "phase2_verdict": "Very High",
+        "verdict": "VERY_HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The removeModule(address) function is missing from the compliance contract, undermining the ability to remove non-compliant or outdated modules and thus weakening client asset protection as required by SFO (Cap.571) §53ZRK(5)(e). This may lead to retention of obsolete controls increasing regulatory risk.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRK(5)(e)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement the removeModule(address) function to enable proper lifecycle management of compliance modules and maintain effective client asset protection."
+      },
+      {
+        "id": "R-HKMA-AMLO-S6-5",
+        "title": "Ongoing record of customer identity and activity - missing ModuleInteraction event",
+        "severity": "VERY_HIGH",
+        "phase2_verdict": "Very High",
+        "verdict": "VERY_HIGH",
+        "position": "CHALLENGE",
+        "explanation": "The compliance contract does not include the ModuleInteraction event, a critical audit trail component required under AMLO Schedule 2 §6. The absence of this event hinders real-time monitoring and forensic review of interactions with compliance modules, impeding regulatory oversight and increasing operational risk.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §6"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Add the ModuleInteraction event emission to the compliance contract to provide a transparent and immutable record of compliance module activities for audit readiness."
+      }
+    ]
+  },
+  "b077fa8a44b101abe8d884cfab16405a77bcabd49723c2bafbf10f69e2c2f4fc": {
+    "overall_assessment": "The examined virtual asset smart contract exhibits substantial non-compliance with HKMA/SFC AML and licensing standards, particularly concerning the maintenance of on-chain registers of licensed persons, representation of suspension status, and ongoing customer identity verification. While modular compliance controls appear robust, critical identity registry and freeze functionality are missing, presenting material supervisory risks.",
+    "findings": [
+      {
+        "id": "R-HKMA-53ZRH-REGISTER-1",
+        "title": "On-chain register lacks identityRegistry() function",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "FAIL",
+        "position": "CHALLENGE",
+        "explanation": "The smart contract ABI does not expose the identityRegistry() function, which is essential under SFO (Cap.571) §53ZRH(1) for maintaining an on-chain register of licensed persons. This absence impairs the ability to track authorized entities on-chain, undermining regulatory transparency and auditability. Without a reliable register, the licensee risks non-compliance with licensing obligations, reducing the HKMA/SFC's oversight effectiveness and increasing associated supervisory risks. Remediation requires implementing and exposing the identityRegistry() function per ERC-3643 to ensure a robust and accessible register of licensed persons with appropriate event logging and data integrity controls for audit readiness.",
+        "compliance_refs": [
+          "SFO (Cap.571) §53ZRH(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Integrate and expose an identityRegistry() function in the token contract ABI that supports recording licensed person identities. Ensure role-based access controls govern updates and deletions with accompanying event emissions for supervisory traceability."
+      },
+      {
+        "id": "R-HKMA-AMLO-S6-1",
+        "title": "Missing isVerified(address) function for customer identity verification",
+        "severity": "VERY_HIGH",
+        "phase2_verdict": "Very High",
+        "verdict": "FAIL",
+        "position": "CHALLENGE",
+        "explanation": "The control to verify ongoing customer identity & activity, mandated under AMLO Schedule 2 §6, is not supported due to the absent isVerified(address) function in the identity registry interface. This function is critical to confirm that customers remain verified to prevent illicit transactions. Its absence introduces significant regulatory and business risks including failure to detect unverified actors, exposing the virtual asset provider to AML breaches and potential enforcement. The gap indicates a weakness in ongoing KYC due diligence and client protection governance. Remediation involves implementing the isVerified(address) method to support continuous verification status checks, coupled with secure event logging for supervisory review and audit trail completeness.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §6"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Develop and deploy the isVerified(address) function within the identity registry smart contract. This function must allow permissioned modules to query verified status reliably and emit events reflecting status changes for audit readiness."
+      },
+      {
+        "id": "R-HKMA-AMLO-13A-ROLE-1",
+        "title": "Absent token.compliance() method disables transfer role gating",
+        "severity": "HIGH",
+        "phase2_verdict": "High",
+        "verdict": "FAIL",
+        "position": "CHALLENGE",
+        "explanation": "Under AMLO Schedule 2 §13A(1), role-based gating of virtual asset transfers is obligatory to restrict transfers to authorized participants and ensure compliance with AML requirements. The missing token.compliance() function means that the token contract cannot reference or invoke the modular compliance logic to enforce transfer restrictions, creating a major regulatory control gap. Without this linkage, unauthorized transfers may occur unchecked, threatening market integrity and client asset protection. This is regarded as a failure to implement appropriate transaction screening controls. The contract must expose the token.compliance() method to integrate with compliance modules enforcing role gating and verification.",
+        "compliance_refs": [
+          "AMLO Schedule 2 §13A(1)"
+        ],
+        "evidence_paths": [],
+        "recommendation": "Implement the token.compliance() method returning the compliance module address to enable enforcement of transfer restrictions. Ensure compliance logic is invoked on each transfer for role gating and that relevant events capturing transfer decisions are emitted for supervisory oversight."
       }
     ]
   }

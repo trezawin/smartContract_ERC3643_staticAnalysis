@@ -1,0 +1,168 @@
+Compliance Report
+Generated: 2025-10-30T21:07:49.378Z
+Deterministic Summary: PASS=6 | VERY_HIGH=10 | HIGH=40 | MEDIUM=0
+LLM Model: gpt-4.1-mini
+
+LLM call failed: fetch failed
+
+Findings:
+
+Very High
+1. Client asset safeguards via modular compliance
+Runtime hint: ABI missing compliance.addModule(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"compliance","sig":"addModule(address)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRK(5)(e)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+2. Client asset safeguards via modular compliance
+Runtime hint: ABI missing compliance.removeModule(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"compliance","sig":"removeModule(address)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRK(5)(e)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+3. Client asset safeguards via modular compliance
+Runtime hint: ABI missing compliance.callModuleFunction(bytes,address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"compliance","sig":"callModuleFunction(bytes,address)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRK(5)(e)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+4. Client asset safeguards via modular compliance
+Runtime hint: ABI missing compliance.unbindToken(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"compliance","sig":"unbindToken(address)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRK(5)(e)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+5. Client asset safeguards via modular compliance
+Runtime hint: Event compliance.ModuleInteraction is absent from the ABI.. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasevent","where":"compliance","name":"ModuleInteraction","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRK(5)(e)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+6. Ongoing record of customer identity and activity
+Runtime hint: ABI missing idr.isVerified(address).. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"isVerified(address)","present":false,"ok":false}
+Compliance Ref: AMLO Schedule 2 §6
+Recommendation: Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+7. Ongoing record of customer identity and activity
+Runtime hint: ABI missing idr.identity(address).. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"identity(address)","present":false,"ok":false}
+Compliance Ref: AMLO Schedule 2 §6
+Recommendation: Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+8. Ongoing record of customer identity and activity
+Runtime hint: ABI missing compliance.transferred(address,address,uint256).. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"compliance","sig":"transferred(address,address,uint256)","present":false,"ok":false}
+Compliance Ref: AMLO Schedule 2 §6
+Recommendation: Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+9. Ongoing record of customer identity and activity
+Runtime hint: Event token.Transfer is absent from the ABI.. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasevent","where":"token","name":"Transfer","present":false,"ok":false}
+Compliance Ref: AMLO Schedule 2 §6
+Recommendation: Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+10. Ongoing record of customer identity and activity
+Runtime hint: Event compliance.ModuleInteraction is absent from the ABI.. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasevent","where":"compliance","name":"ModuleInteraction","present":false,"ok":false}
+Compliance Ref: AMLO Schedule 2 §6
+Recommendation: Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+11. Maintain on-chain register of licensed persons
+Runtime hint: ABI missing token.identityRegistry().. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"token","sig":"identityRegistry()","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+12. Maintain on-chain register of licensed persons
+Runtime hint: ABI missing idr.updateIdentity(address,address,uint16[]).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"updateIdentity(address,address,uint16[])","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+13. Maintain on-chain register of licensed persons
+Runtime hint: ABI missing idr.deleteIdentity(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"deleteIdentity(address)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+14. Maintain on-chain register of licensed persons
+Runtime hint: ABI missing idr.batchRegisterIdentity(address[],address[],uint16[]).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"batchRegisterIdentity(address[],address[],uint16[])","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+15. Maintain on-chain register of licensed persons
+Runtime hint: ABI missing ctr.addClaimTopic(uint256).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"ctr","sig":"addClaimTopic(uint256)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+16. Maintain on-chain register of licensed persons
+Runtime hint: ABI missing tir.addTrustedIssuer(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"tir","sig":"addTrustedIssuer(address)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+17. Maintain on-chain register of licensed persons
+Runtime hint: ABI missing tir.removeTrustedIssuer(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"tir","sig":"removeTrustedIssuer(address)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+18. Maintain on-chain register of licensed persons
+Runtime hint: ABI missing compliance.canTransfer(address,address,uint256).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"compliance","sig":"canTransfer(address,address,uint256)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Pass
+19. Anchor name and business address data
+Runtime hint: ABI exposes idr.identityStorage().. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(i) prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"identityStorage()","present":true,"ok":true}
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(i)
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+
+Pass
+20. Anchor name and business address data
+Runtime hint: Event irs.IdentityStored is present in the ABI.. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(i) prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- {"op":"hasevent","where":"irs","name":"IdentityStored","present":true,"ok":true}
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(i)
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.

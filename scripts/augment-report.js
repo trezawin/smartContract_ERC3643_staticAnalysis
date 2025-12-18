@@ -4,6 +4,8 @@ const path = require("path");
 const crypto = require("crypto");
 const { helpers } = require("./deterministic-engine");
 
+const CACHE_VERSION = 2;
+
 const {
   normalizeSeverityValue,
   severityLabel,
@@ -171,23 +173,58 @@ function alignFindingsWithDeterministic(items, findings) {
     const key = String(f.id).toUpperCase();
     const base = map.get(key);
     if (!base) return f;
-    const severityCode = base.pass ? "PASS" : base.severity;
-    const severityInfo = severityCode === "PASS"
-      ? { code: "PASS", label: "Pass" }
-      : normalizeSeverityValue(severityCode);
-    return Object.assign({}, f, {
-      severity: severityCode === "PASS" ? "PASS" : severityInfo.code,
-      severity_label: severityInfo.label,
-      phase2_verdict: severityInfo.label,
-      verdict: severityCode === "PASS" ? "PASS" : severityInfo.code,
-      pass: base.pass
-    });
+    const result = Object.assign({}, f);
+    result.pass = base.pass;
+    if (base.pass) {
+      result.severity = "PASS";
+      result.severity_label = "Pass";
+      result.phase2_verdict = "Pass";
+      result.verdict = "PASS";
+    } else {
+      if (!result.severity || String(result.severity).toUpperCase() === "PASS") {
+        const severityInfo = normalizeSeverityValue(base.severity);
+        result.severity = severityInfo.code;
+        result.severity_label = severityInfo.label;
+        result.phase2_verdict = result.phase2_verdict || severityInfo.label;
+        result.verdict = result.verdict && result.verdict !== "PASS" ? result.verdict : severityInfo.code;
+      }
+    }
+    return result;
+  });
+}
+
+function sanitizeTitle(value) {
+  if (!value) return "";
+  return String(value).toLowerCase().replace(/[^a-z0-9]+/g, "").trim();
+}
+
+function canonicalizeFindingIds(findings, items) {
+  if (!Array.isArray(findings) || findings.length === 0) return findings || [];
+  const titleMap = new Map();
+  const idSet = new Set();
+  for (const it of items || []) {
+    if (!it || !it.id) continue;
+    const id = String(it.id);
+    idSet.add(id.toUpperCase());
+    const key = sanitizeTitle(it.title || it.id);
+    if (key && !titleMap.has(key)) titleMap.set(key, id);
+  }
+  return findings.map((f) => {
+    if (!f) return f;
+    const id = f.id ? String(f.id) : "";
+    if (idSet.has(id.toUpperCase())) return f;
+    const key = sanitizeTitle(f.title || "");
+    const mappedId = key ? titleMap.get(key) : null;
+    if (mappedId) {
+      return Object.assign({}, f, { id: mappedId });
+    }
+    return f;
   });
 }
 
 async function callPhase2Llm(payload) {
   const apiKey = process.env.LLM_API_KEY || process.env.OPENAI_API_KEY || "";
-  const model = process.env.LLM_MODEL || "gpt-4.1-mini";
+  const model = null;//process.env.LLM_MODEL || "gpt-4.1-mini";//"gpt-5-nano"; //"gpt-5-mini";
   const baseUrl = process.env.LLM_BASE_URL || "https://api.openai.com/v1";
   if (!apiKey) {
     return {
@@ -201,7 +238,7 @@ async function callPhase2Llm(payload) {
   const cacheFile = path.join(process.cwd(), ".cache", "p2-llm-cache.json");
   const loadCache = () => { try { return JSON.parse(fs.readFileSync(cacheFile, "utf8")); } catch { return {}; } };
   const saveCache = (obj) => { ensureDir(path.dirname(cacheFile)); fs.writeFileSync(cacheFile, JSON.stringify(obj, null, 2)); };
-  const makeKey = (m, p) => crypto.createHash("sha256").update(JSON.stringify({ m, p })).digest("hex");
+  const makeKey = (m, p) => crypto.createHash("sha256").update(JSON.stringify({ m, p, v: CACHE_VERSION })).digest("hex");
   const cache = loadCache();
   const key = makeKey(model, payload);
   if (cache[key]) return { disabled: false, model, cacheHit: true, raw: cache[key] };
@@ -214,15 +251,24 @@ async function callPhase2Llm(payload) {
     "Use any provided code_refs to cite contract paths and functions; do not fabricate filenames or functions.",
     "Reference only the clause URLs/identifiers supplied. If none exist, leave compliance_refs empty rather than guessing.",
     "Paraphrase runtime hints; avoid pasting raw probe strings or internal artefacts.",
+    "For each finding, set the id field to exactly match a rule id from the payload; never invent new identifiers.",
     "Self-check before finalizing: clarity, correctness (matches payload), policy alignment, and actionability must all be satisfied.",
-    "Recommendations should be specific and testable (update contract logic, wire controls, add events/monitoring, add regression tests, operational run-books) and, where helpful, include a brief validation plan (what unit/integration tests to add).",
+    "When writing the 'explanation' field, assume the audience is an HKMA/SFC auditor reviewing compliance with AMLO and virtual-asset licensing standards. Avoid deep engineering or code-level details unless directly linked to a regulatory breach. Instead, explain the issue in supervisory terms:",
+    "- Identify the control intent (e.g., KYC verification, transaction screening, record retention, client asset segregation).",
+    "- Describe the regulatory or operational risk if unmitigated (e.g., potential breach of AMLO s.5(1) on ongoing monitoring, insufficient audit trail, weak client protection).",
+    "- Explain how the control gap would be viewed by a regulator — for example, as a failure in due diligence, monitoring, or governance.",
+    "- Maintain clear traceability between the rule payload and regulatory clause without quoting legal text verbatim.",
+    "When the verdict is 'PASS', still provide a concise compliance rationale in the 'explanation' field — describe why the observed result meets AMLO or ERC-3643 expectations (e.g., control operates as designed, clause requirement satisfied, risk mitigated). Avoid simply restating data outputs.",
+    "Use plain, professional language that a non-technical HKMA/SFC VA Controller auditor can easily understand. Avoid jargon such as on-chain transaction traces, contract modifiers, or ABI structures unless critical to compliance interpretation.",
+    // "When writing the 'explanation' field, use clear, regulatory-oriented language suitable for non-technical HKMA/SFC auditors. Avoid technical implementation details unless essential to understanding risk. Focus on explaining the control weakness, regulatory intent, and supervisory implication in business terms (e.g., 'client asset segregation risk', 'licensing breach exposure', 'transaction traceability gap').",
+    "When the verdict is 'PASS', do not copy the evidence or runtime signal directly into the 'explanation'. Instead, interpret what that evidence means — explain why the observed control behavior satisfies the AMLO or ERC-3643 requirement (e.g., 'module correctly registered', 'verification mechanism triggered as expected', 'monitoring control executed successfully'). The explanation should describe compliance intent and assurance, not raw evidence.",
     "Respond strictly with JSON:{\"overall_assessment\":string,\"findings\":[{\"id\":string,\"title\":string,\"severity\":\"VERY_HIGH\"|\"HIGH\"|\"MEDIUM\",\"phase2_verdict\":string,\"verdict\":\"PASS\"|\"VERY_HIGH\"|\"HIGH\"|\"MEDIUM\",\"position\":\"SUPPORT\"|\"CHALLENGE\"|\"EXTEND\",\"explanation\":string,\"compliance_refs\":string[],\"evidence_paths\":string[],\"recommendation\":string}]}",
     "Keep tone professional and supervisory (HKMA/SFC)."
   ].join(" ");
 
   const body = {
     model,
-    temperature: 0.2,
+    // temperature: 0.2,
     response_format: { type: "json_object" },
     messages: [
       { role: "system", content: systemPrompt },
@@ -390,7 +436,7 @@ async function augment(inputPath, outputPath, textPath, root) {
     console.warn("[augment-llm] Skipping LLM: no on-chain data available.");
     llmResult = {
       model: null,
-      disabled: true,
+      disabled: false,
       reason: "LLM skipped: deterministic data only (no on-chain evidence).",
       overallAssessment: "LLM skipped: deterministic data only (no on-chain evidence).",
       findings: fallbackFindings(items),
@@ -430,7 +476,15 @@ async function augment(inputPath, outputPath, textPath, root) {
     }
   }
 
-  llmResult.findings = alignFindingsWithDeterministic(items, llmResult.findings);
+  const llmAvailable = !llmResult.disabled && !llmResult.error;
+  const harmonizedFindings = canonicalizeFindingIds(llmResult.findings, items);
+  const alignedFindings = alignFindingsWithDeterministic(items, harmonizedFindings);
+
+  if (llmAvailable) {
+    llmResult.findings = alignedFindings;
+  } else {
+    llmResult.findings = alignFindingsWithDeterministic(items, fallbackFindings(items));
+  }
 
   const generatedAt = new Date().toISOString();
   obj.llm = {

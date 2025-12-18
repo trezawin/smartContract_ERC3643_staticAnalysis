@@ -1,0 +1,214 @@
+{
+  "prompt_instructions": [
+    "Recommendations should be specific and testable (update contract logic, wire controls, add events/monitoring, add regression tests, operational run-books).",
+    "When relevant, include a brief validation plan describing what unit/integration tests to add."
+  ],
+  "results": [
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-AMLO-CDD",
+      "recommendation": "Implement and enforce identity gating logic to restrict transfers exclusively to verified customer addresses. Update contract logic or compliance modules to make transfer operations conditional on successful CDD verification before execution, and retain logs evidencing these checks to meet audit readiness.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.5,
+          "reason": "The score is 0.50 because the output addresses the recommendation guidance but fails to include the required brief validation plan with unit/integration tests, which limits its completeness and alignment with the prompt instructions."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-AMLO-RecordKeeping",
+      "recommendation": "Integrate a fully operational identityStorage contract address into the compliance architecture. Ensure customer identity data and activity are recorded immutably and accessible for supervisory inspections and AML compliance audits.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output fails to provide specific, testable actions or a validation plan as required by the prompt. However, it is at 0.00 rather than negative because it does offer a general recommendation related to compliance architecture."
+        },
+        "faithfulness": {
+          "score": 0.3333333333333333,
+          "reason": "The score is 0.33 because the actual output incorrectly claims that customer identity data and activity are recorded immutably and accessible for audits, whereas the context clearly states that without functional identity storage, there is no traceable evidence or access for supervisory inspections and AML compliance audits."
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-REGISTER",
+      "recommendation": "Deploy and integrate an identity storage contract to maintain a tamper-resistant register of licensed persons. Configure trusted issuers list to validate claims and record contract compliance to establish and demonstrate licensing status on-chain.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output provides a general recommendation without specific, testable actions or a validation plan, which are required by the prompt. However, it still aligns with the general topic of recommendation guidance, just lacking the detailed steps and testing instructions."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-I",
+      "recommendation": "Deploy the identity storage contract to anchor and expose verified business and entity data on-chain for supervisory verification and licensing traceability.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output is vague and lacks specific, testable recommendations, including missing details on contract updates, controls, events, tests, and operational procedures, as well as no validation plan or testing descriptions."
+        },
+        "faithfulness": {
+          "score": 0.5,
+          "reason": "The score is 0.50 because the actual output incorrectly claims that the identity storage contract is deployed to anchor and expose verified data, while the context clearly states that the contract is unavailable, preventing anchoring of essential identity information."
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-II",
+      "recommendation": "Maintain and regularly update the claim topics registry to reflect current license conditions and effective periods to preserve auditability.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output fails to address key prompt instructions such as specifying updates to contract logic, wiring controls, adding events or monitoring, regression tests, and operational run-books, as well as lacking a validation plan. However, it does provide a general recommendation on maintaining the claim topics registry, which aligns somewhat with the input."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-III",
+      "recommendation": "Implement trusted issuer mechanisms and update the compliance contract to ensure all licensed entities have a verifiable on-chain identity claim linked to central operator information.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output lacks the required testable actions and a validation plan, which are explicitly requested in the prompt. However, it does provide a specific recommendation, preventing a lower score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-IV",
+      "recommendation": "Enable and emit on-chain events capturing license grant timestamps and subsequent changes to maintain auditable license histories.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output only partially addresses the recommendation by suggesting on-chain events but fails to cover other explicit instructions like updating contract logic, wiring controls, adding regression tests, operational run-books, and a validation plan, which are all required."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context. Great job maintaining accuracy!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-V",
+      "recommendation": "Develop and integrate compliance modules that encode and enforce the licensed VA service scopes and their effective dates on-chain.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output is vague and lacks specific, testable recommendations or a validation plan, failing to address key prompt instructions. It cannot be higher as it misses critical details required for alignment."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-VI",
+      "recommendation": "Implement address freezing functionality to enable on-chain suspension enforcement and integrate frozen status checks into transaction authorization workflows.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output lacks the required testable actions and a validation plan, which are explicitly requested. However, it does provide a specific recommendation, preventing a lower score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2C",
+      "recommendation": "Configure trusted issuers and expand claim topics to represent and verify relationships between representatives and principals on-chain.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output is vague and lacks specific, testable recommendations or a validation plan, failing to address key prompt instructions such as updating contract logic and adding tests."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRK-5E",
+      "recommendation": "Design and deploy modular compliance components specifically addressing client asset safeguarding, with rigorous enforcement on transaction flows.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output is vague and lacks specific, testable recommendations such as updating contract logic, wiring controls, adding events/monitoring, regression tests, or operational run-books, and it also omits a validation plan for unit or integration tests. However, it does address compliance components, which aligns somewhat with the input guidance."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context. Great job maintaining accuracy!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-AMLO-S6",
+      "recommendation": "Establish a functional identity registry and real-time recording mechanisms for all customer identities and transactional events, ensuring supervised continual monitoring.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output fails to address key prompt instructions such as updating contract logic, adding specific controls and events, and providing a validation plan, making it vague and untestable. However, it does mention establishing identity registries and monitoring, which aligns somewhat with the recommendation guidance."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context. Great job maintaining accuracy!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-AMLO-13A-ROLE",
+      "recommendation": "Implement modular compliance with role gating to restrict virtual asset transfers only to authorized roles and verified identities, with on-chain enforcement and logging.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output is vague and lacks specific, testable actions and a validation plan as required by the prompt, preventing any alignment despite addressing the general topic."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions; the actual output fully aligns with the retrieval context, demonstrating complete faithfulness."
+        }
+      }
+    }
+  ],
+  "per_metric_average": {
+    "prompt_alignment": 0.038461538461538464,
+    "faithfulness": 0.9102564102564101
+  },
+  "per_metric_counts": {
+    "prompt_alignment": 13,
+    "faithfulness": 13
+  },
+  "test_count": 13,
+  "errors": [],
+  "note": null
+}

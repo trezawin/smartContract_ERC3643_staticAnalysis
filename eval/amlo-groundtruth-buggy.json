@@ -1,17 +1,228 @@
 {
   "rules": [
-    { "id": "R-HKMA-AMLO-CDD", "status": "Fail" },
-    { "id": "R-HKMA-AMLO-RecordKeeping", "status": "Fail" },
-    { "id": "R-HKMA-53ZRH-REGISTER", "status": "Fail" },
-    { "id": "R-HKMA-53ZRH-2A-I", "status": "Fail" },
-    { "id": "R-HKMA-53ZRH-2A-II", "status": "Fail" },
-    { "id": "R-HKMA-53ZRH-2A-III", "status": "Fail" },
-    { "id": "R-HKMA-53ZRH-2A-IV", "status": "Fail" },
-    { "id": "R-HKMA-53ZRH-2A-V", "status": "Fail" },
-    { "id": "R-HKMA-53ZRH-2A-VI", "status": "Fail" },
-    { "id": "R-HKMA-53ZRH-2C", "status": "Fail" },
-    { "id": "R-HKMA-53ZRK-5E", "status": "Fail" },
-    { "id": "R-HKMA-AMLO-S6", "status": "Fail" },
-    { "id": "R-HKMA-AMLO-13A-ROLE", "status": "Fail" }
+    {
+      "id": "R-HKMA-53ZRH-REGISTER-1",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-REGISTER-2",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-REGISTER-3",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-REGISTER-4",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-REGISTER-5",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-REGISTER-6",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-REGISTER-7",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-53ZRH-REGISTER-8",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-I-1",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-I-2",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-I-3",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-I-4",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-II-1",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-II-2",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-II-3",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-II-4",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-II-5",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-III-1",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-III-2",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-III-3",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-IV-1",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-IV-2",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-IV-3",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-V-1",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-V-2",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-V-3",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-V-4",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-V-5",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-V-6",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-VI-1",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-VI-2",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-VI-3",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-VI-4",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-VI-5",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-VI-6",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2A-VI-7",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2C-1",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2C-2",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2C-3",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2C-4",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-53ZRH-2C-5",
+      "status": "Pass"
+    },
+    {
+      "id": "R-HKMA-53ZRK-5E-1",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRK-5E-2",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRK-5E-3",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRK-5E-4",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-53ZRK-5E-5",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-AMLO-S6-1",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-AMLO-S6-2",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-AMLO-S6-3",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-AMLO-S6-4",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-AMLO-S6-5",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-AMLO-13A-ROLE-1",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-AMLO-13A-ROLE-2",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-AMLO-13A-ROLE-3",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-AMLO-13A-ROLE-4",
+      "status": "Fail"
+    },
+    {
+      "id": "R-HKMA-AMLO-13A-ROLE-5",
+      "status": "Pass"
+    }
   ]
 }

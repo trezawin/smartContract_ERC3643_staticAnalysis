@@ -1,0 +1,366 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif; color:#111827; margin:24px; }
+  h1 { font-size:24px; margin:0 0 4px 0; }
+  .sub { color:#6B7280; font-size:13px; }
+</style>
+</head>
+<body>
+  <h1>ERC-3643 Compliance Report</h1>
+  <div class="sub">
+    Generated: 2025-10-30T17:32:14.671Z — Deterministic checks + LLM reasoning
+  </div>
+
+  
+<div style="margin:16px 0">
+  <div style="font-weight:700;margin-bottom:6px">Inputs</div>
+  <div style="font-size:13px;color:#374151">
+    <div>Addresses file: <code>/Users/treza/Documents/staticAnalysis/.cre.addresses.json</code></div>
+    <div>Rules: <code>cre/rules/rule.AMLO.json</code></div>
+    <div>ABI artifacts: <code>Token: ERC-3643-Implementation/artifacts/contracts/token/Token.sol/Token.json</code>, <code>IdentityRegistry: ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistry.sol/IdentityRegistry.json</code>, <code>ClaimTopicsRegistry: ERC-3643-Implementation/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json</code>, <code>TrustedIssuersRegistry: ERC-3643-Implementation/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json</code>, <code>Compliance: ERC-3643-Implementation/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json</code>, <code>IdentityRegistryStorage: ERC-3643-Implementation/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json</code></div>
+  </div>
+  <ul style="margin-top:8px">
+    <li>cre/rules/rule.AMLO.json</li>
+  </ul>
+  <details style="margin-top:10px;font-size:13px"><summary style="cursor:pointer">Resolved addresses</summary>
+    <ul style="margin-top:8px"><li><code>networkRpc</code> → <code>http://127.0.0.1:8545</code></li><li><code>token</code> → <code>0x5FC8d32690cc91D4c39d9d3abcBD16989F875707</code></li><li><code>identityRegistry</code> → <code>0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9</code></li><li><code>claimTopicsRegistry</code> → <code>0x5FbDB2315678afecb367f032d93F642f64180aa3</code></li><li><code>trustedIssuersRegistry</code> → <code>0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512</code></li><li><code>compliance</code> → <code>0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9</code></li></ul>
+  </details>
+</div>
+
+
+  <div style="font-weight:700;margin:16px 0 4px 0">Summary of distribution</div>
+  <table style="border-collapse:collapse;font-size:13px;margin:12px 0;width:100%;max-width:640px">
+    <thead>
+      <tr style="text-align:left">
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#F3F4F6">Review date</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#10B981;color:#FFFFFF">Pass</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#FACC15;color:#111827">Medium</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#F97316;color:#111827">High</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#B91C1C;color:#FFFFFF">Very High</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB;background:#374151;color:#FFFFFF">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">2025-10-30</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">10</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">0</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">1</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">0</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">11</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<div style="margin:24px 0">
+  <div style="font-weight:700;margin-bottom:8px">Assessed rules</div>
+  <table style="border-collapse:collapse;font-size:13px;width:100%">
+    <thead>
+      <tr style="background:#F3F4F6;text-align:left">
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">#</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Rule title</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Rule description</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Ordinance</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Severity</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Explanation</th>
+        <th style="padding:8px 12px;border:1px solid #E5E7EB">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">1</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Maintain on-chain register of licensed persons</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity stack must support onboarding, updates, and offboarding of licensed persons with claim-based governance hooks.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(1)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The system exposes the identityRegistry() function on the token, indicating an intended on-chain register of licensed persons; however, it lacks the critical updateIdentity(address,address,uint16[]) function necessary to record or modify licensing entries on-chain. This violates the statutory requirement under SFO Cap.571 §53ZRH(1) to maintain an accurate and up-to-date register of licensed persons. Absence of the update function undermines supervisory control objectives by weakening the audit trail for licensing status changes and impeding ongoing licensing compliance verification, increasing regulatory and reputational risk.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#374151">Failed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">2</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Anchor name and business address data</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity records must support anchoring of name and business address metadata with auditable storage events.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(i)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The identity registry contract supports identityStorage() and emits IdentityStored, IdentityModified, and IdentityUnstored events, fulfilling the requirement under SFO Cap.571 §53ZRH(2)(a)(i) to anchor key identification data such as names and business addresses on-chain. This ensures immutability and traceability of entity identity data, supporting client due diligence and ongoing record integrity.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">3</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Record licence conditions with effective dates</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence conditions must be represented as claim topics that can be versioned on-chain.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(ii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The contract provides mechanisms to add, remove, and retrieve claim topics via addClaimTopic(uint256), removeClaimTopic(uint256), and getClaimTopics(), with associated ClaimTopicAdded and ClaimTopicRemoved events. This capability aligns with SFO Cap.571 §53ZRH(2)(a)(ii), enabling recording of license conditions and their effective dates on-chain for transparent license management.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">4</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identification claim</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Central entity identifiers must be retrievable via identity resolution and enforced through claims.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iii)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Presence of functions such as idr.identity(address), compliance.canTransfer(address,address,uint256), and tir.isTrustedIssuer(address) confirms support for central entity identification claims and transfer approvals as required by SFO Cap.571 §53ZRH(2)(a)(iii). These capabilities enforce identity linkage and authorized transfer control supporting market integrity and regulatory governance.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">5</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Capture licence grant timestamp</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Licence issuance must be observable on-chain with timestamped events for audit trail.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(iv)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The system emits IdentityRegistered, IdentityUpdated, and IdentityRemoved events, meeting SFO Cap.571 §53ZRH(2)(a)(iv) requirements to record timestamps for license grants and changes on-chain. This supports regulatory needs for traceability and temporal accuracy of license status.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">6</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Encode VA service scope and effective date</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The compliance module must expose modular hooks to reflect permitted service scope with activation controls.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(v)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The compliance module offers bindToken(address), addModule(address), removeModule(address), and getModules() functions, alongside ModuleAdded and ModuleRemoved events, satisfying SFO Cap.571 §53ZRH(2)(a)(v) for encoding the virtual asset service scope and effective dates on-chain. This modular compliance design allows dynamic management of service boundaries and associated licenses.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">7</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Represent suspension status on-chain</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Contracts must provide freeze and unfreeze primitives so suspended licences can be enforced immediately.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(a)(vi)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The token exposes setAddressFrozen(address,bool), freezePartialTokens(address,uint256), unfreezePartialTokens(address,uint256), and isFrozen(address) alongside AddressFrozen, TokensFrozen, and TokensUnfrozen events, fulfilling SFO Cap.571 §53ZRH(2)(a)(vi) requirements to represent suspension status on-chain. This control prevents suspended entities from transacting, preserving market integrity and client asset protection.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">8</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Representative principal linkage</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Trusted issuer governance must map representatives to principals with role assignments and accreditation dates.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRH(2)(c)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Functions updateIssuerClaimTopics(address,uint256[]), getTrustedIssuers(), getClaimTopics(), and events TrustedIssuerAdded and TrustedIssuerRemoved demonstrate the system's capacity to link representative principals per SFO Cap.571 §53ZRH(2)(c). This supports governance by managing trusted issuer relationships that underpin compliance claims and due diligence.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">9</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Client asset safeguards via modular compliance</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Compliance engine must support modular custody controls for client assets, including emergency and multi-module orchestration.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">SFO (Cap.571) §53ZRK(5)(e)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The compliance contract includes addModule(address), removeModule(address), callModuleFunction(bytes,address), and unbindToken(address) methods with ModuleInteraction events, meeting SFO Cap.571 §53ZRK(5)(e) standards for strong client asset safeguards through modular compliance frameworks. This design ensures modular and enforceable controls over asset transfers and usage, protecting client assets effectively.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">10</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ongoing record of customer identity and activity</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Identity evidence and transactional metadata must remain queryable for historical monitoring.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §6</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#B91C1C">Very High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The presence of idr.isVerified(address), idr.identity(address), compliance.transferred(address,address,uint256) functions, and Transfer plus ModuleInteraction events demonstrates continuous recording of customer identity and transactional activity consistent with AMLO Schedule 2 §6 requirements. This ensures robust client due diligence and transaction monitoring capabilities to detect and prevent illicit activities.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+
+      <tr>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">11</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Virtual asset transfer role gating</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">Ordering, beneficiary, and intermediary roles must be enforced through identity and compliance hooks before transfers execute.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">AMLO Schedule 2 §13A(1)</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#F97316">High</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB">The system integrates the token.compliance() function, a non-zero compliance contract address, and functions compliance.canTransfer(address,address,uint256), idr.isVerified(address), and tir.isTrustedIssuer(address), fulfilling the role gating and transfer authorization demands under AMLO Schedule 2 §13A(1). This ensures only verified and authorized entities can transact, thereby reducing fraud and money laundering risks.</td>
+        <td style="padding:8px 12px;border:1px solid #E5E7EB;color:#10B981">Passed</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+  
+<div style="margin:16px 0;font-size:13px;color:#4B5563">
+  Additional artifacts: <code>reports/amlo-boulder.txt</code>
+</div>
+  <!-- Per-Rulebook Execution intentionally hidden -->
+  
+<h2 style="margin:28px 0 12px 0;font-size:20px;border-bottom:1px solid #E5E7EB;padding-bottom:6px">LLM Compliance Assessment</h2>
+<div style="font-size:12px;color:#6B7280">Model: gpt-4.1-mini-2025-04-14</div>
+
+<div style="margin:12px 0;font-size:14px;line-height:1.6"><strong>Summary:</strong> The system demonstrates strong adherence to ERC-3643 and HKMA/SFC regulatory requirements, with effective virtual asset controls and client safeguards implemented. One significant high-severity gap exists in the maintenance of the on-chain register of licensed persons, requiring prompt remediation to fully comply with licensing record-keeping mandates.</div>
+
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#F97316">High</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#F97316">1. Maintain on-chain register of licensed persons</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #B91C1C;color:#B91C1C;background:#FFFFFF">Fail</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The system exposes the identityRegistry() function on the token, indicating an intended on-chain register of licensed persons; however, it lacks the critical updateIdentity(address,address,uint16[]) function necessary to record or modify licensing entries on-chain. This violates the statutory requirement under SFO Cap.571 §53ZRH(1) to maintain an accurate and up-to-date register of licensed persons. Absence of the update function undermines supervisory control objectives by weakening the audit trail for licensing status changes and impeding ongoing licensing compliance verification, increasing regulatory and reputational risk.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(1)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>ABI has token.identityRegistry(): true</code></li><li><code>ABI lacks idr.updateIdentity(address,address,uint16[]): false</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Implement and deploy the idr.updateIdentity(address,address,uint16[]) function within the identity registry contract to enable on-chain creation and updates of licensed person records. Maintain detailed event logs for all identity modifications to support auditability and compliance verification. This remediation will ensure full compliance with licensing record requirements, enhance transparency, and support supervisory oversight.</div>
+    </div></div>
+      </div>
+
+      <div style="margin-top:16px">
+        <h3 style="margin:12px 0 8px 0;font-size:18px;color:#10B981">Medium Findings</h3>
+        <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">2. Anchor name and business address data</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The identity registry contract supports identityStorage() and emits IdentityStored, IdentityModified, and IdentityUnstored events, fulfilling the requirement under SFO Cap.571 §53ZRH(2)(a)(i) to anchor key identification data such as names and business addresses on-chain. This ensures immutability and traceability of entity identity data, supporting client due diligence and ongoing record integrity.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(i)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>idr.identityStorage(): true</code></li><li><code>Event irs.IdentityStored present: true</code></li><li><code>Event irs.IdentityModified present: true</code></li><li><code>Event irs.IdentityUnstored present: true</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Continue monitoring event emission and data anchoring functionality to preserve data integrity and audit readiness.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">3. Record licence conditions with effective dates</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The contract provides mechanisms to add, remove, and retrieve claim topics via addClaimTopic(uint256), removeClaimTopic(uint256), and getClaimTopics(), with associated ClaimTopicAdded and ClaimTopicRemoved events. This capability aligns with SFO Cap.571 §53ZRH(2)(a)(ii), enabling recording of license conditions and their effective dates on-chain for transparent license management.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(ii)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>ctr.addClaimTopic(uint256): true</code></li><li><code>ctr.removeClaimTopic(uint256): true</code></li><li><code>ctr.getClaimTopics(): true</code></li><li><code>Event ctr.ClaimTopicAdded present: true</code></li><li><code>Event ctr.ClaimTopicRemoved present: true</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Maintain controls and logging around claim topics to support supervision of license condition changes.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">4. Central entity identification claim</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Presence of functions such as idr.identity(address), compliance.canTransfer(address,address,uint256), and tir.isTrustedIssuer(address) confirms support for central entity identification claims and transfer approvals as required by SFO Cap.571 §53ZRH(2)(a)(iii). These capabilities enforce identity linkage and authorized transfer control supporting market integrity and regulatory governance.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(iii)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>idr.identity(address): true</code></li><li><code>compliance.canTransfer(address,address,uint256): true</code></li><li><code>tir.isTrustedIssuer(address): true</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Continue to exercise identity verification and transfer gating to mitigate unauthorized activity risk.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">5. Capture licence grant timestamp</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The system emits IdentityRegistered, IdentityUpdated, and IdentityRemoved events, meeting SFO Cap.571 §53ZRH(2)(a)(iv) requirements to record timestamps for license grants and changes on-chain. This supports regulatory needs for traceability and temporal accuracy of license status.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(iv)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>Event idr.IdentityRegistered present: true</code></li><li><code>Event idr.IdentityUpdated present: true</code></li><li><code>Event idr.IdentityRemoved present: true</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Ensure event emission remains consistent and tamper-proof for audit evidence.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">6. Encode VA service scope and effective date</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The compliance module offers bindToken(address), addModule(address), removeModule(address), and getModules() functions, alongside ModuleAdded and ModuleRemoved events, satisfying SFO Cap.571 §53ZRH(2)(a)(v) for encoding the virtual asset service scope and effective dates on-chain. This modular compliance design allows dynamic management of service boundaries and associated licenses.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(v)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>compliance.bindToken(address): true</code></li><li><code>compliance.addModule(address): true</code></li><li><code>compliance.removeModule(address): true</code></li><li><code>compliance.getModules(): true</code></li><li><code>Event compliance.ModuleAdded present: true</code></li><li><code>Event compliance.ModuleRemoved present: true</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Adequately document scope changes and ensure event logs for supervisory traceability.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">7. Represent suspension status on-chain</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The token exposes setAddressFrozen(address,bool), freezePartialTokens(address,uint256), unfreezePartialTokens(address,uint256), and isFrozen(address) alongside AddressFrozen, TokensFrozen, and TokensUnfrozen events, fulfilling SFO Cap.571 §53ZRH(2)(a)(vi) requirements to represent suspension status on-chain. This control prevents suspended entities from transacting, preserving market integrity and client asset protection.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(a)(vi)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>token.setAddressFrozen(address,bool): true</code></li><li><code>token.freezePartialTokens(address,uint256): true</code></li><li><code>token.unfreezePartialTokens(address,uint256): true</code></li><li><code>token.isFrozen(address): true</code></li><li><code>Event token.AddressFrozen present: true</code></li><li><code>Event token.TokensFrozen present: true</code></li><li><code>Event token.TokensUnfrozen present: true</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Maintain robust governance to trigger and record suspension statuses timely.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">8. Representative principal linkage</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">Functions updateIssuerClaimTopics(address,uint256[]), getTrustedIssuers(), getClaimTopics(), and events TrustedIssuerAdded and TrustedIssuerRemoved demonstrate the system's capacity to link representative principals per SFO Cap.571 §53ZRH(2)(c). This supports governance by managing trusted issuer relationships that underpin compliance claims and due diligence.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRH(2)(c)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>tir.updateIssuerClaimTopics(address,uint256[]): true</code></li><li><code>tir.getTrustedIssuers(): true</code></li><li><code>ctr.getClaimTopics(): true</code></li><li><code>Event tir.TrustedIssuerAdded present: true</code></li><li><code>Event tir.TrustedIssuerRemoved present: true</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Sustain controls over trusted issuer updates and maintain event logs for oversight.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">9. Client asset safeguards via modular compliance</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The compliance contract includes addModule(address), removeModule(address), callModuleFunction(bytes,address), and unbindToken(address) methods with ModuleInteraction events, meeting SFO Cap.571 §53ZRK(5)(e) standards for strong client asset safeguards through modular compliance frameworks. This design ensures modular and enforceable controls over asset transfers and usage, protecting client assets effectively.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> SFO (Cap.571) §53ZRK(5)(e)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>compliance.addModule(address): true</code></li><li><code>compliance.removeModule(address): true</code></li><li><code>compliance.callModuleFunction(bytes,address): true</code></li><li><code>compliance.unbindToken(address): true</code></li><li><code>Event compliance.ModuleInteraction present: true</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Maintain strict access management and monitoring for module interactions to prevent unauthorized asset movements.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">10. Ongoing record of customer identity and activity</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The presence of idr.isVerified(address), idr.identity(address), compliance.transferred(address,address,uint256) functions, and Transfer plus ModuleInteraction events demonstrates continuous recording of customer identity and transactional activity consistent with AMLO Schedule 2 §6 requirements. This ensures robust client due diligence and transaction monitoring capabilities to detect and prevent illicit activities.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO Schedule 2 §6</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>idr.isVerified(address): true</code></li><li><code>idr.identity(address): true</code></li><li><code>compliance.transferred(address,address,uint256): true</code></li><li><code>Event token.Transfer present: true</code></li><li><code>Event compliance.ModuleInteraction present: true</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Ensure event logs are securely stored and reviewed regularly to maintain ongoing monitoring effectiveness.</div>
+    </div>
+
+    <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#F9FAFB">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+        <div style="font-size:16px;font-weight:600;color:#10B981">11. Virtual asset transfer role gating</div>
+        <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid #10B981;color:#10B981;background:#FFFFFF">Pass</span>
+      </div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:10px">The system integrates the token.compliance() function, a non-zero compliance contract address, and functions compliance.canTransfer(address,address,uint256), idr.isVerified(address), and tir.isTrustedIssuer(address), fulfilling the role gating and transfer authorization demands under AMLO Schedule 2 §13A(1). This ensures only verified and authorized entities can transact, thereby reducing fraud and money laundering risks.</div>
+      <div style="font-size:13px;margin-bottom:6px"><strong>Compliance Ref:</strong> AMLO Schedule 2 §13A(1)</div>
+      
+      <div style="font-size:13px;margin-bottom:6px"><strong>Evidence Paths:</strong>
+        <ul style="margin:6px 0 0 16px"><li><code>token.compliance(): true</code></li><li><code>nonzero compliance contract address</code></li><li><code>compliance.canTransfer(address,address,uint256): true</code></li><li><code>idr.isVerified(address): true</code></li><li><code>tir.isTrustedIssuer(address): true</code></li></ul>
+      </div>
+      <div style="font-size:13px"><strong>Recommendation:</strong> Continue enforcement of role gating during transfers and conduct periodic reviews of role validation logic.</div>
+    </div></div>
+      </div>
+
+  <div style="margin-top:28px;color:#6B7280;font-size:12px">
+    Evidence combines deterministic probes (Hardhat fallback when available) and policy-grounded LLM analysis.
+  </div>
+</body>
+</html>

@@ -160,9 +160,19 @@ function createRuleEngine({ operations } = {}) {
       if (spec.check) {
         pass = execNode(spec.check);
       } else if (Array.isArray(spec.allOf)) {
-        pass = spec.allOf.every(execNode);
+        let overall = true;
+        for (const node of spec.allOf) {
+          const result = execNode(node);
+          if (!result) overall = false;
+        }
+        pass = overall;
       } else if (Array.isArray(spec.anyOf)) {
-        pass = spec.anyOf.some(execNode);
+        let matched = false;
+        for (const node of spec.anyOf) {
+          const result = execNode(node);
+          if (result) matched = true;
+        }
+        pass = matched;
       } else {
         return null;
       }

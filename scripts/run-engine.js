@@ -93,7 +93,30 @@ const ZERO = ZERO_ADDRESS.toLowerCase();
 let BENEFICIAL_OWNER_TOPIC = Number(process.env.BENEFICIAL_OWNER_TOPIC || "2001");
 
 function loadJson(p) {
-  return JSON.parse(fs.readFileSync(p, "utf8"));
+  let raw = fs.readFileSync(p, "utf8");
+  // Remove any non-JSON prefix before the first { or [
+  const firstBrace = raw.indexOf("{");
+  const firstBracket = raw.indexOf("[");
+  const startIdx = (firstBrace === -1)
+    ? firstBracket
+    : (firstBracket === -1 ? firstBrace : Math.min(firstBrace, firstBracket));
+  if (startIdx > 0) raw = raw.slice(startIdx);
+
+  // Remove any trailing content after the final } or ]
+  const lastBrace = raw.lastIndexOf("}");
+  const lastBracket = raw.lastIndexOf("]");
+  const endIdx = Math.max(lastBrace, lastBracket);
+  if (endIdx > 0 && endIdx < raw.length - 1) {
+    raw = raw.slice(0, endIdx + 1);
+  }
+
+  try {
+    return JSON.parse(raw.trim());
+  } catch (e) {
+    console.error(`Failed to parse JSON file ${p}: ${e.message}`);
+    console.error("Preview of raw data around error:\n", raw.slice(0, 200));
+    throw e;
+  }
 }
 function ensureDir(p) { fs.mkdirSync(p, { recursive: true }); }
 function tryLoadJson(p) {
@@ -327,10 +350,14 @@ const ComplianceABI = [
   "function getModules() view returns (address[])"
 ];
 const TrustedIssuersRegistryABI = [
-  "function owner() view returns (address)"
+  "function owner() view returns (address)",
+  "function getTrustedIssuers() view returns (address[])",
+  "function getTrustedIssuersForClaimTopic(uint256) view returns (address[])",
+  "function isTrustedIssuer(address) view returns (bool)"
 ];
 const IdentityRegistryStorageABI = [
-  "function owner() view returns (address)"
+  "function owner() view returns (address)",
+  "function linkedIdentityRegistries() view returns (address[])"
 ];
 
 const ComplianceAdminABI = [
@@ -476,7 +503,18 @@ async function runRuntimeProbes(context, cfg, data, rules) {
   const needsJurisdiction = ruleIds.has("R-HKMA-AMLO-INVESTORJURISDICTION");
   const needsDualControl = ruleIds.has("R-HKMA-AMLO-DUALCONTROL");
   const needsFreeze = ruleIds.has("R-HKMA-AMLO-FREEZEUNFREEZE");
-  const needsOwnership = ruleIds.has("R-HKMA-AMLO-OWNERSHIPCONTROL");
+  // const needsOwnership = ruleIds.has("R-HKMA-AMLO-OWNERSHIPCONTROL");
+  // const needs53ZrhRegister = ruleIds.has("R-HKMA-53ZRH-REGISTER");
+  // const needs53Zrh2aI = ruleIds.has("R-HKMA-53ZRH-2A-I");
+  // const needs53Zrh2aII = ruleIds.has("R-HKMA-53ZRH-2A-II");
+  // const needs53Zrh2aIII = ruleIds.has("R-HKMA-53ZRH-2A-III");
+  // const needs53Zrh2aIV = ruleIds.has("R-HKMA-53ZRH-2A-IV");
+  // const needs53Zrh2aV = ruleIds.has("R-HKMA-53ZRH-2A-V");
+  // const needs53Zrh2aVI = ruleIds.has("R-HKMA-53ZRH-2A-VI");
+  // const needs53Zrh2c = ruleIds.has("R-HKMA-53ZRH-2C");
+  // const needs53Zrk5e = ruleIds.has("R-HKMA-53ZRK-5E");
+  // const needsAmloS6 = ruleIds.has("R-HKMA-AMLO-S6");
+  // const needsAmloRole = ruleIds.has("R-HKMA-AMLO-13A-ROLE");
 
   const ensureProbe = (id) => {
     if (!probes[id]) probes[id] = { ran: false, pass: null, evidence: "skipped (no runtime)" };
@@ -497,6 +535,28 @@ async function runRuntimeProbes(context, cfg, data, rules) {
   if (needsDualControl) ensureProbe(dualControlKey);
   if (needsFreeze) ensureProbe(freezeKey);
   if (needsOwnership) ensureProbe(ruleIdMap.get("R-HKMA-AMLO-OWNERSHIPCONTROL") || "R-HKMA-AMLO-OWNERSHIPCONTROL");
+  const registerKey = ruleIdMap.get("R-HKMA-53ZRH-REGISTER") || "R-HKMA-53ZRH-REGISTER";
+  const rule2aIKey = ruleIdMap.get("R-HKMA-53ZRH-2A-I") || "R-HKMA-53ZRH-2A-I";
+  const rule2aIIKey = ruleIdMap.get("R-HKMA-53ZRH-2A-II") || "R-HKMA-53ZRH-2A-II";
+  const rule2aIIIKey = ruleIdMap.get("R-HKMA-53ZRH-2A-III") || "R-HKMA-53ZRH-2A-III";
+  const rule2aIVKey = ruleIdMap.get("R-HKMA-53ZRH-2A-IV") || "R-HKMA-53ZRH-2A-IV";
+  const rule2aVKey = ruleIdMap.get("R-HKMA-53ZRH-2A-V") || "R-HKMA-53ZRH-2A-V";
+  const rule2aVIKey = ruleIdMap.get("R-HKMA-53ZRH-2A-VI") || "R-HKMA-53ZRH-2A-VI";
+  const rule2cKey = ruleIdMap.get("R-HKMA-53ZRH-2C") || "R-HKMA-53ZRH-2C";
+  const rule53Zrk5eKey = ruleIdMap.get("R-HKMA-53ZRK-5E") || "R-HKMA-53ZRK-5E";
+  const amloS6Key = ruleIdMap.get("R-HKMA-AMLO-S6") || "R-HKMA-AMLO-S6";
+  const amloRoleKey = ruleIdMap.get("R-HKMA-AMLO-13A-ROLE") || "R-HKMA-AMLO-13A-ROLE";
+  if (needs53ZrhRegister) ensureProbe(registerKey);
+  if (needs53Zrh2aI) ensureProbe(rule2aIKey);
+  if (needs53Zrh2aII) ensureProbe(rule2aIIKey);
+  if (needs53Zrh2aIII) ensureProbe(rule2aIIIKey);
+  if (needs53Zrh2aIV) ensureProbe(rule2aIVKey);
+  if (needs53Zrh2aV) ensureProbe(rule2aVKey);
+  if (needs53Zrh2aVI) ensureProbe(rule2aVIKey);
+  if (needs53Zrh2c) ensureProbe(rule2cKey);
+  if (needs53Zrk5e) ensureProbe(rule53Zrk5eKey);
+  if (needsAmloS6) ensureProbe(amloS6Key);
+  if (needsAmloRole) ensureProbe(amloRoleKey);
 
   if (!context || context.mode !== "hardhat") {
     return probes;
@@ -510,11 +570,11 @@ async function runRuntimeProbes(context, cfg, data, rules) {
   const hasCompliance = complianceAddr !== ZERO;
   const compliance = hasCompliance ? new Contract(complianceAddr, ComplianceABI, signer) : null;
   const claimTopicsRegistryAddr = cfg.claimTopicsRegistry ? normalizeAddress(cfg.claimTopicsRegistry) : ZERO;
-  const claimTopicsRegistry = (needsOwnership || needsAmloCdd || needsOngoing) && claimTopicsRegistryAddr !== ZERO
+  const claimTopicsRegistry = (needsOwnership || needsAmloCdd || needsOngoing || needs53ZrhRegister || needs53Zrh2aII || needs53Zrh2c || needsAmloRole) && claimTopicsRegistryAddr !== ZERO
     ? new Contract(cfg.claimTopicsRegistry, ClaimTopicsRegistryABI, signer)
     : null;
   const trustedIssuersRegistryAddr = cfg.trustedIssuersRegistry ? normalizeAddress(cfg.trustedIssuersRegistry) : ZERO;
-  const trustedIssuersRegistry = (needsOwnership || needsAmloCdd) && trustedIssuersRegistryAddr !== ZERO
+  const trustedIssuersRegistry = (needsOwnership || needsAmloCdd || needs53ZrhRegister || needs53Zrh2aIII || needs53Zrh2c || needsAmloRole) && trustedIssuersRegistryAddr !== ZERO
     ? new Contract(cfg.trustedIssuersRegistry, TrustedIssuersRegistryABI, signer)
     : null;
   const primaryAddress = await signer.getAddress();
@@ -537,9 +597,245 @@ async function runRuntimeProbes(context, cfg, data, rules) {
   }
   data.complianceModules = complianceModules;
 
-  const identityRegistry = (needsAmloRecord || needsAmloCdd || needsOngoing)
+  const identityRegistry = (needsAmloRecord || needsAmloCdd || needsOngoing || needs53ZrhRegister || needs53Zrh2aI || needs53Zrh2aIII || needs53Zrh2aIV)
     ? new Contract(cfg.identityRegistry, IdentityRegistryABI, signer)
     : null;
+  const identityStorageAddr = normalizeAddress(data.idrIdentityStorageAddr || cfg.identityRegistryStorage || ZERO);
+  const identityRegistryStorage = (needsAmloRecord || needs53Zrh2aI) && identityStorageAddr !== ZERO
+    ? new Contract(identityStorageAddr, IdentityRegistryStorageABI, signer)
+    : null;
+  const provider = context.provider || signer.provider;
+
+  if (needs53ZrhRegister) {
+    try {
+      const storageAddr = identityRegistry ? await identityRegistry.identityStorage().catch(() => ZERO) : ZERO;
+      const topics = claimTopicsRegistry ? await claimTopicsRegistry.getClaimTopics().catch(() => []) : [];
+      let issuers = [];
+      if (trustedIssuersRegistry) {
+        if (typeof trustedIssuersRegistry.getTrustedIssuers === "function") {
+          issuers = await trustedIssuersRegistry.getTrustedIssuers().catch(() => []);
+        } else if (typeof trustedIssuersRegistry.getTrustedIssuersForClaimTopic === "function" && Array.isArray(topics) && topics.length) {
+          issuers = await trustedIssuersRegistry.getTrustedIssuersForClaimTopic(topics[0]).catch(() => []);
+        }
+      }
+      const usableIssuers = Array.isArray(issuers) ? issuers.filter((addr) => normalizeAddress(addr) !== ZERO) : [];
+      const pass = storageAddr !== ZERO && Array.isArray(topics) && topics.length > 0 && usableIssuers.length > 0 && hasCompliance;
+      const evidenceParts = [];
+      evidenceParts.push(storageAddr !== ZERO ? `identityStorage=${storageAddr}` : "identityStorage() returned zero");
+      evidenceParts.push(Array.isArray(topics) ? `claimTopics=${topics.length}` : "claimTopics unreadable");
+      evidenceParts.push(usableIssuers.length > 0 ? `trustedIssuers=${usableIssuers.length}` : "trusted issuers list empty");
+      evidenceParts.push(hasCompliance ? `compliance=${complianceAddr}` : "compliance address missing");
+      probes[registerKey] = { ran: true, pass, evidence: evidenceParts.join("; ") };
+    } catch (e) {
+      probes[registerKey] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+    }
+  }
+
+  if (needs53Zrh2aI) {
+    try {
+      const storageAddr = identityRegistry ? await identityRegistry.identityStorage().catch(() => ZERO) : ZERO;
+      let linkedCount = 0;
+      if (identityRegistryStorage) {
+        const linked = await identityRegistryStorage.linkedIdentityRegistries().catch(() => []);
+        linkedCount = Array.isArray(linked) ? linked.filter((addr) => normalizeAddress(addr) !== ZERO).length : 0;
+      }
+      const pass = storageAddr !== ZERO && linkedCount > 0;
+      const evidenceParts = [];
+      evidenceParts.push(storageAddr !== ZERO ? `identityStorage=${storageAddr}` : "identityStorage() returned zero");
+      evidenceParts.push(identityRegistryStorage ? `linkedRegistries=${linkedCount}` : "identity storage contract unavailable");
+      probes[rule2aIKey] = { ran: true, pass, evidence: evidenceParts.join("; ") };
+    } catch (e) {
+      probes[rule2aIKey] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+    }
+  }
+
+  if (needs53Zrh2aII) {
+    try {
+      const topics = claimTopicsRegistry ? await claimTopicsRegistry.getClaimTopics().catch(() => []) : [];
+      const length = Array.isArray(topics) ? topics.length : 0;
+      const pass = length > 0;
+      const evidence = pass
+        ? `Claim topics registry returned ${length} topic(s).`
+        : "Claim topics registry returned an empty list.";
+      probes[rule2aIIKey] = { ran: true, pass, evidence };
+    } catch (e) {
+      probes[rule2aIIKey] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+    }
+  }
+
+  if (needs53Zrh2aIII) {
+    try {
+      const subject = normalizeAddress(data.tokenOwner || ZERO) !== ZERO ? data.tokenOwner : primaryAddress;
+      let identityAddr = ZERO;
+      if (identityRegistry) {
+        identityAddr = await identityRegistry.identity(subject).catch(() => ZERO);
+      }
+      let issuerOk = false;
+      if (trustedIssuersRegistry && typeof trustedIssuersRegistry.isTrustedIssuer === "function") {
+        let issuerList = [];
+        if (typeof trustedIssuersRegistry.getTrustedIssuers === "function") {
+          issuerList = await trustedIssuersRegistry.getTrustedIssuers().catch(() => []);
+        }
+        const candidate = Array.isArray(issuerList) ? issuerList.find((addr) => normalizeAddress(addr) !== ZERO) : null;
+        if (candidate) {
+          issuerOk = await trustedIssuersRegistry.isTrustedIssuer(candidate).catch(() => false);
+        } else {
+          issuerOk = await trustedIssuersRegistry.isTrustedIssuer(subject).catch(() => false);
+        }
+      }
+      const pass = identityAddr !== ZERO && hasCompliance && issuerOk;
+      const evidenceParts = [];
+      evidenceParts.push(identityAddr !== ZERO ? `identity(${subject})=${identityAddr}` : `identity(${subject}) returned zero`);
+      evidenceParts.push(hasCompliance ? `compliance=${complianceAddr}` : "compliance address missing");
+      evidenceParts.push(issuerOk ? "trusted issuer confirmed" : "no trusted issuer confirmation");
+      probes[rule2aIIIKey] = { ran: true, pass, evidence: evidenceParts.join("; ") };
+    } catch (e) {
+      probes[rule2aIIIKey] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+    }
+  }
+
+  if (needs53Zrh2aIV) {
+    try {
+      if (!provider) {
+        probes[rule2aIVKey] = { ran: true, pass: false, evidence: "provider unavailable for log scan." };
+      } else {
+        const checks = [
+          { name: "IdentityRegistered", topic: context.ethers.utils.id("IdentityRegistered(address,address)") },
+          { name: "IdentityUpdated", topic: context.ethers.utils.id("IdentityUpdated(address,address)") },
+          { name: "IdentityRemoved", topic: context.ethers.utils.id("IdentityRemoved(address,address)") }
+        ];
+        const results = [];
+        let pass = true;
+        for (const item of checks) {
+          let count = 0;
+          try {
+            const logs = await provider.getLogs({
+              address: cfg.identityRegistry,
+              topics: [item.topic],
+              fromBlock: 0,
+              toBlock: "latest"
+            });
+            count = Array.isArray(logs) ? logs.length : 0;
+          } catch {
+            count = 0;
+          }
+          if (count === 0) pass = false;
+          results.push(`${item.name} events: ${count}`);
+        }
+        probes[rule2aIVKey] = { ran: true, pass, evidence: results.join("; ") };
+      }
+    } catch (e) {
+      probes[rule2aIVKey] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+    }
+  }
+
+  if (needs53Zrh2aV) {
+    try {
+      const moduleCount = complianceModules.length;
+      const pass = hasCompliance && moduleCount > 0;
+      const evidence = pass
+        ? `Compliance modules registered: ${moduleCount}.`
+        : (hasCompliance ? "Compliance contract returned zero modules." : "Compliance contract address missing.");
+      probes[rule2aVKey] = { ran: true, pass, evidence };
+    } catch (e) {
+      probes[rule2aVKey] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+    }
+  }
+
+  if (needs53Zrh2aVI) {
+    try {
+      let status = null;
+      if (typeof token.isFrozen === "function") {
+        status = await token.isFrozen(primaryAddress).catch(() => null);
+      }
+      const hasFreezeFn = typeof token.setAddressFrozen === "function";
+      const pass = hasFreezeFn && status !== null;
+      const evidenceParts = [];
+      evidenceParts.push(hasFreezeFn ? "setAddressFrozen callable." : "setAddressFrozen missing.");
+      evidenceParts.push(status !== null ? `isFrozen(${primaryAddress})=${status}` : "isFrozen call failed.");
+      probes[rule2aVIKey] = { ran: true, pass, evidence: evidenceParts.join(" ") };
+    } catch (e) {
+      probes[rule2aVIKey] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+    }
+  }
+
+  if (needs53Zrh2c) {
+    try {
+      const topics = claimTopicsRegistry ? await claimTopicsRegistry.getClaimTopics().catch(() => []) : [];
+      let issuers = [];
+      if (trustedIssuersRegistry) {
+        if (typeof trustedIssuersRegistry.getTrustedIssuers === "function") {
+          issuers = await trustedIssuersRegistry.getTrustedIssuers().catch(() => []);
+        } else if (typeof trustedIssuersRegistry.getTrustedIssuersForClaimTopic === "function" && Array.isArray(topics) && topics.length) {
+          issuers = await trustedIssuersRegistry.getTrustedIssuersForClaimTopic(topics[0]).catch(() => []);
+        }
+      }
+      const usableIssuers = Array.isArray(issuers) ? issuers.filter((addr) => normalizeAddress(addr) !== ZERO) : [];
+      const pass = Array.isArray(topics) && topics.length > 0 && usableIssuers.length > 0;
+      const evidenceParts = [];
+      evidenceParts.push(Array.isArray(topics) ? `claimTopics=${topics.length}` : "claimTopics unreadable");
+      evidenceParts.push(usableIssuers.length > 0 ? `trustedIssuers=${usableIssuers.length}` : "trusted issuers list empty");
+      probes[rule2cKey] = { ran: true, pass, evidence: evidenceParts.join("; ") };
+    } catch (e) {
+      probes[rule2cKey] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+    }
+  }
+
+  if (needs53Zrh2aV || needs53Zrk5e) {
+    try {
+      const moduleCount = complianceModules.length;
+      const pass = hasCompliance && moduleCount > 0;
+      const evidence = pass
+        ? `Compliance modules registered: ${moduleCount}.`
+        : (hasCompliance ? "Compliance contract returned zero modules." : "Compliance contract address missing.");
+      if (needs53Zrh2aV) {
+        probes[rule2aVKey] = { ran: true, pass, evidence };
+      }
+      if (needs53Zrk5e) {
+        probes[rule53Zrk5eKey] = { ran: true, pass, evidence };
+      }
+    } catch (e) {
+      const failure = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+      if (needs53Zrh2aV) probes[rule2aVKey] = failure;
+      if (needs53Zrk5e) probes[rule53Zrk5eKey] = failure;
+    }
+  }
+
+  if (needsAmloS6) {
+    try {
+      const identityAddr = identityRegistry ? await identityRegistry.identity(primaryAddress).catch(() => ZERO) : ZERO;
+      const storageAddr = identityRegistry ? await identityRegistry.identityStorage().catch(() => ZERO) : ZERO;
+      const pass = storageAddr !== ZERO && identityAddr !== ZERO && hasCompliance;
+      const evidenceParts = [];
+      evidenceParts.push(storageAddr !== ZERO ? `identityStorage=${storageAddr}` : "identityStorage() returned zero");
+      evidenceParts.push(identityAddr !== ZERO ? `identity(${primaryAddress})=${identityAddr}` : "identity() returned zero");
+      evidenceParts.push(hasCompliance ? `compliance=${complianceAddr}` : "compliance address missing");
+      probes[amloS6Key] = { ran: true, pass, evidence: evidenceParts.join("; ") };
+    } catch (e) {
+      probes[amloS6Key] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+    }
+  }
+
+  if (needsAmloRole) {
+    try {
+      const topics = claimTopicsRegistry ? await claimTopicsRegistry.getClaimTopics().catch(() => []) : [];
+      let issuerOk = false;
+      if (trustedIssuersRegistry && typeof trustedIssuersRegistry.getTrustedIssuers === "function") {
+        const issuers = await trustedIssuersRegistry.getTrustedIssuers().catch(() => []);
+        issuerOk = Array.isArray(issuers) && issuers.some((addr) => normalizeAddress(addr) !== ZERO);
+      }
+      const pass = hasCompliance && complianceModules.length > 0 && Array.isArray(topics) && topics.length > 0 && issuerOk;
+      const evidenceParts = [];
+      evidenceParts.push(hasCompliance ? `compliance=${complianceAddr}` : "compliance address missing");
+      evidenceParts.push(`modules=${complianceModules.length}`);
+      evidenceParts.push(Array.isArray(topics) ? `claimTopics=${topics.length}` : "claimTopics unreadable");
+      evidenceParts.push(issuerOk ? "trusted issuer present." : "trusted issuer list empty.");
+      probes[amloRoleKey] = { ran: true, pass, evidence: evidenceParts.join("; ") };
+    } catch (e) {
+      probes[amloRoleKey] = { ran: true, pass: false, evidence: `probe error: ${String(e && e.message || e)}` };
+    }
+  }
+
 
   const allSigners = (context && context.ethers && typeof context.ethers.getSigners === "function")
     ? await context.ethers.getSigners()
@@ -1474,6 +1770,71 @@ async function evaluateRun(root, def, rules, abiArtifactsArg) {
 
   const ruleEngine = createRuleEngine({ operations: defaultOperationHandlers });
 
+  const summarizeDetail = (detail, defaultNote) => {
+    if (!detail || typeof detail !== "object") return defaultNote || "";
+    if (typeof detail.note === "string" && detail.note.length) return detail.note;
+    if (detail.probe) {
+      if (typeof detail.evidence === "string" && detail.evidence.length) return detail.evidence;
+      return defaultNote || "Runtime probe evidence unavailable.";
+    }
+    const op = String(detail.op || "").toLowerCase();
+    const formatTarget = (where, sigOrName) => {
+      const prefix = where ? `${where}.` : "";
+      return `${prefix}${sigOrName || ""}`.trim();
+    };
+    switch (op) {
+      case "hasabifn": {
+        const target = formatTarget(detail.where, detail.sig || detail.name);
+        if (detail.present === true) return `ABI exposes ${target}.`;
+        if (detail.present === false) return `ABI missing ${target}.`;
+        return `Checked ABI for ${target}.`;
+      }
+      case "hasevent": {
+        const target = formatTarget(detail.where, detail.name);
+        if (detail.present === true) return `Event ${target} is present in the ABI.`;
+        if (detail.present === false) return `Event ${target} is absent from the ABI.`;
+        return `Checked ABI events for ${target}.`;
+      }
+      case "nonzeroaddress": {
+        const field = detail.field || "value";
+        const actual = detail.actual || "0x0";
+        const expected = detail.expected || "non-zero";
+        return `Expected ${field} to be ${expected}, observed ${actual}.`;
+      }
+      case "equalsaddress": {
+        const field = detail.field || "value";
+        const left = detail.left || "";
+        const right = detail.right || "";
+        return detail.ok
+          ? `${field} matches expected address ${right}.`
+          : `${field} expected ${right}, observed ${left}.`;
+      }
+      case "lengthgte": {
+        const field = detail.field || "value";
+        const min = detail.min != null ? detail.min : detail.value;
+        const actual = detail.actual != null ? detail.actual : detail.actualLength;
+        if (detail.ok) return `${field} length meets minimum ${min}.`;
+        return `${field} length ${actual} is below required minimum ${min}.`;
+      }
+      case "oneofaddress": {
+        const field = detail.field || "value";
+        const actual = detail.actual || "";
+        const allowed = Array.isArray(detail.allowed) ? detail.allowed.join(", ") : String(detail.allowed || "");
+        return detail.ok
+          ? `${field} matches one of the allowed addresses (${allowed}).`
+          : `${field}=${actual} not in allowed set (${allowed}).`;
+      }
+      default: {
+        if (detail.evidence) return detail.evidence;
+        try {
+          return JSON.stringify(detail);
+        } catch {
+          return defaultNote || "";
+        }
+      }
+    }
+  };
+
   const evaluateSpec = (candidate) => {
     if (!candidate) return null;
     const normalized = normalizeDeclarativeSpec(candidate);
@@ -1553,17 +1914,38 @@ async function evaluateRun(root, def, rules, abiArtifactsArg) {
     }
 
     const base = {
-      id: r.id,
       title: r.title,
       desc: r.desc,
       snippet: r.snippet || "",
       policyRef: r.policyRef || "",
-      pass,
-      note,
-      details: dec && dec.details ? dec.details : [],
       run: label
     };
-    items.push(attachSeverity(base, r.severity));
+    const detailsList = Array.isArray(dec && dec.details) ? dec.details : [];
+    if (detailsList.length > 1) {
+      detailsList.forEach((detail, idx) => {
+        const customNote = summarizeDetail(detail, note);
+        const detailPass = detail && Object.prototype.hasOwnProperty.call(detail, "ok")
+          ? !!detail.ok
+          : pass;
+        const numbered = Object.assign({}, base, {
+          id: `${r.id}-${idx + 1}`,
+          pass: detailPass,
+          note: customNote,
+          details: [detail]
+        });
+        items.push(attachSeverity(numbered, r.severity));
+      });
+    } else {
+      const single = Object.assign({}, base, {
+        id: r.id,
+        pass: detailsList.length === 1 && Object.prototype.hasOwnProperty.call(detailsList[0] || {}, "ok")
+          ? !!detailsList[0].ok
+          : pass,
+        note: detailsList.length === 1 ? summarizeDetail(detailsList[0], note) : note,
+        details: detailsList
+      });
+      items.push(attachSeverity(single, r.severity));
+    }
   }
 
   const summary = buildSummaryFromItems(items);

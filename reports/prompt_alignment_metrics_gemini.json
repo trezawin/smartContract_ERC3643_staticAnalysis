@@ -1,0 +1,16 @@
+{
+  "results": [
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-AMLO-CDD",
+      "recommendation": "Integrate strict identity gating within the token transfer logic to block all transfers to unverified addresses until identity verification is completed. Implement role-based access controls and pre-transfer validation calls referencing an active identity registry. Add unit tests confirming that transfers to unverified addresses revert, and include event logs documenting identity validation outcomes.",
+      "metrics": {}
+    }
+  ],
+  "per_metric_average": {},
+  "errors": [],
+  "prompt_instructions": [
+    "Recommendations should be specific and testable (e.g. update logic, add events, monitoring, tests).",
+    "When relevant, include a brief validation plan describing what tests to add."
+  ]
+}

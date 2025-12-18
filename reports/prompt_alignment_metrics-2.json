@@ -1,0 +1,54 @@
+{
+  "prompt_instructions": [
+    "Recommendations should be specific and testable (update contract logic, wire controls, add events/monitoring, add regression tests, operational run-books).",
+    "When relevant, include a brief validation plan describing what unit/integration tests to add."
+  ],
+  "results": [
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-AMLO-CDD",
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no unalignment prompts detected; the output aligns perfectly with the given input. Great job\u2014keep it up!",
+      "recommendation": "Impose strict on-chain identity gating on transfers; require recipient identity verification (isVerified) before allowing value transfer. Implement pre-transfer checks in the VA transfer module, or require a validated identity in the compliance layer. Add unit tests simulating transfers to verified vs unverified addresses; add regression tests for gating logic; introduce an event to capture gating outcomes and a run-book for AML testing."
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-AMLO-RecordKeeping",
+      "score": 1.0,
+      "reason": "Great job\u2014the prompt aligns perfectly; there are no unalignment issues detected. The score is 1.00 and cannot be higher since it\u2019s already at the maximum.",
+      "recommendation": "Wire the identityStorage address to a valid on-chain storage contract and verify that idrIdentityStorageAddr is non-zero. Add tests to confirm identityStorage() returns a live contract address and that identity records persist. Implement automated checks for non-zero storage address during deployment and include identity storage artefacts in audit logs."
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-REGISTER",
+      "score": 1.0,
+      "reason": "The score is 1.00 because there are no unalignment issues; the output fully adheres to the prompt. Since 1.00 is the maximum, it cannot be higher, so this is already optimal.",
+      "recommendation": "Implement registerIdentity in the identity registry with proper governance controls, emit IdentityRegistered events on successful registrations, and ensure the registry is wired to encode license ownership and terms. Add unit/integration tests for registerIdentity and IdentityRegistered events; provide regression tests for grant/renewal flows; document on-chain licensing lifecycle in run-books."
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-III",
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output narrows to identity resolution and generic tests, ignoring the required updates to contract logic, wire controls, events/monitoring, and operational run-books, and it fails to provide a concrete unit/integration validation plan.",
+      "recommendation": "Fix the identity resolution mechanism to map central entities to their registered identities. Ensure idr.identity(address) returns a valid identity for authorized central entities. Add tests for identity resolution, and verify governance aligns with accreditation rules; include a regression test that ensures identity(address) resolves after provisioning a central issuer."
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-IV",
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output does not fulfill core instructions: it fails to update contract logic or wire controls and cites an audit run-book instead of an operational run-book, and it omits a concrete validation plan for unit/integration tests; while it mentions tests, there is no detailed validation plan, so it lacks alignment to the guidance.",
+      "recommendation": "Emit IdentityRegistered at grant with a precise timestamp; persist grant time in an immutable field; add corresponding event listeners and tests to validate grant-time logging; update audit run-book to include timestamp checks in licensing workflows."
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-AMLO-S6",
+      "score": 0.0,
+      "reason": "The score is 0.00 because the output partially follows the instruction by proposing automated checks, regression tests, and run-book steps, but it does not explicitly mention updating contract logic or wiring controls as part of the recommendations, and it omits the brief validation plan describing unit/integration tests to add.",
+      "recommendation": "Ensure continuous identity retention aligns with verified identity data; fix identity provisioning and linkage to ensure identity(address) resolves consistently over time. Add automated checks to alert when isVerified is true but identity is missing; implement regression tests for retention and continuity, and document run-book steps for identity lifecycle reconciliation."
+    }
+  ],
+  "average_score": 0.5,
+  "test_count": 6,
+  "errors": [],
+  "note": null
+}

@@ -1289,18 +1289,33 @@ async function evaluateRun(root, def, rules, abiArtifactsArg) {
       note = `no checks: rule '${r.id}' has no declarative section (check/allOf/anyOf) and no default mapping`;
     }
 
+    const detailsList = Array.isArray(dec && dec.details) ? dec.details : [];
     const base = {
-      id: r.id,
       title: r.title,
       desc: r.desc,
       snippet: r.snippet || "",
       policyRef: r.policyRef || "",
-      pass,
-      note,
-      details: dec && dec.details ? dec.details : [],
       run: label
     };
-    items.push(attachSeverity(attachCodeReferences(base), r.severity));
+    if (detailsList.length > 1) {
+      detailsList.forEach((detail, idx) => {
+        const numbered = Object.assign({}, base, {
+          id: `${r.id}-${idx + 1}`,
+          pass,
+          note,
+          details: [detail]
+        });
+        items.push(attachSeverity(attachCodeReferences(numbered), r.severity));
+      });
+    } else {
+      const single = Object.assign({}, base, {
+        id: r.id,
+        pass,
+        note,
+        details: detailsList
+      });
+      items.push(attachSeverity(attachCodeReferences(single), r.severity));
+    }
   }
 
   const summary = buildSummaryFromItems(items);

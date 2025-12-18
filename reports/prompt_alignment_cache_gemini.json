@@ -1,0 +1,23 @@
+{
+  "_meta": {
+    "version": 1
+  },
+  "49e7b43411b60b845dbce37460d9df08749da4ca2ae7567456e2f9c0433a6b37": {
+    "dataset": "amlo-buggy",
+    "rule_id": "R-HKMA-AMLO-CDD",
+    "recommendation": "Integrate strict identity gating within the token transfer logic to block all transfers to unverified addresses until identity verification is completed. Implement role-based access controls and pre-transfer validation calls referencing an active identity registry. Add unit tests confirming that transfers to unverified addresses revert, and include event logs documenting identity validation outcomes.",
+    "metrics": {}
+  },
+  "b50f8f66453658efe8a8aaf9dd84c32250271f08332f2b9d90fc0aff9a5b015b": {
+    "dataset": "amlo-buggy",
+    "rule_id": "R-HKMA-AMLO-RecordKeeping",
+    "recommendation": "Wire the identityStorage() pointer to a non-zero deployed identity registry contract to persist customer identity data on-chain. Enhance contract initialization logic to set this reference, and add integration tests verifying that identity data can be reliably stored, updated, and retrieved. Create operational run-books for the maintenance and auditing of the identity registry contract.",
+    "metrics": {}
+  },
+  "f92501b980ffa00d50bf66ee92eb32535a07582f9ffc38c08cff67753ddebe2e": {
+    "dataset": "amlo-buggy",
+    "rule_id": "R-HKMA-53ZRH-REGISTER",
+    "recommendation": "Deploy and integrate a fully functional identity registry contract that includes a populated trusted issuers list and supports multiple claim topics. Implement mechanisms to register licensed persons and validate them against trusted issuers. Include automated tests for registering and querying licensed persons and trusted issuers. Validate through events and audit logs that licences are maintained properly.",
+    "metrics": {}
+  }
+}

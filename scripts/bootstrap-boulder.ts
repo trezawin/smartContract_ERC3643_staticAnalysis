@@ -12,6 +12,7 @@ export interface BoulderAddresses {
   claimTopicsRegistry: string;
   trustedIssuersRegistry: string;
   compliance: string;
+  identityRegistryStorage: string;
 }
 
 export interface BoulderBootstrapResult {
@@ -125,7 +126,8 @@ export async function bootstrapBoulder(
     identityRegistry: ir.address,
     claimTopicsRegistry: ctr.address,
     trustedIssuersRegistry: tir.address,
-    compliance: compliance.address
+    compliance: compliance.address,
+    identityRegistryStorage: irs.address
   };
 
   const target = path.resolve(

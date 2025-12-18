@@ -1,9 +1,8 @@
 {
-  "Token": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/token/Token.sol/Token.json",
-  "IdentityRegistry": "artifacts/contracts/buggy/BuggyIdentityRegistry.sol/BuggyIdentityRegistry.json",
-  "ClaimTopicsRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/ClaimTopicsRegistry.sol/ClaimTopicsRegistry.json",
+  "Token": "artifacts/contracts/buggy/BuggyTokenNoIdentityRegistry.sol/BuggyTokenNoIdentityRegistry.json",
+  "IdentityRegistry": "artifacts/contracts/buggy/BuggyIdentityRegistryMissingHooks.sol/BuggyIdentityRegistryMissingHooks.json",
+  "ClaimTopicsRegistry": "artifacts/contracts/buggy/BuggyClaimTopicsRegistryMinimal.sol/BuggyClaimTopicsRegistryMinimal.json",
   "TrustedIssuersRegistry": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/TrustedIssuersRegistry.sol/TrustedIssuersRegistry.json",
-  "Compliance": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/compliance/modular/ModularCompliance.sol/ModularCompliance.json",
-  "IdentityRegistryStorage": "node_modules/@tokenysolutions/t-rex/artifacts/contracts/registry/implementation/IdentityRegistryStorage.sol/IdentityRegistryStorage.json"
+  "Compliance": "artifacts/contracts/buggy/BuggyModularComplianceMinimal.sol/BuggyModularComplianceMinimal.json",
+  "IdentityRegistryStorage": "artifacts/contracts/buggy/BuggyIdentityRegistryStorageNoEvents.sol/BuggyIdentityRegistryStorageNoEvents.json"
 }
-

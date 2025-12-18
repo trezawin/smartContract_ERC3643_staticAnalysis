@@ -95,24 +95,43 @@ function formatRatio(numerator, denominator, percentValue) {
   return `${numerator}/${denominator} (${pct})`;
 }
 
+function resolveGroundTruthEntry(id, groundTruth) {
+  if (typeof id !== "string" || !id) return null;
+  if (groundTruth.map.has(id)) {
+    return { status: groundTruth.map.get(id), resolvedId: id };
+  }
+  const suffixMatch = id.match(/^(.*?)-\d+$/);
+  if (suffixMatch) {
+    const baseId = suffixMatch[1];
+    if (groundTruth.map.has(baseId)) {
+      return { status: groundTruth.map.get(baseId), resolvedId: baseId };
+    }
+  }
+  return null;
+}
+
 function computeMetrics(items, groundTruth) {
   const stats = { tp: 0, fp: 0, fn: 0, tn: 0, covered: 0 };
+  const uniqueCoveredIds = new Set();
   for (const item of items) {
     if (!item || !item.id) continue;
-    const expected = groundTruth.map.get(item.id);
-    if (!expected) continue;
+    const resolved = resolveGroundTruthEntry(item.id, groundTruth);
+    if (!resolved) continue;
+    const { status: expectedStatus, resolvedId } = resolved;
     stats.covered++;
-    const predictedFail = !item.pass;
-    const actualFail = expected === "fail";
-    if (predictedFail && actualFail) stats.tp++;
-    else if (predictedFail && !actualFail) stats.fp++;
-    else if (!predictedFail && actualFail) stats.fn++;
-    else stats.tn++;
+    uniqueCoveredIds.add(resolvedId);
+    const predictedPass = !!item.pass;
+    const actualPass = expectedStatus === "pass";
+    if (predictedPass && actualPass) stats.tp++;
+    else if (!predictedPass && !actualPass) stats.tn++;
+    else if (predictedPass && !actualPass) stats.fp++;
+    else stats.fn++;
   }
   const precision = safeDivide(stats.tp, stats.tp + stats.fp);
   const recall = safeDivide(stats.tp, stats.tp + stats.fn);
   const f1 = precision == null || recall == null || (precision + recall === 0) ? null : 2 * precision * recall / (precision + recall);
-  const coverageRatio = groundTruth.total ? stats.covered / groundTruth.total : null;
+  const uniqueCoveredCount = uniqueCoveredIds.size;
+  const coverageRatio = groundTruth.total ? uniqueCoveredCount / groundTruth.total : null;
   const accuracy = stats.covered ? (stats.tp + stats.tn) / stats.covered : null;
   const expectedFails = stats.tp + stats.fn;
   const detectionAccuracy = safeDivide(stats.tp, expectedFails);
@@ -125,7 +144,8 @@ function computeMetrics(items, groundTruth) {
     accuracy,
     detectionAccuracy,
     expectedFails,
-    totalRules: groundTruth.total
+    totalRules: groundTruth.total,
+    coveredUnique: uniqueCoveredCount
   };
 }
 
@@ -140,7 +160,7 @@ function buildTableRow(name, counts) {
 function buildMetricsRow(name, metrics) {
   const coverage = metrics.coverageRatio == null
     ? "—"
-    : `${metrics.covered}/${metrics.totalRules} (${formatPercent(metrics.coverageRatio)})`;
+    : `${(metrics.coveredUnique ?? metrics.covered)}/${metrics.totalRules} (${formatPercent(metrics.coverageRatio)})`;
   const precision = formatPercent(metrics.precision);
   const recall = formatPercent(metrics.recall);
   const f1 = formatPercent(metrics.f1);
@@ -201,6 +221,16 @@ function generateHTML(datasets) {
     `<th style="background:${h.color};color:#fff">${h.label}</th>`
   ).join("");
   const criteriaTable = buildCriteriaTable(datasets.map(({ name, metrics }) => ({ name, metrics })));
+  const confusionRows = datasets.map(({ name, metrics }) => (
+    `<tr><td class="dataset">${name}</td><td>${metrics.tp}</td><td>${metrics.fp}</td><td>${metrics.fn}</td><td>${metrics.tn}</td></tr>`
+  )).join("");
+  const totals = datasets.reduce((acc, { metrics }) => {
+    acc.tp += metrics.tp || 0;
+    acc.fp += metrics.fp || 0;
+    acc.fn += metrics.fn || 0;
+    acc.tn += metrics.tn || 0;
+    return acc;
+  }, { tp: 0, fp: 0, fn: 0, tn: 0 });
 
   return `<!DOCTYPE html>
 <html>
@@ -217,20 +247,51 @@ function generateHTML(datasets) {
       --shadow: 0 15px 35px rgba(15, 34, 58, 0.08);
     }
     * { box-sizing: border-box; }
-    body { font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; background: var(--bg); padding: 32px; color:#1f2d3d; }
+    body { font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; background: var(--bg); padding: 32px; color:#1f2d3d; font-size: 0.85rem; }
     h1 { margin: 0; font-size: 2.4rem; letter-spacing:-0.5px; }
-    .subtitle { color: var(--text-muted); margin-top: 8px; }
+    .subtitle { color: var(--text-muted); margin-top: 8px; font-size: 0.8rem; }
     .grid { display: grid; gap: 28px; margin-top: 30px; }
     .panel { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 18px; padding: 24px 28px; box-shadow: var(--shadow); }
-    .panel h2 { margin: 0 0 12px; font-size: 1.4rem; color: var(--accent); letter-spacing: -0.2px; }
+    .panel h2 { margin: 0 0 12px; font-size: 1.1rem; color: var(--accent); letter-spacing: -0.2px; }
     table { border-collapse: collapse; width: 100%; }
-    th, td { padding: 12px 14px; text-align: center; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+    th, td { padding: 12px 14px; text-align: center; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
     thead th { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
     th.dataset, td.dataset { text-align: left; font-weight: 600; color:#132a45; }
     tbody tr:last-child td { border-bottom: none; }
     tbody tr:nth-child(even) { background: #fdfefe; }
     .metrics-table td { font-variant-numeric: tabular-nums; }
     .muted { color: var(--text-muted); }
+    /* Compact metrics table styling */
+    .compact-metrics {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 0.85rem;
+      margin-top: 8px;
+      border: 1px solid #bbb;
+    }
+    .compact-metrics th, .compact-metrics td {
+      border: 1px solid #bbb;
+      border-top: 1px solid #bbb;
+      border-right: 1px solid #bbb;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    .compact-metrics th {
+      background-color: #f0f2f5;
+      color: #333;
+      font-weight: 600;
+      text-transform: none;
+    }
+    .compact-metrics tr:nth-child(even) td {
+      background-color: #fafafa;
+    }
+    .compact-metrics td:first-child {
+      text-align: left;
+      font-weight: 600;
+    }
+    .compact-metrics tr:hover td {
+      background-color: #f9fafc;
+    }
   </style>
 </head>
 <body>
@@ -249,25 +310,67 @@ function generateHTML(datasets) {
     </section>
 
     <section class="panel">
-      <h2>Detection Metrics vs Ground Truth</h2>
-      <table class="metrics-table">
+  <h2>Detection Performance Matrix</h2>
+  <table class="compact-metrics">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>T-REX</th>
+        <th>Boulder</th>
+        <th>Mutated</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Accuracy</td>
+        <td>${formatPercent(datasets[0].metrics.accuracy)}</td>
+        <td>${formatPercent(datasets[1].metrics.accuracy)}</td>
+        <td>${formatPercent(datasets[2].metrics.accuracy)}</td>
+      </tr>
+      <tr>
+        <td>Recall</td>
+        <td>${formatPercent(datasets[0].metrics.recall)}</td>
+        <td>${formatPercent(datasets[1].metrics.recall)}</td>
+        <td>${formatPercent(datasets[2].metrics.recall)}</td>
+      </tr>
+      <tr>
+        <td>Precision</td>
+        <td>${formatPercent(datasets[0].metrics.precision)}</td>
+        <td>${formatPercent(datasets[1].metrics.precision)}</td>
+        <td>${formatPercent(datasets[2].metrics.precision)}</td>
+      </tr>
+      <tr>
+        <td>F1 Score</td>
+        <td>${formatPercent(datasets[0].metrics.f1)}</td>
+        <td>${formatPercent(datasets[1].metrics.f1)}</td>
+        <td>${formatPercent(datasets[2].metrics.f1)}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+    <section class="panel">
+      <h2>Rule-Level Compliance Detection Matrix</h2>
+      <table>
         <thead>
           <tr>
             <th class="dataset">Dataset</th>
-            <th>Rule Coverage</th>
-            <th>Accuracy</th>
-            <th>Precision</th>
-            <th>Recall</th>
-            <th>F1-Score</th>
+            <th>TP</th>
+            <th>FP</th>
+            <th>FN</th>
+            <th>TN</th>
           </tr>
         </thead>
         <tbody>
-          ${datasets.map(({ name, metrics }) => buildMetricsRow(name, metrics)).join("\n          ")}
+          ${confusionRows}
+          <tr>
+            <td class="dataset">Combined</td>
+            <td>${totals.tp}</td>
+            <td>${totals.fp}</td>
+            <td>${totals.fn}</td>
+            <td>${totals.tn}</td>
+          </tr>
         </tbody>
       </table>
-      <p class="muted" style="margin-top:12px;font-size:0.85rem;">
-        Precision/Recall/F1 treat detected failures as the positive class. Coverage indicates how many ground-truth rules were evaluated in each run.
-      </p>
     </section>
 
     <section class="panel">
@@ -280,6 +383,7 @@ function generateHTML(datasets) {
   </div>
 
   <p style="color:#94a3b8;font-size:12px;margin-top:22px;">Generated automatically on ${new Date().toLocaleString()}</p>
+
 </body>
 </html>`;
 }
@@ -302,12 +406,28 @@ function main() {
   const mutatedMetrics = computeMetrics(mutatedData, mutatedGroundTruth);
 
   const datasets = [
-    { name: "T-REX (reference)", counts: trexCounts, metrics: trexMetrics },
-    { name: "Boulder (production)", counts: boulderCounts, metrics: boulderMetrics },
-    { name: "Mutated (buggy)", counts: mutatedCounts, metrics: mutatedMetrics }
+    { name: "T-REX", counts: trexCounts, metrics: trexMetrics },
+    { name: "Boulder", counts: boulderCounts, metrics: boulderMetrics },
+    { name: "Mutated", counts: mutatedCounts, metrics: mutatedMetrics }
   ];
+  // Compute confusion totals for export
+  const totals = datasets.reduce((acc, { metrics }) => {
+    acc.tp += metrics.tp || 0;
+    acc.fp += metrics.fp || 0;
+    acc.fn += metrics.fn || 0;
+    acc.tn += metrics.tn || 0;
+    return acc;
+  }, { tp: 0, fp: 0, fn: 0, tn: 0 });
+  // Also export confusion totals for Python visualization
+  fs.writeFileSync(
+    path.resolve(__dirname, "confusion_totals.json"),
+    JSON.stringify(totals, null, 2),
+    "utf8"
+  );
+  console.log("✅ confusion_totals.json exported for Python visualization");
 
   console.log("📝 Generating HTML report...");
+  
   const html = generateHTML(datasets);
   fs.writeFileSync(OUTPUT_FILE, html, "utf8");
 

@@ -1,0 +1,214 @@
+{
+  "prompt_instructions": [
+    "Recommendations should be specific and testable (update contract logic, wire controls, add events/monitoring, add regression tests, operational run-books).",
+    "When relevant, include a brief validation plan describing what unit/integration tests to add."
+  ],
+  "results": [
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-AMLO-CDD",
+      "recommendation": "Deploy and enable a transfer\u2011validation compliance module that enforces CDD status. Wire the token contract to a non\u2011zero identityStorage address or an equivalent verification registry. Provide test cases and logs showing a transfer to an unverified account is denied and that the denial reason is recorded in event logs.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there were no unalignments\u2014every instruction was followed, yielding full alignment and the maximum possible score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because the contradictions list is empty ([]), indicating no discrepancies between the actual output and the retrieval context."
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-AMLO-RecordKeeping",
+      "recommendation": "Deploy or configure a production\u2011grade identityStorage contract and point the identity registry to it. Implement and test identity lifecycle functions (register/update/remove), ensure events are emitted, and enable tamper controls and RBAC for administrators. Provide logs and a short runbook for auditors showing how identity records are created, updated, queried and retained.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.5,
+          "reason": "The score is 0.50 because, although the output provides several relevant recommendations (deployment, lifecycle functions, events, controls/RBAC, logs/runbook), it misses the instruction to include a brief validation plan with specific unit and integration tests, resulting in only partial alignment."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because the contradictions list is empty\u2014no discrepancies were identified between the actual output and the retrieval context. Great job staying fully aligned!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-REGISTER",
+      "recommendation": "Configure identityStorage and establish trusted issuer keys. Record licensed persons with claim types per registry requirements and demonstrate retrieval and verification flows. Maintain issuer governance and key rotation logs for supervisory review.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output stays high-level and omits the requested concrete, testable details\u2014no specific contract changes, control wiring, events/monitoring, regression/run-book steps, or validation plan with unit/integration tests\u2014leaving no partial adherence to justify a higher score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions listed\u2014the contradictions array is empty. Great job staying fully aligned with the retrieval context!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-I",
+      "recommendation": "Implement identity storage and record the firm\u2019s name and primary business address as verifiable claims issued by a trusted issuer. Maintain change logs and evidence of issuer signatures for audit readiness.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output remains high-level, omitting the requested concrete, testable actions (e.g., contract logic updates, control wiring, events/monitoring, regression tests, run-books) and provides no validation plan (unit/integration tests), leaving no partially met instruction to merit a higher score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because the contradictions list is empty\u2014no contradictions were identified, indicating the actual output aligns fully with the retrieval context. Great job!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-II",
+      "recommendation": "Issue at least one licence\u2011condition claim under the registered topic with issuer signatures and effective date metadata. Retain event logs and provide a mapping document linking claim topics to licence condition semantics.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output omits the required specific, testable implementation details and measurable acceptance criteria, and provides no validation plan or unit/integration tests. With these core instructions unaddressed (e.g., no contract logic updates, control wiring, events/monitoring, regression tests, or run-books), there\u2019s no partial compliance to warrant a higher score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no listed contradictions\u2014the contradictions array is empty. Nice work staying fully aligned with the retrieval context!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-III",
+      "recommendation": "Register one or more trusted issuers and have them issue a signed on\u2011chain claim that identifies the licensed entity and the controlling address. Ensure the claim is discoverable and verifiable, and keep issuer governance documentation for audit.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output is purely high-level and misses the required concrete, testable steps (e.g., contract logic updates, control wiring, events/monitoring, regression tests, run-books, measurable acceptance criteria) and provides no validation plan or unit/integration tests. Since these core instructions are entirely absent, there\u2019s no partial alignment to justify a higher score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because no contradictions were found\u2014the contradictions list is empty, indicating the actual output fully aligns with the retrieval context. Great job!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-IV",
+      "recommendation": "Add event emission to identity management flows and populate the registry with historical or current identity claims so that events exist. Provide event logs, timestamps, and an explanation of retention policy to demonstrate compliance.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the response is purely high-level and omits the required concrete, testable implementation details (event schemas/wiring, measurable acceptance criteria, regression tests, run-book steps) and provides no validation plan or specific unit/integration tests. Since none of these key instructions are addressed, there\u2019s no basis for partial credit."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions listed (the list is empty), indicating the actual output fully aligns with the retrieval context. Nice work!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-V",
+      "recommendation": "Populate the compliance contract with modules that represent your licensed service scopes. Issue claims tying each module to effective dates and publish the module list for supervisory validation. Keep governance records of module changes.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output stays at a high level and omits the required concrete, testable actions and a validation plan (including unit/integration tests). With both major requirements missing, there\u2019s effectively no alignment, justifying a zero score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions reported (the contradictions list is empty). Excellent work\u2014everything aligns with the retrieval context!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2A-VI",
+      "recommendation": "Add freeze controls and wire them into transfer gating. Ensure freeze actions require multi\u2011party authorization or an auditable admin role, and produce logs and process documentation for auditors.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because no unalignment reasons were identified; this is the maximum score and reflects full adherence to the prompt. Great job staying fully aligned!"
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions reported (Contradictions: []). Great job staying fully aligned with the retrieval context!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRH-2C",
+      "recommendation": "Register at least one trusted issuer and use it to issue representative linkage claims. Implement procedures for issuing and revoking representative claims and retain logs and approvals for supervisory review.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output omits the required concrete, testable implementation details and measurable acceptance criteria, and it provides no validation plan or tests. With none of these mandated elements present, alignment cannot be rated higher."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions reported\u2014everything aligns smoothly with the retrieval context."
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-53ZRK-5E",
+      "recommendation": "Design and deploy modular compliance components to enforce client asset protections. Demonstrate end\u2011to\u2011end that client asset transfer attempts that violate segregation or custody rules are blocked and logged. Provide governance, admin role definitions and event logs for review.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output omits the required concrete, testable actions and a validation plan\u2014no specifics like contract updates, control wiring, explicit events/monitoring, regression tests, run-books, or unit/integration tests are provided. With none of these elements present, alignment is effectively zero, leaving no basis for a higher score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions listed (Contradictions: []), indicating the actual output fully aligns with the retrieval context. Nice work!"
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-AMLO-S6",
+      "recommendation": "Establish identity storage and link KYC records to on\u2011chain addresses or maintain provable off\u2011chain links. Enable transaction\u2011to\u2011identity mapping for monitoring, keep retention logs and provide sample monitoring reports and query examples for auditors.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.0,
+          "reason": "The score is 0.00 because the output ignores core instructions to provide concrete, testable, implementation-level guidance\u2014no precise contract logic, event schemas, control wiring, monitoring configurations, run-books, or validation plan (unit/integration tests). With none of these elements present, there\u2019s no partial compliance to justify a higher score."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because the contradictions list is empty ([])\u2014there are no discrepancies between the actual output and the retrieval context. Great job; everything aligns perfectly."
+        }
+      }
+    },
+    {
+      "dataset": "amlo-buggy",
+      "rule_id": "R-HKMA-AMLO-13A-ROLE",
+      "recommendation": "Configure and enable role gating in compliance modules. Issue role claims from trusted issuers and demonstrate that transfer attempts by addresses missing the role are blocked and logged. Provide role assignment records and governance documents for audit.",
+      "metrics": {
+        "prompt_alignment": {
+          "score": 0.5,
+          "reason": "The score is 0.50 because the output covers role gating, claims, enforcement, logging, and audit artifacts, but it omits the requested brief validation plan specifying which unit/integration tests to add\u2014only suggesting demonstration\u2014so alignment is partial rather than complete."
+        },
+        "faithfulness": {
+          "score": 1.0,
+          "reason": "The score is 1.00 because the contradictions list is empty ([]), indicating no discrepancies between the actual output and the retrieval context. Nicely done staying perfectly aligned!"
+        }
+      }
+    }
+  ],
+  "per_metric_average": {
+    "prompt_alignment": 0.23076923076923078,
+    "faithfulness": 1.0
+  },
+  "per_metric_counts": {
+    "prompt_alignment": 13,
+    "faithfulness": 13
+  },
+  "test_count": 13,
+  "errors": [],
+  "note": null
+}

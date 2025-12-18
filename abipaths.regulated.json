@@ -1,0 +1,8 @@
+{
+  "Token": "artifacts/contracts/custom/RegulatedSuite.sol/RegulatedToken.json",
+  "IdentityRegistry": "artifacts/contracts/custom/RegulatedSuite.sol/IdentityRegistry.json",
+  "ClaimTopicsRegistry": "artifacts/contracts/test/CompositeClaimTopicsRegistry.sol/CompositeClaimTopicsRegistry.json",
+  "TrustedIssuersRegistry": "artifacts/contracts/test/CompositeTrustedIssuersRegistry.sol/CompositeTrustedIssuersRegistry.json",
+  "Compliance": "artifacts/contracts/custom/RegulatedSuite.sol/Compliance.json",
+  "IdentityRegistryStorage": "artifacts/contracts/test/CompositeIdentityRegistryStorage.sol/CompositeIdentityRegistryStorage.json"
+}

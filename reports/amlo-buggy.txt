@@ -1,44 +1,175 @@
 Compliance Report
-Generated: 2025-10-28T17:59:45.807Z
-Deterministic Summary: PASS=7 | VERY_HIGH=2 | HIGH=4 | MEDIUM=0
-LLM Model: gpt-4.1-mini
+Generated: 2025-10-30T22:04:19.153Z
+Deterministic Summary: PASS=13 | VERY_HIGH=10 | HIGH=33 | MEDIUM=0
 
-The audited ERC-3643 implementation demonstrates partial compliance with HKMA and SFC virtual asset regulatory requirements. Key controls for identity anchoring, license condition recording, suspension status, and modular compliance are implemented and verifiable on-chain. However, critical gaps exist in identity verification gating on transfers, identity registry storage wiring, and comprehensive identity resolution functions. These deficiencies expose the system to regulatory non-compliance, client asset protection risks, and supervisory challenges.
+LLM call failed: HTTP 400: {
+    "error": {
+        "message": "you must provide a model parameter",
+        "type": "invalid_request_error",
+        "param": null,
+        "code": null
+    }
+}
+
 
 Findings:
 
 Very High
-1. Identity Registry Storage Not Wired
-The identityRegistry contract exposes identityStorage() ABI, but the configured identityStorage address is zero, indicating the storage contract is not properly linked. This breaks the chain of custody for identity data, violating AMLO record-keeping requirements.
-Compliance Ref: AMLO (Cap.615) Schedule 2 §2
-Recommendation: Wire the identityStorage address in the identityRegistry contract to a valid deployed identity storage contract instance. Update deployment scripts and governance procedures to ensure this linkage is established and immutable. Add integration tests verifying identityStorage() returns a non-zero address and that identity data can be stored and retrieved correctly.
+1. Client asset safeguards via modular compliance
+Runtime hint: ABI missing compliance.addModule(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"compliance","sig":"addModule(address)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRK(5)(e)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
 
 Very High
-2. Missing Identity Resolution Function for Ongoing Customer Identity Records
-While the identity registry supports isVerified(address), it lacks the identity(address) function needed to maintain ongoing records of customer identity and activity as required by AMLO Schedule 2 §6. This gap hinders continuous monitoring and record-keeping obligations.
+2. Client asset safeguards via modular compliance
+Runtime hint: ABI missing compliance.removeModule(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"compliance","sig":"removeModule(address)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRK(5)(e)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+3. Client asset safeguards via modular compliance
+Runtime hint: ABI missing compliance.callModuleFunction(bytes,address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"compliance","sig":"callModuleFunction(bytes,address)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRK(5)(e)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+4. Client asset safeguards via modular compliance
+Runtime hint: ABI missing compliance.unbindToken(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"compliance","sig":"unbindToken(address)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRK(5)(e)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+5. Client asset safeguards via modular compliance
+Runtime hint: Event compliance.ModuleInteraction is absent from the ABI.. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRK(5)(e) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasevent","where":"compliance","name":"ModuleInteraction","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRK(5)(e)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRK(5)(e), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+6. Ongoing record of customer identity and activity
+Runtime hint: ABI missing idr.isVerified(address).. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"isVerified(address)","present":false,"ok":false}
 Compliance Ref: AMLO Schedule 2 §6
-Recommendation: Add the identity(address) function to the identity registry contract to enable retrieval of full identity details for verified customers. Ensure this function integrates with existing verification mechanisms and supports audit logging. Include tests for identity retrieval and consistency with verification status.
+Recommendation: Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+7. Ongoing record of customer identity and activity
+Runtime hint: ABI missing idr.identity(address).. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"identity(address)","present":false,"ok":false}
+Compliance Ref: AMLO Schedule 2 §6
+Recommendation: Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+8. Ongoing record of customer identity and activity
+Runtime hint: ABI missing compliance.transferred(address,address,uint256).. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"compliance","sig":"transferred(address,address,uint256)","present":false,"ok":false}
+Compliance Ref: AMLO Schedule 2 §6
+Recommendation: Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+9. Ongoing record of customer identity and activity
+Runtime hint: Event token.Transfer is absent from the ABI.. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasevent","where":"token","name":"Transfer","present":false,"ok":false}
+Compliance Ref: AMLO Schedule 2 §6
+Recommendation: Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Very High
+10. Ongoing record of customer identity and activity
+Runtime hint: Event compliance.ModuleInteraction is absent from the ABI.. Deterministic testing highlighted behaviour that is inconsistent with AMLO Schedule 2 §6 and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasevent","where":"compliance","name":"ModuleInteraction","present":false,"ok":false}
+Compliance Ref: AMLO Schedule 2 §6
+Recommendation: Align the implementation with AMLO Schedule 2 §6, add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
 
 High
-3. Missing Identity Verification Gating on Transfers
-Transfers to unverified addresses succeeded without identity gating, violating the AMLO CDD identity controls requirement. This means the system allows virtual asset transfers without confirming the recipient's verified identity status, undermining anti-money laundering safeguards.
-Compliance Ref: AMLO (Cap.615) Schedule 2 §2
-Recommendation: Implement and enforce identity verification gating in the token transfer logic by integrating the identity registry's isVerified(address) check before allowing transfers. Add unit and integration tests simulating transfers to unverified addresses to confirm blocking behavior. Maintain event logs for transfer attempts to unverified addresses for audit trail and supervisory review.
-
-High
-4. Incomplete On-Chain Register Functions for Licensed Persons
-The identityRegistry contract exposes identityRegistry() but lacks the registerIdentity(address,address,uint16[]) function required to maintain an on-chain register of licensed persons as mandated by SFO §53ZRH(1). This limits the ability to record and update licensed entity data on-chain.
+11. Maintain on-chain register of licensed persons
+Runtime hint: ABI missing token.identityRegistry().. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"token","sig":"identityRegistry()","present":false,"ok":false}
 Compliance Ref: SFO (Cap.571) §53ZRH(1)
-Recommendation: Implement the registerIdentity(address,address,uint16[]) function in the identityRegistry contract to enable registering licensed persons with their identity and license details. Add governance controls restricting access to authorized roles. Include event emissions for registration actions and add tests verifying correct registration and access control enforcement.
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
 
 High
-5. Missing Central Entity Identification Claim Function
-The identityRegistry contract does not implement the identity(address) function to resolve central entity identification claims, as required by SFO §53ZRH(2)(a)(iii). This impairs the ability to verify entity identities on-chain.
-Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iii)
-Recommendation: Add the identity(address) function to the identityRegistry contract to return the identity claim for a given address. Ensure this function is consistent with the identity storage schema and access controls. Add unit tests to verify correct identity resolution and error handling for unknown addresses.
+12. Maintain on-chain register of licensed persons
+Runtime hint: ABI missing idr.updateIdentity(address,address,uint16[]).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"updateIdentity(address,address,uint16[])","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
 
 High
-6. Missing Event for Licence Grant Timestamp Capture
-The identityRegistry contract does not emit the IdentityRegistered event, which is required to capture the timestamp of licence grants on-chain per SFO §53ZRH(2)(a)(iv). Without this event, audit trails for licence grant timing are incomplete.
-Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(iv)
-Recommendation: Implement and emit the IdentityRegistered event in the identityRegistry contract whenever a licence is granted or registered. Update contract logic and governance processes to ensure event emission is mandatory. Add event monitoring in operational run-books and include tests verifying event emission on licence registration.
+13. Maintain on-chain register of licensed persons
+Runtime hint: ABI missing idr.deleteIdentity(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"deleteIdentity(address)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+14. Maintain on-chain register of licensed persons
+Runtime hint: ABI missing idr.batchRegisterIdentity(address[],address[],uint16[]).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"batchRegisterIdentity(address[],address[],uint16[])","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+15. Maintain on-chain register of licensed persons
+Runtime hint: ABI missing ctr.addClaimTopic(uint256).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"ctr","sig":"addClaimTopic(uint256)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+16. Maintain on-chain register of licensed persons
+Runtime hint: ABI missing tir.addTrustedIssuer(address).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"tir","sig":"addTrustedIssuer(address)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+High
+17. Maintain on-chain register of licensed persons
+Runtime hint: ABI missing compliance.canTransfer(address,address,uint256).. Deterministic testing highlighted behaviour that is inconsistent with SFO (Cap.571) §53ZRH(1) and could undermine investor protections if left unresolved.
+Paths:
+- {"op":"hasabifn","where":"compliance","sig":"canTransfer(address,address,uint256)","present":false,"ok":false}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Align the implementation with SFO (Cap.571) §53ZRH(1), add an automated regression test that fails if the gap reappears, and record the fix for compliance evidence.
+
+Pass
+18. Maintain on-chain register of licensed persons
+Runtime hint: ABI exposes tir.removeTrustedIssuer(address).. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(1) prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- {"op":"hasabifn","where":"tir","sig":"removeTrustedIssuer(address)","present":true,"ok":true}
+Compliance Ref: SFO (Cap.571) §53ZRH(1)
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+
+Pass
+19. Anchor name and business address data
+Runtime hint: ABI exposes idr.identityStorage().. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(i) prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- {"op":"hasabifn","where":"idr","sig":"identityStorage()","present":true,"ok":true}
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(i)
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.
+
+Pass
+20. Anchor name and business address data
+Runtime hint: Event irs.IdentityStored is present in the ABI.. Deterministic testing shows the control behaves exactly as SFO (Cap.571) §53ZRH(2)(a)(i) prescribes, giving non-technical sponsors assurance that the required safeguard is active.
+Paths:
+- {"op":"hasevent","where":"irs","name":"IdentityStored","present":true,"ok":true}
+Compliance Ref: SFO (Cap.571) §53ZRH(2)(a)(i)
+Recommendation: Maintain the implementation, keep the supporting runtime notes on file, and rerun this regression whenever transfer logic or onboarding rules change.

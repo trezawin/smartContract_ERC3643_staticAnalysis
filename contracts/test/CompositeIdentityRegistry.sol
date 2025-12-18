@@ -5,11 +5,16 @@ pragma solidity ^0.8.17;
 /// @notice Minimal identity registry used for testing the rule engine. Intentionally omits ERC-3643's `registerIdentity`
 ///         interface so that compliance rules depending on it will fail.
 contract CompositeIdentityRegistry {
+    // 关联的身份存储合约地址
     address public identityStorageAddress;
+    // 关联的主题注册表地址
     address public topicsRegistryAddress;
+    // 关联的可信发行人注册表地址
     address public issuersRegistryAddress;
 
+    // 保存投资者对应的身份合约
     mapping(address => address) private identities;
+    // 标记投资者是否已被验证
     mapping(address => bool) private verified;
 
     event IdentityRegistered(address indexed investor, address indexed identity);
@@ -55,6 +60,7 @@ contract CompositeIdentityRegistry {
     }
 
     /// @notice Deliberately non-standard onboarding primitive (missing the ERC-3643 signature).
+    /// @dev enrollIdentity 被故意设计为不兼容接口，方便测试规则的失败路径。
     function enrollIdentity(
         address investor,
         address identityContract,
@@ -70,6 +76,7 @@ contract CompositeIdentityRegistry {
         emit IdentityUpdated(investor, identityContract);
     }
 
+    // 手动删除身份记录，模拟注销流程
     function deleteIdentity(address investor) external {
         address previous = identities[investor];
         delete identities[investor];
@@ -77,17 +84,20 @@ contract CompositeIdentityRegistry {
         emit IdentityRemoved(investor, previous);
     }
 
+    // 测试场景下可重新绑定存储合约
     function setIdentityStorage(address storageAddr) external {
         identityStorageAddress = storageAddr;
         emit IdentityStorageSet(storageAddr);
         emit IdentityRegistryBound(storageAddr);
     }
 
+    // 同步主题注册表
     function setTopicsRegistry(address registry) external {
         topicsRegistryAddress = registry;
         emit TopicsRegistrySet(registry);
     }
 
+    // 同步可信发行人注册表
     function setTrustedIssuersRegistry(address registry) external {
         issuersRegistryAddress = registry;
         emit TrustedIssuersRegistrySet(registry);
